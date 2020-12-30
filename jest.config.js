@@ -8,4 +8,5 @@ module.exports = {
     '^pages(.*)$': '<rootDir>/src/pages$1',
     '^services(.*)$': '<rootDir>/src/services$1',
   },
+  testPathIgnorePatterns: ['node_modules/', 'cypress/', 'integration-tests/'],
 }
