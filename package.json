@@ -27,7 +27,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "eslint .",
-    "itest": "start-server-and-test start-test-server http-get://localhost:9090 cypress:run",
+    "itest": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'yarn cypress:run'",
     "itest:open": "start-server-and-test start-test-server http-get://localhost:9090 cypress:open"
   },
   "eslintConfig": {
@@ -58,6 +58,7 @@
     "cypress": "^6.2.0",
     "eslint": "^7.16.0",
     "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-jest": "^24.1.3",
     "eslint-plugin-react": "^7.21.5",
     "html-webpack-plugin": "^4.5.0",

@@ -1,0 +1,41 @@
+version: 2.1
+jobs:
+  test:
+    working_directory: ~/ipno_frontend
+    docker:
+      - image: circleci/node:fermium
+
+    steps:
+      - checkout
+      - run:
+          name: Install cypress depepencies
+          command: |
+            sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: |
+            yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: eslint
+          command: yarn lint
+      - run:
+          name: Tests
+          command: yarn test
+
+      - run:
+          name: Integration Tests
+          command: yarn itest
+
+workflows:
+  testing:
+    jobs:
+      - test
