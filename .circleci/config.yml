@@ -29,12 +29,15 @@ jobs:
           command: yarn lint
       - run:
           name: Tests
-          command: yarn test
+          command: yarn test:ci
 
       - run:
           name: Integration Tests
           command: yarn itest
 
+      - run:
+          name: Coveralls
+          command: yarn coveralls
 workflows:
   testing:
     jobs:
