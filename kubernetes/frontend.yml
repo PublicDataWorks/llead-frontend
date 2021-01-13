@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipno-frontend
+  labels:
+    app: ipno-frontend
+spec:
+  selector:
+    matchLabels:
+      app: ipno-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ipno-frontend
+    spec:
+      containers:
+        - name: ipno-frontend
+          image: gcr.io/${GOOGLE_PROJECT_ID}/ipno-frontend:${FRONTEND_IMAGE_TAG}
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipno-frontend
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+    app: ipno-frontend

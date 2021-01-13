@@ -41,5 +41,8 @@ module.exports = {
       filename: 'index.html',
     }),
     new webpack.SourceMapDevToolPlugin({}),
+    new webpack.EnvironmentPlugin({
+      'APP_ENV': 'dev'
+    }),
   ],
 }

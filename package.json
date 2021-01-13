@@ -19,11 +19,13 @@
     "style-loader": "^2.0.0"
   },
   "scripts": {
-    "start": "WEBPACK_ENV=dev webpack serve --mode=development",
-    "start-test-server": "WEBPACK_ENV=test webpack serve --mode=development",
-    "prod": "webpack --mode=production",
-    "test": "NODE_ENV=test jest",
-    "test:ci": "NODE_ENV=test jest --collectCoverage",
+    "build": "APP_ENV=production webpack --mode=production",
+    "build-staging": "APP_ENV=staging webpack --mode=production",
+    "start": "APP_ENV=dev webpack serve --mode=development",
+    "start-test-server": "APP_ENV=test webpack serve --mode=development",
+    "prod": "APP_ENV=production webpack --mode=production",
+    "test": "APP_ENV=test jest",
+    "test:ci": "APP_ENV=test jest --collectCoverage",
     "coveralls": "coveralls < coverage/lcov.info",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
