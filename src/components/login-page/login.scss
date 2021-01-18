@@ -1,0 +1,17 @@
+@import 'styles/components';
+
+.login-page {
+  @extend %main-container;
+
+  .content-container {
+    padding: 0 16px;
+
+    .login-form {
+      .email-input,
+      .password-input {
+        width: 532px;
+        margin-bottom: 16px;
+      }
+    }
+  }
+}

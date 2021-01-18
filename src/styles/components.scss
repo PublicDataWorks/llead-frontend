@@ -1,0 +1,9 @@
+@import 'styles/variables';
+
+body {
+  margin: 0;
+}
+
+%main-container {
+  padding: $header-height 0 $footer-height 0;
+}

@@ -1,0 +1,49 @@
+@import 'styles/colors';
+
+.input-container {
+  position: relative;
+
+  .svg-icon {
+    position: absolute;
+    width: 16px;
+    left: 16px;
+    height: 48px;
+  }
+
+  .input-field {
+    box-sizing: border-box;
+    border-radius: 2px;
+    width: 100%;
+    padding: 11px 16px 12px 16px;
+    border: 1px solid $alto-color;
+    background-color: $wild-sand-color;
+    font-size: 18px;
+    line-height: 23px;
+    color: $boulder-color;
+    outline: none;
+
+    &:focus {
+      border: 3px solid $blue-ribbon-50-color;
+      padding: 9px 14px 10px 14px;
+    }
+
+    &.has-icon {
+      padding: 11px 16px 12px 48px;
+
+      &:focus {
+        padding: 9px 14px 10px 46px;
+      }
+    }
+  }
+
+  &.error {
+    .input-field {
+      border: 3px solid $thunder-color;
+      padding: 9px 14px 10px 14px;
+
+      &.has-icon {
+        padding: 9px 14px 10px 46px;
+      }
+    }
+  }
+}

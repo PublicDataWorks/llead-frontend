@@ -5,4 +5,7 @@ module.exports = {
   moduleDirectories: ['src', 'node_modules'],
   testPathIgnorePatterns: ['node_modules/', 'cypress/', 'integration-tests/'],
   setupFilesAfterEnv: ['jest-sinon', './test/setup.js'],
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': '<rootDir>/test/styles.mock.js',
+  },
 }
