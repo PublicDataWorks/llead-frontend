@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
 
-import Document from 'components/document-page/document'
+import Document from 'components/document-page'
 
 describe('Document component', () => {
   it('should render correctly', () => {

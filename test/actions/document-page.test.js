@@ -15,9 +15,9 @@ describe('#fetchDocument', () => {
 
     expect(getStub).toHaveBeenCalledWith(
       [
-        actionTypes.FETCH_DOCUMENT_START,
-        actionTypes.FETCH_DOCUMENT_SUCCESS,
-        actionTypes.FETCH_DOCUMENT_FAILURE,
+        actionTypes.DOCUMENT_FETCH_START,
+        actionTypes.DOCUMENT_FETCH_SUCCESS,
+        actionTypes.DOCUMENT_FETCH_FAILURE,
       ],
       `${DOCUMENT_API_URL}1/`
     )
