@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { API_URL } from 'constants'
+import { API_URL } from 'constants/common'
 
 export const get = (actionTypes, url) => {
   const actionStarted = () => ({
@@ -23,7 +23,7 @@ export const get = (actionTypes, url) => {
     return (dispatch) => {
       dispatch(actionStarted())
 
-      axios
+      return axios
         .get(`${API_URL}${url}`, params)
         .then((res) => {
           dispatch(actionSuccess(res.data))

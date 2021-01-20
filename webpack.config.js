@@ -1,42 +1,13 @@
-const HtmlWebPackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
+'use strict'
+
 const path = require('path')
-module.exports = {
-  context: __dirname,
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'app.js',
-    publicPath: '/',
-  },
-  devServer: {
-    historyApiFallback: true,
-  },
-  resolve: {
-    modules: [path.resolve(__dirname, 'src/'), 'node_modules'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: 'babel-loader',
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|j?g|svg|gif)?$/,
-        use: 'file-loader',
-      },
-    ],
-  },
-  devtool: false,
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: path.resolve(__dirname, 'src/index.html'),
-      filename: 'index.html',
-    }),
-    new webpack.SourceMapDevToolPlugin({}),
-  ],
+
+const allowedEnvs = ['dev', 'staging', 'production', 'test', 'integration-test']
+
+let env = process.env['APP_ENV']
+let isValid = env && env.length > 0 && allowedEnvs.indexOf(env) !== -1
+if (!isValid) {
+  throw `Invalid env: ${env}`
 }
+
+module.exports = require(path.join(__dirname, `webpack-config/${env}.config`))

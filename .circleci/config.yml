@@ -1,0 +1,153 @@
+---
+orbs:
+  gcp-gke: circleci/gcp-gke@1.1.0
+
+defaults:
+  - &gcloud-env
+    PROJECT_NAME: "IPNO"
+    GOOGLE_PROJECT_ID: "excellent-zoo-300106"
+    GOOGLE_COMPUTE_ZONE: "us-east4-a"
+    GOOGLE_CLUSTER_NAME: "ipno-staging"
+
+version: 2.1
+jobs:
+  test:
+    working_directory: ~/ipno_frontend
+    docker:
+      - image: circleci/node:fermium
+
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install cypress depepencies
+          command: |
+            sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      - run:
+          name: Install dependencies
+          command: |
+            yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: eslint
+          command: yarn lint
+      - run:
+          name: Tests
+          command: yarn test:ci
+
+      - run:
+          name: Integration Tests
+          command: yarn itest
+
+      - run:
+          name: Coveralls
+          command: yarn coveralls
+
+  build:
+    docker:
+      - image: circleci/node:fermium
+    environment:
+      NODE_ENV: development
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn
+      - run:
+          name: Build assets
+          command: |
+            if [ $CIRCLE_BRANCH == "master" ]
+            then
+              yarn build
+            else
+              yarn build-staging
+            fi
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  push_image:
+    description: Push docker image
+    machine: true
+    environment: *gcloud-env
+    steps:
+      - checkout
+      - run: echo "frontend-$CIRCLE_BUILD_NUM" > buildnum
+      - persist_to_workspace:
+          root: .
+          paths:
+            - buildnum
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: cp -R /tmp/workspace/dist ./dist
+      - run:
+          name: Build image
+          command: |
+            docker build -t gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$(cat buildnum) .
+      - gcp-gke/install
+      - gcp-gke/update-kubeconfig-with-credentials:
+          cluster: $GOOGLE_CLUSTER_NAME
+          perform-login: true
+      - run:
+          name: Push image
+          command: |
+            gcloud auth configure-docker
+            docker push gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$(cat buildnum)
+
+  deploy:
+    description: Deploy application to Google Kubernetes Engine
+    machine: true
+    environment: *gcloud-env
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - gcp-gke/install
+      - gcp-gke/update-kubeconfig-with-credentials:
+          cluster: $GOOGLE_CLUSTER_NAME
+          perform-login: true
+      - run:
+          name: Deploy
+          command: |
+            export FRONTEND_IMAGE_TAG=$(cat /tmp/workspace/buildnum)
+            cat kubernetes/frontend.yml | envsubst | kubectl apply -f -
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - staging
+                - main
+      - build:
+          requires:
+            - test
+
+  deploy_frontend_staging:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: staging
+      - build:
+          requires:
+            - test
+      - push_image:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - push_image

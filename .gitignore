@@ -13,3 +13,7 @@
 .DS_Store
 
 .eslintcache
+
+cypress/integration/examples
+
+cypress/videos
