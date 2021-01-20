@@ -9,5 +9,5 @@ export const fetchDocument = (id) =>
       actionTypes.FETCH_DOCUMENT_SUCCESS,
       actionTypes.FETCH_DOCUMENT_FAILURE,
     ],
-    `${DOCUMENT_API_URL}${id}`
+    `${DOCUMENT_API_URL}${id}/`
   )()

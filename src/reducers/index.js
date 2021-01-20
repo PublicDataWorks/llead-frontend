@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
 import documentPageReducer from 'reducers/document-page'
-import userReducer from 'reducers/user'
+import tokenReducer from 'reducers/token'
 
 export default combineReducers({
   documentPage: documentPageReducer,
-  user: userReducer,
+  token: tokenReducer,
 })

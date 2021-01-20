@@ -3,13 +3,13 @@ import sinon from 'sinon'
 import { performLogin } from 'actions/login-page'
 import * as actionTypes from 'action-types/login-page'
 import * as ServiceApi from 'utils/api'
-import { SIGN_IN_API_URL } from 'constants/api'
+import { TOKEN_API_URL } from 'constants/api'
 
 describe('#performLogin', () => {
   it('calls get Api', () => {
     const postStub = sinon.stub(ServiceApi, 'post')
-    const postFunc = sinon.stub()
-    postStub.returns(postFunc)
+    const postFuncStub = sinon.stub()
+    postStub.returns(postFuncStub)
 
     const credentials = {
       email: 'mail@mail.com',
@@ -24,9 +24,8 @@ describe('#performLogin', () => {
         actionTypes.LOGIN_SUCCESS,
         actionTypes.LOGIN_FAILURE,
       ],
-      SIGN_IN_API_URL,
-      credentials
+      TOKEN_API_URL
     )
-    expect(postStub).toHaveBeenCalled()
+    expect(postFuncStub).toHaveBeenCalledWith(credentials)
   })
 })

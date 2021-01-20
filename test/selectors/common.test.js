@@ -1,16 +1,16 @@
-import { isLoggedIn } from 'selectors/common'
+import { isLoggedInSelector } from 'selectors/common'
 
 describe('#isLoggedIn', () => {
   describe('has data', () => {
     it('returns true', () => {
-      const user = {
-        accessToken: 'accessToken',
+      const token = {
+        access: 'accessToken',
       }
       const state = {
-        user,
+        token,
       }
 
-      const isUserLoggedIn = isLoggedIn(state)
+      const isUserLoggedIn = isLoggedInSelector(state)
 
       expect(isUserLoggedIn).toBe(true)
     })
@@ -18,7 +18,7 @@ describe('#isLoggedIn', () => {
 
   describe('does not have data', () => {
     it('returns false', () => {
-      const isUserLoggedIn = isLoggedIn({})
+      const isUserLoggedIn = isLoggedInSelector({})
 
       expect(isUserLoggedIn).toBe(false)
     })

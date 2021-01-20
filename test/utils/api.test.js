@@ -1,8 +1,8 @@
 import sinon from 'sinon'
-import axios from 'axios'
+import axiosClient from 'utils/axios-client'
 
 import { get, post } from 'utils/api'
-import { API_URL, SIGN_IN_API_URL } from 'constants/api'
+import { API_URL, TOKEN_API_URL } from 'constants/api'
 
 describe('#get', () => {
   describe('calls to API server successfully', () => {
@@ -13,7 +13,9 @@ describe('#get', () => {
       const params = { field: 'value' }
       const dispatch = sinon.spy()
 
-      sinon.stub(axios, 'get').resolves(Promise.resolve({ data: { id: 1 } }))
+      sinon
+        .stub(axiosClient, 'get')
+        .resolves(Promise.resolve({ data: { id: 1 } }))
 
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
@@ -28,7 +30,10 @@ describe('#get', () => {
         },
       ])
 
-      expect(axios.get).toHaveBeenCalledWith(`${API_URL}/documents/1`, params)
+      expect(axiosClient.get).toHaveBeenCalledWith(
+        `${API_URL}/documents/1`,
+        params
+      )
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_SUCCESS,
@@ -45,7 +50,9 @@ describe('#get', () => {
       const FETCH_FAILURE = 'FETCH_FAILURE'
       const dispatch = sinon.spy()
 
-      sinon.stub(axios, 'get').resolves(Promise.reject({ message: 'error' }))
+      sinon
+        .stub(axiosClient, 'get')
+        .resolves(Promise.reject({ message: 'error' }))
 
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
@@ -60,7 +67,7 @@ describe('#get', () => {
         },
       ])
 
-      expect(axios.get).toHaveBeenCalledWith(`${API_URL}documents/1`, {})
+      expect(axiosClient.get).toHaveBeenCalledWith(`${API_URL}documents/1`, {})
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_FAILURE,
@@ -86,14 +93,13 @@ describe('#post', () => {
       }
 
       sinon
-        .stub(axios, 'post')
-        .resolves(Promise.resolve({ data: { accessToken: 'accessToken' } }))
+        .stub(axiosClient, 'post')
+        .resolves(Promise.resolve({ data: { access: 'accessToken' } }))
 
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
-        SIGN_IN_API_URL,
-        body
-      )(params)
+        TOKEN_API_URL
+      )(body, params)
 
       await postFunc(dispatch)
       expect(dispatch).toHaveBeenCalledTwice()
@@ -103,11 +109,11 @@ describe('#post', () => {
         },
       ])
 
-      expect(axios.post).toHaveBeenCalledWith(SIGN_IN_API_URL, body, params)
+      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, params)
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_SUCCESS,
-          payload: { accessToken: 'accessToken' },
+          payload: { access: 'accessToken' },
         },
       ])
     })
@@ -125,13 +131,14 @@ describe('#post', () => {
         password: 'password',
       }
 
-      sinon.stub(axios, 'post').resolves(Promise.reject({ message: 'error' }))
+      sinon
+        .stub(axiosClient, 'post')
+        .resolves(Promise.reject({ message: 'error' }))
 
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
-        SIGN_IN_API_URL,
-        body
-      )()
+        TOKEN_API_URL
+      )(body)
 
       await postFunc(dispatch)
       expect(dispatch).toHaveBeenCalledTwice()
@@ -141,7 +148,7 @@ describe('#post', () => {
         },
       ])
 
-      expect(axios.post).toHaveBeenCalledWith(SIGN_IN_API_URL, body, {})
+      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, {})
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_FAILURE,

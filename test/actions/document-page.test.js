@@ -3,6 +3,7 @@ import sinon from 'sinon'
 import { fetchDocument } from 'actions/document-page'
 import * as actionTypes from 'action-types/document-page'
 import * as ServiceApi from 'utils/api'
+import { DOCUMENT_API_URL } from 'constants/api'
 
 describe('#fetchDocument', () => {
   it('calls get Api', () => {
@@ -18,7 +19,7 @@ describe('#fetchDocument', () => {
         actionTypes.FETCH_DOCUMENT_SUCCESS,
         actionTypes.FETCH_DOCUMENT_FAILURE,
       ],
-      'http://localhost:8000/api/documents/1'
+      `${DOCUMENT_API_URL}1/`
     )
     expect(getFunc).toHaveBeenCalled()
   })

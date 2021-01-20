@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosClient from 'utils/axios-client'
 
 export const get = (actionTypes, url) => {
   const actionStarted = () => ({
@@ -21,7 +21,7 @@ export const get = (actionTypes, url) => {
     return (dispatch) => {
       dispatch(actionStarted())
 
-      return axios
+      return axiosClient
         .get(url, params)
         .then((res) => {
           dispatch(actionSuccess(res.data))
@@ -33,7 +33,7 @@ export const get = (actionTypes, url) => {
   }
 }
 
-export const post = (actionTypes, url, payload) => {
+export const post = (actionTypes, url) => {
   const actionStarted = () => ({
     type: actionTypes[0],
   })
@@ -50,11 +50,11 @@ export const post = (actionTypes, url, payload) => {
     },
   })
 
-  return (params = {}) => {
+  return (payload = {}, params = {}) => {
     return (dispatch) => {
       dispatch(actionStarted())
 
-      return axios
+      return axiosClient
         .post(url, payload, params)
         .then((res) => {
           dispatch(actionSuccess(res.data))

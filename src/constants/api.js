@@ -1,5 +1,6 @@
 import config from 'config'
 
 const API_URL = `${config.serverUrl}api/`
-export const SIGN_IN_API_URL = `${API_URL}authentication/sign-in/`
+export const TOKEN_API_URL = `${API_URL}token/`
+export const REFRESH_TOKEN_API_URL = `${API_URL}token/refresh/`
 export const DOCUMENT_API_URL = `${API_URL}documents/`

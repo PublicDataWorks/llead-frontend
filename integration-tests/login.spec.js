@@ -3,10 +3,11 @@ describe('Login Page', () => {
     cy.intercept(
       {
         method: 'POST',
-        url: 'http://localhost:8000/api/authentication/sign-in/',
+        url: 'http://localhost:8000/api/token/',
       },
       {
-        accessToken: 'token',
+        access: 'accessToken',
+        refresh: 'refreshToken',
       }
     )
 

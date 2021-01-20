@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
-const accessToken = (state) => get(state, 'user.accessToken')
+export const getAccessToken = (state) => get(state, 'token.access')
+export const getRefreshToken = (state) => get(state, 'token.refresh')
 
-export const isLoggedIn = (state) => !isEmpty(accessToken(state))
+export const isLoggedInSelector = (state) => !isEmpty(getAccessToken(state))
