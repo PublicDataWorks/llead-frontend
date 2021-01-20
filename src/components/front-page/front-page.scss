@@ -1,0 +1,13 @@
+@import 'styles/components';
+
+.front-page {
+  @extend %main-container;
+
+  .content-container {
+    .summary {
+      padding: 32px 16px;
+      width: 50%;
+      min-width: 374px;
+    }
+  }
+}

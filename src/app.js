@@ -1,14 +1,17 @@
-import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import AppRoutes from './routes'
+import App from 'components/app'
+import { fetchAppConfig } from 'actions/common/app-config'
+import { isAppConfigFetchedSelector } from 'selectors/common'
 
-function App() {
-  return (
-    <Router>
-      <AppRoutes />
-    </Router>
-  )
+const mapStateToProps = (state) => {
+  return {
+    isAppConfigFetched: isAppConfigFetchedSelector(state),
+  }
 }
 
-export default App
+const mapDispatchToProps = {
+  fetchAppConfig,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
