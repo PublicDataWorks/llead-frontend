@@ -1,0 +1,17 @@
+@import 'styles/colors';
+
+.btn {
+  box-sizing: border-box;
+  padding: 12px 32px 12px 32px;
+  font-size: 18px;
+  line-height: 23px;
+  color: $boulder-color;
+  background: $white-color;
+  border: 1px solid $alto-color;
+  border-radius: 2px;
+}
+
+.active {
+  color: $blue-ribbon-color;
+  background: $wild-sand-color;
+}

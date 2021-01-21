@@ -1,0 +1,18 @@
+@import 'styles/colors';
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 26px 16px 81px 16px;
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 500;
+  color: $thunder-color;
+
+  b {
+    color: $black-color;
+  }
+}
