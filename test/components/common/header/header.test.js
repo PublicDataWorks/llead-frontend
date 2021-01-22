@@ -5,7 +5,8 @@ import Header from 'components/common/header'
 
 describe('Header component', () => {
   it('should render correctly', () => {
-    const { baseElement } = render(<Header />)
+    const container = render(<Header />)
+    const { baseElement } = container
     expect(baseElement.textContent.includes('LOGO')).toBe(true)
   })
 })

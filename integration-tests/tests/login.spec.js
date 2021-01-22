@@ -17,7 +17,7 @@ describe('Login Page', () => {
       },
       {
         CMS: {
-          FRONTPAGE_SUMMARY:
+          FRONT_PAGE_SUMMARY:
             'We are building a database of <b>Louisiana</b> police officers, departments, and documents.',
         },
       }

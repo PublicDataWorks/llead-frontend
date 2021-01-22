@@ -10,23 +10,26 @@ describe('PrivateRoute higher-order component', () => {
   const FrontPageComponent = () => <div>FrontPage</div>
 
   it('should render login when not logged in', () => {
-    const { baseElement } = render(
+    const container = render(
       <MemoryRouter initialEntries={['/']}>
         <PrivateRoute component={FrontPageComponent} />
         <Route path={paths.LOGIN_PATH} component={LoginComponent} />
       </MemoryRouter>
     )
+    const { baseElement } = container
+
     expect(baseElement.textContent.includes('FrontPage')).toBe(false)
     expect(baseElement.textContent.includes('Login')).toBe(true)
   })
 
   it('should render component when logged in', () => {
-    const { baseElement } = render(
+    const container = render(
       <MemoryRouter initialEntries={['/']}>
         <PrivateRoute component={FrontPageComponent} isLoggedIn />
         <Route path={paths.LOGIN_PATH} component={LoginComponent} />
       </MemoryRouter>
     )
+    const { baseElement } = container
 
     expect(baseElement.textContent.includes('FrontPage')).toBe(true)
     expect(baseElement.textContent.includes('Login')).toBe(false)

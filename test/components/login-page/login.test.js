@@ -49,7 +49,7 @@ describe('Login component', () => {
   it('should redirect front page page when user have loged in', async () => {
     const performLogin = sinon.spy()
 
-    const { baseElement } = render(
+    const container = render(
       <MemoryRouter initialEntries={['login/']}>
         <Route path='login/' history={history}>
           <LogIn isLoggedIn={true} performLogin={performLogin} />
@@ -59,6 +59,7 @@ describe('Login component', () => {
         </Route>
       </MemoryRouter>
     )
+    const { baseElement } = container
 
     expect(baseElement.getElementsByClassName('front-page').length).toEqual(1)
   })

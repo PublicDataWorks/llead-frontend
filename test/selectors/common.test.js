@@ -91,7 +91,7 @@ describe('#cmsSelector', () => {
   it('returns cms data', () => {
     const appConfig = {
       CMS: {
-        FRONTPAGE_SUMMARY: 'Front page summary.',
+        FRONT_PAGE_SUMMARY: 'Front page summary.',
       },
     }
     const state = {

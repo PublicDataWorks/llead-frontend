@@ -4,6 +4,6 @@ export const CMS_PAGES = {
 
 export const CMS_KEYS = {
   [CMS_PAGES.FRONT_PAGE]: {
-    summary: 'FRONTPAGE_SUMMARY',
+    summary: 'FRONT_PAGE_SUMMARY',
   },
 }
