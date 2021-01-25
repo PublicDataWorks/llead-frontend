@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import { Route, MemoryRouter } from 'react-router-dom'
 
 import LogIn from 'components/login-page/login'
-import HomePage from 'pages/home-page'
+import FrontPage from 'components/front-page'
 
 const mockHistoryPush = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -46,20 +46,21 @@ describe('Login component', () => {
     expect(performLogin).toHaveBeenCalledWith(credentials)
   })
 
-  it('should redirect HOME page when user have loged in', async () => {
+  it('should redirect front page page when user have loged in', async () => {
     const performLogin = sinon.spy()
 
-    const { baseElement } = render(
+    const container = render(
       <MemoryRouter initialEntries={['login/']}>
         <Route path='login/' history={history}>
           <LogIn isLoggedIn={true} performLogin={performLogin} />
         </Route>
         <Route path='/' history={history}>
-          <HomePage />
+          <FrontPage />
         </Route>
       </MemoryRouter>
     )
+    const { baseElement } = container
 
-    expect(baseElement.textContent.includes('Homepage')).toBe(true)
+    expect(baseElement.getElementsByClassName('front-page').length).toEqual(1)
   })
 })

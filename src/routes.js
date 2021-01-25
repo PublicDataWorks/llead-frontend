@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 
 import DocumentPage from 'pages/document-page'
-import HomePage from 'pages/home-page'
+import FrontPage from 'pages/front-page'
 import LoginPage from 'pages/login-page'
 import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
@@ -22,10 +22,10 @@ const AppRoutes = ({ isLoggedIn }) => {
       <Route path={paths.LOGIN_PATH} component={LoginPage} />
       <Route path={`${paths.DOCUMENTS_PATH}:id/`} component={DocumentPage} />
       <PrivateRoute
-        path={paths.HOME_PATH}
+        path={paths.FRONT_PAGE_PATH}
         isLoggedIn={isLoggedIn}
         exact
-        component={HomePage}
+        component={FrontPage}
       />
     </Switch>
   )

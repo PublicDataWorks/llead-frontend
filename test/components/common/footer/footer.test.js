@@ -5,7 +5,8 @@ import Footer from 'components/common/footer'
 
 describe('Footer component', () => {
   it('should render correctly', () => {
-    const { baseElement } = render(<Footer />)
+    const container = render(<Footer />)
+    const { baseElement } = container
     expect(baseElement.textContent.includes('Public Data Works')).toBe(true)
   })
 })

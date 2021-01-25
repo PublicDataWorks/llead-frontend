@@ -1,6 +1,43 @@
-import { isLoggedInSelector } from 'selectors/common'
+import {
+  getAccessToken,
+  getRefreshToken,
+  isLoggedInSelector,
+  isAppConfigFetchedSelector,
+  cmsSelector,
+} from 'selectors/common'
+import { CMS_PAGES } from 'constants/common'
 
-describe('#isLoggedIn', () => {
+describe('#getAccessToken', () => {
+  it('returns access token', () => {
+    const token = {
+      access: 'accessToken',
+    }
+    const state = {
+      token,
+    }
+
+    const accessToken = getAccessToken(state)
+
+    expect(accessToken).toEqual('accessToken')
+  })
+})
+
+describe('#getRefreshToken', () => {
+  it('returns refresh access token', () => {
+    const token = {
+      refresh: 'refreshToken',
+    }
+    const state = {
+      token,
+    }
+
+    const refreshToken = getRefreshToken(state)
+
+    expect(refreshToken).toEqual('refreshToken')
+  })
+})
+
+describe('#isLoggedInSelector', () => {
   describe('has data', () => {
     it('returns true', () => {
       const token = {
@@ -22,5 +59,47 @@ describe('#isLoggedIn', () => {
 
       expect(isUserLoggedIn).toBe(false)
     })
+  })
+})
+
+describe('#isAppConfigFetchedSelector', () => {
+  describe('app config is fetched', () => {
+    it('returns true', () => {
+      const appConfig = {
+        cms: {},
+      }
+      const state = {
+        appConfig,
+      }
+
+      const isAppConfigFetched = isAppConfigFetchedSelector(state)
+
+      expect(isAppConfigFetched).toBe(true)
+    })
+  })
+
+  describe('app config is not fetched', () => {
+    it('returns false', () => {
+      const isAppConfigFetched = isAppConfigFetchedSelector({})
+
+      expect(isAppConfigFetched).toBe(false)
+    })
+  })
+})
+
+describe('#cmsSelector', () => {
+  it('returns cms data', () => {
+    const appConfig = {
+      CMS: {
+        FRONT_PAGE_SUMMARY: 'Front page summary.',
+      },
+    }
+    const state = {
+      appConfig,
+    }
+
+    const frontPageCMS = cmsSelector(state, CMS_PAGES.FRONT_PAGE)
+
+    expect(frontPageCMS).toEqual({ summary: 'Front page summary.' })
   })
 })

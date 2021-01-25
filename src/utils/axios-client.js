@@ -20,6 +20,7 @@ client.interceptors.request.use(function (config) {
     try {
       decoded = jwt_decode(accessToken)
     } catch (error) {
+      /* istanbul ignore next */
       console.error(error)
     }
 

@@ -1,0 +1,28 @@
+@import 'styles/colors';
+
+.analytic-summary {
+  background-color: $thunder-color;
+
+  .analytic-summary-item {
+    display: flex;
+    color: $white-color;
+    padding: 33px 32px 40px 32px;
+    line-height: 47px;
+
+    .analytic-summary-content {
+      font-weight: 500;
+      font-size: 36px;
+      flex-grow: 1;
+    }
+
+    .recent-summary {
+      font-weight: 300;
+      font-size: 16px;
+      color: $alto-color;
+    }
+
+    & + .analytic-summary-item {
+      border-top: 1px solid $wild-sand-color;
+    }
+  }
+}

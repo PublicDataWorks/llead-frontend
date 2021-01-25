@@ -7,28 +7,31 @@ import * as paths from 'constants/paths'
 
 describe('PrivateRoute higher-order component', () => {
   const LoginComponent = () => <div>Login</div>
-  const HomeComponent = () => <div>Homepage</div>
+  const FrontPageComponent = () => <div>FrontPage</div>
 
   it('should render login when not logged in', () => {
-    const { baseElement } = render(
+    const container = render(
       <MemoryRouter initialEntries={['/']}>
-        <PrivateRoute component={HomeComponent} />
+        <PrivateRoute component={FrontPageComponent} />
         <Route path={paths.LOGIN_PATH} component={LoginComponent} />
       </MemoryRouter>
     )
-    expect(baseElement.textContent.includes('Homepage')).toBe(false)
+    const { baseElement } = container
+
+    expect(baseElement.textContent.includes('FrontPage')).toBe(false)
     expect(baseElement.textContent.includes('Login')).toBe(true)
   })
 
   it('should render component when logged in', () => {
-    const { baseElement } = render(
+    const container = render(
       <MemoryRouter initialEntries={['/']}>
-        <PrivateRoute component={HomeComponent} isLoggedIn />
+        <PrivateRoute component={FrontPageComponent} isLoggedIn />
         <Route path={paths.LOGIN_PATH} component={LoginComponent} />
       </MemoryRouter>
     )
+    const { baseElement } = container
 
-    expect(baseElement.textContent.includes('Homepage')).toBe(true)
+    expect(baseElement.textContent.includes('FrontPage')).toBe(true)
     expect(baseElement.textContent.includes('Login')).toBe(false)
   })
 })

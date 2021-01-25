@@ -5,11 +5,9 @@ import 'styles/base.scss'
 import { isLoggedInSelector } from 'selectors/common'
 import { performLogin } from 'actions/login-page'
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: isLoggedInSelector(state),
-  }
-}
+const mapStateToProps = (state) => ({
+  isLoggedIn: isLoggedInSelector(state),
+})
 
 const mapDispatchToProps = {
   performLogin,

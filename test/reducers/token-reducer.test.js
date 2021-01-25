@@ -1,4 +1,4 @@
-import tokenReducer from 'reducers/token'
+import tokenReducer from 'reducers/token-reducer'
 
 import { LOGIN_SUCCESS } from 'action-types/login-page'
 import { UPDATE_TOKEN } from 'action-types/authentication'

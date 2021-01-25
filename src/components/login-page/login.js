@@ -11,13 +11,13 @@ import Button from 'components/common/buttons/button'
 import EmailSVG from 'assets/icons/email.svg'
 import LockSVG from 'assets/icons/lock.svg'
 import './login.scss'
-import { HOME_PATH } from 'constants/paths'
+import { FRONT_PAGE_PATH } from 'constants/paths'
 
 const Login = ({ isLoggedIn, performLogin }) => {
   const { register, handleSubmit } = useForm()
 
   if (isLoggedIn) {
-    return <Redirect to={HOME_PATH} />
+    return <Redirect to={FRONT_PAGE_PATH} />
   }
 
   const onSubmit = (data) => {
