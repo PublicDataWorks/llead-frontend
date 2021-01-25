@@ -8,6 +8,8 @@ import Header from 'components/common/header'
 import Footer from 'components/common/footer'
 import Input from 'components/common/inputs/input'
 import Button from 'components/common/buttons/button'
+import EmailSVG from 'assets/icons/email.svg'
+import LockSVG from 'assets/icons/lock.svg'
 import './login.scss'
 import { HOME_PATH } from 'constants/paths'
 
@@ -29,7 +31,7 @@ const Login = ({ isLoggedIn, performLogin }) => {
         <div className='content-container'>
           <form className='login-form' onSubmit={handleSubmit(onSubmit)}>
             <Input
-              iconSrc='/src/assets/icons/email.svg'
+              iconSrc={EmailSVG}
               placeholder='email'
               type='text'
               name='email'
@@ -37,7 +39,7 @@ const Login = ({ isLoggedIn, performLogin }) => {
               className='email-input'
             />
             <Input
-              iconSrc='/src/assets/icons/lock.svg'
+              iconSrc={LockSVG}
               placeholder='password'
               type='password'
               name='password'
