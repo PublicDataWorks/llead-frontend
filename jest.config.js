@@ -7,5 +7,6 @@ module.exports = {
   setupFilesAfterEnv: ['jest-sinon', './test/setup.js'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': '<rootDir>/test/styles.mock.js',
+    '\\.(png|j?g|svg|gif)?$': '<rootDir>/test/static.mock.js',
   },
 }
