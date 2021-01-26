@@ -1,0 +1,76 @@
+@import 'styles/colors';
+
+.carousel-container {
+  padding: 48px 0 76px 32px;
+  background-color: $wild-sand-color;
+
+  .carousel-title-container {
+    color: $thunder-color;
+    display: flex;
+    padding-right: 32px;
+
+    .carousel-title {
+      font-weight: 500;
+      font-size: 26px;
+      line-height: 34px;
+      margin-bottom: 30px;
+      flex-grow: 1;
+    }
+
+    .carousel-sorted-info {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 34px;
+
+      .sorted-by {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .swiper-container {
+    padding-bottom: 52px;
+
+    .carousel-next,
+    .carousel-prev {
+      position: absolute;
+      bottom: 0;
+      width: 40px;
+      height: 40px;
+      border: 1px solid $alto-color;
+      border-radius: 20px;
+      box-sizing: border-box;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .carousel-next {
+      left: 44px;
+      background-image: url('assets/icons/right-disclosure-indicator-blue.svg');
+
+      &.swiper-button-disabled {
+        background-image: url('assets/icons/right-disclosure-indicator.svg');
+      }
+
+      &:after {
+        position: absolute;
+        bottom: 0;
+        left: 52px;
+        line-height: 40px;
+        width: auto;
+        content: 'Tap this button or swipe to see more officers';
+        white-space: nowrap;
+        color: $boulder-color;
+      }
+    }
+
+    .carousel-prev {
+      left: 0;
+      background-image: url('assets/icons/left-disclosure-indicator-blue.svg');
+
+      &.swiper-button-disabled {
+        background-image: url('assets/icons/left-disclosure-indicator.svg');
+      }
+    }
+  }
+}

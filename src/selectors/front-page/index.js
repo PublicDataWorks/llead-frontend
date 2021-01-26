@@ -1,8 +1,11 @@
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
 
 const getAnalyticSummary = (state) =>
   get(state.frontPage, 'analyticSummary', {})
+
+const getDepartments = (state) => get(state.frontPage, 'departments', [])
 
 export const analyticSummarySelector = (state) => {
   const rawAnalyticSummary = getAnalyticSummary(state)
@@ -18,4 +21,16 @@ export const analyticSummarySelector = (state) => {
     recentOfficersCount: rawAnalyticSummary['recent_officers_count'],
     recentDays: rawAnalyticSummary['recent_days'],
   }
+}
+
+export const departmentsSelector = (state) => {
+  const rawDepartments = getDepartments(state)
+
+  return map(rawDepartments, (department) => ({
+    id: department['id'],
+    name: department['name'],
+    city: department['city'],
+    parish: department['parish'],
+    locationMapUrl: department['location_map_url'],
+  }))
 }

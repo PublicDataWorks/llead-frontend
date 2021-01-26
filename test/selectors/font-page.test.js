@@ -1,6 +1,9 @@
-import { analyticSummarySelector } from 'selectors/front-page'
+import {
+  analyticSummarySelector,
+  departmentsSelector,
+} from 'selectors/front-page'
 
-describe('#getAnalyticSummary', () => {
+describe('#analyticSummarySelector', () => {
   describe('has data', () => {
     it('returns analytic summary data', () => {
       const rawAnalyticSummary = {
@@ -41,5 +44,53 @@ describe('#getAnalyticSummary', () => {
 
       expect(analyticSummary).toStrictEqual({})
     })
+  })
+})
+
+describe('#departmentsSelector', () => {
+  it('returns analytic summary data', () => {
+    const rawDepartments = [
+      {
+        id: 1,
+        name: 'Baton Rouge Department',
+        city: 'Baton Rouge',
+        parish: 'East Baton Rouge',
+        location_map_url: 'http://mapurl.com/department1',
+      },
+      {
+        id: 2,
+        name: 'New Orleans Department',
+        city: 'New Orleans',
+        parish: 'Orleans',
+        location_map_url: 'http://mapurl.com/department2',
+      },
+    ]
+
+    const expectedDepartments = [
+      {
+        id: 1,
+        name: 'Baton Rouge Department',
+        city: 'Baton Rouge',
+        parish: 'East Baton Rouge',
+        locationMapUrl: 'http://mapurl.com/department1',
+      },
+      {
+        id: 2,
+        name: 'New Orleans Department',
+        city: 'New Orleans',
+        parish: 'Orleans',
+        locationMapUrl: 'http://mapurl.com/department2',
+      },
+    ]
+
+    const state = {
+      frontPage: {
+        departments: rawDepartments,
+      },
+    }
+
+    const departments = departmentsSelector(state)
+
+    expect(departments).toStrictEqual(expectedDepartments)
   })
 })
