@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 
-import Header from 'components/common/header'
+import Header from 'pages/common/header'
 import Footer from 'components/common/footer'
 import AnalyticSummary from './analytic-summary'
 import './front-page.scss'
