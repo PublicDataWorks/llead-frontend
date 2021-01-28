@@ -2,6 +2,8 @@ import React from 'react'
 import sinon from 'sinon'
 import { render, screen } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import MockStore from 'redux-mock-store'
 
 import FrontPage from 'components/front-page'
 
@@ -22,15 +24,17 @@ describe('FrontPage component', () => {
     const fetchAnalyticSummary = sinon.spy()
 
     const container = render(
-      <MemoryRouter initialEntries={['/']}>
-        <Route path='/'>
-          <FrontPage
-            cms={cmsData}
-            fetchAnalyticSummary={fetchAnalyticSummary}
-            analyticSummary={analyticSummary}
-          />
-        </Route>
-      </MemoryRouter>
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <FrontPage
+              cms={cmsData}
+              fetchAnalyticSummary={fetchAnalyticSummary}
+              analyticSummary={analyticSummary}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
     )
     const { baseElement } = container
 

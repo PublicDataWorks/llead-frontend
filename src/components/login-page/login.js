@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import { useForm } from 'react-hook-form'
 import { Redirect } from 'react-router-dom'
+import cx from 'classnames'
 
-import Header from 'components/common/header'
+import Header from 'pages/common/header'
 import Footer from 'components/common/footer'
 import Input from 'components/common/inputs/input'
 import Button from 'components/common/buttons/button'
@@ -13,7 +14,7 @@ import LockSVG from 'assets/icons/lock.svg'
 import './login.scss'
 import { FRONT_PAGE_PATH } from 'constants/paths'
 
-const Login = ({ isLoggedIn, performLogin }) => {
+const Login = ({ isLoggedIn, isLoginFailed, performLogin }) => {
   const { register, handleSubmit } = useForm()
 
   if (isLoggedIn) {
@@ -36,7 +37,7 @@ const Login = ({ isLoggedIn, performLogin }) => {
               type='text'
               name='email'
               ref={register}
-              className='email-input'
+              className={cx('email-input', { error: isLoginFailed })}
             />
             <Input
               iconSrc={LockSVG}
@@ -44,9 +45,14 @@ const Login = ({ isLoggedIn, performLogin }) => {
               type='password'
               name='password'
               ref={register}
-              className='password-input'
+              className={cx('password-input', { error: isLoginFailed })}
             />
             <Button type='submit'>Sign in</Button>
+            {isLoginFailed && (
+              <div className='error-message'>
+                Password/email combination aren’t recognized
+              </div>
+            )}
           </form>
         </div>
       </div>
@@ -57,11 +63,13 @@ const Login = ({ isLoggedIn, performLogin }) => {
 
 Login.propTypes = {
   isLoggedIn: PropTypes.bool,
+  isLoginFailed: PropTypes.bool,
   performLogin: PropTypes.func,
 }
 
 Login.defaultProps = {
   isLoggedIn: false,
+  isLoginFailed: false,
   performLogin: noop,
 }
 

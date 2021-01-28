@@ -2,6 +2,8 @@ import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import sinon from 'sinon'
 import { Route, MemoryRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import MockStore from 'redux-mock-store'
 
 import LogIn from 'components/login-page/login'
 import FrontPage from 'components/front-page'
@@ -23,8 +25,19 @@ describe('Login component', () => {
     const performLogin = sinon.spy()
 
     const container = render(
-      <LogIn isLoggedIn={false} performLogin={performLogin} />
+      <Provider store={MockStore()()}>
+        <LogIn isLoggedIn={false} performLogin={performLogin} />
+      </Provider>
     )
+
+    const { baseElement } = container
+    const emailContainer = baseElement.getElementsByClassName('email-input')[0]
+    const passwordContainer = baseElement.getElementsByClassName(
+      'password-input'
+    )[0]
+
+    expect(emailContainer.className).not.toContain('error')
+    expect(passwordContainer.className).not.toContain('error')
 
     const credentials = {
       email: 'email@email.com',
@@ -46,18 +59,40 @@ describe('Login component', () => {
     expect(performLogin).toHaveBeenCalledWith(credentials)
   })
 
+  it('should render error if user logs in fail', async () => {
+    const container = render(
+      <Provider store={MockStore()()}>
+        <LogIn isLoggedIn={false} isLoginFailed={true} />
+      </Provider>
+    )
+    const { baseElement } = container
+    const emailContainer = baseElement.getElementsByClassName('email-input')[0]
+    const passwordContainer = baseElement.getElementsByClassName(
+      'password-input'
+    )[0]
+
+    expect(emailContainer.className).toContain('error')
+    expect(passwordContainer.className).toContain('error')
+
+    expect(baseElement.textContent).toContain(
+      'Password/email combination aren’t recognized'
+    )
+  })
+
   it('should redirect front page page when user have loged in', async () => {
     const performLogin = sinon.spy()
 
     const container = render(
-      <MemoryRouter initialEntries={['login/']}>
-        <Route path='login/' history={history}>
-          <LogIn isLoggedIn={true} performLogin={performLogin} />
-        </Route>
-        <Route path='/' history={history}>
-          <FrontPage />
-        </Route>
-      </MemoryRouter>
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['login/']}>
+          <Route path='login/' history={history}>
+            <LogIn isLoggedIn={true} performLogin={performLogin} />
+          </Route>
+          <Route path='/' history={history}>
+            <FrontPage />
+          </Route>
+        </MemoryRouter>
+      </Provider>
     )
     const { baseElement } = container
 

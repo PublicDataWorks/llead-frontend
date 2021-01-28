@@ -1,7 +1,7 @@
 import tokenReducer from 'reducers/token-reducer'
 
 import { LOGIN_SUCCESS } from 'action-types/login-page'
-import { UPDATE_TOKEN } from 'action-types/authentication'
+import { UPDATE_TOKEN, LOG_OUT } from 'action-types/authentication'
 
 describe('#tokenReducer', () => {
   it('should return initial state', () => {
@@ -43,5 +43,19 @@ describe('#tokenReducer', () => {
       access: 'newAccessToken',
       refresh: 'refreshToken',
     })
+  })
+
+  it('should handle LOG_OUT', () => {
+    const result = tokenReducer(
+      {
+        access: 'accessToken',
+        refresh: 'refreshToken',
+      },
+      {
+        type: LOG_OUT,
+      }
+    )
+
+    expect(result).toStrictEqual({})
   })
 })

@@ -1,4 +1,5 @@
 @import 'styles/components';
+@import 'styles/colors';
 
 .login-page {
   @extend %main-container;
@@ -11,6 +12,16 @@
       .password-input {
         width: 532px;
         margin-bottom: 16px;
+      }
+
+      .error-message {
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 23px;
+        color: $thunder-color;
+        padding-left: 48px;
+        margin-top: 19px;
+        background: url('assets/icons/warning.svg') no-repeat 15px center;
       }
     }
   }

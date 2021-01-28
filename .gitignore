@@ -19,3 +19,5 @@ cypress/integration/examples
 cypress/videos
 
 .history
+
+.idea
