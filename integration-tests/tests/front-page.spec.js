@@ -1,3 +1,6 @@
+import { appConfigData } from '../data/common-data'
+import { analyticSummaryData, departmentsData } from '../data/front-page-data'
+
 describe('FrontPage', () => {
   it('redirect to login when not logged in', () => {
     cy.visit('/')
@@ -10,31 +13,26 @@ describe('FrontPage', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: 'http://localhost:8000/api/app-config',
+        url: 'http://localhost:8000/api/app-config/',
       },
-      {
-        CMS: {
-          FRONT_PAGE_SUMMARY:
-            'We are building a database of <b>Louisiana</b> police officers, departments, and documents.',
-        },
-      }
+      appConfigData
     )
     cy.intercept(
       {
         method: 'GET',
-        url: 'http://localhost:8000/api/analytics/summary',
+        url: 'http://localhost:8000/api/analytics/summary/',
       },
+      analyticSummaryData
+    )
+    cy.intercept(
       {
-        departments_count: 4,
-        officers_count: 5,
-        documents_count: 6,
-        recent_days: 30,
-        recent_departments_count: 1,
-        recent_officers_count: 2,
-        recent_documents_count: 3,
-      }
+        method: 'GET',
+        url: 'http://localhost:8000/api/departments/',
+      },
+      departmentsData
     )
 
+    cy.viewport(1000, 1200)
     cy.visit('/')
 
     cy.location('pathname').should('eq', '/')
@@ -47,6 +45,35 @@ describe('FrontPage', () => {
     cy.contains('+2 in the past 30 days')
     cy.contains('4 departments')
     cy.contains('+1 in the past 30 days')
+
+    cy.get('.departments-carousel')
+      .get('.carousel-title')
+      .should('text', 'Departments')
+    cy.get('.departments-carousel').get('.sorted-by').should('text', 'size')
+    cy.get('.departments-carousel').find('.swiper-slide').should('length', 5)
+    cy.get('.departments-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 3)
+    cy.get('@visibleSlides').eq(0).contains('Baton Rouge Department 1')
+    cy.get('@visibleSlides').eq(1).contains('New Orleans Department 1')
+    cy.get('@visibleSlides').eq(2).contains('Baton Rouge Department 2')
+
+    cy.get('.departments-carousel').get('.carousel-next').click()
+    cy.get('.departments-carousel').get('.carousel-next').click()
+
+    cy.get('.departments-carousel .carousel-next.swiper-button-disabled', {
+      timeout: 1000,
+    })
+
+    cy.get('.departments-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 3)
+
+    cy.get('@visibleSlides').eq(0).contains('Baton Rouge Department 2')
+    cy.get('@visibleSlides').eq(1).contains('New Orleans Department 2')
+    cy.get('@visibleSlides').eq(2).contains('New Orleans Department 3')
   })
 
   it('redirect to login when not logged in - test if local storage is cleared', () => {

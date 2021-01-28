@@ -33,12 +33,26 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(png|j?g|svg|gif)?$/,
+        test: /\.(png|j?g|svg|gif)$/,
         use: [
           {
             loader: 'url-loader',
             options: {
               limit: 8192, // in bytes
+              name: '[name].[ext]',
+              outputPath: 'images/',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(ttf|eot|otf|woff(2)?)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
             },
           },
         ],
@@ -53,7 +67,7 @@ module.exports = {
     }),
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.EnvironmentPlugin({
-      'APP_ENV': 'dev'
+      APP_ENV: 'dev',
     }),
   ],
 }
