@@ -7,3 +7,7 @@ export const CMS_KEYS = {
     summary: 'FRONT_PAGE_SUMMARY',
   },
 }
+
+export const HTTP_STATUS_CODES = {
+  UNAUTHORIZED: 401,
+}
