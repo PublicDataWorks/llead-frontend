@@ -51,17 +51,6 @@
       &.swiper-button-disabled {
         background-image: url('assets/icons/right-disclosure-indicator.svg');
       }
-
-      &:after {
-        position: absolute;
-        bottom: 0;
-        left: 52px;
-        line-height: 40px;
-        width: auto;
-        content: 'Tap this button or swipe to see more departments';
-        white-space: nowrap;
-        color: $boulder-color;
-      }
     }
 
     .carousel-prev {
