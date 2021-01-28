@@ -1,0 +1,92 @@
+@import 'styles/colors';
+
+.document-card {
+  width: 248px;
+  height: 313px;
+  background: $white-color;
+  border-radius: 2px;
+  border: 1px solid $alto-color;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 21px;
+
+  .document-info {
+    box-sizing: border-box;
+    padding: 32px 32px 0 32px;
+    height: 222px;
+
+    .document-type {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 21px;
+      color: $boulder-color;
+      margin-bottom: 14px;
+    }
+
+    .document-title {
+      margin-top: 12px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .document-incident-date {
+      margin-top: 4px;
+    }
+
+    .document-preview-container {
+      position: relative;
+    }
+
+    .document-preview {
+      width: 61.12px;
+      height: 79px;
+      border: 1px solid $alto-color;
+      box-sizing: border-box;
+      background-color: $white-color;
+      position: relative;
+      z-index: 9;
+
+      &:after,
+      &:before {
+        display: block;
+        content: '';
+        width: 14px;
+        height: 79px;
+        border: 1px solid $alto-color;
+        box-sizing: border-box;
+        background-color: $wild-sand-color;
+        height: 79px;
+        top: -1px;
+        position: absolute;
+        z-index: 2;
+      }
+
+      &:before {
+        right: -14px;
+      }
+
+      &:after {
+        right: -28px;
+      }
+    }
+
+    .document-preview-multi-2 {
+      margin-left: 14px;
+      background-color: $wild-sand-color;
+    }
+  }
+
+  .document-card-footer {
+    box-sizing: border-box;
+    padding: 0 32px;
+
+    .document-department-name {
+      box-sizing: border-box;
+      padding: 13px 16px 14px 16px;
+      border: 1px solid $alto-color;
+      border-radius: 2px;
+      background-color: $wild-sand-color;
+    }
+  }
+}

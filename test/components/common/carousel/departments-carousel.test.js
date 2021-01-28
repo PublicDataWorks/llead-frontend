@@ -13,12 +13,14 @@ describe('Department carousel', () => {
         name: 'card-1',
         city: 'city-1',
         parish: 'parish-1',
+        locationMapUrl: '',
       },
       {
         id: 2,
         name: 'card-2',
         city: 'city-2',
         parish: 'parish-2',
+        locationMapUrl: 'locationMapUrl',
       },
     ]
     const container = render(

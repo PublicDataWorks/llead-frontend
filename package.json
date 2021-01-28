@@ -8,6 +8,7 @@
     "css-loader": "^5.0.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "node-sass": "^4.14.0",
     "pluralize": "^8.0.0",
     "prop-types": "^15.7.2",

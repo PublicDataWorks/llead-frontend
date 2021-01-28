@@ -8,3 +8,4 @@ export const DOCUMENT_API_URL = `${API_URL}documents/`
 export const ANALYTIC_SUMMARY_API_URL = `${API_URL}analytics/summary/`
 export const DEPARTMENTS_API_URL = `${API_URL}departments/`
 export const OFFICERS_API_URL = `${API_URL}officers/`
+export const DOCUMENTS_API_URL = `${API_URL}documents/`
