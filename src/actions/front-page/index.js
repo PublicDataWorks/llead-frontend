@@ -1,7 +1,11 @@
 import * as actionTypes from 'action-types/front-page'
 import { get } from 'utils/api'
 
-import { ANALYTIC_SUMMARY_API_URL, DEPARTMENTS_API_URL } from 'constants/api'
+import {
+  ANALYTIC_SUMMARY_API_URL,
+  DEPARTMENTS_API_URL,
+  OFFICERS_API_URL,
+} from 'constants/api'
 
 export const fetchAnalyticSummary = () =>
   get(
@@ -21,4 +25,14 @@ export const fetchDepartments = () =>
       actionTypes.DEPARTMENTS_FETCH_FAILURE,
     ],
     DEPARTMENTS_API_URL
+  )()
+
+export const fetchOfficers = () =>
+  get(
+    [
+      actionTypes.OFFICERS_FETCH_START,
+      actionTypes.OFFICERS_FETCH_SUCCESS,
+      actionTypes.OFFICERS_FETCH_FAILURE,
+    ],
+    OFFICERS_API_URL
   )()

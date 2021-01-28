@@ -7,19 +7,21 @@ import Footer from 'components/common/footer'
 import AnalyticSummary from './analytic-summary'
 import './front-page.scss'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
+import OfficersCarousel from 'components/common/carousel/officers-carousel'
 
 const FrontPage = (props) => {
   const {
     cms,
     fetchAnalyticSummary,
     fetchDepartments,
+    fetchOfficers,
     analyticSummary,
     departments,
+    officers,
   } = props
 
   useEffect(() => {
     fetchAnalyticSummary()
-    fetchDepartments()
   }, [])
 
   return (
@@ -38,6 +40,7 @@ const FrontPage = (props) => {
           fetchDepartments={fetchDepartments}
           departments={departments}
         />
+        <OfficersCarousel fetchOfficers={fetchOfficers} officers={officers} />
       </div>
       <Footer />
     </>
@@ -48,16 +51,20 @@ FrontPage.propTypes = {
   cms: PropTypes.object,
   analyticSummary: PropTypes.object,
   departments: PropTypes.array,
+  officers: PropTypes.array,
   fetchAnalyticSummary: PropTypes.func,
   fetchDepartments: PropTypes.func,
+  fetchOfficers: PropTypes.func,
 }
 
 FrontPage.defaultProps = {
   cms: {},
   analyticSummary: {},
   departments: [],
+  officers: [],
   fetchAnalyticSummary: noop,
   fetchDepartments: noop,
+  fetchOfficers: noop,
 }
 
 export default FrontPage
