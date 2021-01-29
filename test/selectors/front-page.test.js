@@ -1,6 +1,7 @@
 import {
   analyticSummarySelector,
   departmentsSelector,
+  officersSelector,
 } from 'selectors/front-page'
 
 describe('#analyticSummarySelector', () => {
@@ -48,7 +49,7 @@ describe('#analyticSummarySelector', () => {
 })
 
 describe('#departmentsSelector', () => {
-  it('returns analytic summary data', () => {
+  it('returns department data', () => {
     const rawDepartments = [
       {
         id: 1,
@@ -92,5 +93,52 @@ describe('#departmentsSelector', () => {
     const departments = departmentsSelector(state)
 
     expect(departments).toStrictEqual(expectedDepartments)
+  })
+})
+
+describe('#officersSelector', () => {
+  it('returns officers data', () => {
+    const rawOfficers = [
+      {
+        id: 23,
+        name: 'Mark Carlson',
+        badges: ['12345', '567'],
+        department: {
+          id: 26,
+          name: 'North Paulaberg Department',
+        },
+      },
+      {
+        id: 22,
+        name: 'Eric Patel',
+        badges: ['12345'],
+        department: null,
+      },
+    ]
+
+    const expectedOfficers = [
+      {
+        name: 'Mark Carlson',
+        badges: ['12345', '567'],
+        department: {
+          name: 'North Paulaberg Department',
+        },
+      },
+      {
+        name: 'Eric Patel',
+        badges: ['12345'],
+        department: {},
+      },
+    ]
+
+    const state = {
+      frontPage: {
+        officers: rawOfficers,
+      },
+    }
+
+    const officers = officersSelector(state)
+
+    expect(officers).toStrictEqual(expectedOfficers)
   })
 })

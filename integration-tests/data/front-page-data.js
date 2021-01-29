@@ -45,3 +45,48 @@ export const departmentsData = [
     location_map_url: 'https://i.imgur.com/DO9ASUd.jpeg',
   },
 ]
+
+export const officersData = [
+  {
+    id: 1,
+    name: 'Mark Carlson',
+    badges: ['12435', '612'],
+    department: {
+      id: 9,
+      name: 'Baton Rouge Department 1',
+    },
+  },
+  {
+    id: 9,
+    name: 'Eric Patel',
+    badges: [],
+    department: null,
+  },
+  {
+    id: 5,
+    name: 'Lee Allen',
+    badges: ['1056'],
+    department: {
+      id: 8,
+      name: 'Baton Rouge Department 2',
+    },
+  },
+  {
+    id: 2,
+    name: 'Tina Holder',
+    badges: ['20079'],
+    department: {
+      id: 5,
+      name: 'New Orleans Department 1',
+    },
+  },
+  {
+    id: 7,
+    name: 'Kelly Hunt',
+    badges: ['12117'],
+    department: {
+      id: 2,
+      name: 'New Orleans Department 2',
+    },
+  },
+]
