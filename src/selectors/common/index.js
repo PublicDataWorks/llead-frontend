@@ -5,7 +5,7 @@ import mapValues from 'lodash/mapValues'
 import { CMS_KEYS } from 'constants/common'
 
 const getAppConfig = (state) => get(state, 'appConfig')
-const getCMS = (state) => get(state, 'appConfig.CMS', {})
+const getCMS = (state) => get(state, 'appConfig.cms', {})
 export const getAccessToken = (state) => get(state, 'token.access')
 export const getRefreshToken = (state) => get(state, 'token.refresh')
 

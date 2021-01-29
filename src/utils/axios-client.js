@@ -6,6 +6,7 @@ import { REFRESH_TOKEN_API_URL } from 'constants/api'
 import store from 'store'
 import { getAccessToken, getRefreshToken } from 'selectors/common'
 import { updateToken } from 'actions/authentication'
+import { snakeToCamel } from 'utils/tools'
 
 const client = axios.create()
 
@@ -54,5 +55,10 @@ client.interceptors.request.use(function (config) {
   }
   return config
 })
+
+client.interceptors.response.use((response) => ({
+  ...response,
+  data: snakeToCamel(response.data),
+}))
 
 export default client
