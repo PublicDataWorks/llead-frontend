@@ -1,11 +1,13 @@
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import jwt_decode from 'jwt-decode'
+import get from 'lodash/get'
 
 import { REFRESH_TOKEN_API_URL } from 'constants/api'
+import { HTTP_STATUS_CODES } from 'constants/common'
 import store from 'store'
 import { getAccessToken, getRefreshToken } from 'selectors/common'
-import { updateToken } from 'actions/authentication'
+import { updateToken, logOut } from 'actions/authentication'
 import { snakeToCamel } from 'utils/tools'
 
 const client = axios.create()
@@ -44,7 +46,11 @@ client.interceptors.request.use(function (config) {
 
               return resolve(config)
             })
-            .catch(() => {
+            .catch((error) => {
+              const status = get(error, 'response.status')
+              if (status === HTTP_STATUS_CODES.UNAUTHORIZED) {
+                store.dispatch(logOut())
+              }
               return resolve(config)
             })
         }

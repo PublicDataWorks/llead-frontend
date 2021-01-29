@@ -4,6 +4,8 @@ import axios from 'axios'
 
 import axiosClient from 'utils/axios-client'
 import { REFRESH_TOKEN_API_URL } from 'constants/api'
+import { updateToken, logOut } from 'actions/authentication'
+import { HTTP_STATUS_CODES } from 'constants/common'
 
 describe('axios-client request interceptors', () => {
   describe('token is empty', () => {
@@ -26,6 +28,7 @@ describe('axios-client request interceptors', () => {
       sinon.stub(store, 'getState').returns({
         token: { access: accessToken, refresh: 'refreshToken' },
       })
+      sinon.stub(store, 'dispatch')
     })
 
     describe('token is not expired', () => {
@@ -57,6 +60,7 @@ describe('axios-client request interceptors', () => {
         expect(axios.post).toHaveBeenCalledWith(REFRESH_TOKEN_API_URL, {
           refresh: 'refreshToken',
         })
+        expect(store.dispatch).toHaveBeenCalledWith(updateToken('newToken'))
         expect(requestConfig).toStrictEqual({
           headers: { Authorization: 'Bearer newToken', responseType: 'json' },
         })
@@ -65,7 +69,9 @@ describe('axios-client request interceptors', () => {
       it('requests new token unsuccessfully', async () => {
         sinon.useFakeTimers(new Date(2021, 1, 20, 16, 50, 10))
 
-        sinon.stub(axios, 'post').rejects({})
+        sinon
+          .stub(axios, 'post')
+          .rejects({ response: { status: HTTP_STATUS_CODES.UNAUTHORIZED } })
         const requestConfig = await axiosClient.interceptors.request.handlers[0].fulfilled(
           { headers: { responseType: 'json' } }
         )
@@ -73,6 +79,7 @@ describe('axios-client request interceptors', () => {
         expect(axios.post).toHaveBeenCalledWith(REFRESH_TOKEN_API_URL, {
           refresh: 'refreshToken',
         })
+        expect(store.dispatch).toHaveBeenCalledWith(logOut())
         expect(requestConfig).toStrictEqual({
           headers: { responseType: 'json' },
         })
