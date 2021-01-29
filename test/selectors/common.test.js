@@ -90,8 +90,8 @@ describe('#isAppConfigFetchedSelector', () => {
 describe('#cmsSelector', () => {
   it('returns cms data', () => {
     const appConfig = {
-      CMS: {
-        FRONT_PAGE_SUMMARY: 'Front page summary.',
+      cms: {
+        frontPageSummary: 'Front page summary.',
       },
     }
     const state = {
