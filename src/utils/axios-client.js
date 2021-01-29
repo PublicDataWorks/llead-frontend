@@ -8,6 +8,7 @@ import { HTTP_STATUS_CODES } from 'constants/common'
 import store from 'store'
 import { getAccessToken, getRefreshToken } from 'selectors/common'
 import { updateToken, logOut } from 'actions/authentication'
+import { snakeToCamel } from 'utils/tools'
 
 const client = axios.create()
 
@@ -60,5 +61,10 @@ client.interceptors.request.use(function (config) {
   }
   return config
 })
+
+client.interceptors.response.use((response) => ({
+  ...response,
+  data: snakeToCamel(response.data),
+}))
 
 export default client
