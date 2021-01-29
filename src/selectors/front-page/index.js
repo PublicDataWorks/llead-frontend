@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
+import isEmpty from 'lodash/isEmpty'
 
 const getAnalyticSummary = (state) =>
   get(state.frontPage, 'analyticSummary', {})
@@ -35,17 +36,14 @@ export const departmentsSelector = (state) => {
 export const officersSelector = (state) => {
   const rawOfficers = getOfficers(state)
 
+  const officerAttributes = ['name', 'badges']
+
   return map(rawOfficers, (officer) => {
     const rawDepartment = get(officer, 'department')
-    const department = isEmpty(rawDepartment)
-      ? {}
-      : {
-          name: rawDepartment.name,
-        }
+    const department = pick(rawDepartment, 'name')
 
     return {
-      name: get(officer, 'name'),
-      badges: get(officer, 'badges'),
+      ...pick(officer, officerAttributes),
       department,
     }
   })
