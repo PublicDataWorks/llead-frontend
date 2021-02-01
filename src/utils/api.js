@@ -22,7 +22,7 @@ export const get = (actionTypes, url) => {
       dispatch(actionStarted())
 
       return axiosClient
-        .get(url, params)
+        .get(url, { params })
         .then((res) => {
           dispatch(actionSuccess(res.data))
         })
@@ -55,7 +55,7 @@ export const post = (actionTypes, url) => {
       dispatch(actionStarted())
 
       return axiosClient
-        .post(url, payload, params)
+        .post(url, payload, { params })
         .then((res) => {
           dispatch(actionSuccess(res.data))
         })

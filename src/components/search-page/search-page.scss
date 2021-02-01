@@ -1,0 +1,9 @@
+@import 'styles/components';
+@import 'styles/colors';
+
+.search-page {
+  @extend %main-container;
+  .carousel-title {
+    color: $boulder-color;
+  }
+}

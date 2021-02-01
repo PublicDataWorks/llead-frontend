@@ -119,13 +119,16 @@ describe('#officersSelector', () => {
 
     const expectedOfficers = [
       {
+        id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
         department: {
+          id: 26,
           name: 'North Paulaberg Department',
         },
       },
       {
+        id: 22,
         name: 'Eric Patel',
         badges: ['12345'],
         department: {},

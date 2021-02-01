@@ -14,7 +14,7 @@ describe('Carousel', () => {
         className='departments-carousel'
         title='Departments Carousel'
         sortedField='size'
-        items={items}
+        cards={items}
       />
     )
     const { baseElement } = container

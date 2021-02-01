@@ -8,9 +8,9 @@ import 'swiper/swiper.scss'
 import './carousel.scss'
 
 const Carousel = (props) => {
-  const { className, title, sortedField, items } = props
+  const { className, title, sortedField, cards } = props
 
-  var settings = {
+  const settings = {
     spaceBetween: 8,
     slidesPerView: 'auto',
     shouldSwiperUpdate: true,
@@ -24,14 +24,16 @@ const Carousel = (props) => {
     <div className={cx('carousel-container', className)}>
       <div className='carousel-title-container'>
         <div className='carousel-title'>{title}</div>
-        <div className='carousel-sorted-info'>
-          Sorted by&nbsp;
-          <span className='sorted-by'>{sortedField}</span>
-        </div>
+        {sortedField && (
+          <div className='carousel-sorted-info'>
+            Sorted by&nbsp;
+            <span className='sorted-by'>{sortedField}</span>
+          </div>
+        )}
       </div>
       {
         <Swiper {...settings}>
-          {map(items, (item, index) => (
+          {map(cards, (item, index) => (
             <div className='swiper-slide' key={index}>
               {item}
             </div>
@@ -46,14 +48,14 @@ Carousel.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
   sortedField: PropTypes.string,
-  items: PropTypes.array,
+  cards: PropTypes.array,
 }
 
 Carousel.defaultProps = {
   className: '',
   title: '',
   sortedField: '',
-  items: [],
+  cards: [],
 }
 
 export default Carousel

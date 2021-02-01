@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/noop'
 import map from 'lodash/map'
 
 import Carousel from 'components/common/carousel'
@@ -8,13 +7,9 @@ import DepartmentCard from 'components/common/cards/department-card'
 import './departments-carousel.scss'
 
 const DepartmentsCarousel = (props) => {
-  const { fetchDepartments, departments } = props
+  const { items, sortedField } = props
 
-  useEffect(() => {
-    fetchDepartments()
-  }, [])
-
-  const items = map(departments, (department) => (
+  const cards = map(items, (department) => (
     <DepartmentCard key={department.id} {...department} />
   ))
 
@@ -22,20 +17,19 @@ const DepartmentsCarousel = (props) => {
     <Carousel
       className='departments-carousel'
       title='Departments'
-      sortedField='size'
-      items={items}
+      sortedField={sortedField}
+      cards={cards}
     />
   )
 }
 
 DepartmentsCarousel.propTypes = {
-  departments: PropTypes.array,
-  fetchDepartments: PropTypes.func,
+  items: PropTypes.array,
+  sortedField: PropTypes.string,
 }
 
 DepartmentsCarousel.defaultProps = {
-  departments: [],
-  fetchDepartments: noop,
+  items: [],
 }
 
 export default DepartmentsCarousel

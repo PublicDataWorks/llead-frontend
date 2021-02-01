@@ -30,10 +30,9 @@ describe('#get', () => {
         },
       ])
 
-      expect(axiosClient.get).toHaveBeenCalledWith(
-        `${API_URL}/documents/1`,
-        params
-      )
+      expect(axiosClient.get).toHaveBeenCalledWith(`${API_URL}/documents/1`, {
+        params,
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_SUCCESS,
@@ -67,7 +66,9 @@ describe('#get', () => {
         },
       ])
 
-      expect(axiosClient.get).toHaveBeenCalledWith(`${API_URL}documents/1`, {})
+      expect(axiosClient.get).toHaveBeenCalledWith(`${API_URL}documents/1`, {
+        params: {},
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_FAILURE,
@@ -109,7 +110,9 @@ describe('#post', () => {
         },
       ])
 
-      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, params)
+      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, {
+        params,
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_SUCCESS,
@@ -148,7 +151,9 @@ describe('#post', () => {
         },
       ])
 
-      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, {})
+      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, {
+        params: {},
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_FAILURE,

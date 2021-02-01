@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom'
 import DocumentPage from 'pages/document-page'
 import FrontPage from 'pages/front-page'
 import LoginPage from 'pages/login-page'
+import SearchPage from 'pages/search-page'
 import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
 import PrivateRoute from 'components/common/higher-order/private-route'
@@ -26,6 +27,12 @@ const AppRoutes = ({ isLoggedIn }) => {
         isLoggedIn={isLoggedIn}
         exact
         component={FrontPage}
+      />
+      <PrivateRoute
+        path={paths.SEARCH_PATH}
+        isLoggedIn={isLoggedIn}
+        exact
+        component={SearchPage}
       />
     </Switch>
   )
