@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import times from 'lodash/times'
 
 import './document-card.scss'
 
@@ -14,9 +15,6 @@ const DocumentCard = (props) => {
     incidentDate,
     pagesCount,
   } = props
-  const elementStyles = isEmpty(previewImageUrl)
-    ? {}
-    : { backgroundImage: `url(${previewImageUrl})` }
 
   const departmentsView = map(
     departments,
@@ -28,13 +26,28 @@ const DocumentCard = (props) => {
     []
   )
 
-  // const pagesStyle = pagesCount >= 3 ? 3 : pagesCount
+  const documentPreview = (previewImageUrl, pagesCount) => {
+    const elementStyles = isEmpty(previewImageUrl)
+      ? {}
+      : { backgroundImage: `url(${previewImageUrl})` }
+
+    const displayPages = Math.min(pagesCount || 1, 10) - 1
+
+    return (
+      <div className='document-preview-container'>
+        <div className='document-preview' style={elementStyles} />
+        {times(displayPages, (num) => (
+          <div key={num} className='document-preview-page' />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className='document-card'>
       <div className='document-info'>
         <div className='document-type'>{type}</div>
-        <div className='document-preview' style={elementStyles} />
+        {documentPreview(previewImageUrl, pagesCount)}
         <div className='document-title'>{title}</div>
         <div className='document-incident-date'>{incidentDate}</div>
       </div>

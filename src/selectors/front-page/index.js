@@ -1,7 +1,6 @@
 import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
-import isEmpty from 'lodash/isEmpty'
 
 import { formatDocumentDate } from 'utils/formatter'
 

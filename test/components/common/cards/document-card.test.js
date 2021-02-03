@@ -28,4 +28,51 @@ describe('Document card component', () => {
       true
     )
   })
+
+  describe('Document preview pages', () => {
+    it('should render document preview pages correctly', () => {
+      const props = {
+        title: 'document-2',
+        pagesCount: 4,
+      }
+
+      const container = render(<DocumentCard {...props} />)
+      const { baseElement } = container
+
+      const documentPreviewPages = baseElement.getElementsByClassName(
+        'document-preview-page'
+      )
+      expect(documentPreviewPages.length).toEqual(3)
+    })
+
+    it('should render document preview pages when pagesCount is zero', () => {
+      const props = {
+        title: 'document-2',
+        pagesCount: 0,
+      }
+
+      const container = render(<DocumentCard {...props} />)
+      const { baseElement } = container
+
+      const documentPreviewPages = baseElement.getElementsByClassName(
+        'document-preview-page'
+      )
+      expect(documentPreviewPages.length).toEqual(0)
+    })
+
+    it('should render document preview pages when pagesCount > 10', () => {
+      const props = {
+        title: 'document-2',
+        pagesCount: 16,
+      }
+
+      const container = render(<DocumentCard {...props} />)
+      const { baseElement } = container
+
+      const documentPreviewPages = baseElement.getElementsByClassName(
+        'document-preview-page'
+      )
+      expect(documentPreviewPages.length).toEqual(9)
+    })
+  })
 })

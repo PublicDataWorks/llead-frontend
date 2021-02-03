@@ -20,6 +20,6 @@ describe('Officer card component', () => {
     expect(baseElement.textContent.includes(props.badges[0])).toBe(true)
     expect(baseElement.textContent.includes(props.badges[1])).toBe(true)
     expect(baseElement.textContent.includes(props.name)).toBe(true)
-    expect(baseElement.textContent.includes(props.department.name )).toBe(true)
+    expect(baseElement.textContent.includes(props.department.name)).toBe(true)
   })
 })
