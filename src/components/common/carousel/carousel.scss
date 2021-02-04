@@ -4,6 +4,10 @@
   padding: 48px 0 76px 32px;
   background-color: $wild-sand-color;
 
+  & + .carousel-container {
+    border-top: 1px solid $thunder-color;
+  }
+
   .carousel-title-container {
     color: $thunder-color;
     display: flex;

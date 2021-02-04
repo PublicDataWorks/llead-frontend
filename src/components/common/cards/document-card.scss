@@ -35,10 +35,6 @@
     }
 
     .document-preview-container {
-      position: relative;
-    }
-
-    .document-preview-container {
       .document-preview {
         display: inline-block;
         width: 61px;
@@ -47,6 +43,7 @@
         box-sizing: border-box;
         background-color: $white-color;
         position: relative;
+        background-size: cover;
       }
 
       .document-preview-page {

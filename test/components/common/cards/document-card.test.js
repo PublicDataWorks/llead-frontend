@@ -7,6 +7,7 @@ describe('Document card component', () => {
   it('should render correctly', () => {
     const props = {
       type: 'csv',
+      url: 'https://i.imgur.com/nHTFohI.csv',
       title: 'document-2',
       previewImageUrl: 'previewImageUrl-2',
       incidentDate: 'Dec 1, 2020',
@@ -32,6 +33,8 @@ describe('Document card component', () => {
   describe('Document preview pages', () => {
     it('should render document preview pages correctly', () => {
       const props = {
+        type: 'csv',
+        url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
         pagesCount: 4,
       }
@@ -47,6 +50,8 @@ describe('Document card component', () => {
 
     it('should render document preview pages when pagesCount is zero', () => {
       const props = {
+        type: 'csv',
+        url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
         pagesCount: 0,
       }
@@ -62,6 +67,8 @@ describe('Document card component', () => {
 
     it('should render document preview pages when pagesCount > 10', () => {
       const props = {
+        type: 'csv',
+        url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
         pagesCount: 16,
       }

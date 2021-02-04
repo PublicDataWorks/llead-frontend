@@ -11,6 +11,7 @@ describe('Document carousel', () => {
       {
         id: 1,
         type: 'pdf',
+        url: 'https://i.imgur.com/document1.pdf',
         title: 'document-1',
         previewImageUrl: '',
         incidentDate: 'Nov 9, 2020',
@@ -24,6 +25,7 @@ describe('Document carousel', () => {
       {
         id: 2,
         type: 'csv',
+        url: 'https://i.imgur.com/document2.csv',
         title: 'document-2',
         previewImageUrl: 'previewImageUrl-2',
         incidentDate: 'Dec 1, 2020',
