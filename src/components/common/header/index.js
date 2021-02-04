@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation, Link } from 'react-router-dom'
 import noop from 'lodash/noop'
-import isEmpty from 'lodash/isEmpty'
 import qs from 'qs'
 
 import './header.scss'
 import Input from 'components/common/inputs/input'
-import { SEARCH_PATH } from 'constants/paths'
+import { SEARCH_PATH, FRONT_PAGE_PATH } from 'constants/paths'
 import SearchSVG from 'assets/icons/search.svg'
 
 const Header = (props) => {
@@ -45,7 +44,7 @@ const Header = (props) => {
 
   return (
     <div className='header'>
-      <div className='logo'>LOGO</div>
+      <Link to={FRONT_PAGE_PATH} className='logo'>LOGO</Link>
       {isLoggedIn && (
         <>
           <div className='search-input-container'>

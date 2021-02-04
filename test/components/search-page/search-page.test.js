@@ -32,6 +32,22 @@ describe('FrontPage component', () => {
           },
         },
       ],
+      documents: [
+        {
+          id: 22,
+          documentType: 'css',
+          title: 'Especially sense available best.',
+          url: '/hundred/work.pdf',
+          incidentDate: '2020-01-06',
+          departments: [
+            {
+              id: 22,
+              name: 'Petersonmouth Department',
+            },
+          ],
+          textContent: 'Text content',
+        },
+      ],
     }
 
     const container = render(
@@ -71,6 +87,17 @@ describe('FrontPage component', () => {
     expect(officerTitle.textContent).toEqual('Officers')
     expect(officerItems.length).toEqual(1)
     expect(officerItems[0].textContent.includes('Robert Craig')).toBe(true)
+
+    const documentList = baseElement.getElementsByClassName('documents-list')[0]
+    const documentTitle = documentList.getElementsByClassName(
+      'documents-list-title'
+    )[0]
+    const documentItems = documentList.getElementsByClassName('list-items')
+    expect(documentTitle.textContent).toEqual('Documents')
+    expect(documentItems.length).toEqual(1)
+    expect(
+      documentItems[0].textContent.includes('Especially sense available best.')
+    ).toBe(true)
   })
 
   it('should perform search', async () => {

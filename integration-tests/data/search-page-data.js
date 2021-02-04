@@ -87,7 +87,7 @@ const officersData2 = [
   },
 ]
 
-const documentsData = [
+const documentsData1 = [
   {
     id: 1,
     document_type: 'csv',
@@ -102,6 +102,7 @@ const documentsData = [
         name: 'Petersonmouth Department',
       },
     ],
+    textContent: 'Text content',
   },
   {
     id: 2,
@@ -127,6 +128,8 @@ const documentsData = [
       },
     ],
   },
+]
+const documentsData2 = [
   {
     id: 4,
     document_type: 'mp3',
@@ -141,6 +144,8 @@ const documentsData = [
         name: 'City Department',
       },
     ],
+    textContent: 'Text content',
+    textContentHighlight: 'Text content <em>highlight</em>',
   },
   {
     id: 5,
@@ -177,11 +182,11 @@ const documentsData = [
 export const firstSearchData = {
   departments: departmentsData1,
   officers: officersData1,
-  documents: documentsData.slice(0, 3),
+  documents: documentsData1,
 }
 
 export const secondSearchData = {
   departments: departmentsData2,
   officers: officersData2,
-  documents: documentsData.slice(3),
+  documents: documentsData2,
 }

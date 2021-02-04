@@ -184,6 +184,7 @@ describe('#documentsSelector', () => {
 
     const expectedDocuments = [
       {
+        id: 36,
         type: 'csv',
         title: 'Her hard step sea.',
         url: '/century/five.pdf',
@@ -198,6 +199,7 @@ describe('#documentsSelector', () => {
         ],
       },
       {
+        id: 35,
         type: 'webm',
         title: 'Yourself say language meeting ok.',
         url: '/national/must.pdf',

@@ -7,6 +7,7 @@ import { departmentFormatter, officerFormatter } from 'selectors/common'
 
 const documentFormatter = (document) => {
   const documentAttributes = [
+    'id',
     'title',
     'url',
     'previewImageUrl',

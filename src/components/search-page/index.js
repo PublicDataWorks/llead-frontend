@@ -7,18 +7,21 @@ import throttle from 'lodash/throttle'
 
 import './search-page.scss'
 import Header from 'pages/common/header'
-import Footer from 'components/common/footer'
+
+  import Footer from 'components/common/footer'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
+import DocumentsList from 'components/search-page/search-results/documents-list'
 import { SEARCH_THROTTLE_TIME_OUT } from 'constants/common'
 
 const SearchPage = (props) => {
   const { searchResults, searchQuery, search } = props
-  const { departments, officers } = searchResults
+  const { departments, officers, documents } = searchResults
 
   const searchResultsComponents = [
     { key: 'departments', items: departments, component: DepartmentsCarousel },
     { key: 'officers', items: officers, component: OfficersCarousel },
+    { key: 'documents', items: documents, component: DocumentsList },
   ]
 
   const performSearch = useCallback(
@@ -41,7 +44,7 @@ const SearchPage = (props) => {
         {map(
           searchResultsComponents,
           ({ component: Component, key, items }) =>
-            !isEmpty(items) && <Component items={items} key={key} />
+            !isEmpty(items) && <Component items={items} key={key} className='search-results' />
         )}
       </div>
       <Footer />

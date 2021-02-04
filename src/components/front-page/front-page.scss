@@ -1,7 +1,14 @@
 @import 'styles/components';
+@import 'styles/colors';
 
 .front-page {
   @extend %main-container;
+
+  .front-page-carousel {
+    & + .front-page-carousel {
+      border-top: 1px solid $thunder-color;
+    }
+  }
 
   .content-container {
     .summary {

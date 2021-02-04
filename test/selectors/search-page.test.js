@@ -37,6 +37,23 @@ describe('#searchResultsSelector', () => {
           otherFields: 'other fields',
         },
       ],
+      documents: [
+        {
+          id: 22,
+          documentType: 'css',
+          title: 'Especially sense available best.',
+          url: '/hundred/work.pdf',
+          incidentDate: '2020-01-06',
+          departments: [
+            {
+              id: 22,
+              name: 'Petersonmouth Department',
+            },
+          ],
+          textContent: 'Text content',
+          textContentHighlight: 'Text content <em>highlight</em>',
+        },
+      ],
     }
     const state = {
       searchPage: {
@@ -65,6 +82,23 @@ describe('#searchResultsSelector', () => {
             id: 22,
             name: 'Petersonmouth Department',
           },
+        },
+      ],
+      documents: [
+        {
+          id: 22,
+          type: 'css',
+          title: 'Especially sense available best.',
+          url: '/hundred/work.pdf',
+          incidentDate: 'Jan 6, 2020',
+          departments: [
+            {
+              id: 22,
+              name: 'Petersonmouth Department',
+            },
+          ],
+          textContent: 'Text content',
+          textContentHighlight: 'Text content <em>highlight</em>',
         },
       ],
     }

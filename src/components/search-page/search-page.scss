@@ -3,7 +3,20 @@
 
 .search-page {
   @extend %main-container;
-  .carousel-title {
+
+  .search-results {
+    background-color: $white-color;
+
+    & + .search-results {
+      border-top: 1px solid $thunder-color;
+    }
+
+    .carousel-title {
+      color: $boulder-color;
+    }
+  }
+
+  .list-title {
     color: $boulder-color;
   }
 }

@@ -44,18 +44,24 @@ const FrontPage = (props) => {
         </div>
         <AnalyticSummary analyticSummary={analyticSummary} />
         {!isEmpty(departments) && (
-          <DepartmentsCarousel items={departments} sortedField='size' />
+          <DepartmentsCarousel
+            items={departments}
+            sortedField='size'
+            className='front-page-carousel'
+          />
         )}
         {!isEmpty(officers) && (
           <OfficersCarousel
             items={officers}
             sortedField='most recently added'
+            className='front-page-carousel'
           />
         )}
         {!isEmpty(documents) && (
           <DocumentsCarousel
             items={documents}
             sortedField='most recently added'
+            className='front-page-carousel'
           />
         )}
       </div>

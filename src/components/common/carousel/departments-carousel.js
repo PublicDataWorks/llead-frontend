@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
+import cx from 'classnames'
 
 import Carousel from 'components/common/carousel'
 import DepartmentCard from 'components/common/cards/department-card'
 import './departments-carousel.scss'
 
 const DepartmentsCarousel = (props) => {
-  const { items, sortedField } = props
+  const { items, sortedField, className } = props
 
   const cards = map(items, (department) => (
     <DepartmentCard key={department.id} {...department} />
@@ -15,7 +16,7 @@ const DepartmentsCarousel = (props) => {
 
   return (
     <Carousel
-      className='departments-carousel'
+      className={ cx('departments-carousel', className) }
       title='Departments'
       sortedField={sortedField}
       cards={cards}
@@ -26,10 +27,12 @@ const DepartmentsCarousel = (props) => {
 DepartmentsCarousel.propTypes = {
   items: PropTypes.array,
   sortedField: PropTypes.string,
+  className: PropTypes.string,
 }
 
 DepartmentsCarousel.defaultProps = {
   items: [],
+  className: '',
 }
 
 export default DepartmentsCarousel
