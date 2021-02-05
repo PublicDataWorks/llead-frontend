@@ -1,6 +1,7 @@
 import {
   analyticSummarySelector,
   departmentsSelector,
+  documentsSelector,
   officersSelector,
 } from 'selectors/front-page'
 
@@ -140,5 +141,83 @@ describe('#officersSelector', () => {
     const officers = officersSelector(state)
 
     expect(officers).toStrictEqual(expectedOfficers)
+  })
+})
+
+describe('#documentsSelector', () => {
+  it('returns documents data', () => {
+    const rawDocuments = [
+      {
+        id: 36,
+        documentType: 'csv',
+        title: 'Her hard step sea.',
+        url: '/century/five.pdf',
+        previewImageUrl: '/cell/least.jpg',
+        incidentDate: '2020-01-06',
+        pagesCount: 5,
+        departments: [
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+      {
+        id: 35,
+        documentType: 'webm',
+        title: 'Yourself say language meeting ok.',
+        url: '/national/must.pdf',
+        previewImageUrl: '/production/activity.jpg',
+        incidentDate: '2020-01-06',
+        pagesCount: 5,
+        departments: [
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+    ]
+
+    const expectedDocuments = [
+      {
+        type: 'csv',
+        title: 'Her hard step sea.',
+        url: '/century/five.pdf',
+        previewImageUrl: '/cell/least.jpg',
+        incidentDate: 'Jan 6, 2020',
+        pagesCount: 5,
+        departments: [
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+      {
+        type: 'webm',
+        title: 'Yourself say language meeting ok.',
+        url: '/national/must.pdf',
+        previewImageUrl: '/production/activity.jpg',
+        incidentDate: 'Jan 6, 2020',
+        pagesCount: 5,
+        departments: [
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+    ]
+
+    const state = {
+      frontPage: {
+        documents: rawDocuments,
+      },
+    }
+
+    const documents = documentsSelector(state)
+
+    expect(documents).toStrictEqual(expectedDocuments)
   })
 })

@@ -5,6 +5,7 @@ import {
   ANALYTIC_SUMMARY_API_URL,
   DEPARTMENTS_API_URL,
   OFFICERS_API_URL,
+  DOCUMENTS_API_URL,
 } from 'constants/api'
 
 export const fetchAnalyticSummary = () =>
@@ -35,4 +36,14 @@ export const fetchOfficers = () =>
       actionTypes.OFFICERS_FETCH_FAILURE,
     ],
     OFFICERS_API_URL
+  )()
+
+export const fetchDocuments = () =>
+  get(
+    [
+      actionTypes.DOCUMENTS_FETCH_START,
+      actionTypes.DOCUMENTS_FETCH_SUCCESS,
+      actionTypes.DOCUMENTS_FETCH_FAILURE,
+    ],
+    DOCUMENTS_API_URL
   )()

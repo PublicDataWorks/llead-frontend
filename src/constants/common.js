@@ -11,3 +11,7 @@ export const CMS_KEYS = {
 export const HTTP_STATUS_CODES = {
   UNAUTHORIZED: 401,
 }
+
+export const DATE_FORMAT = {
+  LONG_DATE_FORMAT: 'MMM D, YYYY',
+}

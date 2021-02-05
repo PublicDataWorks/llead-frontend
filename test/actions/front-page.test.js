@@ -4,6 +4,7 @@ import {
   fetchAnalyticSummary,
   fetchDepartments,
   fetchOfficers,
+  fetchDocuments,
 } from 'actions/front-page'
 import * as actionTypes from 'action-types/front-page'
 import * as ServiceApi from 'utils/api'
@@ -11,6 +12,7 @@ import {
   ANALYTIC_SUMMARY_API_URL,
   DEPARTMENTS_API_URL,
   OFFICERS_API_URL,
+  DOCUMENTS_API_URL,
 } from 'constants/api'
 
 describe('#fetchAnalyticSummary', () => {
@@ -68,6 +70,26 @@ describe('#fetchOfficers', () => {
         actionTypes.OFFICERS_FETCH_FAILURE,
       ],
       OFFICERS_API_URL
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchDocuments', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchDocuments()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.DOCUMENTS_FETCH_START,
+        actionTypes.DOCUMENTS_FETCH_SUCCESS,
+        actionTypes.DOCUMENTS_FETCH_FAILURE,
+      ],
+      DOCUMENTS_API_URL
     )
     expect(getFunc).toHaveBeenCalled()
   })

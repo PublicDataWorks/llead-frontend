@@ -3,6 +3,7 @@ import {
   analyticSummaryData,
   departmentsData,
   officersData,
+  documentsData,
 } from '../data/front-page-data'
 
 describe('FrontPage', () => {
@@ -42,6 +43,13 @@ describe('FrontPage', () => {
           url: 'http://localhost:8000/api/officers/',
         },
         officersData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/documents/',
+        },
+        documentsData
       )
     })
 
@@ -151,6 +159,69 @@ describe('FrontPage', () => {
       cy.get('@visibleSlides').eq(0).contains('Lee Allen')
       cy.get('@visibleSlides').eq(1).contains('Tina Holder')
       cy.get('@visibleSlides').eq(2).contains('Kelly Hunt')
+    })
+
+    it('render documents carousel', () => {
+      cy.viewport(800, 1200)
+      cy.visit('/')
+
+      cy.get('.documents-carousel')
+        .find('.carousel-title')
+        .should('text', 'Documents')
+      cy.get('.documents-carousel')
+        .find('.sorted-by')
+        .should('text', 'most recently added')
+      cy.get('.documents-carousel').find('.swiper-slide').should('length', 6)
+      cy.get('.documents-carousel')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', 3)
+
+      cy.get('@visibleSlides').eq(0).contains('Her hard step sea.')
+      cy.get('@visibleSlides')
+        .eq(1)
+        .contains('Yourself say language meeting ok.')
+      cy.get('@visibleSlides')
+        .eq(2)
+        .contains('Be decade those someone tough year sing.')
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.document-department-name')
+        .should('exist')
+      cy.get('@visibleSlides')
+        .eq(1)
+        .find('.document-department-name')
+        .should('not.exist')
+      cy.get('@visibleSlides')
+        .eq(2)
+        .find('.document-department-name')
+        .should('exist')
+
+      cy.get('.documents-carousel').find('.carousel-next').click()
+      cy.get('.documents-carousel').find('.carousel-next').click()
+      cy.get('.documents-carousel').find('.carousel-next').click()
+      cy.get('.documents-carousel').find('.carousel-next').click()
+
+      cy.get('.documents-carousel').find(
+        '.carousel-next.swiper-button-disabled',
+        {
+          timeout: 1000,
+        }
+      )
+
+      cy.get('.documents-carousel')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', 3)
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .contains('Face growth poor wait follow option better.')
+      cy.get('@visibleSlides').eq(1).contains('Performance past from.')
+      cy.get('@visibleSlides')
+        .eq(2)
+        .contains('Mouth trip too finally society smile man.')
     })
   })
 })
