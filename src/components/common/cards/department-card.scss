@@ -29,13 +29,13 @@
     }
   }
 
-  .deparment-card-footer {
+  .department-card-footer {
     box-sizing: border-box;
     background-color: $wild-sand-color;
     height: 89px;
     padding: 18px 28px 12px 28px;
 
-    .deparment-map {
+    .department-map {
       width: 49px;
       height: 60px;
       background-color: $boulder-color;
@@ -44,7 +44,7 @@
       background-size: cover;
     }
 
-    .deparment-location {
+    .department-location {
       font-size: 16px;
       line-height: 21px;
       color: $thunder-color;
@@ -52,11 +52,11 @@
       vertical-align: middle;
       margin-left: 12px;
 
-      .deparment-city {
+      .department-city {
         font-weight: 500;
       }
 
-      .deparment-parish {
+      .department-parish {
         font-weight: 300;
       }
     }

@@ -1,0 +1,71 @@
+@import 'styles/components';
+@import 'styles/colors';
+.department-page {
+  @extend %main-container;
+
+  background-color: $mecury-color;
+
+  .page-container {
+    padding: 16px;
+
+    .department-content {
+      padding: 32px;
+      border: 1px solid $alto-color;
+      box-sizing: border-box;
+      background-color: $white-color;
+      border-radius: 2px;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 21px;
+
+      .department-title {
+        color: $boulder-color;
+      }
+
+      .department-name {
+        margin: 12px 0 14px;
+        color: $thunder-color;
+        font-weight: 600;
+        font-size: 26px;
+        line-height: 34px;
+      }
+
+      .department-basic-info {
+        .department-map {
+          margin: 23px 0;
+          width: 49px;
+          height: 44px;
+          background-color: $boulder-color;
+          display: inline-block;
+          vertical-align: middle;
+          background-size: cover;
+        }
+
+        .department-location {
+          margin: 14px 0;
+          font-size: 16px;
+          line-height: 21px;
+          color: $thunder-color;
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: 10px;
+
+          .department-city {
+            font-weight: 500;
+          }
+
+          .department-parish {
+            font-weight: 300;
+          }
+        }
+
+        .department-summary {
+          div {
+            padding: 11px 0 12px;
+            border-top: 1px solid $alto-color;
+          }
+        }
+      }
+    }
+  }
+}

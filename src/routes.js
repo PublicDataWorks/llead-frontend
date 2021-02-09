@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 
 import DocumentPage from 'pages/document-page'
+import DepartmentPage from 'pages/department-page'
 import FrontPage from 'pages/front-page'
 import LoginPage from 'pages/login-page'
 import SearchPage from 'pages/search-page'
@@ -33,6 +34,12 @@ const AppRoutes = ({ isLoggedIn }) => {
         isLoggedIn={isLoggedIn}
         exact
         component={SearchPage}
+      />
+      <PrivateRoute
+        path={`${paths.DEPARTMENTS_PATH}:id/`}
+        component={DepartmentPage}
+        isLoggedIn={isLoggedIn}
+        exact
       />
     </Switch>
   )
