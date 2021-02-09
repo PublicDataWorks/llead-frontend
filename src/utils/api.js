@@ -1,6 +1,6 @@
 import axiosClient from 'utils/axios-client'
 
-export const get = (actionTypes, url) => {
+export const get = (actionTypes, url, cancelToken) => {
   const actionStarted = () => ({
     type: actionTypes[0],
   })
@@ -22,7 +22,7 @@ export const get = (actionTypes, url) => {
       dispatch(actionStarted())
 
       return axiosClient
-        .get(url, { params })
+        .get(url, { params, cancelToken })
         .then((res) => {
           dispatch(actionSuccess(res.data))
         })
@@ -33,7 +33,7 @@ export const get = (actionTypes, url) => {
   }
 }
 
-export const post = (actionTypes, url) => {
+export const post = (actionTypes, url, cancelToken) => {
   const actionStarted = () => ({
     type: actionTypes[0],
   })
@@ -55,7 +55,7 @@ export const post = (actionTypes, url) => {
       dispatch(actionStarted())
 
       return axiosClient
-        .post(url, payload, { params })
+        .post(url, payload, { params, cancelToken })
         .then((res) => {
           dispatch(actionSuccess(res.data))
         })

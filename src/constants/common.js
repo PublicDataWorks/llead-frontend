@@ -17,3 +17,5 @@ export const DATE_FORMAT = {
 }
 
 export const SEARCH_THROTTLE_TIME_OUT = 500
+
+export const REQUEST_CANCEL_MESSAGE = 'Cancel old request';

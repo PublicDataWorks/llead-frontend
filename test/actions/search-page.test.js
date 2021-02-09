@@ -1,4 +1,5 @@
 import sinon from 'sinon'
+import { CancelToken } from 'axios'
 
 import { search, changeSearchQuery } from 'actions/search-page'
 import * as actionTypes from 'action-types/search-page'
@@ -6,12 +7,22 @@ import * as ServiceApi from 'utils/api'
 import { SEARCH_API_URL } from 'constants/api'
 
 describe('#search', () => {
+  let cancel;
+
+  beforeEach(function () {
+    cancel = sinon.spy();
+    sinon.stub(CancelToken, 'source').returns({
+      token: 'token',
+      cancel,
+    })
+  })
+
   it('calls get Api', () => {
     const getStub = sinon.stub(ServiceApi, 'get')
     const getFunc = sinon.stub()
     getStub.returns(getFunc)
 
-    search()
+    search('keyword')
 
     expect(getStub).toHaveBeenCalledWith(
       [
@@ -21,11 +32,17 @@ describe('#search', () => {
       ],
       SEARCH_API_URL
     )
-    expect(getFunc).toHaveBeenCalled()
+    expect(getFunc).toHaveBeenCalledWith({ q: 'keyword' })
+  })
+
+  it('cancels old request if new request is called', () => {
+    search('keyword');
+    search('keywords');
+    expect(cancel).toHaveBeenCalled()
   })
 })
 
-describe('#search', () => {
+describe('#changeSearchQuery', () => {
   it('returns the right action', () => {
     const query = 'query'
 
