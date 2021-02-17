@@ -2,10 +2,23 @@ import React from 'react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
 import { Provider } from 'react-redux'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import MockStore from 'redux-mock-store'
+import qs from 'qs'
 
 import Department from 'components/department-page'
+
+const mockHistoryPush = jest.fn()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}))
+
+beforeEach(() => {
+  mockHistoryPush.mockClear()
+})
 
 describe('Department component', () => {
   it('should render correctly', () => {
@@ -89,5 +102,291 @@ describe('Department component', () => {
     expect(departmentMapElement.style['background-image']).toEqual(
       'url(locationMapUrl)'
     )
+  })
+
+  describe('render with wrglFiles', () => {
+    it('set default expanded csv files if csv params is null', () => {
+      const departmentData = {
+        id: 1,
+        city: 'department city',
+        complaintsCount: 2,
+        documentsCount: 1,
+        locationMapUrl: null,
+        name: 'department name',
+        parish: 'department parish',
+        officersCount: 3,
+        wrglFiles: [
+          {
+            id: 2,
+            name: 'Com Madison Village pd',
+            slug: 'com-madisonville-pd',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            url:
+              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+            downloadUrl:
+              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+            defaultExpanded: true,
+          },
+        ],
+      }
+      const fetchDepartmentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                fetchDepartment={fetchDepartmentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const wrglContainer = baseElement.getElementsByClassName(
+        'wrgl-container'
+      )[0]
+      expect(wrglContainer.classList.value).toContain('wrgl-expanded')
+    })
+
+    it('set array csv files if csv params is string', () => {
+      const departmentData = {
+        id: 1,
+        city: 'department city',
+        complaintsCount: 2,
+        documentsCount: 1,
+        locationMapUrl: null,
+        name: 'department name',
+        parish: 'department parish',
+        officersCount: 3,
+        wrglFiles: [
+          {
+            id: 2,
+            name: 'Com Madison Village pd',
+            slug: 'com-madisonville-pd',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            url:
+              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+            downloadUrl:
+              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+            defaultExpanded: true,
+          },
+        ],
+      }
+      const fetchDepartmentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter
+            initialEntries={[
+              {
+                pathname: 'departments/1',
+                search: qs.stringify({ csv: 'com-madisonville-pd' }),
+              },
+            ]}
+          >
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                fetchDepartment={fetchDepartmentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const wrglContainer = baseElement.getElementsByClassName(
+        'wrgl-container'
+      )[0]
+      expect(wrglContainer.classList.value).toContain('wrgl-expanded')
+    })
+
+    it('set array csv files if csv params is array', () => {
+      const departmentData = {
+        id: 1,
+        city: 'department city',
+        complaintsCount: 2,
+        documentsCount: 1,
+        locationMapUrl: null,
+        name: 'department name',
+        parish: 'department parish',
+        officersCount: 3,
+        wrglFiles: [
+          {
+            id: 2,
+            name: 'Com Madison Village pd',
+            slug: 'com-madisonville-pd',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            url:
+              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+            downloadUrl:
+              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+            defaultExpanded: true,
+          },
+        ],
+      }
+      const fetchDepartmentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter
+            initialEntries={[
+              {
+                pathname: 'departments/1',
+                search: qs.stringify({
+                  csv: ['123', 'com-madisonville-pd'],
+                }),
+              },
+            ]}
+          >
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                fetchDepartment={fetchDepartmentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const wrglContainer = baseElement.getElementsByClassName(
+        'wrgl-container'
+      )[0]
+      expect(wrglContainer.classList.value).toContain('wrgl-expanded')
+    })
+  })
+
+  describe('#updateExpandedCsvFiles', () => {
+    it('expands item and then adds slug to the expandedCsvFiles', () => {
+      const departmentData = {
+        id: 1,
+        city: 'department city',
+        complaintsCount: 2,
+        documentsCount: 1,
+        locationMapUrl: null,
+        name: 'department name',
+        parish: 'department parish',
+        officersCount: 3,
+        wrglFiles: [
+          {
+            id: 2,
+            name: 'Com Madison Village pd',
+            slug: 'com-madisonville-pd',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            url:
+              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+            downloadUrl:
+              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+            defaultExpanded: false,
+          },
+        ],
+      }
+      const fetchDepartmentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter
+            initialEntries={[
+              {
+                pathname: 'departments/1',
+                search: qs.stringify({ csv: ['slug-1'] }),
+              },
+            ]}
+          >
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                fetchDepartment={fetchDepartmentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { getByTestId } = container
+
+      const expandArrowElement = getByTestId('expand--control')
+      fireEvent.click(expandArrowElement)
+
+      expect(mockHistoryPush).toHaveBeenCalledWith({
+        search: qs.stringify(
+          { csv: ['slug-1', 'com-madisonville-pd'] },
+          { arrayFormat: 'comma', encode: false }
+        ),
+      })
+    })
+
+    it('expands item and then adds slug to the expandedCsvFiles', () => {
+      const departmentData = {
+        id: 1,
+        city: 'department city',
+        complaintsCount: 2,
+        documentsCount: 1,
+        locationMapUrl: null,
+        name: 'department name',
+        parish: 'department parish',
+        officersCount: 3,
+        wrglFiles: [
+          {
+            id: 2,
+            name: 'Com Madison Village pd',
+            slug: 'com-madisonville-pd',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            url:
+              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+            downloadUrl:
+              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+            defaultExpanded: false,
+          },
+        ],
+      }
+      const fetchDepartmentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter
+            initialEntries={[
+              {
+                pathname: 'departments/1',
+                search: qs.stringify({
+                  csv: ['slug-1', 'com-madisonville-pd'],
+                }),
+              },
+            ]}
+          >
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                fetchDepartment={fetchDepartmentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { getByTestId } = container
+
+      const expandArrowElement = getByTestId('expand--control')
+      fireEvent.click(expandArrowElement)
+
+      expect(mockHistoryPush).toHaveBeenCalledWith({
+        search: qs.stringify(
+          { csv: ['slug-1'] },
+          { arrayFormat: 'comma', encode: false }
+        ),
+      })
+    })
   })
 })

@@ -54,5 +54,46 @@ describe('Department Page', () => {
         .eq(2)
         .should('text', '1 documents')
     })
+
+    it('render department wrgl files', () => {
+      cy.visit('/departments/1')
+
+      cy.get('.department-wrgl-files')
+        .find('.wrgl-name')
+        .eq(0)
+        .should('text', 'match cprr madisonville pd 2010 2020')
+
+      cy.get('.department-wrgl-files')
+        .find('.wrgl-name')
+        .eq(1)
+        .should('text', 'test 2')
+
+      cy.get('.department-wrgl-files')
+        .find('.wrgl-description')
+        .eq(0)
+        .should('be.visible')
+
+      cy.get('.department-wrgl-files')
+        .find('.wrgl-description')
+        .eq(1)
+        .should('not.be.visible')
+
+      cy.get('.department-wrgl-files').find('.wrgl-arrow').eq(1).click()
+
+      cy.get('.department-wrgl-files')
+        .find('.wrgl-description')
+        .eq(1)
+        .should('be.visible')
+
+      cy.get('.wrgl-description')
+        .eq(0)
+        .find('.wrgl-description-more-btn')
+        .should('not.be.visible')
+
+      cy.get('.wrgl-description')
+        .eq(1)
+        .find('.wrgl-description-more-btn')
+        .should('be.visible')
+    })
   })
 })
