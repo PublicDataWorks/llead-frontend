@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
@@ -18,6 +18,8 @@ const WRGLFile = (props) => {
   } = props
   const [isExpanded, setExpanded] = useState(false)
   const [isDescriptionExpanded, setDescriptionExpanded] = useState(false)
+  const [isDescriptionExpandable, setDescriptionExpandable] = useState(false)
+  let descriptionRef = useRef()
 
   const handleClick = () => {
     updateExpandedCsvFiles(slug, isExpanded)
@@ -33,6 +35,12 @@ const WRGLFile = (props) => {
       setExpanded(true)
     }
   }, [expandedCsvFiles])
+
+  useEffect(() => {
+    if (descriptionRef.current.clientHeight > 60) {
+      setDescriptionExpandable(true)
+    }
+  }, [description, descriptionRef.current, isExpanded])
 
   return (
     <div className={cx('wrgl-container', { 'wrgl-expanded': isExpanded })}>
@@ -55,9 +63,12 @@ const WRGLFile = (props) => {
         <div
           className={cx('wrgl-description', {
             'wrgl-description-expanded': isDescriptionExpanded,
+            'wrgl-description-expandable': isDescriptionExpandable,
           })}
         >
-          <ReactMarkdown>{description}</ReactMarkdown>
+          <div ref={descriptionRef}>
+            <ReactMarkdown>{description}</ReactMarkdown>
+          </div>
           <a className='wrgl-description-more-btn' onClick={handleClickMore}>
             ...<span>more</span>
           </a>

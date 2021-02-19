@@ -1,8 +1,6 @@
-import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
-import set from 'lodash/set'
 
 const getDepartment = (state) => get(state.departmentPage, 'department', {})
 
