@@ -3,6 +3,29 @@ import map from 'lodash/map'
 import pick from 'lodash/pick'
 
 import { formatDocumentDate } from 'utils/formatter'
+import { departmentFormatter, officerFormatter } from 'selectors/common'
+
+const documentFormatter = (document) => {
+  const documentAttributes = [
+    'id',
+    'title',
+    'url',
+    'previewImageUrl',
+    'pagesCount',
+    'departments',
+  ]
+  const rawDepartments = get(document, 'departments')
+  const departments = map(rawDepartments, (department) =>
+    pick(department, ['id', 'name'])
+  )
+
+  return {
+    ...pick(document, documentAttributes),
+    incidentDate: formatDocumentDate(document.incidentDate),
+    type: document.documentType,
+    departments,
+  }
+}
 
 const getAnalyticSummary = (state) =>
   get(state.frontPage, 'analyticSummary', {})
@@ -27,54 +50,11 @@ export const analyticSummarySelector = (state) => {
   return pick(rawAnalyticSummary, attributes)
 }
 
-export const departmentsSelector = (state) => {
-  const attributes = ['id', 'name', 'city', 'parish', 'locationMapUrl']
+export const departmentsSelector = (state) =>
+  map(getDepartments(state), departmentFormatter)
 
-  return map(getDepartments(state), (department) =>
-    pick(department, attributes)
-  )
-}
+export const officersSelector = (state) =>
+  map(getOfficers(state), officerFormatter)
 
-export const officersSelector = (state) => {
-  const rawOfficers = getOfficers(state)
-
-  const officerAttributes = ['name', 'badges']
-
-  return map(rawOfficers, (officer) => {
-    const rawDepartment = get(officer, 'department')
-    const department = pick(rawDepartment, 'name')
-
-    return {
-      ...pick(officer, officerAttributes),
-      department,
-    }
-  })
-}
-
-export const documentsSelector = (state) => {
-  const rawDocuments = getDocuments(state)
-  const documentAttributes = [
-    'title',
-    'url',
-    'previewImageUrl',
-    'incidentDate',
-    'pagesCount',
-    'departments',
-  ]
-
-  return map(rawDocuments, (document) => {
-    const rawDepartments = get(document, 'departments')
-    const departments = map(rawDepartments, (department) =>
-      pick(department, ['id', 'name'])
-    )
-
-    const rawDocument = pick(document, documentAttributes)
-
-    return {
-      ...rawDocument,
-      incidentDate: formatDocumentDate(rawDocument.incidentDate),
-      type: document.documentType,
-      departments,
-    }
-  })
-}
+export const documentsSelector = (state) =>
+  map(getDocuments(state), documentFormatter)

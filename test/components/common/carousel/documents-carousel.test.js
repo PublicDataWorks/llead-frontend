@@ -1,12 +1,10 @@
 import React from 'react'
-import sinon from 'sinon'
 import { render } from '@testing-library/react'
 
 import DocumentsCarousel from 'components/common/carousel/documents-carousel'
 
 describe('Document carousel', () => {
   it('should render correctly', () => {
-    const fetchDocumentsSpy = sinon.spy()
     const documents = [
       {
         id: 1,
@@ -37,15 +35,9 @@ describe('Document carousel', () => {
         ],
       },
     ]
-    const container = render(
-      <DocumentsCarousel
-        fetchDocuments={fetchDocumentsSpy}
-        documents={documents}
-      />
-    )
+    const container = render(<DocumentsCarousel items={documents} />)
     const { baseElement } = container
 
-    expect(fetchDocumentsSpy).toHaveBeenCalled()
     expect(baseElement.textContent.includes('Documents')).toBe(true)
     expect(baseElement.textContent.includes('document-1')).toBe(true)
     expect(baseElement.textContent.includes('document-2')).toBe(true)

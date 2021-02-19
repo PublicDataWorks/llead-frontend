@@ -8,25 +8,20 @@ import MockStore from 'redux-mock-store'
 import LogIn from 'components/login-page/login'
 import FrontPage from 'components/front-page'
 
-const mockHistoryPush = jest.fn()
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: mockHistoryPush,
-  }),
-}))
-
-beforeEach(() => {
-  mockHistoryPush.mockClear()
-})
-
 describe('Login component', () => {
   it('should render LOG IN page when user have not loged in', async () => {
     const performLogin = sinon.spy()
 
     const container = render(
       <Provider store={MockStore()()}>
-        <LogIn isLoggedIn={false} performLogin={performLogin} />
+        <MemoryRouter initialEntries={['login/']}>
+          <Route path='login/' history={history}>
+            <LogIn isLoggedIn={false} performLogin={performLogin} />
+          </Route>
+          <Route path='/' history={history}>
+            <FrontPage />
+          </Route>
+        </MemoryRouter>
       </Provider>
     )
 
@@ -62,7 +57,14 @@ describe('Login component', () => {
   it('should render error if user logs in fail', async () => {
     const container = render(
       <Provider store={MockStore()()}>
-        <LogIn isLoggedIn={false} isLoginFailed={true} />
+        <MemoryRouter initialEntries={['login/']}>
+          <Route path='login/' history={history}>
+            <LogIn isLoggedIn={false} isLoginFailed={true} />
+          </Route>
+          <Route path='/' history={history}>
+            <FrontPage />
+          </Route>
+        </MemoryRouter>
       </Provider>
     )
     const { baseElement } = container

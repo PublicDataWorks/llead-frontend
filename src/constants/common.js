@@ -15,3 +15,7 @@ export const HTTP_STATUS_CODES = {
 export const DATE_FORMAT = {
   LONG_DATE_FORMAT: 'MMM D, YYYY',
 }
+
+export const SEARCH_THROTTLE_TIME_OUT = 500
+
+export const REQUEST_CANCEL_MESSAGE = 'Cancel old request';

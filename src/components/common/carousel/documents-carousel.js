@@ -1,41 +1,38 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/noop'
 import map from 'lodash/map'
+import cx from 'classnames'
 
 import Carousel from 'components/common/carousel'
 import DocumentCard from 'components/common/cards/document-card'
 import './documents-carousel.scss'
 
 const DocumentsCarousel = (props) => {
-  const { fetchDocuments, documents } = props
+  const { items, sortedField, className } = props
 
-  useEffect(() => {
-    fetchDocuments()
-  }, [])
-
-  const items = map(documents, (document) => (
+  const cards = map(items, (document) => (
     <DocumentCard key={document.id} {...document} />
   ))
 
   return (
     <Carousel
-      className='documents-carousel'
+      className={cx('documents-carousel', className)}
       title='Documents'
-      sortedField='most recently added'
-      items={items}
+      sortedField={sortedField}
+      cards={cards}
     />
   )
 }
 
 DocumentsCarousel.propTypes = {
-  documents: PropTypes.array,
-  fetchDocuments: PropTypes.func,
+  items: PropTypes.array,
+  sortedField: PropTypes.string,
+  className: PropTypes.string,
 }
 
 DocumentsCarousel.defaultProps = {
-  documents: [],
-  fetchDocuments: noop,
+  items: [],
+  className: '',
 }
 
 export default DocumentsCarousel

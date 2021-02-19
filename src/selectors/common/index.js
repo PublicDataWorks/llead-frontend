@@ -1,8 +1,27 @@
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import pick from 'lodash/pick'
 import mapValues from 'lodash/mapValues'
 
 import { CMS_KEYS } from 'constants/common'
+
+export const departmentFormatter = (department) => {
+  const attributes = ['id', 'name', 'city', 'parish', 'locationMapUrl']
+
+  return pick(department, attributes)
+}
+
+export const officerFormatter = (officer) => {
+  const officerAttributes = ['id', 'name', 'badges']
+
+  const rawDepartment = get(officer, 'department')
+  const department = pick(rawDepartment, ['id', 'name'])
+
+  return {
+    ...pick(officer, officerAttributes),
+    department,
+  }
+}
 
 const getAppConfig = (state) => get(state, 'appConfig')
 const getCMS = (state) => get(state, 'appConfig.cms', {})

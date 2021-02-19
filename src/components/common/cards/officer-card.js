@@ -1,24 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
-import reduce from 'lodash/reduce'
 
 import './officer-card.scss'
+import ArrayWithSeparator from 'components/common/array-with-separator'
 
 const OfficerCard = (props) => {
   const { name, badges, department } = props
 
-  const badgesArray = reduce(
-    badges.map((badge, index) => <span key={index}>{badge}</span>),
-    (acc, element) => [acc, ', ', element]
-  )
+  const items = badges.map((badge) => <span key={badge}>{badge}</span>)
 
   return (
     <div className='officer-card'>
       <div className='officer-info'>
         <div className='officer-type'>Police Officer</div>
         <div className='officer-name'>{name}</div>
-        <div className='officer-badges'>{badgesArray}</div>
+        <div className='officer-badges'>
+          <ArrayWithSeparator items={items} separator=',' />
+        </div>
       </div>
       <div className='officer-card-footer'>
         {!isEmpty(department) && (

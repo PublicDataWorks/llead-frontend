@@ -119,13 +119,16 @@ describe('#officersSelector', () => {
 
     const expectedOfficers = [
       {
+        id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
         department: {
+          id: 26,
           name: 'North Paulaberg Department',
         },
       },
       {
+        id: 22,
         name: 'Eric Patel',
         badges: ['12345'],
         department: {},
@@ -181,6 +184,7 @@ describe('#documentsSelector', () => {
 
     const expectedDocuments = [
       {
+        id: 36,
         type: 'csv',
         title: 'Her hard step sea.',
         url: '/century/five.pdf',
@@ -195,6 +199,7 @@ describe('#documentsSelector', () => {
         ],
       },
       {
+        id: 35,
         type: 'webm',
         title: 'Yourself say language meeting ok.',
         url: '/national/must.pdf',

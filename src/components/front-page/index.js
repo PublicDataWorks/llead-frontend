@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
+import isEmpty from 'lodash/isEmpty'
 
 import Header from 'pages/common/header'
 import Footer from 'components/common/footer'
@@ -25,6 +26,9 @@ const FrontPage = (props) => {
 
   useEffect(() => {
     fetchAnalyticSummary()
+    fetchDepartments()
+    fetchOfficers()
+    fetchDocuments()
   }, [])
 
   return (
@@ -39,15 +43,27 @@ const FrontPage = (props) => {
           />
         </div>
         <AnalyticSummary analyticSummary={analyticSummary} />
-        <DepartmentsCarousel
-          fetchDepartments={fetchDepartments}
-          departments={departments}
-        />
-        <OfficersCarousel fetchOfficers={fetchOfficers} officers={officers} />
-        <DocumentsCarousel
-          fetchDocuments={fetchDocuments}
-          documents={documents}
-        />
+        {!isEmpty(departments) && (
+          <DepartmentsCarousel
+            items={departments}
+            sortedField='size'
+            className='front-page-carousel'
+          />
+        )}
+        {!isEmpty(officers) && (
+          <OfficersCarousel
+            items={officers}
+            sortedField='most recently added'
+            className='front-page-carousel'
+          />
+        )}
+        {!isEmpty(documents) && (
+          <DocumentsCarousel
+            items={documents}
+            sortedField='most recently added'
+            className='front-page-carousel'
+          />
+        )}
       </div>
       <Footer />
     </>

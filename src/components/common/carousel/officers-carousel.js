@@ -1,41 +1,38 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/noop'
 import map from 'lodash/map'
+import cx from 'classnames'
 
 import Carousel from 'components/common/carousel'
 import OfficerCard from 'components/common/cards/officer-card'
 import './officers-carousel.scss'
 
 const OfficersCarousel = (props) => {
-  const { fetchOfficers, officers } = props
+  const { items, sortedField, className } = props
 
-  useEffect(() => {
-    fetchOfficers()
-  }, [])
-
-  const items = map(officers, (officer) => (
+  const cards = map(items, (officer) => (
     <OfficerCard key={officer.id} {...officer} />
   ))
 
   return (
     <Carousel
-      className='officers-carousel'
+      className={ cx('officers-carousel', className) }
       title='Officers'
-      sortedField='most recently added'
-      items={items}
+      sortedField={sortedField}
+      cards={cards}
     />
   )
 }
 
 OfficersCarousel.propTypes = {
-  officers: PropTypes.array,
-  fetchOfficers: PropTypes.func,
+  items: PropTypes.array,
+  sortedField: PropTypes.string,
+  className: PropTypes.string,
 }
 
 OfficersCarousel.defaultProps = {
-  officers: [],
-  fetchOfficers: noop,
+  items: [],
+  className: '',
 }
 
 export default OfficersCarousel

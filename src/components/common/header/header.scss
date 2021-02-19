@@ -9,21 +9,29 @@
   padding: 16px;
   background-color: $white-color;
   z-index: 999;
+  display: flex;
 
   .logo {
     font-size: 24px;
     line-height: 48px;
     font-weight: 600;
+    margin-right: 60px;
+    text-decoration: none;
+    color: $thunder-color;
+  }
+
+  .search-input-container {
+    flex-grow: 1;
   }
 
   .logout-btn {
     width: 48px;
     height: 48px;
+    margin-left: 32px;
     background-color: $wild-sand-color;
     border: 1px solid $alto-color;
     box-sizing: border-box;
     border-radius: 24px;
-    float: right;
     line-height: 48px;
     text-align: center;
     cursor: pointer;

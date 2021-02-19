@@ -61,6 +61,8 @@
   .document-card-footer {
     box-sizing: border-box;
     padding: 0 32px;
+    overflow: auto;
+    height: 76px;
 
     .document-department-name {
       box-sizing: border-box;
@@ -68,6 +70,10 @@
       border: 1px solid $alto-color;
       border-radius: 2px;
       background-color: $wild-sand-color;
+
+      & + .document-department-name {
+        margin-top: 8px;
+      }
     }
   }
 }

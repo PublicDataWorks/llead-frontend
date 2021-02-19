@@ -19,7 +19,8 @@ describe('#get', () => {
 
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
-        `${API_URL}/documents/1`
+        `${API_URL}/documents/1`,
+        'cancelToken',
       )(params)
 
       await getFunc(dispatch)
@@ -30,10 +31,10 @@ describe('#get', () => {
         },
       ])
 
-      expect(axiosClient.get).toHaveBeenCalledWith(
-        `${API_URL}/documents/1`,
-        params
-      )
+      expect(axiosClient.get).toHaveBeenCalledWith(`${API_URL}/documents/1`, {
+        params,
+        cancelToken: 'cancelToken',
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_SUCCESS,
@@ -56,7 +57,8 @@ describe('#get', () => {
 
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
-        `${API_URL}documents/1`
+        `${API_URL}documents/1`,
+        'cancelToken',
       )()
 
       await getFunc(dispatch)
@@ -67,7 +69,10 @@ describe('#get', () => {
         },
       ])
 
-      expect(axiosClient.get).toHaveBeenCalledWith(`${API_URL}documents/1`, {})
+      expect(axiosClient.get).toHaveBeenCalledWith(`${API_URL}documents/1`, {
+        params: {},
+        cancelToken: 'cancelToken',
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_FAILURE,
@@ -98,7 +103,8 @@ describe('#post', () => {
 
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
-        TOKEN_API_URL
+        TOKEN_API_URL,
+        'cancelToken',
       )(body, params)
 
       await postFunc(dispatch)
@@ -109,7 +115,10 @@ describe('#post', () => {
         },
       ])
 
-      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, params)
+      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, {
+        params,
+        cancelToken: 'cancelToken',
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_SUCCESS,
@@ -137,7 +146,8 @@ describe('#post', () => {
 
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
-        TOKEN_API_URL
+        TOKEN_API_URL,
+        'cancelToken',
       )(body)
 
       await postFunc(dispatch)
@@ -148,7 +158,10 @@ describe('#post', () => {
         },
       ])
 
-      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, {})
+      expect(axiosClient.post).toHaveBeenCalledWith(TOKEN_API_URL, body, {
+        params: {},
+        cancelToken: 'cancelToken',
+      })
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_FAILURE,
