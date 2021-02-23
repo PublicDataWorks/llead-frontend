@@ -35,9 +35,9 @@ describe('#fetchDocuments', () => {
 
     expect(getStub).toHaveBeenCalledWith(
       [
-        actionTypes.DOCUMENTS_FETCH_START,
-        actionTypes.DOCUMENTS_FETCH_SUCCESS,
-        actionTypes.DOCUMENTS_FETCH_FAILURE,
+        actionTypes.DEPARTMENT_DOCUMENTS_FETCH_START,
+        actionTypes.DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
+        actionTypes.DEPARTMENT_DOCUMENTS_FETCH_FAILURE,
       ],
       `${DEPARTMENTS_API_URL}1/documents/`
     )
@@ -56,9 +56,9 @@ describe('#fetchDocuments', () => {
 
     expect(getStub).toHaveBeenCalledWith(
       [
-        actionTypes.DOCUMENTS_FETCH_START,
-        actionTypes.DOCUMENTS_FETCH_SUCCESS,
-        actionTypes.DOCUMENTS_FETCH_FAILURE,
+        actionTypes.DEPARTMENT_DOCUMENTS_FETCH_START,
+        actionTypes.DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
+        actionTypes.DEPARTMENT_DOCUMENTS_FETCH_FAILURE,
       ],
       `${DEPARTMENTS_API_URL}1/documents/`
     )

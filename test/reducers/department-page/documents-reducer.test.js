@@ -1,13 +1,13 @@
 import documentsReducer from 'reducers/department-page/documents-reducer'
 
-import { DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
+import { DEPARTMENT_DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
 
 describe('#documentsReducer', () => {
   it('should return initial state', () => {
     expect(documentsReducer(undefined, {})).toStrictEqual({})
   })
 
-  it('should handle DOCUMENTS_FETCH_SUCCESS with no previous', () => {
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with no previous', () => {
     const documentsData = {
       next: 'next',
       previous: null,
@@ -16,13 +16,13 @@ describe('#documentsReducer', () => {
     }
 
     const result = documentsReducer(['old result item'], {
-      type: DOCUMENTS_FETCH_SUCCESS,
+      type: DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
       payload: documentsData,
     })
 
     expect(result).toStrictEqual(['result item'])
   })
-  it('should handle DOCUMENTS_FETCH_SUCCESS with previous', () => {
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with previous', () => {
     const documentsData = {
       next: 'next',
       previous: 'previous',
@@ -31,7 +31,7 @@ describe('#documentsReducer', () => {
     }
 
     const result = documentsReducer(['old result item'], {
-      type: DOCUMENTS_FETCH_SUCCESS,
+      type: DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
       payload: documentsData,
     })
 

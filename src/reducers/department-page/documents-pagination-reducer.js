@@ -2,11 +2,11 @@ import { handleActions } from 'redux-actions'
 import qs from 'qs'
 import isEmpty from 'lodash/isEmpty'
 
-import { DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
+import { DEPARTMENT_DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
 
 export default handleActions(
   {
-    [DOCUMENTS_FETCH_SUCCESS]: (state, action) => {
+    [DEPARTMENT_DOCUMENTS_FETCH_SUCCESS]: (state, action) => {
       let limit, offset
 
       const { next, count } = action.payload

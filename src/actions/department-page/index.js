@@ -15,9 +15,9 @@ export const fetchDepartment = (id) =>
 export const fetchDocuments = (id, params) =>
   get(
     [
-      actionTypes.DOCUMENTS_FETCH_START,
-      actionTypes.DOCUMENTS_FETCH_SUCCESS,
-      actionTypes.DOCUMENTS_FETCH_FAILURE,
+      actionTypes.DEPARTMENT_DOCUMENTS_FETCH_START,
+      actionTypes.DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
+      actionTypes.DEPARTMENT_DOCUMENTS_FETCH_FAILURE,
     ],
     `${DEPARTMENTS_API_URL}${id}/documents/`
   )(params)

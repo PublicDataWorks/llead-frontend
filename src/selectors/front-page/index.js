@@ -56,5 +56,7 @@ export const departmentsSelector = (state) =>
 export const officersSelector = (state) =>
   map(getOfficers(state), officerFormatter)
 
-export const documentsSelector = (state) =>
-  map(getDocuments(state), documentFormatter)
+export const documentsSelector = (state) =>{
+
+  return map(getDocuments(state), documentFormatter)
+}

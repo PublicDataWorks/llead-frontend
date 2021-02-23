@@ -1,13 +1,13 @@
 import documentsPaginationReducer from 'reducers/department-page/documents-pagination-reducer'
 
-import { DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
+import { DEPARTMENT_DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
 
 describe('#documentsReducer', () => {
   it('should return initial state', () => {
     expect(documentsPaginationReducer(undefined, {})).toStrictEqual({})
   })
 
-  it('should handle DOCUMENTS_FETCH_SUCCESS with empty next', () => {
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with empty next', () => {
     const documentsData = {
       next: null,
       previous: null,
@@ -18,7 +18,7 @@ describe('#documentsReducer', () => {
     const result = documentsPaginationReducer(
       {},
       {
-        type: DOCUMENTS_FETCH_SUCCESS,
+        type: DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
         payload: documentsData,
       }
     )
@@ -29,7 +29,7 @@ describe('#documentsReducer', () => {
       count: 1,
     })
   })
-  it('should handle DOCUMENTS_FETCH_SUCCESS with invalid next value', () => {
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with invalid next value', () => {
     const documentsData = {
       next: 'next',
       previous: null,
@@ -40,7 +40,7 @@ describe('#documentsReducer', () => {
     const result = documentsPaginationReducer(
       {},
       {
-        type: DOCUMENTS_FETCH_SUCCESS,
+        type: DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
         payload: documentsData,
       }
     )
@@ -51,7 +51,7 @@ describe('#documentsReducer', () => {
       count: 1,
     })
   })
-  it('should handle DOCUMENTS_FETCH_SUCCESS with valid next value', () => {
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with valid next value', () => {
     const documentsData = {
       next: 'https://url.com/?limit=2&offset=1',
       previous: null,
@@ -62,7 +62,7 @@ describe('#documentsReducer', () => {
     const result = documentsPaginationReducer(
       {},
       {
-        type: DOCUMENTS_FETCH_SUCCESS,
+        type: DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
         payload: documentsData,
       }
     )
