@@ -8,7 +8,7 @@ import './document-card.scss'
 
 const DocumentCard = (props) => {
   const {
-    type,
+    documentType,
     departments,
     previewImageUrl,
     title,
@@ -52,7 +52,7 @@ const DocumentCard = (props) => {
   return (
     <div className='document-card'>
       <div className='document-info'>
-        <div className='document-type'>{type}</div>
+        <div className='document-type'>{documentType}</div>
         {documentPreview(previewImageUrl, pagesCount, url)}
         <div className='document-title'>{title}</div>
         <div className='document-incident-date'>{incidentDate}</div>
@@ -65,7 +65,7 @@ const DocumentCard = (props) => {
 }
 
 DocumentCard.propTypes = {
-  type: PropTypes.string.isRequired,
+  documentType: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   title: PropTypes.string,
   incidentDate: PropTypes.string,
@@ -75,7 +75,7 @@ DocumentCard.propTypes = {
 }
 
 DocumentCard.defaultProps = {
-  type: '',
+  documentType: '',
   title: '',
   incidentDate: '',
   previewImageUrl: '',

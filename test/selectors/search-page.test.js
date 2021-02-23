@@ -87,7 +87,7 @@ describe('#searchResultsSelector', () => {
       documents: [
         {
           id: 22,
-          type: 'css',
+          documentType: 'css',
           title: 'Especially sense available best.',
           url: '/hundred/work.pdf',
           incidentDate: 'Jan 6, 2020',

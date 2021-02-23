@@ -6,7 +6,7 @@ import DocumentCard from 'components/common/cards/document-card'
 describe('Document card component', () => {
   it('should render correctly', () => {
     const props = {
-      type: 'csv',
+      documentType: 'csv',
       url: 'https://i.imgur.com/nHTFohI.csv',
       title: 'document-2',
       previewImageUrl: 'previewImageUrl-2',
@@ -22,7 +22,7 @@ describe('Document card component', () => {
     const container = render(<DocumentCard {...props} />)
     const { baseElement } = container
 
-    expect(baseElement.textContent.includes(props.type)).toBe(true)
+    expect(baseElement.textContent.includes(props.documentType)).toBe(true)
     expect(baseElement.textContent.includes(props.title)).toBe(true)
     expect(baseElement.textContent.includes(props.incidentDate)).toBe(true)
     expect(baseElement.textContent.includes(props.departments[0].name)).toBe(
@@ -33,7 +33,7 @@ describe('Document card component', () => {
   describe('Document preview pages', () => {
     it('should render document preview pages correctly', () => {
       const props = {
-        type: 'csv',
+        documentType: 'csv',
         url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
         pagesCount: 4,
@@ -50,7 +50,7 @@ describe('Document card component', () => {
 
     it('should render document preview pages when pagesCount is zero', () => {
       const props = {
-        type: 'csv',
+        documentType: 'csv',
         url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
         pagesCount: 0,
@@ -67,7 +67,7 @@ describe('Document card component', () => {
 
     it('should render document preview pages when pagesCount > 10', () => {
       const props = {
-        type: 'csv',
+        documentType: 'csv',
         url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
         pagesCount: 16,

@@ -9,6 +9,7 @@ const documentFormatter = (document) => {
   const documentAttributes = [
     'id',
     'title',
+    'documentType',
     'url',
     'previewImageUrl',
     'pagesCount',
@@ -22,7 +23,6 @@ const documentFormatter = (document) => {
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDocumentDate(document.incidentDate),
-    type: document.documentType,
     departments,
   }
 }

@@ -75,7 +75,7 @@ describe('#documentsSelector', () => {
       expect(documents).toStrictEqual([
         {
           id: 39,
-          type: 'json',
+          documentType: 'json',
           title: 'Pattern risk team election myself suffer wind.',
           url: '/glass/shoulder.pdf',
           incidentDate: 'May 4, 2020',

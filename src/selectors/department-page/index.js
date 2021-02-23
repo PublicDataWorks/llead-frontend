@@ -11,12 +11,12 @@ const documentFormatter = (document) => {
     'url',
     'previewImageUrl',
     'pagesCount',
+    'documentType',
   ]
 
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDocumentDate(document.incidentDate),
-    type: document.documentType,
   }
 }
 
