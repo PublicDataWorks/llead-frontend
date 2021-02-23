@@ -16,11 +16,11 @@ const DepartmentCard = (props) => {
         <div className='department-type'>Police Department</div>
         <div className='department-name'>{name}</div>
       </div>
-      <div className='deparment-card-footer'>
-        <div className='deparment-map' style={elementStyles} />
-        <div className='deparment-location'>
-          <div className='deparment-city'>{city}</div>
-          <div className='deparment-parish'>{parish}</div>
+      <div className='department-card-footer'>
+        <div className='department-map' style={elementStyles} />
+        <div className='department-location'>
+          <div className='department-city'>{city}</div>
+          <div className='department-parish'>{parish}</div>
         </div>
       </div>
     </div>
