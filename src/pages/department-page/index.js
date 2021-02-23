@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
 
 import Department from 'components/department-page'
-import { getDepartment } from 'selectors/department-page'
+import { departmentSelector } from 'selectors/department-page'
 import { fetchDepartment } from 'actions/department-page'
 
 const mapStateToProps = (state) => ({
-  department: getDepartment(state),
+  department: departmentSelector(state),
 })
 
 const mapDispatchToProps = {

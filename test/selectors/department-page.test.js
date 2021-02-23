@@ -1,11 +1,19 @@
-import { getDepartment } from 'selectors/department-page'
+import { departmentSelector } from 'selectors/department-page'
 
-describe('#getDepartment', () => {
+describe('#departmentSelector', () => {
   describe('has data', () => {
     it('returns department data', () => {
       const departmentData = {
         id: 1,
         name: 'Department data',
+        wrglFiles: [
+          {
+            id: 2,
+            name: 'Com Madison Village pd',
+            slug: 'com-madisonville-pd',
+            extraField: 'field',
+          },
+        ],
       }
       const state = {
         departmentPage: {
@@ -13,17 +21,26 @@ describe('#getDepartment', () => {
         },
       }
 
-      const department = getDepartment(state)
+      const department = departmentSelector(state)
 
-      expect(department).toStrictEqual(departmentData)
+      expect(department).toStrictEqual({
+        ...departmentData,
+        wrglFiles: [
+          {
+            id: 2,
+            name: 'Com Madison Village pd',
+            slug: 'com-madisonville-pd',
+          },
+        ],
+      })
     })
   })
 
   describe('does not have data', () => {
     it('returns empty data', () => {
-      const department = getDepartment({})
+      const department = departmentSelector({})
 
-      expect(department).toStrictEqual({})
+      expect(department).toStrictEqual({ wrglFiles: [] })
     })
   })
 })
