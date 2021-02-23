@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
 import './officer-card.scss'
 import ArrayWithSeparator from 'components/common/array-with-separator'
+import { departmentPath } from 'utils/paths'
 
 const OfficerCard = (props) => {
   const { name, badges, department } = props
@@ -21,7 +23,12 @@ const OfficerCard = (props) => {
       </div>
       <div className='officer-card-footer'>
         {!isEmpty(department) && (
-          <div className='officer-department-name'>{department.name}</div>
+          <Link
+            to={departmentPath(department.id)}
+            className='officer-department-name'
+          >
+            {department.name}
+          </Link>
         )}
       </div>
     </div>

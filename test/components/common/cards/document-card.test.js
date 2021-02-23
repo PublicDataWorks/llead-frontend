@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Route, MemoryRouter } from 'react-router-dom'
 
 import DocumentCard from 'components/common/cards/document-card'
 
@@ -19,7 +20,13 @@ describe('Document card component', () => {
       ],
     }
 
-    const container = render(<DocumentCard {...props} />)
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
     const { baseElement } = container
 
     expect(baseElement.textContent.includes(props.documentType)).toBe(true)
@@ -39,7 +46,13 @@ describe('Document card component', () => {
         pagesCount: 4,
       }
 
-      const container = render(<DocumentCard {...props} />)
+      const container = render(
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <DocumentCard {...props} />)
+          </Route>
+        </MemoryRouter>
+      )
       const { baseElement } = container
 
       const documentPreviewPages = baseElement.getElementsByClassName(
@@ -56,7 +69,13 @@ describe('Document card component', () => {
         pagesCount: 0,
       }
 
-      const container = render(<DocumentCard {...props} />)
+      const container = render(
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <DocumentCard {...props} />)
+          </Route>
+        </MemoryRouter>
+      )
       const { baseElement } = container
 
       const documentPreviewPages = baseElement.getElementsByClassName(
@@ -73,7 +92,13 @@ describe('Document card component', () => {
         pagesCount: 16,
       }
 
-      const container = render(<DocumentCard {...props} />)
+      const container = render(
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <DocumentCard {...props} />)
+          </Route>
+        </MemoryRouter>
+      )
       const { baseElement } = container
 
       const documentPreviewPages = baseElement.getElementsByClassName(

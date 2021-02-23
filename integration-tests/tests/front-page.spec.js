@@ -224,5 +224,67 @@ describe('FrontPage', () => {
         .eq(2)
         .contains('Mouth trip too finally society smile man.')
     })
+
+    describe('redirect to department page', () => {
+      it('on department card click', () => {
+        cy.visit('/')
+
+        cy.get('.departments-carousel').find('.swiper-slide').eq(0).click()
+
+        cy.location('pathname').should(
+          'eq',
+          `/departments/${departmentsData[0].id}/`
+        )
+      })
+
+      it('on officer card click on department section', () => {
+        cy.visit('/')
+
+        cy.get('.officers-carousel')
+          .find('.swiper-slide')
+          .eq(0)
+          .find('.officer-department-name')
+          .click()
+
+        cy.location('pathname').should(
+          'eq',
+          `/departments/${officersData[0].department.id}/`
+        )
+      })
+
+      it('on document card click on department section', () => {
+        cy.visit('/')
+
+        cy.get('.documents-carousel')
+          .find('.swiper-slide')
+          .eq(0)
+          .find('.document-department-name')
+          .eq(0)
+          .click()
+
+        cy.location('pathname').should(
+          'eq',
+          `/departments/${documentsData[0].departments[0].id}/`
+        )
+      })
+    })
+
+    describe('redirect to department page', () => {
+      it('on document card click on not department section', () => {
+        cy.visit('/')
+        cy.window().then((win) => {
+          cy.stub(win, 'open').as('open')
+        })
+
+        cy.get('.documents-carousel').find('.swiper-slide').eq(0).click()
+
+        cy.get('@open').should(
+          'to.be.calledWith',
+          documentsData[0].url,
+          '_blank',
+          'noopener noreferrer'
+        )
+      })
+    })
   })
 })
