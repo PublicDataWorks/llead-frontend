@@ -1,3 +1,5 @@
+import 'cypress-wait-until'
+
 Cypress.Commands.add('login', () => {
   // This is a jwt token generated for testing only which expired at year 2121
   const accessToken =

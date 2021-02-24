@@ -27,7 +27,7 @@ describe('Login Page', () => {
     cy.get('input[name="password"]').type('password')
     cy.get('.btn').click()
 
-    cy.location('pathname').should('eq', '/')
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/'))
   })
 
   it('should redirect to previous page when loging in successfully', () => {
@@ -58,7 +58,7 @@ describe('Login Page', () => {
     cy.get('input[name="password"]').type('password')
     cy.get('.btn').click()
 
-    cy.location('pathname').should('eq', '/departments/1/')
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/departments/1/'))
   })
 
   it('should show error when loging in unsuccessfully', () => {
