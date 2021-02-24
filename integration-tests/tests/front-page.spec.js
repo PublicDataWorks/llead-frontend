@@ -53,7 +53,7 @@ describe('FrontPage', () => {
       )
     })
 
-    it.skip('render summary', () => {
+    it('render summary', () => {
       cy.visit('/')
 
       cy.location('pathname').should('eq', '/')
@@ -68,7 +68,7 @@ describe('FrontPage', () => {
       cy.contains('+1 in the past 30 days')
     })
 
-    it.skip('render departments carousel', () => {
+    it('render departments carousel', () => {
       cy.viewport(1000, 1200)
       cy.visit('/')
 
@@ -106,7 +106,7 @@ describe('FrontPage', () => {
       cy.get('@visibleSlides').eq(2).contains('New Orleans Department 3')
     })
 
-    it.skip('render officers carousel', () => {
+    it('render officers carousel', () => {
       cy.viewport(800, 1200)
       cy.visit('/')
 
