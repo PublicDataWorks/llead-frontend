@@ -44,7 +44,9 @@ const Header = (props) => {
 
   return (
     <div className='header'>
-      <Link to={FRONT_PAGE_PATH} className='logo'>LOGO</Link>
+      <Link to={FRONT_PAGE_PATH} className='logo'>
+        LLEAD
+      </Link>
       {isLoggedIn && (
         <>
           <div className='search-input-container'>
