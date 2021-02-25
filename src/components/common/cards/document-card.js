@@ -8,7 +8,7 @@ import './document-card.scss'
 
 const DocumentCard = (props) => {
   const {
-    type,
+    documentType,
     departments,
     previewImageUrl,
     title,
@@ -17,7 +17,7 @@ const DocumentCard = (props) => {
     pagesCount,
   } = props
 
-  const departmentsView = map(
+  const departmentsList = map(
     departments,
     (department) => (
       <div key={department.id} className='document-department-name'>
@@ -35,7 +35,12 @@ const DocumentCard = (props) => {
     const displayPages = Math.min(pagesCount || 1, 10) - 1
 
     return (
-      <a className='document-preview-container' href={ url } rel='noopener noreferrer' target='_blank'>
+      <a
+        className='document-preview-container'
+        href={url}
+        rel='noopener noreferrer'
+        target='_blank'
+      >
         <div className='document-preview' style={elementStyles} />
         {times(displayPages, (num) => (
           <div key={num} className='document-preview-page' />
@@ -47,18 +52,20 @@ const DocumentCard = (props) => {
   return (
     <div className='document-card'>
       <div className='document-info'>
-        <div className='document-type'>{type}</div>
+        <div className='document-type'>{documentType}</div>
         {documentPreview(previewImageUrl, pagesCount, url)}
         <div className='document-title'>{title}</div>
         <div className='document-incident-date'>{incidentDate}</div>
       </div>
-      <div className='document-card-footer'>{departmentsView}</div>
+      {!isEmpty(departmentsList) && (
+        <div className='document-card-footer'>{departmentsList}</div>
+      )}
     </div>
   )
 }
 
 DocumentCard.propTypes = {
-  type: PropTypes.string.isRequired,
+  documentType: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   title: PropTypes.string,
   incidentDate: PropTypes.string,
@@ -68,7 +75,7 @@ DocumentCard.propTypes = {
 }
 
 DocumentCard.defaultProps = {
-  type: '',
+  documentType: '',
   title: '',
   incidentDate: '',
   previewImageUrl: '',

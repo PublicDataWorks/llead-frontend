@@ -1,5 +1,9 @@
 import { appConfigData } from '../data/common-data'
-import { departmentDetailsData } from '../data/department-page-data'
+import {
+  departmentDetailsData,
+  departmentDocumentData,
+  departmentNextDocumentsData,
+} from '../data/department-page-data'
 
 describe('Department Page', () => {
   it('redirect to login when not logged in', () => {
@@ -17,6 +21,21 @@ describe('Department Page', () => {
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/documents/',
+          query: { limit: '5', offset: '5' },
+        },
+        departmentNextDocumentsData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/documents/',
+        },
+        departmentDocumentData
       )
       cy.intercept(
         {
@@ -94,6 +113,38 @@ describe('Department Page', () => {
         .eq(1)
         .find('.wrgl-description-more-btn')
         .should('be.visible')
+    })
+
+    it('should render documents', () => {
+      cy.visit('/departments/1')
+
+      cy.contains(`Documents (${departmentDocumentData.count})`)
+
+      cy.get('.department-documents-listview')
+        .find('.document-card')
+        .should('length', 5)
+
+      cy.get('.department-documents-listview')
+        .find('.document-card')
+        .eq(0)
+        .find('.document-title')
+        .should('text', departmentDocumentData.results[0].title)
+
+      cy.get('.department-documents-loadmore')
+        .should('text', 'Load 5 more')
+        .click()
+
+      cy.get('.department-documents-listview')
+        .find('.document-card')
+        .should('length', 10)
+
+      cy.get('.department-documents-listview')
+        .find('.document-card')
+        .eq(6)
+        .find('.document-title')
+        .should('text', departmentNextDocumentsData.results[1].title)
+
+      cy.get('.department-documents-loadmore').should('not.exist')
     })
   })
 })

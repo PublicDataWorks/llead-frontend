@@ -14,9 +14,19 @@ import './department-page.scss'
 import Header from 'pages/common/header'
 import Footer from 'components/common/footer'
 import WRGLFile from './wrgl-file'
+import Button from 'components/common/buttons/button'
+import DocumentCard from 'components/common/cards/document-card'
 
 const Department = (props) => {
-  const { department, fetchDepartment } = props
+  const {
+    department,
+    fetchDepartment,
+    documents,
+    fetchDocuments,
+    count,
+    limit,
+    offset,
+  } = props
   const { id } = useParams()
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
   const location = useLocation()
@@ -37,8 +47,13 @@ const Department = (props) => {
     ? {}
     : { backgroundImage: `url(${locationMapUrl})` }
 
+  const handleLoadMore = () => {
+    fetchDocuments(id, { limit, offset })
+  }
+
   useEffect(() => {
     fetchDepartment(id)
+    fetchDocuments(id)
   }, [id])
 
   useEffect(() => {
@@ -114,6 +129,28 @@ const Department = (props) => {
                 />
               ))}
             </div>
+
+            <div className='department-documents'>
+              <div className='department-documents-title'>
+                Documents ({count})
+              </div>
+              <div className='department-documents-listview'>
+                {map(documents, ({ id, ...rest }) => (
+                  <DocumentCard key={id} {...rest} />
+                ))}
+              </div>
+              <div className='department-documents-count'>
+                {documents.length} of {count} documents displayed
+              </div>
+              {offset && (
+                <Button
+                  className='department-documents-loadmore'
+                  onClick={handleLoadMore}
+                >
+                  Load {limit} more
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -124,12 +161,21 @@ const Department = (props) => {
 
 Department.propTypes = {
   department: PropTypes.object,
+  documents: PropTypes.array,
   fetchDepartment: PropTypes.func,
+  fetchDocuments: PropTypes.func,
+  count: PropTypes.number,
+  limit: PropTypes.number,
+  offset: PropTypes.number,
+  fetchPagination: PropTypes.func,
 }
 
 Department.defaultProps = {
   department: {},
+  documents: [],
   fetchDepartment: noop,
+  fetchDocuments: noop,
+  fetchPagination: noop,
 }
 
 export default Department

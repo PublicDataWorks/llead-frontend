@@ -10,6 +10,7 @@ export const documentFormatter = (document) => {
     'id',
     'title',
     'url',
+    'documentType',
     'departments',
     'textContent',
     'textContentHighlight'
@@ -22,7 +23,6 @@ export const documentFormatter = (document) => {
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDocumentDate(document.incidentDate),
-    type: document.documentType,
     departments,
   }
 }

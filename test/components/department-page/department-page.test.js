@@ -389,4 +389,86 @@ describe('Department component', () => {
       })
     })
   })
+
+  describe('render department documents', () => {
+    it('should render correctly', () => {
+      const paginationData = {
+        count: 2,
+        limit: 2,
+        offset: 2,
+      }
+      const documentsData = [
+        {
+          id: 1,
+          documentType: 'json',
+          title: 'title 1',
+          url: 'url 1',
+          incidentDate: 'May 04, 2020',
+          previewImageUrl: 'preview_image_url_1',
+          pagesCount: 15,
+        },
+        {
+          id: 2,
+          documentType: 'jpeg',
+          title: 'title 2',
+          url: 'url 2',
+          incidentDate: 'Jan 21, 2019',
+          previewImageUrl: 'preview_image_url_2',
+          pagesCount: 1,
+        },
+      ]
+      const fetchDocumentsSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                documents={documentsData}
+                {...paginationData}
+                fetchDocuments={fetchDocumentsSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { getByText, baseElement } = container
+
+      expect(fetchDocumentsSpy.firstCall.args).toEqual(['1'])
+
+      expect(getByText(`Documents (${paginationData.count})`)).toBeTruthy()
+      expect(
+        getByText(`2 of ${paginationData.count} documents displayed`)
+      ).toBeTruthy()
+
+      const documentElements = baseElement.getElementsByClassName(
+        'document-card'
+      )
+      const firstDocument = documentElements[0]
+      const secondDocument = documentElements[1]
+
+      const firstDocumentTitle = firstDocument.getElementsByClassName(
+        'document-title'
+      )[0]
+      expect(firstDocumentTitle.textContent).toEqual('title 1')
+
+      const secondDocumentTitle = secondDocument.getElementsByClassName(
+        'document-title'
+      )[0]
+      expect(secondDocumentTitle.textContent).toEqual('title 2')
+
+      const loadMoreButton = getByText('Load 2 more')
+      expect(loadMoreButton).toBeTruthy()
+      fireEvent.click(loadMoreButton)
+
+      expect(fetchDocumentsSpy.secondCall.args).toEqual([
+        '1',
+        {
+          limit: 2,
+          offset: 2,
+        },
+      ])
+    })
+  })
 })

@@ -8,7 +8,7 @@ import ArrayWithSeparator from 'components/common/array-with-separator'
 
 const DocumentItem = (props) => {
   const {
-    type,
+    documentType,
     departments,
     title,
     incidentDate,
@@ -27,7 +27,7 @@ const DocumentItem = (props) => {
   return (
     <div className='document-item'>
       <div className='document-item-title'>
-        <span className='document-item-type'>{type}</span>
+        <span className='document-item-type'>{documentType}</span>
         <span className='document-item-title'>{title}</span>
         <span className='document-item-department-name'>
           <ArrayWithSeparator items={items} separator=',&nbsp;' />
@@ -47,7 +47,7 @@ const DocumentItem = (props) => {
 }
 
 DocumentItem.propTypes = {
-  type: PropTypes.string.isRequired,
+  documentType: PropTypes.string.isRequired,
   title: PropTypes.string,
   incidentDate: PropTypes.string,
   departments: PropTypes.array,
@@ -56,7 +56,7 @@ DocumentItem.propTypes = {
 }
 
 DocumentItem.defaultProps = {
-  type: '',
+  documentType: '',
   title: '',
   incidentDate: '',
   departments: [],

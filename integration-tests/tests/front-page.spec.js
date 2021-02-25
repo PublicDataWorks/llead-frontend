@@ -166,6 +166,7 @@ describe('FrontPage', () => {
       cy.visit('/')
 
       cy.get('.documents-carousel')
+        .debug()
         .find('.carousel-title')
         .should('text', 'Documents')
       cy.get('.documents-carousel')

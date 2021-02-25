@@ -7,7 +7,7 @@ describe('Documents Item', () => {
   it('should render correctly with normal content', () => {
     const document = {
       id: 2,
-      type: 'csv',
+      documentType: 'csv',
       url: 'https://i.imgur.com/document2.csv',
       title: 'document-2',
       previewImageUrl: 'previewImageUrl-2',
@@ -52,7 +52,7 @@ describe('Documents Item', () => {
   it('should render correctly with highlight content', () => {
     const document = {
       id: 2,
-      type: 'csv',
+      documentType: 'csv',
       url: 'https://i.imgur.com/document2.csv',
       title: 'document-2',
       previewImageUrl: 'previewImageUrl-2',

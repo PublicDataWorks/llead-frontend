@@ -9,6 +9,7 @@ const documentFormatter = (document) => {
   const documentAttributes = [
     'id',
     'title',
+    'documentType',
     'url',
     'previewImageUrl',
     'pagesCount',
@@ -22,7 +23,6 @@ const documentFormatter = (document) => {
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDocumentDate(document.incidentDate),
-    type: document.documentType,
     departments,
   }
 }
@@ -56,5 +56,7 @@ export const departmentsSelector = (state) =>
 export const officersSelector = (state) =>
   map(getOfficers(state), officerFormatter)
 
-export const documentsSelector = (state) =>
-  map(getDocuments(state), documentFormatter)
+export const documentsSelector = (state) =>{
+
+  return map(getDocuments(state), documentFormatter)
+}

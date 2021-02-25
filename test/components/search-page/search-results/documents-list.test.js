@@ -8,7 +8,7 @@ describe('Documents List', () => {
     const documents = [
       {
         id: 1,
-        type: 'pdf',
+        documentType: 'pdf',
         url: 'https://i.imgur.com/document1.pdf',
         title: 'document-1',
         previewImageUrl: '',
@@ -27,7 +27,7 @@ describe('Documents List', () => {
       },
       {
         id: 2,
-        type: 'csv',
+        documentType: 'csv',
         url: 'https://i.imgur.com/document2.csv',
         title: 'document-2',
         previewImageUrl: 'previewImageUrl-2',
