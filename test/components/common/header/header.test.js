@@ -34,7 +34,7 @@ describe('Header component', () => {
         </MemoryRouter>
       )
       const { baseElement } = container
-      expect(baseElement.textContent.includes('LOGO')).toBe(true)
+      expect(baseElement.textContent.includes('LLEAD')).toBe(true)
 
       expect(baseElement.getElementsByClassName('logout-btn').length).toEqual(0)
     })
@@ -51,7 +51,7 @@ describe('Header component', () => {
         </MemoryRouter>
       )
       const { baseElement } = container
-      expect(baseElement.textContent.includes('LOGO')).toBe(true)
+      expect(baseElement.textContent.includes('LLEAD')).toBe(true)
 
       expect(baseElement.getElementsByClassName('logout-btn').length).toEqual(1)
       fireEvent.click(container.getByText('L'))
