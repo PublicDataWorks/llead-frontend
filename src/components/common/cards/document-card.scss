@@ -65,6 +65,9 @@
     height: 76px;
 
     .document-department-name {
+      display: block;
+      text-decoration: none;
+      color: $thunder-color;
       box-sizing: border-box;
       padding: 13px 16px 14px 16px;
       border: 1px solid $alto-color;

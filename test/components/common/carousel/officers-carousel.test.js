@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Route, MemoryRouter } from 'react-router-dom'
 
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
 
@@ -22,7 +23,13 @@ describe('Officers carousel', () => {
         department: null,
       },
     ]
-    const container = render(<OfficersCarousel items={officers} />)
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <OfficersCarousel items={officers} />
+        </Route>
+      </MemoryRouter>
+    )
     const { baseElement } = container
 
     expect(baseElement.textContent.includes('Officers')).toBe(true)

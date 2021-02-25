@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Route, MemoryRouter } from 'react-router-dom'
 
 import DocumentsCarousel from 'components/common/carousel/documents-carousel'
 
@@ -35,7 +36,13 @@ describe('Document carousel', () => {
         ],
       },
     ]
-    const container = render(<DocumentsCarousel items={documents} />)
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentsCarousel items={documents} />
+        </Route>
+      </MemoryRouter>
+    )
     const { baseElement } = container
 
     expect(baseElement.textContent.includes('Documents')).toBe(true)

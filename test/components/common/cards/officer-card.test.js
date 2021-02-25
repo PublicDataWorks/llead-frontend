@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Route, MemoryRouter } from 'react-router-dom'
 
 import OfficerCard from 'components/common/cards/officer-card'
 
@@ -13,7 +14,13 @@ describe('Officer card component', () => {
         name: 'Baton Rouge Department 1',
       },
     }
-    const container = render(<OfficerCard {...props} />)
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <OfficerCard {...props} />
+        </Route>
+      </MemoryRouter>
+    )
     const { baseElement } = container
 
     expect(baseElement.textContent.includes('Mark Carlson')).toBe(true)

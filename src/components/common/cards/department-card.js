@@ -3,15 +3,17 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
 import './department-card.scss'
+import { departmentPath } from 'utils/paths'
+import CustomLink from 'components/common/links/custom-link'
 
 const DepartmentCard = (props) => {
-  const { name, city, parish, locationMapUrl } = props
+  const { id, name, city, parish, locationMapUrl } = props
   const elementStyles = isEmpty(locationMapUrl)
     ? {}
     : { backgroundImage: `url(${locationMapUrl})` }
 
   return (
-    <div className='department-card'>
+    <CustomLink to={departmentPath(id)} className='department-card'>
       <div className='department-info'>
         <div className='department-type'>Police Department</div>
         <div className='department-name'>{name}</div>
@@ -23,11 +25,12 @@ const DepartmentCard = (props) => {
           <div className='department-parish'>{parish}</div>
         </div>
       </div>
-    </div>
+    </CustomLink>
   )
 }
 
 DepartmentCard.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   city: PropTypes.string,
   parish: PropTypes.string,
