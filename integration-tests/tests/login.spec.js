@@ -19,6 +19,7 @@ describe('Login Page', () => {
       },
       appConfigData
     )
+    cy.clearLocalStorage()
 
     cy.visit('/login')
 
@@ -26,9 +27,38 @@ describe('Login Page', () => {
     cy.get('input[name="password"]').type('password')
     cy.get('.btn').click()
 
-    cy.contains(
-      'We are building a database of Louisiana police officers, departments, and documents.'
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/'))
+  })
+
+  it('should redirect to previous page when loging in successfully', () => {
+    cy.intercept(
+      {
+        method: 'POST',
+        url: 'http://localhost:8000/api/token/',
+      },
+      {
+        access: 'accessToken',
+        refresh: 'refreshToken',
+      }
     )
+    cy.intercept(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/app-config',
+      },
+      appConfigData
+    )
+
+    cy.clearLocalStorage()
+    cy.visit('/departments/1/')
+
+    cy.location('pathname').should('eq', '/login/')
+
+    cy.get('input[name="email"]').type('username@mail.com')
+    cy.get('input[name="password"]').type('password')
+    cy.get('.btn').click()
+
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/departments/1/'))
   })
 
   it('should show error when loging in unsuccessfully', () => {

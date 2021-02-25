@@ -14,11 +14,11 @@ import LockSVG from 'assets/icons/lock.svg'
 import './login.scss'
 import { FRONT_PAGE_PATH } from 'constants/paths'
 
-const Login = ({ isLoggedIn, isLoginFailed, performLogin }) => {
+const Login = ({ isLoggedIn, isLoginFailed, performLogin, previousLocation }) => {
   const { register, handleSubmit } = useForm()
 
   if (isLoggedIn) {
-    return <Redirect to={FRONT_PAGE_PATH} />
+    return <Redirect to={previousLocation || FRONT_PAGE_PATH} />
   }
 
   const onSubmit = (data) => {
@@ -65,6 +65,7 @@ Login.propTypes = {
   isLoggedIn: PropTypes.bool,
   isLoginFailed: PropTypes.bool,
   performLogin: PropTypes.func,
+  previousLocation: PropTypes.object,
 }
 
 Login.defaultProps = {

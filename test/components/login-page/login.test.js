@@ -81,23 +81,45 @@ describe('Login component', () => {
     )
   })
 
-  it('should redirect front page page when user have loged in', async () => {
-    const performLogin = sinon.spy()
+  describe('redirect after user have logged in', () => {
+    it('should redirect to previous location', async () => {
+      const performLogin = sinon.spy()
 
-    const container = render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['login/']}>
-          <Route path='login/' history={history}>
-            <LogIn isLoggedIn={true} performLogin={performLogin} />
-          </Route>
-          <Route path='/' history={history}>
-            <FrontPage />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
-    const { baseElement } = container
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['login/']}>
+            <Route path='login/' history={history}>
+              <LogIn isLoggedIn={true} performLogin={performLogin} />
+            </Route>
+            <Route path='/' history={history}>
+              <FrontPage />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+      const { baseElement } = container
 
-    expect(baseElement.getElementsByClassName('front-page').length).toEqual(1)
+      expect(baseElement.getElementsByClassName('front-page').length).toEqual(1)
+    })
+
+    it('should redirect to front page', async () => {
+      const performLogin = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['login/']}>
+            <Route path='login/' history={history}>
+              <LogIn isLoggedIn={true} performLogin={performLogin} previousLocation={ { pathname: '/departments/1/' } } />
+            </Route>
+            <Route path='/departments/:id/' history={history}>
+              <div className='department-page'>Department Page</div>
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+      const { baseElement } = container
+
+      expect(baseElement.getElementsByClassName('department-page').length).toEqual(1)
+    })
   })
 })
