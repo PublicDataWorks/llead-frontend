@@ -471,4 +471,52 @@ describe('Department component', () => {
       ])
     })
   })
+
+  describe('render data period info', () => {
+    it('should render with period if dataPeriod array is not empty', () => {
+      const departmentData = {
+        id: 1,
+        dataPeriod: ['2018', '2020'],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+      expect(
+        baseElement.getElementsByClassName('department-period')[0].textContent
+      ).toEqual(
+        'Data for this department is limited to the years\u00A02018, 2020'
+      )
+    })
+
+    it('should not render period if dataPeriod array is empty', () => {
+      const departmentData = {
+        id: 1,
+        dataPeriod: [],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+      expect(
+        baseElement.getElementsByClassName('department-period')[0]
+      ).toBeFalsy()
+    })
+  })
 })

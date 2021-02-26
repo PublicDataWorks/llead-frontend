@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
 import qs from 'qs'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
+import reduce from 'lodash/reduce'
 import isString from 'lodash/isString'
 import compact from 'lodash/compact'
 import filter from 'lodash/filter'
@@ -41,11 +42,17 @@ const Department = (props) => {
     officersCount,
     parish,
     wrglFiles,
+    dataPeriod,
   } = department
 
   const elementStyles = isEmpty(locationMapUrl)
     ? {}
     : { backgroundImage: `url(${locationMapUrl})` }
+
+  const joinedDataPeriod = useMemo(
+    () => reduce(dataPeriod, (acc, element) => [acc, ', ', element]),
+    [dataPeriod]
+  )
 
   const handleLoadMore = () => {
     fetchDocuments(id, { limit, offset })
@@ -104,6 +111,12 @@ const Department = (props) => {
       <Header />
       <div className='department-page'>
         <div className='page-container'>
+          {!isEmpty(joinedDataPeriod) && (
+            <div className='department-period'>
+              Data for this department is limited to the years&nbsp;
+              {joinedDataPeriod}
+            </div>
+          )}
           <div className='department-content'>
             <div className='department-title'>Police Department</div>
             <div className='department-name'>{name}</div>
