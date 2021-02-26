@@ -1,5 +1,4 @@
 export const FRONT_PAGE_PATH = '/'
 export const LOGIN_PATH = '/login/'
-export const DOCUMENTS_PATH = '/documents/'
 export const SEARCH_PATH = '/search/'
 export const DEPARTMENTS_PATH = '/departments/'
