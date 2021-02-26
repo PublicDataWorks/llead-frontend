@@ -50,7 +50,12 @@ const Department = (props) => {
     : { backgroundImage: `url(${locationMapUrl})` }
 
   const joinedDataPeriod = useMemo(
-    () => reduce(dataPeriod, (acc, element) => [acc, ', ', element]),
+    () =>
+      reduce(dataPeriod, (acc, element, key) => [
+        acc,
+        key !== dataPeriod.length - 1 ? ', ' : ' and ',
+        element,
+      ]),
     [dataPeriod]
   )
 

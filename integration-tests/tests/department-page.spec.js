@@ -53,7 +53,7 @@ describe('Department Page', () => {
       cy.contains('Police Department')
       cy.get('.department-period').should(
         'text',
-        'Data for this department is limited to the years\u00A02018, 2020'
+        'Data for this department is limited to the years\u00A02013, 2015, 2017 and 2020'
       )
       cy.get('.department-content')
         .find('.department-name')
@@ -190,7 +190,7 @@ describe('Department Page', () => {
 
       cy.get('.department-period').should(
         'text',
-        'Data for this department is limited to the years\u00A02018, 2020'
+        'Data for this department is limited to the years\u00A02013, 2015, 2017 and 2020'
       )
     })
     it('should render with no data period', () => {

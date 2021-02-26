@@ -473,7 +473,29 @@ describe('Department component', () => {
   })
 
   describe('render data period info', () => {
-    it('should render with period if dataPeriod array is not empty', () => {
+    it('should render with no comma if dataPeriod array is one value', () => {
+      const departmentData = {
+        id: 1,
+        dataPeriod: ['2018'],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+      expect(
+        baseElement.getElementsByClassName('department-period')[0].textContent
+      ).toEqual('Data for this department is limited to the years\u00A02018')
+    })
+
+    it('should render with "and" if dataPeriod array contains two value', () => {
       const departmentData = {
         id: 1,
         dataPeriod: ['2018', '2020'],
@@ -493,7 +515,31 @@ describe('Department component', () => {
       expect(
         baseElement.getElementsByClassName('department-period')[0].textContent
       ).toEqual(
-        'Data for this department is limited to the years\u00A02018, 2020'
+        'Data for this department is limited to the years\u00A02018 and 2020'
+      )
+    })
+
+    it('should render with comma and "and" if dataPeriod array contains more than two value', () => {
+      const departmentData = {
+        id: 1,
+        dataPeriod: ['2013', '2015', '2017', '2020'],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+      expect(
+        baseElement.getElementsByClassName('department-period')[0].textContent
+      ).toEqual(
+        'Data for this department is limited to the years\u00A02013, 2015, 2017 and 2020'
       )
     })
 
