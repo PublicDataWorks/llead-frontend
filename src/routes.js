@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import noop from 'lodash/noop'
 
-import DocumentPage from 'pages/document-page'
 import DepartmentPage from 'pages/department-page'
 import FrontPage from 'pages/front-page'
 import LoginPage from 'pages/login-page'
@@ -33,7 +32,6 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
   return (
     <Switch>
       <Route path={paths.LOGIN_PATH} component={LoginPage} />
-      <Route path={`${paths.DOCUMENTS_PATH}:id/`} component={DocumentPage} />
       <PrivateRoute
         {...privateRouteAttributes}
         path={paths.FRONT_PAGE_PATH}
