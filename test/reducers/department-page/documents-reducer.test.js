@@ -1,10 +1,32 @@
 import documentsReducer from 'reducers/department-page/documents-reducer'
 
-import { DEPARTMENT_DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
+import {
+  DEPARTMENT_DOCUMENTS_FETCH_START,
+  DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
+} from 'action-types/department-page'
 
 describe('#documentsReducer', () => {
   it('should return initial state', () => {
-    expect(documentsReducer(undefined, {})).toStrictEqual({})
+    expect(documentsReducer(undefined, {})).toStrictEqual([])
+  })
+
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_START without request params offset', () => {
+    const result = documentsReducer(['result item'], {
+      type: DEPARTMENT_DOCUMENTS_FETCH_START,
+    })
+
+    expect(result).toStrictEqual([])
+  })
+
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_START with request params offset', () => {
+    const result = documentsReducer(['result item'], {
+      type: DEPARTMENT_DOCUMENTS_FETCH_START,
+      request: {
+        params: { offset: 5 },
+      },
+    })
+
+    expect(result).toStrictEqual(['result item'])
   })
 
   it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with no previous', () => {
@@ -22,6 +44,7 @@ describe('#documentsReducer', () => {
 
     expect(result).toStrictEqual(['result item'])
   })
+
   it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with previous', () => {
     const documentsData = {
       next: 'next',

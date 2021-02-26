@@ -27,6 +27,7 @@ const Department = (props) => {
     count,
     limit,
     offset,
+    isRequesting,
   } = props
   const { id } = useParams()
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
@@ -116,60 +117,64 @@ const Department = (props) => {
       <Header />
       <div className='department-page'>
         <div className='page-container'>
-          {!isEmpty(joinedDataPeriod) && (
-            <div className='department-period'>
-              Data for this department is limited to the years&nbsp;
-              {joinedDataPeriod}
-            </div>
-          )}
-          <div className='department-content'>
-            <div className='department-title'>Police Department</div>
-            <div className='department-name'>{name}</div>
-            <div className='department-basic-info'>
-              <div className='department-map' style={elementStyles} />
-              <div className='department-location'>
-                <div className='department-city'>{city}</div>
-                <div className='department-parish'>{parish}</div>
-              </div>
-              <div className='department-summary'>
-                <div>{officersCount} officers</div>
-                <div>{complaintsCount} complaints</div>
-                <div>{documentsCount} documents</div>
-              </div>
-            </div>
-            <div className='department-wrgl-files'>
-              {map(wrglFiles, ({ id, ...rest }) => (
-                <WRGLFile
-                  key={id}
-                  {...rest}
-                  expandedCsvFiles={expandedCsvFiles}
-                  updateExpandedCsvFiles={updateExpandedCsvFiles}
-                />
-              ))}
-            </div>
-
-            <div className='department-documents'>
-              <div className='department-documents-title'>
-                Documents ({count})
-              </div>
-              <div className='department-documents-listview'>
-                {map(documents, ({ id, ...rest }) => (
-                  <DocumentCard key={id} {...rest} />
-                ))}
-              </div>
-              <div className='department-documents-count'>
-                {documents.length} of {count} documents displayed
-              </div>
-              {offset && (
-                <Button
-                  className='department-documents-loadmore'
-                  onClick={handleLoadMore}
-                >
-                  Load {limit} more
-                </Button>
+          {!isRequesting && !isEmpty(department) && (
+            <>
+              {!isEmpty(joinedDataPeriod) && (
+                <div className='department-period'>
+                  Data for this department is limited to the years&nbsp;
+                  {joinedDataPeriod}
+                </div>
               )}
-            </div>
-          </div>
+              <div className='department-content'>
+                <div className='department-title'>Police Department</div>
+                <div className='department-name'>{name}</div>
+                <div className='department-basic-info'>
+                  <div className='department-map' style={elementStyles} />
+                  <div className='department-location'>
+                    <div className='department-city'>{city}</div>
+                    <div className='department-parish'>{parish}</div>
+                  </div>
+                  <div className='department-summary'>
+                    <div>{officersCount} officers</div>
+                    <div>{complaintsCount} complaints</div>
+                    <div>{documentsCount} documents</div>
+                  </div>
+                </div>
+                <div className='department-wrgl-files'>
+                  {map(wrglFiles, ({ id, ...rest }) => (
+                    <WRGLFile
+                      key={id}
+                      {...rest}
+                      expandedCsvFiles={expandedCsvFiles}
+                      updateExpandedCsvFiles={updateExpandedCsvFiles}
+                    />
+                  ))}
+                </div>
+
+                <div className='department-documents'>
+                  <div className='department-documents-title'>
+                    Documents ({count})
+                  </div>
+                  <div className='department-documents-listview'>
+                    {map(documents, ({ id, ...rest }) => (
+                      <DocumentCard key={id} {...rest} />
+                    ))}
+                  </div>
+                  <div className='department-documents-count'>
+                    {documents.length} of {count} documents displayed
+                  </div>
+                  {offset && (
+                    <Button
+                      className='department-documents-loadmore'
+                      onClick={handleLoadMore}
+                    >
+                      Load {limit} more
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <Footer />
@@ -186,6 +191,7 @@ Department.propTypes = {
   limit: PropTypes.number,
   offset: PropTypes.number,
   fetchPagination: PropTypes.func,
+  isRequesting: PropTypes.bool,
 }
 
 Department.defaultProps = {
@@ -194,6 +200,7 @@ Department.defaultProps = {
   fetchDepartment: noop,
   fetchDocuments: noop,
   fetchPagination: noop,
+  isRequesting: false,
 }
 
 export default Department

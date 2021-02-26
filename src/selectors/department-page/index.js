@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
+import isEmpty from 'lodash/isEmpty'
 
 import { formatDocumentDate } from 'utils/formatter'
 
@@ -24,6 +25,7 @@ const getDepartment = (state) => get(state.departmentPage, 'department', {})
 const getDocuments = (state) => get(state.departmentPage, 'documents', {})
 const getDocumentsPagination = (state) =>
   get(state.departmentPage, 'documentsPagination', {})
+export const getIsRequesting = (state) => get(state.departmentPage, 'isRequesting')
 
 export const departmentSelector = (state) => {
   const wrglAttributes = [
@@ -48,6 +50,9 @@ export const departmentSelector = (state) => {
   ]
 
   const rawDepartment = getDepartment(state)
+  if (isEmpty(rawDepartment)) {
+    return {}
+  }
   const rawWrglFiles = get(rawDepartment, 'wrglFiles')
 
   return {

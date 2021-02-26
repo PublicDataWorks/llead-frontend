@@ -5,12 +5,14 @@ import {
   departmentSelector,
   documentsSelector,
   documentsPaginationSelector,
+  getIsRequesting,
 } from 'selectors/department-page'
 import { fetchDepartment, fetchDocuments } from 'actions/department-page'
 
 const mapStateToProps = (state) => ({
   department: departmentSelector(state),
   documents: documentsSelector(state),
+  isRequesting: getIsRequesting(state),
   ...documentsPaginationSelector(state),
 })
 

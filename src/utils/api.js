@@ -1,66 +1,81 @@
 import axiosClient from 'utils/axios-client'
 
 export const get = (actionTypes, url, cancelToken) => {
-  const actionStarted = () => ({
+  const actionStarted = (request) => ({
     type: actionTypes[0],
+    request,
   })
 
-  const actionSuccess = (data) => ({
+  const actionSuccess = (request, data) => ({
     type: actionTypes[1],
+    request,
     payload: data,
   })
 
-  const actionFailure = (error) => ({
+  const actionFailure = (request, error) => ({
     type: actionTypes[2],
+    request,
     payload: {
       error,
     },
   })
 
   return (params = {}) => {
+    const requestData = {
+      url,
+      params,
+    }
     return (dispatch) => {
-      dispatch(actionStarted())
+      dispatch(actionStarted(requestData))
 
       return axiosClient
         .get(url, { params, cancelToken })
         .then((res) => {
-          dispatch(actionSuccess(res.data))
+          dispatch(actionSuccess(requestData, res.data))
         })
         .catch((err) => {
-          dispatch(actionFailure(err.message))
+          dispatch(actionFailure(requestData, err.message))
         })
     }
   }
 }
 
 export const post = (actionTypes, url, cancelToken) => {
-  const actionStarted = () => ({
+  const actionStarted = (request) => ({
     type: actionTypes[0],
+    request,
   })
 
-  const actionSuccess = (data) => ({
+  const actionSuccess = (request, data) => ({
     type: actionTypes[1],
+    request,
     payload: data,
   })
 
-  const actionFailure = (error) => ({
+  const actionFailure = (request, error) => ({
     type: actionTypes[2],
+    request,
     payload: {
       error,
     },
   })
 
-  return (payload = {}, params = {}) => {
+  return (data = {}, params = {}) => {
+    const requestData = {
+      url,
+      data,
+      params,
+    }
     return (dispatch) => {
-      dispatch(actionStarted())
+      dispatch(actionStarted(requestData))
 
       return axiosClient
-        .post(url, payload, { params, cancelToken })
+        .post(url, data, { params, cancelToken })
         .then((res) => {
-          dispatch(actionSuccess(res.data))
+          dispatch(actionSuccess(requestData, res.data))
         })
         .catch((err) => {
-          dispatch(actionFailure(err.message))
+          dispatch(actionFailure(requestData, err.message))
         })
     }
   }
