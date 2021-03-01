@@ -4,6 +4,7 @@ import pluralize from 'pluralize'
 import isEmpty from 'lodash/isEmpty'
 
 import './analytic-summary.scss'
+import { formatNumber } from 'utils/formatter'
 
 const AnalyticSummary = ({ analyticSummary }) => {
   if (isEmpty(analyticSummary)) {
@@ -24,26 +25,28 @@ const AnalyticSummary = ({ analyticSummary }) => {
     <div className='analytic-summary'>
       <div className='analytic-summary-item'>
         <div className='analytic-summary-content'>
-          {documentsCount} {pluralize('documents', documentsCount)}
+          {formatNumber(documentsCount)}{' '}
+          {pluralize('documents', documentsCount)}
         </div>
         <div className='recent-summary'>
-          +{recentDocumentsCount} in the past {recentDays} days
+          +{formatNumber(recentDocumentsCount)} in the past {recentDays} days
         </div>
       </div>
       <div className='analytic-summary-item'>
         <div className='analytic-summary-content'>
-          {officersCount} {pluralize('officers', officersCount)}
+          {formatNumber(officersCount)} {pluralize('officers', officersCount)}
         </div>
         <div className='recent-summary'>
-          +{recentOfficersCount} in the past {recentDays} days
+          +{formatNumber(recentOfficersCount)} in the past {recentDays} days
         </div>
       </div>
       <div className='analytic-summary-item'>
         <div className='analytic-summary-content'>
-          {departmentsCount} {pluralize('departments', departmentsCount)}
+          {formatNumber(departmentsCount)}{' '}
+          {pluralize('departments', departmentsCount)}
         </div>
         <div className='recent-summary'>
-          +{recentDepartmentsCount} in the past {recentDays} days
+          +{formatNumber(recentDepartmentsCount)} in the past {recentDays} days
         </div>
       </div>
     </div>

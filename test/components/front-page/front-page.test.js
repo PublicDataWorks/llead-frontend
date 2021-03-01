@@ -15,7 +15,7 @@ describe('FrontPage component', () => {
     const analyticSummary = {
       departmentsCount: 4,
       officersCount: 5,
-      documentsCount: 6,
+      documentsCount: 60000,
       recentDepartmentsCount: 1,
       recentOfficersCount: 2,
       recentDocumentsCount: 3,
@@ -45,7 +45,7 @@ describe('FrontPage component', () => {
     expect(baseElement.textContent).toContain('+1 in the past 30 days')
     expect(baseElement.textContent).toContain('5 officers')
     expect(baseElement.textContent).toContain('+2 in the past 30 days')
-    expect(baseElement.textContent).toContain('6 documents')
+    expect(baseElement.textContent).toContain('60,000 documents')
     expect(baseElement.textContent).toContain('+3 in the past 30 days')
     expect(fetchAnalyticSummary).toHaveBeenCalledTimes(1)
   })
