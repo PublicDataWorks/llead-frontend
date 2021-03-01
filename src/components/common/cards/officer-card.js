@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
+import startCase from 'lodash/startCase'
 
 import './officer-card.scss'
 import ArrayWithSeparator from 'components/common/array-with-separator'
@@ -16,7 +17,7 @@ const OfficerCard = (props) => {
     <div className='officer-card'>
       <div className='officer-info'>
         <div className='officer-type'>Police Officer</div>
-        <div className='officer-name'>{name}</div>
+        <div className='officer-name'>{startCase(name)}</div>
         <div className='officer-badges'>
           <ArrayWithSeparator items={items} separator=',' />
         </div>
