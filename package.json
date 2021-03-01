@@ -35,7 +35,7 @@
     "start-test-server": "APP_ENV=test webpack serve --mode=development",
     "prod": "APP_ENV=production webpack --mode=production",
     "test": "TZ=UTC APP_ENV=test jest",
-    "test:ci": "TZ=UTC APP_ENV=test jest --collectCoverage",
+    "test:ci": "TZ=UTC APP_ENV=test jest -w 2 --collectCoverage",
     "coveralls": "coveralls < coverage/lcov.info",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
