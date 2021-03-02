@@ -1,10 +1,32 @@
 import documentsPaginationReducer from 'reducers/department-page/documents-pagination-reducer'
 
-import { DEPARTMENT_DOCUMENTS_FETCH_SUCCESS } from 'action-types/department-page'
+import {
+  DEPARTMENT_DOCUMENTS_FETCH_START,
+  DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
+} from 'action-types/department-page'
 
 describe('#documentsReducer', () => {
   it('should return initial state', () => {
     expect(documentsPaginationReducer(undefined, {})).toStrictEqual({})
+  })
+
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_START without request params offset', () => {
+    const result = documentsPaginationReducer({ count: 10 }, {
+      type: DEPARTMENT_DOCUMENTS_FETCH_START,
+    })
+
+    expect(result).toStrictEqual({})
+  })
+
+  it('should handle DEPARTMENT_DOCUMENTS_FETCH_START with request params offset', () => {
+    const result = documentsPaginationReducer({ count: 10 }, {
+      type: DEPARTMENT_DOCUMENTS_FETCH_START,
+      request: {
+        params: { offset: 5 },
+      },
+    })
+
+    expect(result).toStrictEqual({ count: 10 })
   })
 
   it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with empty next', () => {
@@ -29,6 +51,7 @@ describe('#documentsReducer', () => {
       count: 1,
     })
   })
+
   it('should handle DEPARTMENT_DOCUMENTS_FETCH_SUCCESS with invalid next value', () => {
     const documentsData = {
       next: 'next',

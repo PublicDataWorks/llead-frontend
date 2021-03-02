@@ -1,8 +1,23 @@
 import {
+  getIsRequesting,
   departmentSelector,
   documentsSelector,
   documentsPaginationSelector,
 } from 'selectors/department-page'
+
+
+describe('#getIsRequesting', () => {
+  it('returns isRequesting', () => {
+    const state = {
+      departmentPage: {
+        isRequesting: true,
+      },
+    }
+    const isRequesting = getIsRequesting(state)
+
+    expect(isRequesting).toBe(true)
+  })
+})
 
 describe('#departmentSelector', () => {
   describe('has data', () => {
@@ -44,7 +59,7 @@ describe('#departmentSelector', () => {
     it('returns empty data', () => {
       const department = departmentSelector({})
 
-      expect(department).toStrictEqual({ wrglFiles: [] })
+      expect(department).toStrictEqual({})
     })
   })
 })

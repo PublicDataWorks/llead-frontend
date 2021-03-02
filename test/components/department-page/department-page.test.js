@@ -69,6 +69,56 @@ describe('Department component', () => {
     expect(departmentSummary.children[2].textContent).toEqual('1 documents')
   })
 
+  it('should not render if isRequesting', () => {
+    const departmentData = {
+      id: 1,
+      city: 'department city',
+      complaintsCount: 2,
+      documentsCount: 1,
+      locationMapUrl: null,
+      name: 'department name',
+      parish: 'department parish',
+      officersCount: 3,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['departments/1']}>
+          <Route path='departments/:id'>
+            <Department
+              department={departmentData}
+              isRequesting={true}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+    expect(
+      baseElement.getElementsByClassName('department-content').length
+    ).toBe(0)
+  })
+
+  it('should not render if department is empty', () => {
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['departments/1']}>
+          <Route path='departments/:id'>
+            <Department
+              department={{}}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+    expect(
+      baseElement.getElementsByClassName('department-content').length
+    ).toBe(0)
+  })
+
   it('should render background image', () => {
     const departmentData = {
       id: 1,
@@ -424,6 +474,7 @@ describe('Department component', () => {
           <MemoryRouter initialEntries={['departments/1']}>
             <Route path='departments/:id'>
               <Department
+                department={{ id: 1 }}
                 documents={documentsData}
                 {...paginationData}
                 fetchDocuments={fetchDocumentsSpy}

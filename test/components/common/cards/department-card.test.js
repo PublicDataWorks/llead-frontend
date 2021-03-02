@@ -6,6 +6,7 @@ import DepartmentCard from 'components/common/cards/department-card'
 describe('Department card component', () => {
   it('should render correctly', () => {
     const props = {
+      id: 1,
       city: 'city',
       name: 'name',
       parish: 'parish',
