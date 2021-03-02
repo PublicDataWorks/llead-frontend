@@ -3,10 +3,21 @@
 .department-page {
   @extend %main-container;
 
-  background-color: $mecury-color;
+  background-color: $wild-sand-color;
 
   .page-container {
     padding: 16px;
+
+    .department-period {
+      padding: 16px 0 17px;
+      margin-bottom: 16px;
+      text-align: center;
+      border: 1px solid $alto-color;
+      box-sizing: border-box;
+      color: $boulder-color;
+      font-size: 16px;
+      line-height: 21px;
+    }
 
     .department-content {
       padding: 32px;

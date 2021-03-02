@@ -44,6 +44,7 @@ export const departmentSelector = (state) => {
     'name',
     'parish',
     'officersCount',
+    'dataPeriod',
   ]
 
   const rawDepartment = getDepartment(state)

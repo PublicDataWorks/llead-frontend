@@ -51,6 +51,10 @@ describe('Department Page', () => {
 
       cy.location('pathname').should('eq', '/departments/1')
       cy.contains('Police Department')
+      cy.get('.department-period').should(
+        'text',
+        'Data for this department is limited to the years\u00A02013, 2015, 2017 and 2020'
+      )
       cy.get('.department-content')
         .find('.department-name')
         .should('text', 'Harmonbury Department')
@@ -145,6 +149,61 @@ describe('Department Page', () => {
         .should('text', departmentNextDocumentsData.results[1].title)
 
       cy.get('.department-documents-loadmore').should('not.exist')
+    })
+  })
+
+  describe('render data period info', () => {
+    beforeEach(() => {
+      cy.login()
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/app-config/',
+        },
+        appConfigData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/documents/',
+          query: { limit: '5', offset: '5' },
+        },
+        departmentNextDocumentsData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/documents/',
+        },
+        departmentDocumentData
+      )
+    })
+    it('should render with data period', () => {
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1',
+        },
+        departmentDetailsData
+      )
+      cy.visit('/departments/1')
+
+      cy.get('.department-period').should(
+        'text',
+        'Data for this department is limited to the years\u00A02013, 2015, 2017 and 2020'
+      )
+    })
+    it('should render with no data period', () => {
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1',
+        },
+        { ...departmentDetailsData, data_period: [] }
+      )
+      cy.visit('/departments/1')
+
+      cy.get('.department-period').should('not.exist')
     })
   })
 })
