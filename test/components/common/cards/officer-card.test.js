@@ -7,7 +7,7 @@ import OfficerCard from 'components/common/cards/officer-card'
 describe('Officer card component', () => {
   it('should render correctly', () => {
     const props = {
-      name: 'Mark Carlson',
+      name: 'mark carlson',
       badges: ['12435', '612'],
       department: {
         id: 9,
@@ -26,7 +26,6 @@ describe('Officer card component', () => {
     expect(baseElement.textContent.includes('Mark Carlson')).toBe(true)
     expect(baseElement.textContent.includes(props.badges[0])).toBe(true)
     expect(baseElement.textContent.includes(props.badges[1])).toBe(true)
-    expect(baseElement.textContent.includes(props.name)).toBe(true)
     expect(baseElement.textContent.includes(props.department.name)).toBe(true)
   })
 })
