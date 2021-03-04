@@ -41,12 +41,17 @@ describe('Header component', () => {
   })
 
   describe('user is logged in', () => {
-    it('should render with log out button', () => {
+    it('should render with log out button and can click to perform logout', () => {
       const logOutSpy = sinon.spy()
+      const refreshToken = 'refreshToken'
       const container = render(
         <MemoryRouter initialEntries={['/search']}>
           <Route path='/search'>
-            <Header isLoggedIn={true} logOut={logOutSpy} />
+            <Header
+              isLoggedIn={true}
+              logOut={logOutSpy}
+              refreshToken={refreshToken}
+            />
           </Route>
         </MemoryRouter>
       )
@@ -55,7 +60,7 @@ describe('Header component', () => {
 
       expect(baseElement.getElementsByClassName('logout-btn').length).toEqual(1)
       fireEvent.click(container.getByText('L'))
-      expect(logOutSpy).toHaveBeenCalled()
+      expect(logOutSpy).toHaveBeenCalledWith({ refresh: refreshToken })
     })
   })
 

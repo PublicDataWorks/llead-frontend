@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import axiosClient from 'utils/axios-client'
 import { REFRESH_TOKEN_API_URL } from 'constants/api'
-import { updateToken, logOut } from 'actions/authentication'
+import * as authenticationActions from 'actions/authentication'
 import { HTTP_STATUS_CODES } from 'constants/common'
 
 describe('axios-client request interceptors', () => {
@@ -60,7 +60,9 @@ describe('axios-client request interceptors', () => {
         expect(axios.post).toHaveBeenCalledWith(REFRESH_TOKEN_API_URL, {
           refresh: 'refreshToken',
         })
-        expect(store.dispatch).toHaveBeenCalledWith(updateToken('newToken'))
+        expect(store.dispatch).toHaveBeenCalledWith(
+          authenticationActions.updateToken('newToken')
+        )
         expect(requestConfig).toStrictEqual({
           headers: { Authorization: 'Bearer newToken', responseType: 'json' },
         })
@@ -79,7 +81,9 @@ describe('axios-client request interceptors', () => {
         expect(axios.post).toHaveBeenCalledWith(REFRESH_TOKEN_API_URL, {
           refresh: 'refreshToken',
         })
-        expect(store.dispatch).toHaveBeenCalledWith(logOut())
+        expect(store.dispatch).toHaveBeenCalledWith(
+          authenticationActions.removeToken()
+        )
         expect(requestConfig).toStrictEqual({
           headers: { responseType: 'json' },
         })
