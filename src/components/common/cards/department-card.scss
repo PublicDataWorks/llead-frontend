@@ -40,7 +40,8 @@
       height: 60px;
       display: inline-block;
       vertical-align: middle;
-      background-size: cover;
+      background-size: contain;
+      background-repeat: no-repeat;
     }
 
     .department-location {
