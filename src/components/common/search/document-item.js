@@ -28,7 +28,7 @@ const DocumentItem = (props) => {
     <div className='document-item'>
       <div className='document-item-title'>
         <span className='document-item-type'>{documentType}</span>
-        <span className='document-item-title'>{title}</span>
+        <span className='document-item-name'>{title}</span>
         <span className='document-item-department-name'>
           <ArrayWithSeparator items={items} separator=',&nbsp;' />
         </span>

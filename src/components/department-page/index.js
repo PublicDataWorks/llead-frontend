@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { useParams, useLocation, useHistory } from 'react-router-dom'
+import { useParams, useLocation, useHistory, Redirect } from 'react-router-dom'
 import qs from 'qs'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
@@ -10,26 +10,24 @@ import isString from 'lodash/isString'
 import compact from 'lodash/compact'
 import filter from 'lodash/filter'
 import concat from 'lodash/concat'
+import toNumber from 'lodash/toNumber'
+import isNaN from 'lodash/isNaN'
 
 import './department-page.scss'
 import Header from 'pages/common/header'
 import Footer from 'components/common/footer'
 import WRGLFile from './wrgl-file'
-import Button from 'components/common/buttons/button'
-import DocumentCard from 'components/common/cards/document-card'
+import DepartmentDocumentsContainer from 'pages/department-page/department-documents'
 
 const Department = (props) => {
-  const {
-    department,
-    fetchDepartment,
-    documents,
-    fetchDocuments,
-    count,
-    limit,
-    offset,
-    isRequesting,
-  } = props
+  const { department, fetchDepartment, isRequesting } = props
   const { id } = useParams()
+
+  const departmentId = toNumber(id)
+  if (isNaN(departmentId)) {
+    return <Redirect to='/' />
+  }
+
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
   const location = useLocation()
   const history = useHistory()
@@ -60,14 +58,9 @@ const Department = (props) => {
     [dataPeriod]
   )
 
-  const handleLoadMore = () => {
-    fetchDocuments(id, { limit, offset })
-  }
-
   useEffect(() => {
-    fetchDepartment(id)
-    fetchDocuments(id)
-  }, [id])
+    fetchDepartment(departmentId)
+  }, [departmentId])
 
   useEffect(() => {
     const parsedSearch = qs.parse(location.search, {
@@ -151,28 +144,8 @@ const Department = (props) => {
                   ))}
                 </div>
 
-                {count > 0 && (
-                  <div className='department-documents'>
-                    <div className='department-documents-title'>
-                      Documents ({count})
-                    </div>
-                    <div className='department-documents-listview'>
-                      {map(documents, ({ id, ...rest }) => (
-                        <DocumentCard key={id} {...rest} />
-                      ))}
-                    </div>
-                    <div className='department-documents-count'>
-                      {documents.length} of {count} documents displayed
-                    </div>
-                    {offset && (
-                      <Button
-                        className='department-documents-loadmore'
-                        onClick={handleLoadMore}
-                      >
-                        Load {limit} more
-                      </Button>
-                    )}
-                  </div>
+                {documentsCount > 0 && (
+                  <DepartmentDocumentsContainer departmentId={departmentId} />
                 )}
               </div>
             </>
@@ -186,22 +159,13 @@ const Department = (props) => {
 
 Department.propTypes = {
   department: PropTypes.object,
-  documents: PropTypes.array,
   fetchDepartment: PropTypes.func,
-  fetchDocuments: PropTypes.func,
-  count: PropTypes.number,
-  limit: PropTypes.number,
-  offset: PropTypes.number,
-  fetchPagination: PropTypes.func,
   isRequesting: PropTypes.bool,
 }
 
 Department.defaultProps = {
   department: {},
-  documents: [],
   fetchDepartment: noop,
-  fetchDocuments: noop,
-  fetchPagination: noop,
   isRequesting: false,
 }
 

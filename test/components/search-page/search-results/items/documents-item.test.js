@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import DocumentsItem from 'components/search-page/search-results/items/document-item'
+import DocumentsItem from 'components/common/search/document-item'
 
 describe('Documents Item', () => {
   it('should render correctly with normal content', () => {
