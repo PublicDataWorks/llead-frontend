@@ -151,27 +151,29 @@ const Department = (props) => {
                   ))}
                 </div>
 
-                <div className='department-documents'>
-                  <div className='department-documents-title'>
-                    Documents ({count})
+                {count > 0 && (
+                  <div className='department-documents'>
+                    <div className='department-documents-title'>
+                      Documents ({count})
+                    </div>
+                    <div className='department-documents-listview'>
+                      {map(documents, ({ id, ...rest }) => (
+                        <DocumentCard key={id} {...rest} />
+                      ))}
+                    </div>
+                    <div className='department-documents-count'>
+                      {documents.length} of {count} documents displayed
+                    </div>
+                    {offset && (
+                      <Button
+                        className='department-documents-loadmore'
+                        onClick={handleLoadMore}
+                      >
+                        Load {limit} more
+                      </Button>
+                    )}
                   </div>
-                  <div className='department-documents-listview'>
-                    {map(documents, ({ id, ...rest }) => (
-                      <DocumentCard key={id} {...rest} />
-                    ))}
-                  </div>
-                  <div className='department-documents-count'>
-                    {documents.length} of {count} documents displayed
-                  </div>
-                  {offset && (
-                    <Button
-                      className='department-documents-loadmore'
-                      onClick={handleLoadMore}
-                    >
-                      Load {limit} more
-                    </Button>
-                  )}
-                </div>
+                )}
               </div>
             </>
           )}

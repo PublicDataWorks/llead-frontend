@@ -521,6 +521,37 @@ describe('Department component', () => {
         },
       ])
     })
+
+    it('hide department documents element if count is not greater than 0', () => {
+      const paginationData = {
+        count: 0,
+      }
+      const documentsData = []
+      const fetchDocumentsSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={{ id: 1 }}
+                documents={documentsData}
+                {...paginationData}
+                fetchDocuments={fetchDocumentsSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentDocumentsElement = baseElement.getElementsByClassName(
+        'department-documents'
+      )[0]
+
+      expect(departmentDocumentsElement).not.toBeTruthy()
+    })
   })
 
   describe('render data period info', () => {
