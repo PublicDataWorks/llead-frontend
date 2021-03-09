@@ -140,7 +140,7 @@ describe('Search Page', () => {
       cy.get('@documentItems')
         .eq(0)
         .find('.document-item-text-content')
-        .should('text','...Text content highlight...')
+        .should('text', '...Text content highlight...')
         .get('em')
         .should('text', 'highlight')
       cy.get('@documentItems').eq(1).contains('Performance past from.')
@@ -151,6 +151,58 @@ describe('Search Page', () => {
       cy.get('@searchBox').clear()
       cy.get('.departments-carousel').should('not.exist')
       cy.get('.officers-carousel').should('not.exist')
+    })
+
+    it('redirects to department page when clicks on department card', () => {
+      cy.visit('/search')
+
+      cy.get('.search-input-container')
+        .find('.input-field')
+        .as('searchBox')
+        .should('exist')
+
+      cy.get('@searchBox').type('ba')
+
+      cy.get('.departments-carousel')
+        .find('.carousel-title')
+        .should('text', 'Departments')
+      cy.get('.departments-carousel')
+        .find('.swiper-slide')
+        .as('departmentSlides')
+      cy.get('@departmentSlides').eq(0).click()
+
+      cy.location('pathname').should(
+        'eq',
+        `/departments/${firstSearchData['departments'][0].id}/`
+      )
+    })
+
+    it('opens document url in new tab when click on document card', () => {
+      cy.visit('/search')
+
+      cy.window().then((win) => {
+        cy.stub(win, 'open').as('open')
+      })
+
+      cy.get('.search-input-container')
+        .find('.input-field')
+        .as('searchBox')
+        .should('exist')
+
+      cy.get('@searchBox').type('ba')
+
+      cy.get('.documents-list')
+        .find('.documents-list-title')
+        .should('text', 'Documents')
+      cy.get('.documents-list').find('.document-item').as('documentItems')
+      cy.get('@documentItems').eq(0).click()
+
+      cy.get('@open').should(
+        'to.be.calledWith',
+        firstSearchData['documents'][0].url,
+        '_blank',
+        'noopener noreferrer'
+      )
     })
   })
 })

@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import './document-item.scss'
 import ArrayWithSeparator from 'components/common/array-with-separator'
+import OuterLink from 'components/common/links/outer-link'
 
 const DocumentItem = (props) => {
   const {
@@ -14,6 +15,7 @@ const DocumentItem = (props) => {
     incidentDate,
     textContent,
     textContentHighlight,
+    url,
   } = props
 
   const items = departments.map((department) => (
@@ -25,7 +27,7 @@ const DocumentItem = (props) => {
     : sanitize(textContent)
 
   return (
-    <div className='document-item'>
+    <OuterLink className='document-item' href={url}>
       <div className='document-item-title'>
         <span className='document-item-type'>{documentType}</span>
         <span className='document-item-name'>{title}</span>
@@ -42,7 +44,7 @@ const DocumentItem = (props) => {
           }}
         />
       </div>
-    </div>
+    </OuterLink>
   )
 }
 
@@ -51,6 +53,7 @@ DocumentItem.propTypes = {
   title: PropTypes.string,
   incidentDate: PropTypes.string,
   departments: PropTypes.array,
+  url: PropTypes.string,
   textContent: PropTypes.string,
   textContentHighlight: PropTypes.string,
 }
