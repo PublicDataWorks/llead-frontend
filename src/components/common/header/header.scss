@@ -22,6 +22,23 @@
 
   .search-input-container {
     flex-grow: 1;
+    position: relative;
+
+    .input-field {
+      padding: 11px 48px 12px 48px;
+
+      &:focus {
+        padding: 11px 48px 12px 48px;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
   }
 
   .logout-btn {

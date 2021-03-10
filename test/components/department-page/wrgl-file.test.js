@@ -35,7 +35,7 @@ describe('WRGL file component', () => {
     expect(downloadAnchor).toBeTruthy()
     fireEvent.click(downloadAnchor)
 
-    const expandArrowElement = getByTestId('expand--control')
+    const expandArrowElement = getByTestId('test--expand-control')
     fireEvent.click(expandArrowElement)
     expect(updateExpandedCsvFilesStub).toHaveBeenCalledWith(props.slug, false)
     expect(wrglContainer.classList.value).toContain('wrgl-expanded')

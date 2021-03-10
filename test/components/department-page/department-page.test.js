@@ -386,7 +386,7 @@ describe('Department component', () => {
 
       const { getByTestId } = container
 
-      const expandArrowElement = getByTestId('expand--control')
+      const expandArrowElement = getByTestId('test--expand-control')
       fireEvent.click(expandArrowElement)
 
       expect(mockHistoryPush).toHaveBeenCalledWith({
@@ -448,7 +448,7 @@ describe('Department component', () => {
 
       const { getByTestId } = container
 
-      const expandArrowElement = getByTestId('expand--control')
+      const expandArrowElement = getByTestId('test--expand-control')
       fireEvent.click(expandArrowElement)
 
       expect(mockHistoryPush).toHaveBeenCalledWith({
