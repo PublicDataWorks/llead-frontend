@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import map from 'lodash/map'
 
 import './documents-list.scss'
-import DocumentItem from 'components/common/search/document-item'
+import DocumentItem from 'components/common/items/document-item'
 
 const DocumentsList = (props) => {
   const { items } = props

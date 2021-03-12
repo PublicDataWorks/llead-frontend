@@ -19,8 +19,6 @@ describe('Department Documents component', () => {
         title: 'title 1',
         url: 'url 1',
         incidentDate: 'May 04, 2020',
-        previewImageUrl: 'preview_image_url_1',
-        pagesCount: 15,
       },
       {
         id: 2,
@@ -28,8 +26,6 @@ describe('Department Documents component', () => {
         title: 'title 2',
         url: 'url 2',
         incidentDate: 'Jan 21, 2019',
-        previewImageUrl: 'preview_image_url_2',
-        pagesCount: 1,
       },
     ]
     const fetchDocumentsSpy = sinon.spy()
@@ -56,17 +52,17 @@ describe('Department Documents component', () => {
       getByText(`2 of ${paginationData.count} documents displayed`)
     ).toBeTruthy()
 
-    const documentElements = baseElement.getElementsByClassName('document-card')
+    const documentElements = baseElement.getElementsByClassName('document-item')
     const firstDocument = documentElements[0]
     const secondDocument = documentElements[1]
 
     const firstDocumentTitle = firstDocument.getElementsByClassName(
-      'document-title'
+      'document-item-name'
     )[0]
     expect(firstDocumentTitle.textContent).toEqual('title 1')
 
     const secondDocumentTitle = secondDocument.getElementsByClassName(
-      'document-title'
+      'document-item-name'
     )[0]
     expect(secondDocumentTitle.textContent).toEqual('title 2')
 
@@ -97,8 +93,6 @@ describe('Department Documents component', () => {
         title: 'title 1',
         url: 'url 1',
         incidentDate: 'May 04, 2020',
-        previewImageUrl: 'preview_image_url_1',
-        pagesCount: 15,
       },
       {
         id: 2,
@@ -106,8 +100,6 @@ describe('Department Documents component', () => {
         title: 'title 2',
         url: 'url 2',
         incidentDate: 'Jan 21, 2019',
-        previewImageUrl: 'preview_image_url_2',
-        pagesCount: 1,
       },
     ]
     const fetchDocumentsSpy = sinon.spy()

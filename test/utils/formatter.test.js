@@ -10,6 +10,11 @@ describe('#formatDocumentDate', () => {
     const dateString = formatDocumentDate('2020-01-06')
     expect(dateString).toEqual('Jan 6, 2020')
   })
+
+  it('returns emtpy on empty date', () => {
+    const dateString = formatDocumentDate('')
+    expect(dateString).toBe('')
+  })
 })
 
 describe('formatNumber', () => {

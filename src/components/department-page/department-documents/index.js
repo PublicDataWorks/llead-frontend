@@ -5,8 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 import noop from 'lodash/noop'
 
 import SearchSVG from 'assets/icons/search.svg'
-import DocumentItem from 'components/common/search/document-item'
-import DocumentCard from 'components/common/cards/document-card'
+import DocumentItem from 'components/common/items/document-item'
 import Button from 'components/common/buttons/button'
 import Input from 'components/common/inputs/input'
 
@@ -57,13 +56,9 @@ const DepartmentDocuments = (props) => {
         className='search-input'
       />
       <div className='department-documents-listview'>
-        {map(documents, ({ id, ...rest }) =>
-          isEmpty(departmentSearchQuery) ? (
-            <DocumentCard key={id} {...rest} />
-          ) : (
-            <DocumentItem key={id} {...rest} />
-          )
-        )}
+        {map(documents, ({ id, ...rest }) => (
+          <DocumentItem key={id} {...rest} />
+        ))}
       </div>
 
       <div className='department-documents-count'>

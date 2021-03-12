@@ -1,9 +1,14 @@
 import moment from 'moment'
 import numeral from 'numeral'
+import isEmpty from 'lodash/isEmpty'
 
 import { DATE_FORMAT } from 'constants/common'
 
 export const formatDocumentDate = (date) => {
+  if (isEmpty(date)) {
+    return ''
+  }
+
   try {
     const parseDate = moment(date)
     if (!parseDate.isValid()) {

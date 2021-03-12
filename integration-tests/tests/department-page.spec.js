@@ -143,13 +143,13 @@ describe('Department Page', () => {
       cy.contains(`Documents (${departmentDocumentData.count})`)
 
       cy.get('.department-documents-listview')
-        .find('.document-card')
+        .find('.document-item')
         .should('length', 5)
 
       cy.get('.department-documents-listview')
-        .find('.document-card')
+        .find('.document-item')
         .eq(0)
-        .find('.document-title')
+        .find('.document-item-name')
         .should('text', departmentDocumentData.results[0].title)
 
       cy.get('.department-documents-loadmore')
@@ -157,13 +157,13 @@ describe('Department Page', () => {
         .click()
 
       cy.get('.department-documents-listview')
-        .find('.document-card')
+        .find('.document-item')
         .should('length', 10)
 
       cy.get('.department-documents-listview')
-        .find('.document-card')
+        .find('.document-item')
         .eq(6)
-        .find('.document-title')
+        .find('.document-item-name')
         .should('text', departmentNextDocumentsData.results[1].title)
 
       cy.get('.department-documents-loadmore').should('not.exist')

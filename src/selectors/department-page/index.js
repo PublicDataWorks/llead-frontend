@@ -10,8 +10,6 @@ const documentFormatter = (document) => {
     'id',
     'title',
     'url',
-    'previewImageUrl',
-    'pagesCount',
     'documentType',
     'textContent',
     'textContentHighlight',
