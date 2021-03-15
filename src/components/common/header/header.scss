@@ -1,3 +1,4 @@
+@import 'styles/variables';
 @import 'styles/colors';
 
 .header {
@@ -6,23 +7,23 @@
   top: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: 16px;
   background-color: $white-color;
   z-index: 999;
   display: flex;
+  flex-flow: wrap;
+  align-items: center;
+  justify-content: space-between;
 
   .logo {
-    font-size: 24px;
-    line-height: 48px;
-    font-weight: 600;
-    margin-right: 60px;
+    padding: $v-frame-margin 0 $v-frame-margin $h-side-frame;
     text-decoration: none;
-    color: $thunder-color;
+    order: 1;
   }
-
   .search-input-container {
+    padding: $v-frame-margin $h-side-frame;
     flex-grow: 1;
     position: relative;
+    flex-basis: auto;
 
     .input-field {
       padding: 11px 48px 12px 48px;
@@ -39,12 +40,14 @@
       transform: translateY(-50%);
       cursor: pointer;
     }
+
+    order: 2;
   }
 
   .logout-btn {
     width: 48px;
     height: 48px;
-    margin-left: 32px;
+    margin: $v-frame-margin $h-side-frame;
     background-color: $wild-sand-color;
     border: 1px solid $alto-color;
     box-sizing: border-box;
@@ -52,5 +55,19 @@
     line-height: 48px;
     text-align: center;
     cursor: pointer;
+    order: 3;
+  }
+}
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  .header {
+    .search-input-container {
+      order: 3;
+      flex-basis: 100%;
+      margin-top: 0px;
+    }
+    .logout-btn {
+      order: 2;
+    }
   }
 }

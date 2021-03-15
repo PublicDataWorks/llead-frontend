@@ -1,40 +1,40 @@
 @import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
 
 .carousel-container {
-  padding: 48px 0 76px 32px;
+  padding: $v-header-margin 0 $v-footer-margin $h-side-frame;
   background-color: $wild-sand-color;
 
   .carousel-title-container {
     color: $thunder-color;
     display: flex;
-    padding-right: 32px;
+    padding-right: $h-card-margin;
+    margin-bottom: 2 * $v-small-margin;
 
     .carousel-title {
-      font-weight: 500;
-      font-size: 26px;
-      line-height: 34px;
-      margin-bottom: 30px;
+      @include callout-text;
       flex-grow: 1;
     }
 
     .carousel-sorted-info {
-      font-weight: 300;
-      font-size: 16px;
-      line-height: 34px;
+      @include small-text;
+      line-height: 31px;
+      text-align: right;
 
       .sorted-by {
-        font-weight: 600;
+        font-weight: 500;
       }
     }
   }
 
   .swiper-container {
-    padding: 0 32px 52px 0;
+    padding: 0 $h-card-margin $toolbar-height 0;
 
     .carousel-next,
     .carousel-prev {
       position: absolute;
-      bottom: 0;
+      bottom: $v-mid-margin;
       width: 40px;
       height: 40px;
       border: 1px solid $alto-color;
@@ -61,6 +61,14 @@
       &.swiper-button-disabled {
         background-image: url('assets/icons/left-disclosure-indicator.svg');
       }
+    }
+  }
+}
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  .carousel-container {
+    .carousel-title-container {
+      padding-right: $h-side-frame;
     }
   }
 }

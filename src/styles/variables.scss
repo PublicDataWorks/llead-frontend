@@ -1,2 +1,21 @@
-$header-height: 80px;
+$toolbar-height: 80px;
+
+$header-height-mobile: 2 * $toolbar-height;
+$header-height: $toolbar-height;
+
 $footer-height: 128px;
+
+$mobile-breakpoint: 767px;
+
+$v-header-margin: 48px;
+$v-margin: 32px;
+$v-mid-margin: 20px;
+$v-frame-margin: 16px;
+$v-small-margin: 12px;
+$v-tiny-margin: 6px;
+$v-footer-margin: 76px;
+
+$h-side-frame: 16px;
+$h-card-margin: 32px;
+$h-margin: 8px;
+$h-small-margin: 4px;

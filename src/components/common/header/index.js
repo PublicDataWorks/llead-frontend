@@ -58,7 +58,7 @@ const Header = (props) => {
 
   return (
     <div className='header'>
-      <Link to={FRONT_PAGE_PATH} className='logo'>
+      <Link to={FRONT_PAGE_PATH} className='logo h1'>
         LLEAD
       </Link>
       {isLoggedIn && (

@@ -6,6 +6,21 @@ import {
   documentsData,
 } from '../data/front-page-data'
 
+const CAROUSEL_LEFT_MARGIN = 16
+const CAROUSEL_CARD_MARGIN = 8
+const DERPARTMENT_CARD_WIDTH = 312
+const OFFICER_CARD_WIDTH = 248
+const DOCUMENT_CARD_WIDTH = 248
+
+const calculateScreenWidth = (itemSize, number) => {
+  return (
+    itemSize * number +
+    CAROUSEL_CARD_MARGIN * (number - 1) +
+    CAROUSEL_LEFT_MARGIN +
+    4
+  )
+}
+
 describe('FrontPage', () => {
   it('redirect to login when not logged in', () => {
     cy.visit('/')
@@ -70,7 +85,12 @@ describe('FrontPage', () => {
 
     describe('departments carousel', () => {
       it('render correctly', () => {
-        cy.viewport(1000, 1200)
+        const DEPARTMENT_VISIBLE_COUNTS = 3
+        const screenWidth = calculateScreenWidth(
+          DERPARTMENT_CARD_WIDTH,
+          DEPARTMENT_VISIBLE_COUNTS
+        )
+        cy.viewport(screenWidth, 1200)
         cy.visit('/')
 
         cy.get('.departments-carousel')
@@ -87,7 +107,7 @@ describe('FrontPage', () => {
         cy.get('.departments-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', 3)
+          .should('length', DEPARTMENT_VISIBLE_COUNTS)
 
         cy.get('@visibleSlides').eq(0).contains('Baton Rouge Department 1')
         cy.get('@visibleSlides').eq(1).contains('New Orleans Department 1')
@@ -104,7 +124,7 @@ describe('FrontPage', () => {
         cy.get('.departments-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', 3)
+          .should('length', DEPARTMENT_VISIBLE_COUNTS)
 
         cy.get('@visibleSlides').eq(0).contains('Baton Rouge Department 2')
         cy.get('@visibleSlides').eq(1).contains('New Orleans Department 2')
@@ -125,7 +145,12 @@ describe('FrontPage', () => {
 
     describe('officers carousel', () => {
       it('render correctly', () => {
-        cy.viewport(800, 1200)
+        const OFFICER_VISIBLE_COUNTS = 4
+        const screenWidth = calculateScreenWidth(
+          OFFICER_CARD_WIDTH,
+          OFFICER_VISIBLE_COUNTS
+        )
+        cy.viewport(screenWidth, 1200)
         cy.visit('/')
 
         cy.get('.officers-carousel')
@@ -138,11 +163,12 @@ describe('FrontPage', () => {
         cy.get('.officers-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', 3)
+          .should('length', OFFICER_VISIBLE_COUNTS)
 
         cy.get('@visibleSlides').eq(0).contains('Mark Carlson')
         cy.get('@visibleSlides').eq(1).contains('Eric Patel')
         cy.get('@visibleSlides').eq(2).contains('Lee Allen')
+        cy.get('@visibleSlides').eq(3).contains('Tina Holder')
 
         cy.get('@visibleSlides')
           .eq(0)
@@ -172,11 +198,12 @@ describe('FrontPage', () => {
         cy.get('.officers-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', 3)
+          .should('length', OFFICER_VISIBLE_COUNTS)
 
-        cy.get('@visibleSlides').eq(0).contains('Lee Allen')
-        cy.get('@visibleSlides').eq(1).contains('Tina Holder')
-        cy.get('@visibleSlides').eq(2).contains('Kelly Hunt')
+        cy.get('@visibleSlides').eq(0).contains('Eric Patel')
+        cy.get('@visibleSlides').eq(1).contains('Lee Allen')
+        cy.get('@visibleSlides').eq(2).contains('Tina Holder')
+        cy.get('@visibleSlides').eq(3).contains('Kelly Hunt')
       })
 
       it('redirects to department page when click on departments section', () => {
@@ -197,7 +224,12 @@ describe('FrontPage', () => {
 
     describe('documents carousel', () => {
       it('render correctly', () => {
-        cy.viewport(800, 1200)
+        const DOCUMENT_VISIBLE_COUNTS = 3
+        const screenWidth = calculateScreenWidth(
+          DOCUMENT_CARD_WIDTH,
+          DOCUMENT_VISIBLE_COUNTS
+        )
+        cy.viewport(screenWidth, 1200)
         cy.visit('/')
 
         cy.get('.documents-carousel')
@@ -211,7 +243,7 @@ describe('FrontPage', () => {
         cy.get('.documents-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', 3)
+          .should('length', DOCUMENT_VISIBLE_COUNTS)
 
         cy.get('@visibleSlides').eq(0).contains('Her hard step sea.')
         cy.get('@visibleSlides')
@@ -249,7 +281,7 @@ describe('FrontPage', () => {
         cy.get('.documents-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', 3)
+          .should('length', DOCUMENT_VISIBLE_COUNTS)
 
         cy.get('@visibleSlides')
           .eq(0)

@@ -1,10 +1,12 @@
 @import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
 
 .document-card {
   width: 248px;
   height: 313px;
   background: $white-color;
-  border-radius: 2px;
+  border-radius: 8px;
   border: 1px solid $alto-color;
   box-sizing: border-box;
   font-size: 16px;
@@ -12,26 +14,26 @@
 
   .document-info {
     box-sizing: border-box;
-    padding: 32px 27px 0 32px;
-    height: 222px;
+    padding: $v-margin 27px 0 $h-card-margin;
+    height: 248px;
 
     .document-type {
-      font-weight: 300;
-      font-size: 16px;
-      line-height: 21px;
+      @include small-text;
       color: $boulder-color;
-      margin-bottom: 14px;
+      margin-bottom: $v-small-margin;
     }
 
     .document-title {
-      margin-top: 12px;
+      @include small-text;
+      margin-top: $v-small-margin;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
     }
 
     .document-incident-date {
-      margin-top: 4px;
+      @include small-text;
+      margin-top: $v-tiny-margin;
     }
 
     .document-preview-container {
@@ -60,9 +62,9 @@
 
   .document-card-footer {
     box-sizing: border-box;
-    padding: 0 32px;
+    padding: 0 $h-card-margin;
     overflow: auto;
-    height: 76px;
+    height: calc(100% - 248px);
 
     .document-department-name {
       display: block;

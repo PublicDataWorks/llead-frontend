@@ -1,28 +1,43 @@
+@import 'styles/variables';
 @import 'styles/colors';
-
+@import 'styles/mixins';
 .analytic-summary {
   background-color: $thunder-color;
+  line-height: 47px;
 
   .analytic-summary-item {
     display: flex;
     color: $white-color;
-    padding: 33px 32px 40px 32px;
-    line-height: 47px;
+    padding: $v-margin $h-card-margin;
+    line-height: 31px;
 
     .analytic-summary-content {
-      font-weight: 500;
-      font-size: 36px;
+      @include callout-text;
       flex-grow: 1;
+      flex-basis: auto;
     }
 
     .recent-summary {
-      font-weight: 300;
-      font-size: 16px;
+      @include small-text;
       color: $alto-color;
+      line-height: 31px;
     }
 
     & + .analytic-summary-item {
       border-top: 1px solid $wild-sand-color;
+    }
+  }
+}
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  .analytic-summary {
+    .analytic-summary-item {
+      flex-wrap: wrap;
+
+      .analytic-summary-content {
+        flex-grow: 1;
+        flex-basis: 100%;
+      }
     }
   }
 }

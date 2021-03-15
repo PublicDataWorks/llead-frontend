@@ -1,16 +1,18 @@
 @import 'styles/colors';
+@import 'styles/variables';
 
 .department-card {
-  width: 312px;
+  width: 247px;
   height: 313px;
   background: $white-color;
-  border-radius: 2px;
+  border-radius: 8px;
   border: 1px solid $alto-color;
   box-sizing: border-box;
+  overflow: hidden;
 
   .department-info {
     box-sizing: border-box;
-    padding: 32px 28px 0 28px;
+    padding: 32px 32px 0;
     height: 222px;
 
     .department-type {
@@ -33,11 +35,11 @@
     box-sizing: border-box;
     background-color: $wild-sand-color;
     height: 89px;
-    padding: 18px 28px 12px 28px;
+    padding: 16px 16px 16px 32px;
 
     .department-map {
-      width: 49px;
-      height: 60px;
+      width: 48px;
+      height: 48px;
       display: inline-block;
       vertical-align: middle;
       background-size: contain;
@@ -50,15 +52,27 @@
       color: $thunder-color;
       display: inline-block;
       vertical-align: middle;
-      margin-left: 12px;
+      margin-left: 8px;
+      width: calc(100% - 56px);
+      white-space: nowrap;
 
       .department-city {
         font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .department-parish {
         font-weight: 300;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .department-card {
+    width: 312px;
   }
 }
