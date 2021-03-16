@@ -1,5 +1,6 @@
 import moment from 'moment'
 import numeral from 'numeral'
+import pluralize from 'pluralize'
 import isEmpty from 'lodash/isEmpty'
 
 import { DATE_FORMAT } from 'constants/common'
@@ -22,4 +23,8 @@ export const formatDocumentDate = (date) => {
 
 export const formatNumber = (value) => {
   return numeral(value).format('0,0')
+}
+
+export const stringifyTotalItems = (count, itemName) => {
+  return `${formatNumber(count)} ${pluralize(itemName, count)}`
 }

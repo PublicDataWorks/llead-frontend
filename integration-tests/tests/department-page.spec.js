@@ -93,7 +93,7 @@ describe('Department Page', () => {
       cy.get('.department-summary')
         .find('div')
         .eq(2)
-        .should('text', '1 documents')
+        .should('text', '1 document')
     })
 
     it('render department wrgl files', () => {

@@ -8,6 +8,7 @@ import SearchSVG from 'assets/icons/search.svg'
 import DocumentItem from 'components/common/items/document-item'
 import Button from 'components/common/buttons/button'
 import Input from 'components/common/inputs/input'
+import { formatNumber } from 'utils/formatter'
 
 const DepartmentDocuments = (props) => {
   const {
@@ -47,7 +48,9 @@ const DepartmentDocuments = (props) => {
 
   return (
     <div className='department-documents'>
-      <div className='department-documents-title'>Documents ({count})</div>
+      <div className='department-documents-title'>
+        Documents ({formatNumber(count)})
+      </div>
       <Input
         iconSrc={SearchSVG}
         placeholder='Search by name, department, or keyword'
@@ -62,7 +65,7 @@ const DepartmentDocuments = (props) => {
       </div>
 
       <div className='department-documents-count'>
-        {documents.length} of {count}
+        {formatNumber(documents.length)} of {formatNumber(count)}
         {isEmpty(departmentSearchQuery) ? ' documents ' : ' search results  '}
         displayed
       </div>
@@ -71,7 +74,7 @@ const DepartmentDocuments = (props) => {
           className='department-documents-loadmore'
           onClick={loadMoreDocuments}
         >
-          Load {limit} more
+          Load {formatNumber(limit)} more
         </Button>
       )}
     </div>

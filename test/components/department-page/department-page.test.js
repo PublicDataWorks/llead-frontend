@@ -70,7 +70,7 @@ describe('Department component', () => {
 
     expect(departmentSummary.children[0].textContent).toEqual('3 officers')
     expect(departmentSummary.children[1].textContent).toEqual('2 complaints')
-    expect(departmentSummary.children[2].textContent).toEqual('1 documents')
+    expect(departmentSummary.children[2].textContent).toEqual('1 document')
   })
 
   it('should redirect to home if departmentId is NaN', () => {
