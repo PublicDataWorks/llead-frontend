@@ -3,6 +3,8 @@ import {
   departmentDetailsData,
   departmentDocumentData,
   departmentNextDocumentsData,
+  departmentDocumentsSearchData,
+  departmentDocumentsSearchNextData,
 } from '../data/department-page-data'
 
 describe('Department Page', () => {
@@ -21,6 +23,22 @@ describe('Department Page', () => {
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/documents/',
+          query: { limit: '2', offset: '2', q: 'this' },
+        },
+        departmentDocumentsSearchNextData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/documents/',
+          query: { q: 'this' },
+        },
+        departmentDocumentsSearchData
       )
       cy.intercept(
         {
@@ -147,6 +165,39 @@ describe('Department Page', () => {
         .eq(6)
         .find('.document-title')
         .should('text', departmentNextDocumentsData.results[1].title)
+
+      cy.get('.department-documents-loadmore').should('not.exist')
+    })
+
+    it('should render search results', () => {
+      cy.visit('/departments/1')
+      cy.get('.department-documents').find('.input-field').type('this')
+
+      cy.contains(`Documents (${departmentDocumentsSearchData.count})`)
+
+      cy.get('.department-documents-listview')
+        .find('.document-item')
+        .should('length', 2)
+
+      cy.get('.department-documents-listview')
+        .find('.document-item')
+        .eq(0)
+        .find('.document-item-name')
+        .should('text', departmentDocumentsSearchData.results[0].title)
+
+      cy.get('.department-documents-loadmore')
+        .should('text', 'Load 2 more')
+        .click()
+
+      cy.get('.department-documents-listview')
+        .find('.document-item')
+        .should('length', 4)
+
+      cy.get('.department-documents-listview')
+        .find('.document-item')
+        .eq(2)
+        .find('.document-item-name')
+        .should('text', departmentDocumentsSearchNextData.results[0].title)
 
       cy.get('.department-documents-loadmore').should('not.exist')
     })

@@ -13,6 +13,8 @@ const documentFormatter = (document) => {
     'previewImageUrl',
     'pagesCount',
     'documentType',
+    'textContent',
+    'textContentHighlight',
   ]
 
   return {
@@ -25,7 +27,9 @@ const getDepartment = (state) => get(state.departmentPage, 'department', {})
 const getDocuments = (state) => get(state.departmentPage, 'documents', {})
 const getDocumentsPagination = (state) =>
   get(state.departmentPage, 'documentsPagination', {})
-export const getIsRequesting = (state) => get(state.departmentPage, 'isRequesting')
+
+export const getIsRequesting = (state) =>
+  get(state.departmentPage, 'isRequesting')
 
 export const departmentSelector = (state) => {
   const wrglAttributes = [

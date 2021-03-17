@@ -141,3 +141,57 @@ export const departmentNextDocumentsData = {
     },
   ],
 }
+
+export const departmentDocumentsSearchData = {
+  count: 4,
+  next:
+    'http://localhost:8000/api/departments/23/documents/?limit=2&offset=2&q=this',
+  previous: null,
+  results: [
+    {
+      text_content: 'This is the text content no 1',
+      text_content_highlight: '<em>This</em> is the text content no 1',
+      id: 111,
+      document_type: 'pdf',
+      title: 'Search result No 1',
+      url: 'https://picsum.photos/200/300',
+      incident_date: null,
+    },
+    {
+      text_content: 'This is the text content no 2',
+      text_content_highlight: '<em>This</em> is the text content no 2',
+      id: 112,
+      document_type: 'png',
+      title: 'Search result No 2',
+      url: 'https://picsum.photos/200/300',
+      incident_date: null,
+    },
+  ],
+}
+
+export const departmentDocumentsSearchNextData = {
+  count: 4,
+  next: null,
+  previous:
+    'http://localhost:8000/api/departments/23/documents/?limit=2&q=this',
+  results: [
+    {
+      text_content: 'This is the text content no 3',
+      text_content_highlight: '<em>This</em> is the text content no 3',
+      id: 111,
+      document_type: 'avd',
+      title: 'Search result No 3',
+      url: 'https://picsum.photos/200/300',
+      incident_date: null,
+    },
+    {
+      text_content: 'This is the text content no 4',
+      text_content_highlight: '<em>This</em> is the text content no 4',
+      id: 112,
+      document_type: 'jpeg',
+      title: 'Search result No 4',
+      url: 'https://picsum.photos/200/300',
+      incident_date: null,
+    },
+  ],
+}
