@@ -5,7 +5,7 @@ import sinon from 'sinon'
 import qs from 'qs'
 
 import Header from 'components/common/header'
-import { SEARCH_PATH } from 'constants/paths'
+import { FRONT_PAGE_PATH, SEARCH_PATH } from 'constants/paths'
 
 const mockHistoryPush = jest.fn()
 const mockHistoryReplace = jest.fn()
@@ -182,6 +182,42 @@ describe('Header component', () => {
         search: qs.stringify({ q: 'any' }, { addQueryPrefix: true }),
       })
       expect(mockHistoryReplace).not.toHaveBeenCalled()
+    })
+  })
+  describe('clearSearch when user click on close button', () => {
+    it('clear search box and redirect to Home', () => {
+      const changeSearchQueryStub = sinon.stub()
+
+      const container = render(
+        <MemoryRouter initialEntries={['/search']}>
+          <Route path='/search' exact>
+            <div>
+              <Header
+                isLoggedIn={true}
+                changeSearchQuery={changeSearchQueryStub}
+                searchQuery='any'
+              />
+              <div>Search Page</div>
+            </div>
+          </Route>
+          <Route path='/' exact>
+            <div>
+              <Header
+                isLoggedIn={true}
+                changeSearchQuery={changeSearchQueryStub}
+              />
+              <div>Another Page</div>
+            </div>
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { getByTestId } = container
+
+      const closeButton = getByTestId('test--close-btn')
+      fireEvent.click(closeButton)
+      expect(changeSearchQueryStub).toHaveBeenCalledWith('')
+      expect(mockHistoryPush).toHaveBeenCalledWith(FRONT_PAGE_PATH)
     })
   })
 })

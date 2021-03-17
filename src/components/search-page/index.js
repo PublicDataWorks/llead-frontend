@@ -7,8 +7,7 @@ import throttle from 'lodash/throttle'
 
 import './search-page.scss'
 import Header from 'pages/common/header'
-
-  import Footer from 'components/common/footer'
+import Footer from 'components/common/footer'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
 import DocumentsList from 'components/search-page/search-results/documents-list'
@@ -44,7 +43,9 @@ const SearchPage = (props) => {
         {map(
           searchResultsComponents,
           ({ component: Component, key, items }) =>
-            !isEmpty(items) && <Component items={items} key={key} className='search-results' />
+            !isEmpty(items) && (
+              <Component items={items} key={key} className='search-results' />
+            )
         )}
       </div>
       <Footer />

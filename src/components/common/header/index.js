@@ -8,6 +8,7 @@ import './header.scss'
 import Input from 'components/common/inputs/input'
 import { SEARCH_PATH, FRONT_PAGE_PATH } from 'constants/paths'
 import SearchSVG from 'assets/icons/search.svg'
+import CloseSVG from 'assets/icons/close.svg'
 
 const Header = (props) => {
   const {
@@ -40,6 +41,11 @@ const Header = (props) => {
     }
   }
 
+  const clearSearch = () => {
+    changeSearchQuery('')
+    history.push(FRONT_PAGE_PATH)
+  }
+
   const handleLogout = () => logOut({ refresh: refreshToken })
 
   useEffect(() => {
@@ -66,6 +72,14 @@ const Header = (props) => {
               autoFocus={isSearchPage()}
               className='search-input'
             />
+            {searchQuery && (
+              <img
+                className='close-btn'
+                src={CloseSVG}
+                onClick={clearSearch}
+                data-testid='test--close-btn'
+              />
+            )}
           </div>
           <div className='logout-btn' onClick={handleLogout}>
             L

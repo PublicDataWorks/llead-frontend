@@ -47,7 +47,7 @@ const WRGLFile = (props) => {
       <div
         onClick={handleClick}
         className='wrgl-header'
-        data-testid='expand--control'
+        data-testid='test--expand-control'
       >
         <span className='wrgl-arrow' />
         <div className='wrgl-name'>{name}</div>

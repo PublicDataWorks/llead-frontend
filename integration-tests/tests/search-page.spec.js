@@ -54,6 +54,16 @@ describe('Search Page', () => {
       cy.get('.search-input-container').find('.input-field').should('exist')
     })
 
+    it('backs to front page if click on close button', () => {
+      cy.visit('/search')
+      cy.location('pathname').should('eq', '/search')
+
+      cy.get('.search-input-container').find('.input-field').type('f')
+      cy.get('.search-input-container').find('.close-btn').click()
+      cy.get('.search-input-container').find('.input-field').should('text', '')
+      cy.location('pathname').should('eq', '/')
+    })
+
     it('renders found items', () => {
       cy.viewport(1000, 1200)
       cy.visit('/search')
