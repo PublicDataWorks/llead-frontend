@@ -3,18 +3,17 @@
 @import 'styles/mixins';
 
 .document-card {
+  @include small-text;
   width: 248px;
   height: 313px;
   background: $white-color;
   border-radius: 8px;
   border: 1px solid $alto-color;
   box-sizing: border-box;
-  font-size: 16px;
-  line-height: 21px;
 
   .document-info {
     box-sizing: border-box;
-    padding: $v-margin 27px 0 $h-card-margin;
+    padding: $v-margin $h-small-margin 0 $h-card-margin;
     height: 248px;
 
     .document-type {
@@ -50,7 +49,7 @@
 
       .document-preview-page {
         display: inline-block;
-        width: 14px;
+        width: 13px;
         height: 79px;
         border: solid $alto-color;
         border-width: 1px 1px 1px 0;
@@ -71,13 +70,13 @@
       text-decoration: none;
       color: $thunder-color;
       box-sizing: border-box;
-      padding: 13px 16px 14px 16px;
+      padding: 13px $h-side-frame 14px $h-side-frame;
       border: 1px solid $alto-color;
       border-radius: 2px;
       background-color: $wild-sand-color;
 
       & + .document-department-name {
-        margin-top: 8px;
+        margin-top: $v-tiny-margin;
       }
     }
   }

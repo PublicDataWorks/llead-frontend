@@ -1,12 +1,11 @@
 @import 'styles/colors';
 @import 'styles/variables';
+@import 'styles/mixins';
 
 .footer {
+  @include small-text;
   box-sizing: border-box;
   padding: $h-card-margin $v-frame-margin $v-footer-margin $v-frame-margin;
-  font-size: 16px;
-  line-height: 21px;
-  font-weight: 400;
   color: $thunder-color;
   background-color: $white-color;
 

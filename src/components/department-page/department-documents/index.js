@@ -4,6 +4,7 @@ import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import noop from 'lodash/noop'
 
+import './department-documents.scss'
 import SearchSVG from 'assets/icons/search.svg'
 import DocumentItem from 'components/common/items/document-item'
 import Button from 'components/common/buttons/button'
@@ -53,7 +54,7 @@ const DepartmentDocuments = (props) => {
       </div>
       <Input
         iconSrc={SearchSVG}
-        placeholder='Search by name, department, or keyword'
+        placeholder='Search Documents'
         onChange={handleSearch}
         value={departmentSearchQuery}
         className='search-input'

@@ -1,26 +1,25 @@
 @import 'styles/components';
 @import 'styles/colors';
+@import 'styles/mixins';
 
 .login-page {
   @extend %main-container;
 
   .content-container {
-    padding: 0 16px;
+    padding: 0 $h-side-frame;
 
     .login-form {
       .email-input,
       .password-input {
         width: 532px;
-        margin-bottom: 16px;
+        margin-bottom: $v-frame-margin;
       }
 
       .error-message {
-        font-weight: 300;
-        font-size: 18px;
-        line-height: 23px;
+        @include body-text;
         color: $thunder-color;
         padding-left: 48px;
-        margin-top: 19px;
+        margin-top: $v-mid-margin;
         background: url('assets/icons/warning.svg') no-repeat 15px center;
       }
     }

@@ -17,7 +17,7 @@ const OfficerCard = (props) => {
     <div className='officer-card'>
       <div className='officer-info'>
         <div className='officer-type'>Police Officer</div>
-        <div className='officer-name h1'>{startCase(name)}</div>
+        <div className='officer-name'>{startCase(name)}</div>
         <div className='officer-badges'>
           <ArrayWithSeparator items={items} separator=',' />
         </div>

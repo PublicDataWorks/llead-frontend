@@ -1,5 +1,8 @@
 @import 'styles/variables';
 @import 'styles/colors';
+@import 'styles/mixins';
+
+$close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
 
 .header {
   position: fixed;
@@ -15,6 +18,8 @@
   justify-content: space-between;
 
   .logo {
+    @include h1;
+    color: $thunder-color;
     padding: $v-frame-margin 0 $v-frame-margin $h-side-frame;
     text-decoration: none;
     order: 1;
@@ -25,20 +30,23 @@
     position: relative;
     flex-basis: auto;
 
-    .input-field {
-      padding: 11px 48px 12px 48px;
-
-      &:focus {
-        padding: 11px 48px 12px 48px;
-      }
-    }
-
     .close-btn {
       position: absolute;
       right: 11px;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translate(-50%, -50%);
       cursor: pointer;
+      display: none;
+    }
+
+    &.has-value {
+      .input-field.has-icon {
+        padding-right: $close-icon-width;
+      }
+
+      .close-btn {
+        display: block;
+      }
     }
 
     order: 2;
@@ -64,7 +72,7 @@
     .search-input-container {
       order: 3;
       flex-basis: 100%;
-      margin-top: 0px;
+      margin-top: 0;
     }
     .logout-btn {
       order: 2;

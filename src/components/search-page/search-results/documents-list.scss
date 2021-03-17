@@ -1,15 +1,14 @@
 @import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
 
 .documents-list {
-  padding: 48px 32px 76px;
+  padding: $v-header-margin $h-card-margin;
 
-  .documents-list-title  {
+  .documents-list-title {
+    @include h1;
     color: $thunder-color;
-    padding-right: 32px;
-    font-weight: 500;
-    font-size: 26px;
-    line-height: 34px;
-    margin-bottom: 30px;
+    margin-bottom: $v-frame-margin;
     flex-grow: 1;
   }
 }

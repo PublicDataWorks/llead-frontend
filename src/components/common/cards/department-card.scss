@@ -1,5 +1,6 @@
 @import 'styles/colors';
 @import 'styles/variables';
+@import 'styles/mixins';
 
 .department-card {
   width: 247px;
@@ -12,21 +13,17 @@
 
   .department-info {
     box-sizing: border-box;
-    padding: 32px 32px 0;
+    padding: $v-margin $h-card-margin 0 $h-card-margin;
     height: 222px;
 
     .department-type {
-      font-weight: 300;
-      font-size: 16px;
-      line-height: 21px;
+      @include small-text;
       color: $boulder-color;
-      margin-bottom: 12px;
+      margin-bottom: $v-small-margin;
     }
 
     .department-name {
-      font-weight: 500;
-      font-size: 26px;
-      line-height: 34px;
+      @include h1;
       color: $thunder-color;
     }
   }
@@ -35,7 +32,7 @@
     box-sizing: border-box;
     background-color: $wild-sand-color;
     height: 89px;
-    padding: 16px 16px 16px 32px;
+    padding: $v-frame-margin $h-side-frame $v-frame-margin $h-card-margin;
 
     .department-map {
       width: 48px;
@@ -47,12 +44,11 @@
     }
 
     .department-location {
-      font-size: 16px;
-      line-height: 21px;
+      @include small-text;
       color: $thunder-color;
       display: inline-block;
       vertical-align: middle;
-      margin-left: 8px;
+      margin-left: $h-margin;
       width: calc(100% - 56px);
       white-space: nowrap;
 

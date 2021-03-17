@@ -1,15 +1,14 @@
 @import 'styles/variables';
 @import 'styles/colors';
 @import 'styles/mixins';
+
 .analytic-summary {
   background-color: $thunder-color;
-  line-height: 47px;
 
   .analytic-summary-item {
     display: flex;
     color: $white-color;
     padding: $v-margin $h-card-margin;
-    line-height: 31px;
 
     .analytic-summary-content {
       @include callout-text;
