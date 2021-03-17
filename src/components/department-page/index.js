@@ -18,6 +18,7 @@ import Header from 'pages/common/header'
 import Footer from 'components/common/footer'
 import WRGLFile from './wrgl-file'
 import DepartmentDocumentsContainer from 'pages/department-page/department-documents'
+import { stringifyTotalItems } from 'utils/formatter'
 
 const Department = (props) => {
   const { department, fetchDepartment, isRequesting } = props
@@ -128,9 +129,11 @@ const Department = (props) => {
                     <div className='department-parish'>{parish}</div>
                   </div>
                   <div className='department-summary'>
-                    <div>{officersCount} officers</div>
-                    <div>{complaintsCount} complaints</div>
-                    <div>{documentsCount} documents</div>
+                    <div>{stringifyTotalItems(officersCount, 'officer')}</div>
+                    <div>
+                      {stringifyTotalItems(complaintsCount, 'complaint')}
+                    </div>
+                    <div>{stringifyTotalItems(documentsCount, 'document')}</div>
                   </div>
                 </div>
                 <div className='department-wrgl-files'>

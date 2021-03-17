@@ -11,7 +11,13 @@ import SearchSVG from 'assets/icons/search.svg'
 import CloseSVG from 'assets/icons/close.svg'
 
 const Header = (props) => {
-  const { isLoggedIn, logOut, changeSearchQuery, searchQuery } = props
+  const {
+    isLoggedIn,
+    logOut,
+    changeSearchQuery,
+    searchQuery,
+    refreshToken,
+  } = props
   const history = useHistory()
   const location = useLocation()
 
@@ -39,6 +45,8 @@ const Header = (props) => {
     changeSearchQuery('')
     history.push(FRONT_PAGE_PATH)
   }
+
+  const handleLogout = () => logOut({ refresh: refreshToken })
 
   useEffect(() => {
     if (isSearchPage()) {
@@ -73,7 +81,7 @@ const Header = (props) => {
               />
             )}
           </div>
-          <div className='logout-btn' onClick={logOut}>
+          <div className='logout-btn' onClick={handleLogout}>
             L
           </div>
         </>
@@ -85,6 +93,7 @@ const Header = (props) => {
 Header.propTypes = {
   isLoggedIn: PropTypes.bool,
   searchQuery: PropTypes.string,
+  refreshToken: PropTypes.string,
   logOut: PropTypes.func,
   changeSearchQuery: PropTypes.func,
 }

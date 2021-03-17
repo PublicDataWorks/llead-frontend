@@ -1,6 +1,19 @@
 import { createAction } from 'redux-actions'
 
-import { UPDATE_TOKEN, LOG_OUT } from 'action-types/authentication'
+import * as actionTypes from 'action-types/authentication'
+import { LOG_OUT_API_URL } from 'constants/api'
+import { post } from 'utils/api'
 
-export const updateToken = createAction(UPDATE_TOKEN)
-export const logOut = createAction(LOG_OUT)
+export const updateToken = createAction(actionTypes.UPDATE_TOKEN)
+
+export const removeToken = createAction(actionTypes.REMOVE_TOKEN)
+
+export const logOut = (params) =>
+  post(
+    [
+      actionTypes.LOG_OUT_START,
+      actionTypes.LOG_OUT_SUCCESS,
+      actionTypes.LOG_OUT_FAILURE,
+    ],
+    `${LOG_OUT_API_URL}`
+  )(params)

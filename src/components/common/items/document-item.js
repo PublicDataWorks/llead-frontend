@@ -36,7 +36,9 @@ const DocumentItem = (props) => {
         </span>
       </div>
       <div className='document-item-subtitle'>
-        <div className='document-item-incident-date'>{incidentDate}</div>
+        {incidentDate && (
+          <div className='document-item-incident-date'>{incidentDate}</div>
+        )}
         <div
           className='document-item-text-content'
           dangerouslySetInnerHTML={{

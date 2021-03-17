@@ -1,4 +1,8 @@
-import { formatDocumentDate, formatNumber } from 'utils/formatter'
+import {
+  formatDocumentDate,
+  formatNumber,
+  stringifyTotalItems,
+} from 'utils/formatter'
 
 describe('#formatDocumentDate', () => {
   it('returns empty on invalidDate', () => {
@@ -9,6 +13,11 @@ describe('#formatDocumentDate', () => {
   it('returns formatted date string', () => {
     const dateString = formatDocumentDate('2020-01-06')
     expect(dateString).toEqual('Jan 6, 2020')
+  })
+
+  it('returns emtpy on empty date', () => {
+    const dateString = formatDocumentDate('')
+    expect(dateString).toBe('')
   })
 })
 
@@ -21,5 +30,18 @@ describe('formatNumber', () => {
   it('returns locale number string if input is a number', () => {
     const localeNumber = formatNumber('123456789.123')
     expect(localeNumber).toEqual('123,456,789')
+  })
+})
+
+describe('stringifyTotalItems', () => {
+  it('returns stringified plural item name and count', () => {
+    const stringifiedItem = stringifyTotalItems(123456, 'document')
+
+    expect(stringifiedItem).toEqual('123,456 documents')
+  })
+
+  it('returns stringified singular item name and count', () => {
+    const stringifiedItem = stringifyTotalItems(1, 'document')
+    expect(stringifiedItem).toEqual('1 document')
   })
 })
