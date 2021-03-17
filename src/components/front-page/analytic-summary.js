@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import pluralize from 'pluralize'
 import isEmpty from 'lodash/isEmpty'
 
 import './analytic-summary.scss'
-import { formatNumber } from 'utils/formatter'
+import { formatNumber, stringifyTotalItems } from 'utils/formatter'
 
 const AnalyticSummary = ({ analyticSummary }) => {
   if (isEmpty(analyticSummary)) {
@@ -25,8 +24,7 @@ const AnalyticSummary = ({ analyticSummary }) => {
     <div className='analytic-summary'>
       <div className='analytic-summary-item'>
         <div className='analytic-summary-content'>
-          {formatNumber(documentsCount)}{' '}
-          {pluralize('documents', documentsCount)}
+          {stringifyTotalItems(documentsCount, 'documents')}
         </div>
         <div className='recent-summary'>
           +{formatNumber(recentDocumentsCount)} in the past {recentDays} days
@@ -34,7 +32,7 @@ const AnalyticSummary = ({ analyticSummary }) => {
       </div>
       <div className='analytic-summary-item'>
         <div className='analytic-summary-content'>
-          {formatNumber(officersCount)} {pluralize('officers', officersCount)}
+          {stringifyTotalItems(officersCount, 'officers')}
         </div>
         <div className='recent-summary'>
           +{formatNumber(recentOfficersCount)} in the past {recentDays} days
@@ -42,8 +40,7 @@ const AnalyticSummary = ({ analyticSummary }) => {
       </div>
       <div className='analytic-summary-item'>
         <div className='analytic-summary-content'>
-          {formatNumber(departmentsCount)}{' '}
-          {pluralize('departments', departmentsCount)}
+          {stringifyTotalItems(departmentsCount, 'departments')}
         </div>
         <div className='recent-summary'>
           +{formatNumber(recentDepartmentsCount)} in the past {recentDays} days

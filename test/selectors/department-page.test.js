@@ -74,8 +74,6 @@ describe('#documentsSelector', () => {
           title: 'Pattern risk team election myself suffer wind.',
           url: '/glass/shoulder.pdf',
           incidentDate: '2020-05-04',
-          previewImageUrl: '/him/process.jpg',
-          pagesCount: 15,
           extraField: 'data',
         },
       ]
@@ -94,8 +92,6 @@ describe('#documentsSelector', () => {
           title: 'Pattern risk team election myself suffer wind.',
           url: '/glass/shoulder.pdf',
           incidentDate: 'May 4, 2020',
-          previewImageUrl: '/him/process.jpg',
-          pagesCount: 15,
         },
       ])
     })
