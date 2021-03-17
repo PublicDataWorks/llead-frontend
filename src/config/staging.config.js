@@ -1,3 +1,3 @@
 export default {
-  serverUrl: 'http://35.245.9.135/',
+  serverUrl: 'https://api.llead.co/',
 };
