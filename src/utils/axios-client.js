@@ -7,7 +7,7 @@ import { REFRESH_TOKEN_API_URL } from 'constants/api'
 import { HTTP_STATUS_CODES } from 'constants/common'
 import store from 'store'
 import { getAccessToken, getRefreshToken } from 'selectors/common'
-import { updateToken, logOut } from 'actions/authentication'
+import { updateToken, removeToken } from 'actions/authentication'
 import { snakeToCamel } from 'utils/tools'
 
 const client = axios.create()
@@ -49,7 +49,7 @@ client.interceptors.request.use(function (config) {
             .catch((error) => {
               const status = get(error, 'response.status')
               if (status === HTTP_STATUS_CODES.UNAUTHORIZED) {
-                store.dispatch(logOut())
+                store.dispatch(removeToken())
               }
               return resolve(config)
             })
