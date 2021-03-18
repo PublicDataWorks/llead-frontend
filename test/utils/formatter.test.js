@@ -2,6 +2,7 @@ import {
   formatDocumentDate,
   formatNumber,
   stringifyTotalItems,
+  formatDataPeriods,
 } from 'utils/formatter'
 
 describe('#formatDocumentDate', () => {
@@ -21,7 +22,7 @@ describe('#formatDocumentDate', () => {
   })
 })
 
-describe('formatNumber', () => {
+describe('#formatNumber', () => {
   it('returns 0 value if input is not a number', () => {
     const localeNumber = formatNumber('not-a-number')
     expect(localeNumber).toEqual('0')
@@ -33,7 +34,7 @@ describe('formatNumber', () => {
   })
 })
 
-describe('stringifyTotalItems', () => {
+describe('#stringifyTotalItems', () => {
   it('returns stringified plural item name and count', () => {
     const stringifiedItem = stringifyTotalItems(123456, 'document')
 
@@ -43,5 +44,13 @@ describe('stringifyTotalItems', () => {
   it('returns stringified singular item name and count', () => {
     const stringifiedItem = stringifyTotalItems(1, 'document')
     expect(stringifiedItem).toEqual('1 document')
+  })
+})
+
+describe('#formatDataPeriods', () => {
+  it('formatted data period with comma and "and"', () => {
+    const formattedItem = formatDataPeriods(['123', '456-789', '1012'])
+
+    expect(formattedItem).toEqual('123, 456-789 and 1012')
   })
 })

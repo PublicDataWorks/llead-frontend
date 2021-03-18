@@ -44,7 +44,7 @@ const SearchPage = (props) => {
           searchResultsComponents,
           ({ component: Component, key, items }) =>
             !isEmpty(items) && (
-              <Component items={items} key={key} className='search-results' />
+              <Component items={items} key={key} className='search-results' highlighting/>
             )
         )}
       </div>

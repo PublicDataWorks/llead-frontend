@@ -220,6 +220,17 @@ describe('FrontPage', () => {
           `/departments/${officersData[0].department.id}/`
         )
       })
+
+      it('redirects to officer page when clicks on officer card', () => {
+        cy.visit('/')
+
+        cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
+
+        cy.location('pathname').should(
+          'eq',
+          `/officers/${officersData[0].id}/`
+        )
+      })
     })
 
     describe('documents carousel', () => {

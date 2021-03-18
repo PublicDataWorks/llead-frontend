@@ -7,6 +7,7 @@ import OfficerCard from 'components/common/cards/officer-card'
 describe('Officer card component', () => {
   it('should render correctly', () => {
     const props = {
+      id: 1,
       name: 'mark carlson',
       badges: ['12435', '612'],
       department: {

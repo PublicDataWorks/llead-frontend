@@ -10,10 +10,11 @@
   border-radius: 8px;
   border: 1px solid $alto-color;
   box-sizing: border-box;
+  display: inline-block;
 
   .document-info {
     box-sizing: border-box;
-    padding: $v-margin $h-small-margin 0 $h-card-margin;
+    padding: $v-margin $h-card-margin 0 $h-card-margin;
     height: 248px;
 
     .document-type {

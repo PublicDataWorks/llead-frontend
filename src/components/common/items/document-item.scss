@@ -5,7 +5,10 @@
 .document-item {
   @include small-text;
   padding: $v-frame-margin 0px;
-  border-bottom: 1px solid $alto-color;
+
+  & + .document-item {
+    border-top: 1px solid $alto-color;
+  }
 
   .document-item-title {
     display: flex;
@@ -59,6 +62,16 @@
       em {
         background-color: $starship-50-color;
         font-style: normal;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  .document-item {
+    .document-item-title {
+      .document-item-department-name {
+        display: none;
       }
     }
   }
