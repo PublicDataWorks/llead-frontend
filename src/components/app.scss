@@ -2,7 +2,6 @@
 
 .main-container {
   padding-top: $header-height;
-  min-height: calc(100vh - #{$footer-height});
   box-sizing: border-box;
 }
 

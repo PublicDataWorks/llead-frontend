@@ -9,7 +9,7 @@
   }
 
   .summary {
-    box-sizing: border-box  ;
+    box-sizing: border-box;
     padding: $v-small-margin $h-side-frame $v-margin $h-side-frame;
     width: 50%;
   }
@@ -17,10 +17,8 @@
 
 @media only screen and (max-width: $mobile-breakpoint) {
   .front-page {
-    .content-container {
-      .summary {
-        width: 100%;
-      }
+    .summary {
+      width: 100%;
     }
   }
 }

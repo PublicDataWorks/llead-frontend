@@ -66,33 +66,15 @@
 
       .officer-documents-title {
         @include h1;
-        color: $thunder-color;
+        color: $boulder-color;
         margin: 0 $h-card-margin;
-        color: $thunder-color;
       }
 
       .officer-documents-listview {
         margin-top: $v-frame-margin;
-        padding: 0 $h-card-margin;
 
-        .document-card {
-          margin-right: $h-margin;
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (max-width: $mobile-breakpoint) {
-  .officer-page {
-    .officer-content {
-      .officer-documents {
-        .officer-documents-listview {
-          padding: 0;
-
-          .document-item {
-            padding: $v-small-margin $h-card-margin;
-          }
+        .document-item {
+          padding: $v-small-margin $h-card-margin;
         }
       }
     }

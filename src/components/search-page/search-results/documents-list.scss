@@ -3,12 +3,12 @@
 @import 'styles/variables';
 
 .documents-list {
-  padding: $v-header-margin $h-card-margin;
+  padding: $v-header-margin 0;
 
   .documents-list-title {
     @include h1;
     color: $thunder-color;
-    margin-bottom: $v-frame-margin;
+    margin: 0 $h-side-frame $v-frame-margin $h-side-frame;
     flex-grow: 1;
   }
 }
