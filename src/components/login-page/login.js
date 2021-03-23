@@ -14,7 +14,12 @@ import LockSVG from 'assets/icons/lock.svg'
 import './login.scss'
 import { FRONT_PAGE_PATH } from 'constants/paths'
 
-const Login = ({ isLoggedIn, isLoginFailed, performLogin, previousLocation }) => {
+const Login = ({
+  isLoggedIn,
+  isLoginFailed,
+  performLogin,
+  previousLocation,
+}) => {
   const { register, handleSubmit } = useForm()
 
   if (isLoggedIn) {
@@ -28,7 +33,7 @@ const Login = ({ isLoggedIn, isLoginFailed, performLogin, previousLocation }) =>
   return (
     <>
       <Header />
-      <div className='login-page'>
+      <div className='login-page unauthorized'>
         <div className='content-container'>
           <form className='login-form' onSubmit={handleSubmit(onSubmit)}>
             <Input
@@ -47,7 +52,7 @@ const Login = ({ isLoggedIn, isLoginFailed, performLogin, previousLocation }) =>
               ref={register}
               className={cx('password-input', { error: isLoginFailed })}
             />
-            <Button type='submit'>Sign in</Button>
+            <Button className='submit-btn' type='submit'>Sign in</Button>
             {isLoginFailed && (
               <div className='error-message'>
                 Password/email combination aren’t recognized

@@ -6,13 +6,16 @@
   @extend %main-container;
 
   .content-container {
+    margin-top: $v-margin;
     padding: 0 $h-side-frame;
 
     .login-form {
-      .email-input,
-      .password-input {
-        width: 532px;
-        margin-bottom: $v-frame-margin;
+      .email-input {
+        margin-bottom: $v-small-margin;
+      }
+
+      .submit-btn {
+        margin-top: $v-mid-margin;
       }
 
       .error-message {
