@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 
 import AppRoutes from 'routes'
+import Header from 'pages/common/header'
+import Footer from 'components/common/footer'
+import './app.scss'
 
 const App = (props) => {
   const { fetchAppConfig, isAppConfigFetched } = props
@@ -16,7 +19,11 @@ const App = (props) => {
 
   return (
     <Router>
-      <AppRoutes />
+      <Header />
+      <div className='main-container'>
+        <AppRoutes />
+      </div>
+      <Footer />
     </Router>
   )
 }

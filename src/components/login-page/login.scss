@@ -1,30 +1,26 @@
-@import 'styles/components';
 @import 'styles/colors';
 @import 'styles/mixins';
+@import 'styles/variables';
 
 .login-page {
-  @extend %main-container;
+  margin-top: $v-margin;
+  padding: 0 $h-side-frame;
 
-  .content-container {
-    margin-top: $v-margin;
-    padding: 0 $h-side-frame;
+  .login-form {
+    .email-input {
+      margin-bottom: $v-small-margin;
+    }
 
-    .login-form {
-      .email-input {
-        margin-bottom: $v-small-margin;
-      }
+    .submit-btn {
+      margin-top: $v-mid-margin;
+    }
 
-      .submit-btn {
-        margin-top: $v-mid-margin;
-      }
-
-      .error-message {
-        @include body-text;
-        color: $thunder-color;
-        padding-left: 48px;
-        margin-top: $v-mid-margin;
-        background: url('assets/icons/warning.svg') no-repeat 15px center;
-      }
+    .error-message {
+      @include body-text;
+      color: $thunder-color;
+      padding-left: 48px;
+      margin-top: $v-mid-margin;
+      background: url('assets/icons/warning.svg') no-repeat 15px center;
     }
   }
 }

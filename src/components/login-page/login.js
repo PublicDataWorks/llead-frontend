@@ -5,8 +5,6 @@ import { useForm } from 'react-hook-form'
 import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 
-import Header from 'pages/common/header'
-import Footer from 'components/common/footer'
 import Input from 'components/common/inputs/input'
 import Button from 'components/common/buttons/button'
 import EmailSVG from 'assets/icons/email.svg'
@@ -31,38 +29,32 @@ const Login = ({
   }
 
   return (
-    <>
-      <Header />
-      <div className='login-page unauthorized'>
-        <div className='content-container'>
-          <form className='login-form' onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              iconSrc={EmailSVG}
-              placeholder='email'
-              type='text'
-              name='email'
-              ref={register}
-              className={cx('email-input', { error: isLoginFailed })}
-            />
-            <Input
-              iconSrc={LockSVG}
-              placeholder='password'
-              type='password'
-              name='password'
-              ref={register}
-              className={cx('password-input', { error: isLoginFailed })}
-            />
-            <Button className='submit-btn' type='submit'>Sign in</Button>
-            {isLoginFailed && (
-              <div className='error-message'>
-                Password/email combination aren’t recognized
-              </div>
-            )}
-          </form>
-        </div>
-      </div>
-      <Footer />
-    </>
+    <div className='login-page unauthorized'>
+      <form className='login-form' onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          iconSrc={EmailSVG}
+          placeholder='email'
+          type='text'
+          name='email'
+          ref={register}
+          className={cx('email-input', { error: isLoginFailed })}
+        />
+        <Input
+          iconSrc={LockSVG}
+          placeholder='password'
+          type='password'
+          name='password'
+          ref={register}
+          className={cx('password-input', { error: isLoginFailed })}
+        />
+        <Button className='submit-btn' type='submit'>Sign in</Button>
+        {isLoginFailed && (
+          <div className='error-message'>
+            Password/email combination aren’t recognized
+          </div>
+        )}
+      </form>
+    </div>
   )
 }
 

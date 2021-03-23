@@ -1,79 +1,74 @@
-@import 'styles/components';
 @import 'styles/colors';
 @import 'styles/mixins';
+@import 'styles/variables';
 
 .department-page {
-  @extend %main-container;
-
   background-color: $wild-sand-color;
+  padding: $v-frame-margin $h-side-frame;
 
-  .page-container {
-    padding: $v-frame-margin $h-side-frame;
+  .department-period {
+    @include small-text;
+    padding: $v-frame-margin $h-card-margin;
+    margin-bottom: $v-frame-margin;
+    text-align: center;
+    border: 1px solid $alto-color;
+    box-sizing: border-box;
+    color: $boulder-color;
+  }
 
-    .department-period {
+  .department-content {
+    @include small-text;
+    padding: $v-margin 0;
+    border: 1px solid $alto-color;
+    box-sizing: border-box;
+    background-color: $white-color;
+    border-radius: 2px;
+
+    .department-title {
       @include small-text;
-      padding: $v-frame-margin $h-card-margin;
-      margin-bottom: $v-frame-margin;
-      text-align: center;
-      border: 1px solid $alto-color;
-      box-sizing: border-box;
       color: $boulder-color;
+      margin: 0 $h-card-margin;
     }
 
-    .department-content {
-      @include small-text;
-      padding: $v-margin 0;
-      border: 1px solid $alto-color;
-      box-sizing: border-box;
-      background-color: $white-color;
-      border-radius: 2px;
+    .department-name {
+      @include h1;
+      margin: $v-small-margin $h-card-margin 0 $h-card-margin;
+      color: $thunder-color;
+    }
 
-      .department-title {
-        @include small-text;
-        color: $boulder-color;
+    .department-basic-info {
+      .department-location {
         margin: 0 $h-card-margin;
-      }
 
-      .department-name {
-        @include h1;
-        margin: $v-small-margin $h-card-margin 0 $h-card-margin;
-        color: $thunder-color;
-      }
-
-      .department-basic-info {
-        .department-location {
-          margin: 0 $h-card-margin;
-
-          .department-map {
-            margin: $v-frame-margin 0;
-            width: 48px;
-            height: 48px;
-            display: inline-block;
-            vertical-align: middle;
-            background-size: contain;
-            background-repeat: no-repeat;
-          }
-
-          .department-location-info {
-            @include small-text;
-            color: $thunder-color;
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: $h-margin;
-
-            .department-city {
-              font-weight: 500;
-            }
-          }
+        .department-map {
+          margin: $v-frame-margin 0;
+          width: 48px;
+          height: 48px;
+          display: inline-block;
+          vertical-align: middle;
+          background-size: contain;
+          background-repeat: no-repeat;
         }
 
-        .department-summary {
-          .department-summary-row {
-            padding: $v-small-margin $h-card-margin;
+        .department-location-info {
+          @include small-text;
+          color: $thunder-color;
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: $h-margin;
 
-            & + .department-summary-row {
-              border-top: 1px solid $alto-color;
-            }
+          .department-city {
+            font-weight: 500;
+          }
+        }
+      }
+
+      .department-summary {
+        .department-summary-row {
+          padding: $v-small-margin $h-card-margin;
+
+          & + .department-summary-row {
+            border-top: 1px solid $alto-color;
           }
         }
       }
