@@ -97,7 +97,7 @@ const Department = (props) => {
     } else {
       newExpandedCsvFiles = compact(concat(expandedCsvFiles, [slug]))
     }
-    history.push({
+    history.replace({
       search: qs.stringify(
         { ...parsedSearch, csv: newExpandedCsvFiles },
         { arrayFormat: 'comma', encode: false }
