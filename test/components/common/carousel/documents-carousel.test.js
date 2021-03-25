@@ -44,9 +44,10 @@ describe('Document carousel', () => {
       </MemoryRouter>
     )
     const { baseElement } = container
+    const carouselItems = baseElement.getElementsByClassName('swiper-slide')
 
     expect(baseElement.textContent.includes('Documents')).toBe(true)
-    expect(baseElement.textContent.includes('document-1')).toBe(true)
-    expect(baseElement.textContent.includes('document-2')).toBe(true)
+    expect(carouselItems[0].textContent.includes('document-1')).toBe(true)
+    expect(carouselItems[1].textContent.includes('document-2')).toBe(true)
   })
 })

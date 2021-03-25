@@ -4,6 +4,7 @@ import {
   getIsOfficerRequesting,
   officerSelector,
   documentsSelector,
+  officerRecentDataSelector,
 } from 'selectors/officer-page'
 
 describe('#getIsOfficerRequesting', () => {
@@ -214,6 +215,39 @@ describe('#officerSelector', () => {
   })
 })
 
+describe('#officerRecentDataSelector', () => {
+  it('returns officerRecentData', () => {
+    const officerData = {
+      id: 1,
+      name: 'Officer Name',
+      badges: ['12345'],
+      department: {
+        id: 100,
+        name: 'Department Name',
+        extraDepartmentField: 'should not be included',
+      },
+      extraField: 'field',
+    }
+    const state = {
+      officerPage: {
+        officer: officerData,
+      },
+    }
+
+    const officerRecentData = officerRecentDataSelector(state)
+
+    expect(officerRecentData).toStrictEqual({
+      id: 1,
+      name: 'Officer Name',
+      badges: ['12345'],
+      department: {
+        id: 100,
+        name: 'Department Name',
+      },
+    })
+  })
+})
+
 describe('#documentsSelector', () => {
   describe('has data', () => {
     it('returns document data', () => {
@@ -222,7 +256,7 @@ describe('#documentsSelector', () => {
           id: 39,
           documentType: 'json',
           title: 'Pattern risk team election myself suffer wind.',
-          url: '/glass/shoulder.pdf',
+          url: 'http://documents.com/glass/shoulder.pdf',
           incidentDate: '2020-05-04',
           extraField: 'data',
           departments: [
@@ -247,9 +281,17 @@ describe('#documentsSelector', () => {
           id: 39,
           documentType: 'json',
           title: 'Pattern risk team election myself suffer wind.',
-          url: '/glass/shoulder.pdf',
+          url: 'http://documents.com/glass/shoulder.pdf',
           incidentDate: 'May 4, 2020',
           departments: [{ id: 1234, name: 'department name' }],
+          recentData: {
+            id: 39,
+            documentType: 'json',
+            title: 'Pattern risk team election myself suffer wind.',
+            url: 'http://documents.com/glass/shoulder.pdf',
+            incidentDate: 'May 4, 2020',
+            departments: [{ id: 1234, name: 'department name' }],
+          },
         },
       ])
     })

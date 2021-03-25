@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import times from 'lodash/times'
 import noop from 'lodash/noop'
+import cx from 'classnames'
 
 import './document-card.scss'
 import OuterLink from 'components/common/links/outer-link'
@@ -22,6 +23,8 @@ const DocumentCard = (props) => {
     incidentDate,
     pagesCount,
     saveRecentItem,
+    className,
+    recentData,
   } = props
 
   const departmentsList = map(
@@ -56,11 +59,19 @@ const DocumentCard = (props) => {
   }
 
   const handleClick = () => {
-    saveRecentItem({ type: RECENT_ITEM_TYPES.DOCUMENT, id: id })
+    saveRecentItem({
+      type: RECENT_ITEM_TYPES.DOCUMENT,
+      id: id,
+      data: recentData,
+    })
   }
 
   return (
-    <OuterLink href={url} className='document-card' onClick={handleClick}>
+    <OuterLink
+      href={url}
+      className={cx('document-card', className)}
+      onClick={handleClick}
+    >
       <div className='document-info'>
         <div className='document-type'>{documentType}</div>
         {documentPreview(previewImageUrl, pagesCount)}
@@ -84,6 +95,8 @@ DocumentCard.propTypes = {
   pagesCount: PropTypes.number,
   departments: PropTypes.array,
   saveRecentItem: PropTypes.func,
+  className: PropTypes.string,
+  recentData: PropTypes.object,
 }
 
 DocumentCard.defaultProps = {
@@ -93,6 +106,8 @@ DocumentCard.defaultProps = {
   pagesCount: 0,
   departments: [],
   saveRecentItem: noop,
+  className: '',
+  recentData: {},
 }
 
 export default DocumentCard

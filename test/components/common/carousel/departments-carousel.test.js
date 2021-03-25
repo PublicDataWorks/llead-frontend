@@ -23,9 +23,10 @@ describe('Department carousel', () => {
     ]
     const container = render(<DepartmentsCarousel items={departments} />)
     const { baseElement } = container
+    const carouselItems = baseElement.getElementsByClassName('swiper-slide')
 
     expect(baseElement.textContent.includes('Departments')).toBe(true)
-    expect(baseElement.textContent.includes('card-1')).toBe(true)
-    expect(baseElement.textContent.includes('card-2')).toBe(true)
+    expect(carouselItems[0].textContent.includes('card-1')).toBe(true)
+    expect(carouselItems[1].textContent.includes('card-2')).toBe(true)
   })
 })

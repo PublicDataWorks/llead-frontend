@@ -23,8 +23,9 @@ const Officer = (props) => {
     documents,
     fetchOfficer,
     fetchOfficerDocuments,
-    isOfficerRequesting,
+    isRequesting,
     saveRecentItem,
+    recentData,
   } = props
   const { id } = useParams()
 
@@ -49,8 +50,17 @@ const Officer = (props) => {
   useEffect(() => {
     fetchOfficer(officerId)
     fetchOfficerDocuments(officerId)
-    saveRecentItem({ type: RECENT_ITEM_TYPES.OFFICER, id: officerId })
   }, [officerId])
+
+  useEffect(() => {
+    if (!isRequesting && !isEmpty(officer) && officerId == officer.id) {
+      saveRecentItem({
+        type: RECENT_ITEM_TYPES.OFFICER,
+        id: officerId,
+        data: recentData,
+      })
+    }
+  }, [officerId, isRequesting])
 
   const displaySummaryInfo = () => {
     if (complaintsCount > 0) {
@@ -74,7 +84,7 @@ const Officer = (props) => {
 
   return (
     <div className='officer-page'>
-      {!isOfficerRequesting && !isEmpty(officer) && (
+      {!isRequesting && !isEmpty(officer) && (
         <>
           {!isEmpty(dataPeriod) && (
             <div className='officer-period'>
@@ -132,20 +142,22 @@ const Officer = (props) => {
 
 Officer.propTypes = {
   officer: PropTypes.object,
+  recentData: PropTypes.object,
   documents: PropTypes.array,
   fetchOfficer: PropTypes.func,
   fetchOfficerDocuments: PropTypes.func,
   saveRecentItem: PropTypes.func,
-  isOfficerRequesting: PropTypes.bool,
+  isRequesting: PropTypes.bool,
 }
 
 Officer.defaultProps = {
   officer: {},
+  recentData: {},
   documents: [],
   fetchOfficer: noop,
   fetchOfficerDocuments: noop,
   saveRecentItem: noop,
-  isOfficerRequesting: false,
+  isRequesting: false,
 }
 
 export default Officer

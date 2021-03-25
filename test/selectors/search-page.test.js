@@ -42,7 +42,7 @@ describe('#searchResultsSelector', () => {
           id: 22,
           documentType: 'css',
           title: 'Especially sense available best.',
-          url: '/hundred/work.pdf',
+          url: 'http://documents.com/hundred/work.pdf',
           incidentDate: '2020-01-06',
           departments: [
             {
@@ -89,7 +89,7 @@ describe('#searchResultsSelector', () => {
           id: 22,
           documentType: 'css',
           title: 'Especially sense available best.',
-          url: '/hundred/work.pdf',
+          url: 'http://documents.com/hundred/work.pdf',
           incidentDate: 'Jan 6, 2020',
           departments: [
             {

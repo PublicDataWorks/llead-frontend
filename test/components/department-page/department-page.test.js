@@ -42,22 +42,91 @@ describe('Department component', () => {
     expect(fetchDepartmentSpy).toHaveBeenCalledWith(1)
   })
 
-  it('should save to reccent item', () => {
-    const saveRecentItemSpy = sinon.spy()
+  describe('save to reccent item', () => {
+    it('should save to reccent item', () => {
+      const saveRecentItemSpy = sinon.spy()
 
-    render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['departments/1']}>
-          <Route path='departments/:id'>
-            <Department saveRecentItem={saveRecentItemSpy} />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
 
-    expect(saveRecentItemSpy).toHaveBeenCalledWith({
-      type: RECENT_ITEM_TYPES.DEPARTMENT,
-      id: 1,
+      const recentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                saveRecentItem={saveRecentItemSpy}
+                recentData={recentData}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).toHaveBeenCalledWith({
+        type: RECENT_ITEM_TYPES.DEPARTMENT,
+        id: 1,
+        data: recentData,
+      })
+    })
+
+    it('should not save to recent item if isRequesting is true', () => {
+      const saveRecentItemSpy = sinon.spy()
+
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                saveRecentItem={saveRecentItemSpy}
+                isRequesting={true}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).not.toHaveBeenCalled()
+    })
+
+    it('should not save to recent item if department data id is not match id in url', () => {
+      const saveRecentItemSpy = sinon.spy()
+
+      const departmentData = {
+        id: 2,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                saveRecentItem={saveRecentItemSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).not.toHaveBeenCalled()
     })
   })
 

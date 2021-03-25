@@ -13,8 +13,8 @@ describe('#documentsReducer', () => {
         id: 36,
         document_type: 'csv',
         title: 'Her hard step sea.',
-        url: '/century/five.pdf',
-        preview_image_url: '/cell/least.jpg',
+        url: 'http://documents.com/century/five.pdf',
+        preview_image_url: 'http://image.com/cell/least.jpg',
         incident_date: '2020-01-06',
         pages_count: 5,
         departments: [
@@ -28,8 +28,8 @@ describe('#documentsReducer', () => {
         id: 35,
         document_type: 'webm',
         title: 'Yourself say language meeting ok.',
-        url: '/national/must.pdf',
-        preview_image_url: '/production/activity.jpg',
+        url: 'http://documents.com/national/must.pdf',
+        preview_image_url: 'http://image.com/production/activity.jpg',
         incident_date: '2020-01-06',
         pages_count: 5,
         departments: [

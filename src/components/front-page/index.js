@@ -8,11 +8,13 @@ import './front-page.scss'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
 import DocumentsCarousel from 'components/common/carousel/documents-carousel'
+import RecentItemsCarousel from './recent-items-carousel'
 
 const FrontPage = (props) => {
   const {
     cms,
     fetchAnalyticSummary,
+    fetchRecentItems,
     fetchDepartments,
     fetchOfficers,
     fetchDocuments,
@@ -21,9 +23,14 @@ const FrontPage = (props) => {
     officers,
     documents,
     saveRecentItem,
+    recentItemIds,
+    recentItems,
   } = props
 
   useEffect(() => {
+    if (!isEmpty(recentItemIds)) {
+      fetchRecentItems(recentItemIds)
+    }
     fetchAnalyticSummary()
     fetchDepartments()
     fetchOfficers()
@@ -37,6 +44,12 @@ const FrontPage = (props) => {
         data-testid='test--summary'
         dangerouslySetInnerHTML={{ __html: cms.summary }}
       />
+      {!isEmpty(recentItems) && (
+        <RecentItemsCarousel
+          items={recentItems}
+          className='front-page-carousel'
+        />
+      )}
       <AnalyticSummary analyticSummary={analyticSummary} />
       {!isEmpty(departments) && (
         <DepartmentsCarousel
@@ -70,7 +83,10 @@ FrontPage.propTypes = {
   departments: PropTypes.array,
   officers: PropTypes.array,
   documents: PropTypes.array,
+  recentItemIds: PropTypes.object,
+  recentItems: PropTypes.array,
   fetchAnalyticSummary: PropTypes.func,
+  fetchRecentItems: PropTypes.func,
   fetchDepartments: PropTypes.func,
   fetchOfficers: PropTypes.func,
   fetchDocuments: PropTypes.func,
@@ -83,7 +99,10 @@ FrontPage.defaultProps = {
   departments: [],
   officers: [],
   documents: [],
+  recentItemIds: {},
+  recentItems: [],
   fetchAnalyticSummary: noop,
+  fetchRecentItems: noop,
   fetchDepartments: noop,
   fetchOfficers: noop,
   fetchDocuments: noop,

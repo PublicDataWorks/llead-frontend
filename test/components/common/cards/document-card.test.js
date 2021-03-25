@@ -21,6 +21,7 @@ describe('Document card component', () => {
           name: 'department-2',
         },
       ],
+      className: 'custom-class-name',
     }
 
     const container = render(
@@ -31,11 +32,13 @@ describe('Document card component', () => {
       </MemoryRouter>
     )
     const { baseElement } = container
+    const documentCard = baseElement.getElementsByClassName('document-card')[0]
 
-    expect(baseElement.textContent.includes(props.documentType)).toBe(true)
-    expect(baseElement.textContent.includes(props.title)).toBe(true)
-    expect(baseElement.textContent.includes(props.incidentDate)).toBe(true)
-    expect(baseElement.textContent.includes(props.departments[0].name)).toBe(
+    expect(documentCard.classList.value).toContain('custom-class-name')
+    expect(documentCard.textContent.includes(props.documentType)).toBe(true)
+    expect(documentCard.textContent.includes(props.title)).toBe(true)
+    expect(documentCard.textContent.includes(props.incidentDate)).toBe(true)
+    expect(documentCard.textContent.includes(props.departments[0].name)).toBe(
       true
     )
   })
@@ -43,10 +46,14 @@ describe('Document card component', () => {
   it('should handle click on document card', () => {
     const windowOpenStub = sinon.stub(window, 'open')
     const saveRecentItemSpy = sinon.spy()
-    const props = {
+    const documentData = {
       id: 1,
       url: 'https://i.imgur.com/nHTFohI.csv',
+    }
+    const props = {
+      ...documentData,
       saveRecentItem: saveRecentItemSpy,
+      recentData: documentData,
     }
 
     const container = render(
@@ -69,6 +76,7 @@ describe('Document card component', () => {
     expect(saveRecentItemSpy).toHaveBeenCalledWith({
       type: RECENT_ITEM_TYPES.DOCUMENT,
       id: 1,
+      data: documentData,
     })
   })
 

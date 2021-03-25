@@ -2,30 +2,11 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
 
-import { formatDocumentDate } from 'utils/formatter'
-import { departmentFormatter, officerFormatter } from 'selectors/common'
-
-const documentFormatter = (document) => {
-  const documentAttributes = [
-    'id',
-    'title',
-    'documentType',
-    'url',
-    'previewImageUrl',
-    'pagesCount',
-    'departments',
-  ]
-  const rawDepartments = get(document, 'departments')
-  const departments = map(rawDepartments, (department) =>
-    pick(department, ['id', 'name'])
-  )
-
-  return {
-    ...pick(document, documentAttributes),
-    incidentDate: formatDocumentDate(document.incidentDate),
-    departments,
-  }
-}
+import {
+  departmentFormatter,
+  officerFormatter,
+  documentFormatter,
+} from 'selectors/common'
 
 const getAnalyticSummary = (state) =>
   get(state.frontPage, 'analyticSummary', {})
@@ -56,7 +37,6 @@ export const departmentsSelector = (state) =>
 export const officersSelector = (state) =>
   map(getOfficers(state), officerFormatter)
 
-export const documentsSelector = (state) =>{
-
+export const documentsSelector = (state) => {
   return map(getDocuments(state), documentFormatter)
 }

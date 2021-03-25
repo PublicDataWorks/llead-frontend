@@ -37,7 +37,7 @@ describe('FrontPage component', () => {
           id: 22,
           documentType: 'css',
           title: 'Especially sense available best.',
-          url: '/hundred/work.pdf',
+          url: 'http://documents.com/hundred/work.pdf',
           incidentDate: '2020-01-06',
           departments: [
             {

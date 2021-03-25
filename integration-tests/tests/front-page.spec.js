@@ -23,9 +23,10 @@ const calculateScreenWidth = (itemSize, number) => {
 
 describe('FrontPage', () => {
   it('redirect to login when not logged in', () => {
+    cy.clearLocalStorage()
     cy.visit('/')
 
-    cy.location('pathname').should('eq', '/login/')
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/login/'))
   })
 
   describe('render successfully', () => {
@@ -113,6 +114,27 @@ describe('FrontPage', () => {
         cy.get('@visibleSlides').eq(1).contains('New Orleans Department 1')
         cy.get('@visibleSlides').eq(2).contains('Baton Rouge Department 2')
 
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.department-name')
+          .contains('Baton Rouge Department 1')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.department-city')
+          .contains('Baton Rouge')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.department-parish')
+          .contains('East Baton Rouge')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.department-map')
+          .should(
+            'have.css',
+            'background-image',
+            'url("https://i.imgur.com/nHTFohI.png")'
+          )
+
         cy.get('.departments-carousel').find('.carousel-next').click()
         cy.get('.departments-carousel').find('.carousel-next').click()
         cy.get('.departments-carousel').find('.carousel-next').click()
@@ -172,6 +194,19 @@ describe('FrontPage', () => {
 
         cy.get('@visibleSlides')
           .eq(0)
+          .find('.officer-name')
+          .contains('Mark Carlson')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.officer-badges')
+          .contains('12435,612')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.officer-department-name')
+          .contains('Baton Rouge Department 1')
+
+        cy.get('@visibleSlides')
+          .eq(0)
           .find('.officer-department-name')
           .should('exist')
         cy.get('@visibleSlides')
@@ -226,10 +261,7 @@ describe('FrontPage', () => {
 
         cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
 
-        cy.location('pathname').should(
-          'eq',
-          `/officers/${officersData[0].id}/`
-        )
+        cy.location('pathname').should('eq', `/officers/${officersData[0].id}/`)
       })
     })
 
@@ -244,7 +276,6 @@ describe('FrontPage', () => {
         cy.visit('/')
 
         cy.get('.documents-carousel')
-          .debug()
           .find('.carousel-title')
           .should('text', 'Documents')
         cy.get('.documents-carousel')
@@ -264,18 +295,27 @@ describe('FrontPage', () => {
           .eq(2)
           .contains('Be decade those someone tough year sing.')
 
+        cy.get('@visibleSlides').eq(0).find('.document-type').contains('csv')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.document-title')
+          .contains('Her hard step sea.')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.document-incident-date')
+          .contains('Jan 6, 2020')
         cy.get('@visibleSlides')
           .eq(0)
           .find('.document-department-name')
-          .should('exist')
+          .contains('Petersonmouth Department')
         cy.get('@visibleSlides')
-          .eq(1)
-          .find('.document-department-name')
-          .should('not.exist')
-        cy.get('@visibleSlides')
-          .eq(2)
-          .find('.document-department-name')
-          .should('exist')
+          .eq(0)
+          .find('.document-preview')
+          .should(
+            'have.css',
+            'background-image',
+            'url("http://image.com/century/five-preview.pdf")'
+          )
 
         cy.get('.documents-carousel').find('.carousel-next').click()
         cy.get('.documents-carousel').find('.carousel-next').click()

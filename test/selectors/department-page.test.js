@@ -1,18 +1,19 @@
 import {
-  getIsRequesting,
+  getIsDepartmentRequesting,
   departmentSelector,
   documentsSelector,
   documentsPaginationSelector,
+  departmentRecentDataSelector,
 } from 'selectors/department-page'
 
-describe('#getIsRequesting', () => {
+describe('#getIsDepartmentRequesting', () => {
   it('returns isRequesting', () => {
     const state = {
       departmentPage: {
         isRequesting: true,
       },
     }
-    const isRequesting = getIsRequesting(state)
+    const isRequesting = getIsDepartmentRequesting(state)
 
     expect(isRequesting).toBe(true)
   })
@@ -63,6 +64,34 @@ describe('#departmentSelector', () => {
   })
 })
 
+describe('#departmentRecentDataSelector', () => {
+  it('returns departmentRecentData', () => {
+    const departmentData = {
+      id: 1,
+      name: 'Department data',
+      city: 'Baton Rouge',
+      parish: 'East Baton Rouge',
+      locationMapUrl: 'http://mapurl.com/department1',
+      extraField: 'field',
+    }
+    const state = {
+      departmentPage: {
+        department: departmentData,
+      },
+    }
+
+    const departmentRecentData = departmentRecentDataSelector(state)
+
+    expect(departmentRecentData).toStrictEqual({
+      id: 1,
+      name: 'Department data',
+      city: 'Baton Rouge',
+      parish: 'East Baton Rouge',
+      locationMapUrl: 'http://mapurl.com/department1',
+    })
+  })
+})
+
 describe('#documentsSelector', () => {
   describe('has data', () => {
     it('returns documents data', () => {
@@ -71,9 +100,15 @@ describe('#documentsSelector', () => {
           id: 39,
           documentType: 'json',
           title: 'Pattern risk team election myself suffer wind.',
-          url: '/glass/shoulder.pdf',
+          url: 'http://documents.com/glass/shoulder.pdf',
           incidentDate: '2020-05-04',
           extraField: 'data',
+          departments: [
+            {
+              id: 22,
+              name: 'Petersonmouth Department',
+            },
+          ],
         },
       ]
       const state = {
@@ -89,8 +124,21 @@ describe('#documentsSelector', () => {
           id: 39,
           documentType: 'json',
           title: 'Pattern risk team election myself suffer wind.',
-          url: '/glass/shoulder.pdf',
+          url: 'http://documents.com/glass/shoulder.pdf',
           incidentDate: 'May 4, 2020',
+          recentData: {
+            id: 39,
+            documentType: 'json',
+            title: 'Pattern risk team election myself suffer wind.',
+            url: 'http://documents.com/glass/shoulder.pdf',
+            incidentDate: 'May 4, 2020',
+            departments: [
+              {
+                id: 22,
+                name: 'Petersonmouth Department',
+              },
+            ],
+          },
         },
       ])
     })

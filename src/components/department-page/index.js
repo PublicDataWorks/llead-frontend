@@ -19,7 +19,13 @@ import { formatDataPeriods, stringifyTotalItems } from 'utils/formatter'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const Department = (props) => {
-  const { department, fetchDepartment, isRequesting, saveRecentItem } = props
+  const {
+    department,
+    fetchDepartment,
+    isRequesting,
+    saveRecentItem,
+    recentData,
+  } = props
   const { id } = useParams()
 
   const departmentId = toNumber(id)
@@ -53,8 +59,21 @@ const Department = (props) => {
 
   useEffect(() => {
     fetchDepartment(departmentId)
-    saveRecentItem({ type: RECENT_ITEM_TYPES.DEPARTMENT, id: departmentId })
   }, [departmentId])
+
+  useEffect(() => {
+    if (
+      !isRequesting &&
+      !isEmpty(department) &&
+      departmentId == department.id
+    ) {
+      saveRecentItem({
+        type: RECENT_ITEM_TYPES.DEPARTMENT,
+        id: departmentId,
+        data: recentData,
+      })
+    }
+  }, [departmentId, isRequesting])
 
   useEffect(() => {
     const parsedSearch = qs.parse(location.search, {
@@ -157,6 +176,7 @@ const Department = (props) => {
 
 Department.propTypes = {
   department: PropTypes.object,
+  recentData: PropTypes.object,
   fetchDepartment: PropTypes.func,
   saveRecentItem: PropTypes.func,
   isRequesting: PropTypes.bool,
@@ -164,6 +184,7 @@ Department.propTypes = {
 
 Department.defaultProps = {
   department: {},
+  recentData: {},
   fetchDepartment: noop,
   saveRecentItem: noop,
   isRequesting: false,

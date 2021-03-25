@@ -43,12 +43,16 @@ describe('Document item component', () => {
 
   it('should handle click on document item', () => {
     const windowOpenStub = sinon.stub(window, 'open')
-
     const saveRecentItemSpy = sinon.spy()
-    const props = {
+
+    const documentData = {
       id: 1,
-      url: 'url 1',
+      url: 'https://i.imgur.com/nHTFohI.csv',
+    }
+    const props = {
+      ...documentData,
       saveRecentItem: saveRecentItemSpy,
+      recentData: documentData,
     }
 
     const container = render(
@@ -64,13 +68,14 @@ describe('Document item component', () => {
     fireEvent.click(documentItem)
 
     expect(windowOpenStub).toHaveBeenCalledWith(
-      'url 1',
+      'https://i.imgur.com/nHTFohI.csv',
       '_blank',
       'noopener noreferrer'
     )
     expect(saveRecentItemSpy).toHaveBeenCalledWith({
       type: RECENT_ITEM_TYPES.DOCUMENT,
       id: 1,
+      data: documentData,
     })
   })
 })

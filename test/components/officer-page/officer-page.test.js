@@ -42,22 +42,91 @@ describe('Officer component', () => {
     expect(fetchOfficerDocumentsSpy).toHaveBeenCalledWith(1)
   })
 
-  it('should save to reccent item', () => {
-    const saveRecentItemSpy = sinon.spy()
+  describe('save to reccent item', () => {
+    it('should save to reccent item', () => {
+      const saveRecentItemSpy = sinon.spy()
 
-    render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['officers/1']}>
-          <Route path='officers/:id'>
-            <Officer saveRecentItem={saveRecentItemSpy} />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
+      const officerData = {
+        id: 1,
+        name: 'officer name',
+        description: 'age-year-old gender race',
+      }
 
-    expect(saveRecentItemSpy).toHaveBeenCalledWith({
-      type: RECENT_ITEM_TYPES.OFFICER,
-      id: 1,
+      const recentData = {
+        id: 1,
+        name: 'officer name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer
+                officer={officerData}
+                saveRecentItem={saveRecentItemSpy}
+                recentData={recentData}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).toHaveBeenCalledWith({
+        type: RECENT_ITEM_TYPES.OFFICER,
+        id: 1,
+        data: recentData,
+      })
+    })
+
+    it('should not save to recent item if isRequesting is true', () => {
+      const saveRecentItemSpy = sinon.spy()
+
+      const officerData = {
+        id: 1,
+        name: 'officer name',
+        description: 'age-year-old gender race',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer
+                officer={officerData}
+                saveRecentItem={saveRecentItemSpy}
+                isRequesting={true}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).not.toHaveBeenCalled()
+    })
+
+    it('should not save to recent item if officer data id is not match id in url', () => {
+      const saveRecentItemSpy = sinon.spy()
+
+      const officerData = {
+        id: 2,
+        name: 'officer name',
+        description: 'age-year-old gender race',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer
+                officer={officerData}
+                saveRecentItem={saveRecentItemSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).not.toHaveBeenCalled()
     })
   })
 
