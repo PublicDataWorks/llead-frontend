@@ -2,13 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { sanitize } from 'dompurify'
 import isEmpty from 'lodash/isEmpty'
+import noop from 'lodash/noop'
 
 import './document-item.scss'
 import ArrayWithSeparator from 'components/common/array-with-separator'
 import OuterLink from 'components/common/links/outer-link'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const DocumentItem = (props) => {
   const {
+    id,
     documentType,
     departments,
     title,
@@ -17,6 +20,7 @@ const DocumentItem = (props) => {
     textContentHighlight,
     url,
     highlighting,
+    saveRecentItem,
   } = props
 
   const items = departments.map((department) => (
@@ -27,8 +31,12 @@ const DocumentItem = (props) => {
     ? sanitize(`...${textContentHighlight}...`)
     : sanitize(textContent)
 
+  const handleClick = () => {
+    saveRecentItem({ type: RECENT_ITEM_TYPES.DOCUMENT, id: id })
+  }
+
   return (
-    <OuterLink className='document-item' href={url}>
+    <OuterLink className='document-item' href={url} onClick={handleClick}>
       <div className='document-item-title'>
         <div className='document-item-type'>{documentType}</div>
         <div className='document-item-name'>{title}</div>
@@ -54,7 +62,8 @@ const DocumentItem = (props) => {
 }
 
 DocumentItem.propTypes = {
-  documentType: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  documentType: PropTypes.string,
   title: PropTypes.string,
   incidentDate: PropTypes.string,
   departments: PropTypes.array,
@@ -62,15 +71,16 @@ DocumentItem.propTypes = {
   textContent: PropTypes.string,
   textContentHighlight: PropTypes.string,
   highlighting: PropTypes.bool,
+  saveRecentItem: PropTypes.func,
 }
 
 DocumentItem.defaultProps = {
-  documentType: '',
   title: '',
   incidentDate: '',
   departments: [],
   textContent: '',
   textContentHighlight: '',
+  saveRecentItem: noop,
 }
 
 export default DocumentItem

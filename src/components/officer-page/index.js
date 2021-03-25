@@ -15,6 +15,7 @@ import DocumentItem from 'components/common/items/document-item'
 import { departmentPath } from 'utils/paths'
 import { stringifyTotalItems } from 'utils/formatter'
 import { formatNumber } from 'utils/formatter'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const Officer = (props) => {
   const {
@@ -23,6 +24,7 @@ const Officer = (props) => {
     fetchOfficer,
     fetchOfficerDocuments,
     isOfficerRequesting,
+    saveRecentItem,
   } = props
   const { id } = useParams()
 
@@ -47,6 +49,7 @@ const Officer = (props) => {
   useEffect(() => {
     fetchOfficer(officerId)
     fetchOfficerDocuments(officerId)
+    saveRecentItem({ type: RECENT_ITEM_TYPES.OFFICER, id: officerId })
   }, [officerId])
 
   const displaySummaryInfo = () => {
@@ -71,7 +74,7 @@ const Officer = (props) => {
 
   return (
     <div className='officer-page'>
-      {!isOfficerRequesting && !isEmpty(department) && (
+      {!isOfficerRequesting && !isEmpty(officer) && (
         <>
           {!isEmpty(dataPeriod) && (
             <div className='officer-period'>
@@ -110,8 +113,12 @@ const Officer = (props) => {
                   Documents ({formatNumber(documentsCount)})
                 </div>
                 <div className='officer-documents-listview'>
-                  {map(documents, ({ id, ...rest }) => (
-                    <DocumentItem key={id} {...rest} />
+                  {map(documents, (document) => (
+                    <DocumentItem
+                      key={document.id}
+                      {...document}
+                      saveRecentItem={saveRecentItem}
+                    />
                   ))}
                 </div>
               </div>
@@ -128,6 +135,7 @@ Officer.propTypes = {
   documents: PropTypes.array,
   fetchOfficer: PropTypes.func,
   fetchOfficerDocuments: PropTypes.func,
+  saveRecentItem: PropTypes.func,
   isOfficerRequesting: PropTypes.bool,
 }
 
@@ -136,6 +144,7 @@ Officer.defaultProps = {
   documents: [],
   fetchOfficer: noop,
   fetchOfficerDocuments: noop,
+  saveRecentItem: noop,
   isOfficerRequesting: false,
 }
 

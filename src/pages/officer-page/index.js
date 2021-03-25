@@ -7,6 +7,7 @@ import {
   documentsSelector,
 } from 'selectors/officer-page'
 import { fetchOfficer, fetchOfficerDocuments } from 'actions/officer-page'
+import { saveRecentItem } from 'actions/common/recent-items'
 
 const mapStateToProps = (state) => ({
   officer: officerSelector(state),
@@ -17,6 +18,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   fetchOfficer,
   fetchOfficerDocuments,
+  saveRecentItem,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Officer)

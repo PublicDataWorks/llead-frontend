@@ -7,6 +7,7 @@ import tokenReducer from 'reducers/token-reducer'
 import appConfigReducer from 'reducers/app-config-reducer'
 import frontPageReducer from 'reducers/front-page'
 import searchPageReducer from 'reducers/search-page'
+import recentItemsReducer from 'reducers/recent-items-reducer'
 
 export default combineReducers({
   token: tokenReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   officerPage: officerPageReducer,
   frontPage: frontPageReducer,
   searchPage: searchPageReducer,
+  recentItems: recentItemsReducer,
 })

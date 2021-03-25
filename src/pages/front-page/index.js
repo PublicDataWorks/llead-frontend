@@ -15,6 +15,7 @@ import {
   fetchOfficers,
   fetchDocuments,
 } from 'actions/front-page'
+import { saveRecentItem } from 'actions/common/recent-items'
 
 const mapStateToProps = (state) => ({
   cms: cmsSelector(state, CMS_PAGES.FRONT_PAGE),
@@ -29,6 +30,7 @@ const mapDispatchToProps = {
   fetchDepartments,
   fetchOfficers,
   fetchDocuments,
+  saveRecentItem,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FrontPage)

@@ -1,12 +1,15 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
+import sinon from 'sinon'
 
 import DocumentCard from 'components/common/cards/document-card'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('Document card component', () => {
   it('should render correctly', () => {
     const props = {
+      id: 1,
       documentType: 'csv',
       url: 'https://i.imgur.com/nHTFohI.csv',
       title: 'document-2',
@@ -37,9 +40,42 @@ describe('Document card component', () => {
     )
   })
 
+  it('should handle click on document card', () => {
+    const windowOpenStub = sinon.stub(window, 'open')
+    const saveRecentItemSpy = sinon.spy()
+    const props = {
+      id: 1,
+      url: 'https://i.imgur.com/nHTFohI.csv',
+      saveRecentItem: saveRecentItemSpy,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    const documentCard = baseElement.getElementsByClassName('document-card')[0]
+    fireEvent.click(documentCard)
+
+    expect(windowOpenStub).toHaveBeenCalledWith(
+      'https://i.imgur.com/nHTFohI.csv',
+      '_blank',
+      'noopener noreferrer'
+    )
+    expect(saveRecentItemSpy).toHaveBeenCalledWith({
+      type: RECENT_ITEM_TYPES.DOCUMENT,
+      id: 1,
+    })
+  })
+
   describe('Document preview pages', () => {
     it('should render document preview pages correctly', () => {
       const props = {
+        id: 1,
         documentType: 'csv',
         url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
@@ -63,6 +99,7 @@ describe('Document card component', () => {
 
     it('should render document preview pages when pagesCount is zero', () => {
       const props = {
+        id: 1,
         documentType: 'csv',
         url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',
@@ -86,6 +123,7 @@ describe('Document card component', () => {
 
     it('should render document preview pages when pagesCount > 10', () => {
       const props = {
+        id: 1,
         documentType: 'csv',
         url: 'https://i.imgur.com/nHTFohI.csv',
         title: 'document-2',

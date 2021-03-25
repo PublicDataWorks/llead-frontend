@@ -18,4 +18,11 @@ export const DATE_FORMAT = {
 
 export const SEARCH_THROTTLE_TIME_OUT = 500
 
-export const REQUEST_CANCEL_MESSAGE = 'Cancel old request';
+export const MAX_RECENT_ITEMS = 10
+export const RECENT_ITEM_TYPES = {
+  DEPARTMENT: 'DEPARTMENT',
+  OFFICER: 'OFFICER',
+  DOCUMENT: 'DOCUMENT',
+}
+
+export const REQUEST_CANCEL_MESSAGE = 'Cancel old request'

@@ -3,14 +3,17 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import times from 'lodash/times'
+import noop from 'lodash/noop'
 
 import './document-card.scss'
 import OuterLink from 'components/common/links/outer-link'
 import CustomLink from 'components/common/links/custom-link'
 import { departmentPath } from 'utils/paths'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const DocumentCard = (props) => {
   const {
+    id,
     documentType,
     departments,
     previewImageUrl,
@@ -18,6 +21,7 @@ const DocumentCard = (props) => {
     url,
     incidentDate,
     pagesCount,
+    saveRecentItem,
   } = props
 
   const departmentsList = map(
@@ -51,8 +55,12 @@ const DocumentCard = (props) => {
     )
   }
 
+  const handleClick = () => {
+    saveRecentItem({ type: RECENT_ITEM_TYPES.DOCUMENT, id: id })
+  }
+
   return (
-    <OuterLink href={url} className='document-card'>
+    <OuterLink href={url} className='document-card' onClick={handleClick}>
       <div className='document-info'>
         <div className='document-type'>{documentType}</div>
         {documentPreview(previewImageUrl, pagesCount)}
@@ -67,22 +75,24 @@ const DocumentCard = (props) => {
 }
 
 DocumentCard.propTypes = {
-  documentType: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  documentType: PropTypes.string,
   url: PropTypes.string.isRequired,
   title: PropTypes.string,
   incidentDate: PropTypes.string,
   previewImageUrl: PropTypes.string,
   pagesCount: PropTypes.number,
   departments: PropTypes.array,
+  saveRecentItem: PropTypes.func,
 }
 
 DocumentCard.defaultProps = {
-  documentType: '',
   title: '',
   incidentDate: '',
   previewImageUrl: '',
   pagesCount: 0,
   departments: [],
+  saveRecentItem: noop,
 }
 
 export default DocumentCard

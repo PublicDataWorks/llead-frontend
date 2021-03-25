@@ -7,6 +7,7 @@ import MockStore from 'redux-mock-store'
 import qs from 'qs'
 
 import Department from 'components/department-page'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -25,6 +26,41 @@ beforeEach(() => {
 })
 
 describe('Department component', () => {
+  it('should fetch data', () => {
+    const fetchDepartmentSpy = sinon.spy()
+
+    render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['departments/1']}>
+          <Route path='departments/:id'>
+            <Department fetchDepartment={fetchDepartmentSpy} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(fetchDepartmentSpy).toHaveBeenCalledWith(1)
+  })
+
+  it('should save to reccent item', () => {
+    const saveRecentItemSpy = sinon.spy()
+
+    render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['departments/1']}>
+          <Route path='departments/:id'>
+            <Department saveRecentItem={saveRecentItemSpy} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(saveRecentItemSpy).toHaveBeenCalledWith({
+      type: RECENT_ITEM_TYPES.DEPARTMENT,
+      id: 1,
+    })
+  })
+
   it('should render correctly', () => {
     const departmentData = {
       id: 1,
@@ -36,22 +72,16 @@ describe('Department component', () => {
       parish: 'department parish',
       officersCount: 3,
     }
-    const fetchDepartmentSpy = sinon.spy()
 
     const container = render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['departments/1']}>
           <Route path='departments/:id'>
-            <Department
-              department={departmentData}
-              fetchDepartment={fetchDepartmentSpy}
-            />
+            <Department department={departmentData} />
           </Route>
         </MemoryRouter>
       </Provider>
     )
-
-    expect(fetchDepartmentSpy).toHaveBeenCalledWith(1)
 
     const { baseElement } = container
     expect(

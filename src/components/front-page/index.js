@@ -20,6 +20,7 @@ const FrontPage = (props) => {
     departments,
     officers,
     documents,
+    saveRecentItem,
   } = props
 
   useEffect(() => {
@@ -54,6 +55,7 @@ const FrontPage = (props) => {
       {!isEmpty(documents) && (
         <DocumentsCarousel
           items={documents}
+          saveRecentItem={saveRecentItem}
           sortedField='most recently added'
           className='front-page-carousel'
         />
@@ -72,6 +74,7 @@ FrontPage.propTypes = {
   fetchDepartments: PropTypes.func,
   fetchOfficers: PropTypes.func,
   fetchDocuments: PropTypes.func,
+  saveRecentItem: PropTypes.func,
 }
 
 FrontPage.defaultProps = {
@@ -84,6 +87,7 @@ FrontPage.defaultProps = {
   fetchDepartments: noop,
   fetchOfficers: noop,
   fetchDocuments: noop,
+  saveRecentItem: noop,
 }
 
 export default FrontPage

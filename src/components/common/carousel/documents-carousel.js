@@ -1,17 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import map from 'lodash/map'
 import cx from 'classnames'
+import map from 'lodash/map'
+import noop from 'lodash/noop'
 
 import Carousel from 'components/common/carousel'
 import DocumentCard from 'components/common/cards/document-card'
 import './documents-carousel.scss'
 
 const DocumentsCarousel = (props) => {
-  const { items, sortedField, className } = props
+  const { items, sortedField, className, saveRecentItem } = props
 
   const cards = map(items, (document) => (
-    <DocumentCard key={document.id} {...document} />
+    <DocumentCard
+      key={document.id}
+      {...document}
+      saveRecentItem={saveRecentItem}
+    />
   ))
 
   return (
@@ -28,11 +33,13 @@ DocumentsCarousel.propTypes = {
   items: PropTypes.array,
   sortedField: PropTypes.string,
   className: PropTypes.string,
+  saveRecentItem: PropTypes.func,
 }
 
 DocumentsCarousel.defaultProps = {
   items: [],
   className: '',
+  saveRecentItem: noop,
 }
 
 export default DocumentsCarousel

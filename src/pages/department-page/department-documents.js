@@ -6,6 +6,7 @@ import {
   documentsPaginationSelector,
 } from 'selectors/department-page'
 import DepartmentDocuments from 'components/department-page/department-documents'
+import { saveRecentItem } from 'actions/common/recent-items'
 
 const mapStateToProps = (state) => ({
   documents: documentsSelector(state),
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   fetchDocuments,
+  saveRecentItem,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DepartmentDocuments)
