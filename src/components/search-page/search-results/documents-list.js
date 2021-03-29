@@ -8,7 +8,7 @@ import './documents-list.scss'
 import DocumentItem from 'components/common/items/document-item'
 
 const DocumentsList = (props) => {
-  const { items, highlighting, className, saveRecentItem } = props
+  const { items, highlighting, className, saveRecentItem, onItemClick } = props
 
   const itemsList = map(items, (document) => (
     <DocumentItem
@@ -16,6 +16,7 @@ const DocumentsList = (props) => {
       {...document}
       highlighting={highlighting}
       saveRecentItem={saveRecentItem}
+      onItemClick={onItemClick}
     />
   ))
 
@@ -32,11 +33,13 @@ DocumentsList.propTypes = {
   highlighting: PropTypes.bool,
   className: PropTypes.string,
   saveRecentItem: PropTypes.func,
+  onItemClick: PropTypes.func,
 }
 
 DocumentsList.defaultProps = {
   items: [],
   saveRecentItem: noop,
+  onItemClick: noop,
 }
 
 export default DocumentsList

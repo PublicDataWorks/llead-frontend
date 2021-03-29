@@ -44,6 +44,7 @@ describe('Document item component', () => {
   it('should handle click on document item', () => {
     const windowOpenStub = sinon.stub(window, 'open')
     const saveRecentItemSpy = sinon.spy()
+    const onItemClickSpy = sinon.spy()
 
     const documentData = {
       id: 1,
@@ -52,6 +53,7 @@ describe('Document item component', () => {
     const props = {
       ...documentData,
       saveRecentItem: saveRecentItemSpy,
+      onItemClick: onItemClickSpy,
       recentData: documentData,
     }
 
@@ -77,5 +79,6 @@ describe('Document item component', () => {
       id: 1,
       data: documentData,
     })
+    expect(onItemClickSpy).toHaveBeenCalled()
   })
 })

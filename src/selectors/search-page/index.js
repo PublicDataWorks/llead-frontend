@@ -1,9 +1,15 @@
 import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
+import isEmpty from 'lodash/isEmpty'
+import filter from 'lodash/filter'
+import startsWith from 'lodash/startsWith'
+import slice from 'lodash/slice'
 
+import { MAX_SEARCH_QUERY_SUGGESTIONS } from 'constants/common'
 import { formatDocumentDate } from 'utils/formatter'
 import { departmentFormatter, officerFormatter } from 'selectors/common'
+import { createSelector } from 'reselect'
 
 export const documentFormatter = (document) => {
   const documentAttributes = [
@@ -13,7 +19,7 @@ export const documentFormatter = (document) => {
     'documentType',
     'departments',
     'textContent',
-    'textContentHighlight'
+    'textContentHighlight',
   ]
   const rawDepartments = get(document, 'departments')
   const departments = map(rawDepartments, (department) =>
@@ -30,6 +36,24 @@ export const documentFormatter = (document) => {
 const getSearchResults = (state) => get(state, 'searchPage.searchResults')
 
 export const getSearchQuery = (state) => get(state, 'searchPage.searchQuery')
+
+export const getSearchQueries = (state) =>
+  get(state, 'searchPage.searchQueries')
+
+export const searchQuerySuggestionsSelector = createSelector(
+  getSearchQuery,
+  getSearchQueries,
+  (searchQuery, searchQueries) => {
+    const queries = isEmpty(searchQuery)
+      ? searchQueries
+      : filter(
+          searchQueries,
+          (query) => startsWith(query, searchQuery) && query !== searchQuery
+        )
+
+    return slice(queries, 0, MAX_SEARCH_QUERY_SUGGESTIONS)
+  }
+)
 
 export const searchResultsSelector = (state) => {
   const searchResults = getSearchResults(state)

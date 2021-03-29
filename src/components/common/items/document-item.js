@@ -22,6 +22,7 @@ const DocumentItem = (props) => {
     highlighting,
     saveRecentItem,
     recentData,
+    onItemClick,
   } = props
 
   const items = departments.map((department) => (
@@ -33,6 +34,7 @@ const DocumentItem = (props) => {
     : sanitize(textContent)
 
   const handleClick = () => {
+    onItemClick()
     saveRecentItem({
       type: RECENT_ITEM_TYPES.DOCUMENT,
       id: id,
@@ -76,8 +78,9 @@ DocumentItem.propTypes = {
   textContent: PropTypes.string,
   textContentHighlight: PropTypes.string,
   highlighting: PropTypes.bool,
-  saveRecentItem: PropTypes.func,
   recentData: PropTypes.object,
+  saveRecentItem: PropTypes.func,
+  onItemClick: PropTypes.func,
 }
 
 DocumentItem.defaultProps = {
@@ -86,8 +89,9 @@ DocumentItem.defaultProps = {
   departments: [],
   textContent: '',
   textContentHighlight: '',
-  saveRecentItem: noop,
   recentData: {},
+  saveRecentItem: noop,
+  onItemClick: noop,
 }
 
 export default DocumentItem

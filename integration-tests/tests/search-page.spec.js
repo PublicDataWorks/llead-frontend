@@ -54,13 +54,54 @@ describe('Search Page', () => {
       cy.get('.search-input-container').find('.input-field').should('exist')
     })
 
+    it('render search page with query from url', () => {
+      cy.visit('/search/?q=ba')
+
+      cy.location('pathname').should('eq', '/search/')
+      cy.get('.search-input-container')
+        .find('.input-field')
+        .should('value', 'ba')
+
+      cy.get('.departments-carousel')
+        .find('.swiper-slide')
+        .as('departmentSlides')
+        .should('length', 3)
+      cy.get('@departmentSlides').eq(0).contains('Baton Rouge Department 1')
+      cy.get('@departmentSlides').eq(1).contains('New Orleans Department 1')
+      cy.get('@departmentSlides').eq(2).contains('Baton Rouge Department 2')
+
+      cy.get('.officers-carousel')
+        .find('.swiper-slide')
+        .as('officersSlides')
+        .should('length', 4)
+      cy.get('@officersSlides').eq(0).contains('Mark Carlson')
+      cy.get('@officersSlides').eq(1).contains('Eric Patel')
+      cy.get('@officersSlides').eq(2).contains('Lee Allen')
+      cy.get('@officersSlides').eq(3).contains('Tina Holder')
+
+      cy.get('.documents-list')
+        .find('.document-item')
+        .as('documentItems')
+        .should('length', 3)
+      cy.get('@documentItems').eq(0).contains('Her hard step sea.')
+      cy.get('@documentItems')
+        .eq(1)
+        .contains('Yourself say language meeting ok.')
+      cy.get('@documentItems')
+        .eq(2)
+        .contains('Be decade those someone tough year sing.')
+    })
+
     it('backs to front page if click on close button', () => {
       cy.visit('/search')
       cy.location('pathname').should('eq', '/search')
 
       cy.get('.search-input-container').find('.input-field').type('f')
+      cy.get('.search-input-container')
+        .find('.input-field')
+        .should('value', 'f')
       cy.get('.search-input-container').find('.close-btn').click()
-      cy.get('.search-input-container').find('.input-field').should('text', '')
+      cy.get('.search-input-container').find('.input-field').should('value', '')
       cy.location('pathname').should('eq', '/')
     })
 
@@ -213,6 +254,44 @@ describe('Search Page', () => {
         '_blank',
         'noopener noreferrer'
       )
+    })
+
+    it('suggests recent search terms when user click on search input', () => {
+      cy.setReduxLocalStorage({
+        searchPage: {
+          searchQueries: ['ba', 'bat', 'baton', 'other_bat'],
+        },
+      })
+
+      cy.visit('/search/?q=ba')
+
+      cy.get('.search-input-container')
+        .find('.input-field')
+        .should('value', 'ba')
+      cy.get('.search-query-suggestions').should('not.be.visible')
+      cy.get('.search-input-container').find('.input-field').click()
+
+      cy.get('.search-query-suggestions').should('be.visible')
+      cy.get('.search-query-suggestions')
+        .find('.search-query-suggestion-header')
+        .should('text', 'Recent searches')
+      cy.get('.search-query-suggestions')
+        .find('.search-query-suggestion')
+        .eq(0)
+        .should('text', 'bat')
+      cy.get('.search-query-suggestions')
+        .find('.search-query-suggestion')
+        .eq(1)
+        .should('text', 'baton')
+
+      cy.get('.search-query-suggestions')
+        .find('.search-query-suggestion')
+        .eq(1)
+        .click()
+      cy.get('.search-input-container')
+        .find('.input-field')
+        .should('value', 'baton')
+      cy.get('.search-query-suggestions').should('not.be.visible')
     })
   })
 })

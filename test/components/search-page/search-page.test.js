@@ -1,13 +1,13 @@
 import React from 'react'
 import sinon from 'sinon'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
 
 import SearchPage from 'components/search-page'
 
-describe('FrontPage component', () => {
+describe('SearchPage component', () => {
   it('should render correctly', () => {
     const searchStub = sinon.stub()
 
@@ -125,5 +125,48 @@ describe('FrontPage component', () => {
     )
 
     await waitFor(() => expect(searchStub).toHaveBeenCalledWith(searchQuery))
+  })
+
+  it('should handle search result item click', async () => {
+    const searchStub = sinon.stub()
+    const saveSearchQuerySpy = sinon.spy()
+
+    const searchResults = {
+      departments: [
+        {
+          id: 22,
+          name: 'Petersonmouth Department',
+          city: 'Baton Rouge',
+          parish: 'East Baton Rouge',
+          locationMapUrl: null,
+        },
+      ],
+    }
+
+    const searchQuery = 'searchQuery'
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/search']}>
+          <Route path='/search'>
+            <SearchPage
+              searchResults={searchResults}
+              search={searchStub}
+              searchQuery={searchQuery}
+              saveSearchQuery={saveSearchQuerySpy}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    const searchResultItem = baseElement.getElementsByClassName(
+      'department-card'
+    )[0]
+    fireEvent.click(searchResultItem)
+    await waitFor(() =>
+      expect(saveSearchQuerySpy).toHaveBeenCalledWith(searchQuery)
+    )
   })
 })

@@ -2,8 +2,6 @@
 @import 'styles/colors';
 @import 'styles/mixins';
 
-$close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
-
 .header {
   position: fixed;
   left: 0;
@@ -25,37 +23,6 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
     line-height: $header-height;
     order: 1;
   }
-  .search-input-container {
-    padding: $v-frame-margin $h-side-frame;
-    flex-grow: 1;
-    position: relative;
-    flex-basis: auto;
-
-    .search-input {
-      width: 100%;
-    }
-
-    .close-btn {
-      position: absolute;
-      right: 11px;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      display: none;
-    }
-
-    &.has-value {
-      .input-field.has-icon {
-        padding-right: $close-icon-width;
-      }
-
-      .close-btn {
-        display: block;
-      }
-    }
-
-    order: 2;
-  }
 
   .logout-btn {
     width: 48px;
@@ -74,11 +41,6 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
 
 @media only screen and (max-width: $mobile-breakpoint) {
   .header {
-    .search-input-container {
-      order: 3;
-      flex-basis: 100%;
-      margin-top: 0;
-    }
     .logout-btn {
       order: 2;
     }
