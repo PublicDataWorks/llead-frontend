@@ -119,9 +119,7 @@ describe('Department Documents component', () => {
 
     const { getByPlaceholderText } = container
 
-    const searchInput = getByPlaceholderText(
-      'Search by name, department, or keyword'
-    )
+    const searchInput = getByPlaceholderText('Search Documents')
     fireEvent.change(searchInput, { target: { value: 'text' } })
 
     expect(fetchDocumentsSpy).toHaveBeenCalledWith(departmentId, { q: 'text' })

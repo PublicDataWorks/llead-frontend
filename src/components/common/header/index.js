@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory, useLocation, Link } from 'react-router-dom'
-import noop from 'lodash/noop'
 import qs from 'qs'
+import cx from 'classnames'
+import noop from 'lodash/noop'
+import isEmpty from 'lodash/isEmpty'
 
 import './header.scss'
 import Input from 'components/common/inputs/input'
@@ -63,7 +65,11 @@ const Header = (props) => {
       </Link>
       {isLoggedIn && (
         <>
-          <div className='search-input-container'>
+          <div
+            className={cx('search-input-container', {
+              'has-value': !isEmpty(searchQuery),
+            })}
+          >
             <Input
               iconSrc={SearchSVG}
               placeholder='Search by name, department, or keyword'
@@ -72,14 +78,12 @@ const Header = (props) => {
               autoFocus={isSearchPage()}
               className='search-input'
             />
-            {searchQuery && (
-              <img
-                className='close-btn'
-                src={CloseSVG}
-                onClick={clearSearch}
-                data-testid='test--close-btn'
-              />
-            )}
+            <img
+              className='close-btn'
+              src={CloseSVG}
+              onClick={clearSearch}
+              data-testid='test--close-btn'
+            />
           </div>
           <div className='logout-btn' onClick={handleLogout}>
             L

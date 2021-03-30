@@ -1,4 +1,8 @@
 @import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+$icon-width: calc(2 * #{$h-side-frame} + 16px);
 
 .input-container {
   position: relative;
@@ -7,31 +11,49 @@
     position: absolute;
     width: 16px;
     left: 16px;
-    height: 48px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .input-field {
+    @include body-text;
     box-sizing: border-box;
     border-radius: 2px;
     width: 100%;
-    padding: 11px 16px 12px 16px;
+    padding: 0 $h-side-frame;
+    line-height: 48px;
     border: 1px solid $alto-color;
     background-color: $wild-sand-color;
-    font-size: 18px;
-    line-height: 23px;
-    color: $boulder-color;
+    color: $thunder-color;
     outline: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &::-webkit-input-placeholder {
+      /* Edge */
+      color: $boulder-color;
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $boulder-color;
+    }
+
+    &::placeholder {
+      color: $boulder-color;
+    }
 
     &:focus {
       border: 3px solid $blue-ribbon-50-color;
-      padding: 9px 14px 10px 14px;
+      padding: 0 calc(#{$h-side-frame} - 2px);
+      line-height: 44px;
     }
 
     &.has-icon {
-      padding: 11px 16px 12px 48px;
+      padding-left: $icon-width;
 
       &:focus {
-        padding: 9px 14px 10px 46px;
+        padding-left: calc(#{$icon-width} - 2px);
       }
     }
   }
@@ -39,10 +61,11 @@
   &.error {
     .input-field {
       border: 3px solid $thunder-color;
-      padding: 9px 14px 10px 14px;
+      padding: 0 calc(#{$h-side-frame} - 2px);
+      line-height: 44px;
 
       &.has-icon {
-        padding: 9px 14px 10px 46px;
+        padding-left: calc(#{$icon-width} - 2px);
       }
     }
   }

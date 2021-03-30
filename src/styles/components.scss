@@ -9,3 +9,9 @@ body {
   min-height: calc(100vh - #{$footer-height});
   box-sizing: border-box;
 }
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  %main-container {
+    padding-top: $header-height-mobile;
+  }
+}

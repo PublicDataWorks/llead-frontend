@@ -1,0 +1,49 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.department-documents {
+  margin-top: $v-header-margin;
+
+  .department-documents-title {
+    @include h1;
+    color: $thunder-color;
+    margin: 0 $h-card-margin;
+    color: $thunder-color;
+  }
+
+  .search-input {
+    margin: $v-frame-margin $h-card-margin;
+    width: 320px;
+  }
+
+  .department-documents-listview {
+    margin-top: $v-frame-margin;
+
+    .document-item {
+      padding: $v-small-margin $h-card-margin;
+    }
+  }
+
+  .department-documents-count {
+    @include small-text;
+    color: $boulder-color;
+    margin: $v-small-margin $h-card-margin;
+  }
+
+  .department-documents-loadmore {
+    @include small-text;
+    width: calc(100% - 2 * 32px);
+    background-color: $wild-sand-color;
+    margin: $v-small-margin $h-card-margin;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .department-documents {
+    margin-top: $v-header-margin;
+    .search-input {
+      width: auto;
+    }
+  }
+}

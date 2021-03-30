@@ -29,11 +29,11 @@ const DocumentItem = (props) => {
   return (
     <OuterLink className='document-item' href={url}>
       <div className='document-item-title'>
-        <span className='document-item-type'>{documentType}</span>
-        <span className='document-item-name'>{title}</span>
-        <span className='document-item-department-name'>
+        <div className='document-item-type'>{documentType}</div>
+        <div className='document-item-name'>{title}</div>
+        <div className='document-item-department-name'>
           <ArrayWithSeparator items={items} separator=',&nbsp;' />
-        </span>
+        </div>
       </div>
       <div className='document-item-subtitle'>
         {incidentDate && (

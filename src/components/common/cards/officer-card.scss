@@ -1,37 +1,35 @@
 @import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
 
 .officer-card {
+  @include small-text;
   width: 248px;
   height: 313px;
   background: $white-color;
-  border-radius: 2px;
+  border-radius: 8px;
   border: 1px solid $alto-color;
   box-sizing: border-box;
-  font-size: 16px;
-  line-height: 21px;
 
   .officer-info {
     box-sizing: border-box;
-    padding: 32px 32px 0 32px;
-    height: 222px;
+    padding: $v-margin $h-card-margin 0 $h-card-margin;
+    height: 248px;
 
     .officer-type {
-      font-weight: 300;
-      font-size: 16px;
-      line-height: 21px;
+      @include small-text;
       color: $boulder-color;
-      margin-bottom: 12px;
+      margin-bottom: $v-small-margin;
     }
 
     .officer-name {
-      font-weight: 500;
-      font-size: 26px;
-      line-height: 34px;
+      @include h1;
       color: $thunder-color;
+      margin-bottom: $h-small-margin;
     }
 
     .officer-badges {
-      margin-top: 4px;
+      @include small-text;
       padding-left: 23px;
       color: $boulder-color;
       background: url('assets/icons/star.svg') no-repeat left;
@@ -44,13 +42,15 @@
 
   .officer-card-footer {
     box-sizing: border-box;
-    padding: 0 32px;
+    padding: 0 $h-card-margin;
+    overflow: auto;
+    height: calc(100% - 248px);
 
     .officer-department-name {
       display: block;
       text-decoration: none;
       box-sizing: border-box;
-      padding: 13px 16px 14px 16px;
+      padding: 13px $h-side-frame 14px $h-side-frame;
       color: $thunder-color;
       border: 1px solid $alto-color;
       border-radius: 2px;

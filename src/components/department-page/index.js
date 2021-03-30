@@ -45,7 +45,7 @@ const Department = (props) => {
     dataPeriod,
   } = department
 
-  const elementStyles = isEmpty(locationMapUrl)
+  const mapElementStyles = isEmpty(locationMapUrl)
     ? {}
     : { backgroundImage: `url(${locationMapUrl})` }
 
@@ -123,17 +123,28 @@ const Department = (props) => {
                 <div className='department-title'>Police Department</div>
                 <div className='department-name'>{name}</div>
                 <div className='department-basic-info'>
-                  <div className='department-map' style={elementStyles} />
                   <div className='department-location'>
-                    <div className='department-city'>{city}</div>
-                    <div className='department-parish'>{parish}</div>
+                    {!isEmpty(mapElementStyles) && (
+                      <div
+                        className='department-map'
+                        style={mapElementStyles}
+                      />
+                    )}
+                    <div className='department-location-info'>
+                      <div className='department-city'>{city}</div>
+                      <div className='department-parish'>{parish}</div>
+                    </div>
                   </div>
                   <div className='department-summary'>
-                    <div>{stringifyTotalItems(officersCount, 'officer')}</div>
-                    <div>
+                    <div className='department-summary-row'>
+                      {stringifyTotalItems(officersCount, 'officer')}
+                    </div>
+                    <div className='department-summary-row'>
                       {stringifyTotalItems(complaintsCount, 'complaint')}
                     </div>
-                    <div>{stringifyTotalItems(documentsCount, 'document')}</div>
+                    <div className='department-summary-row'>
+                      {stringifyTotalItems(documentsCount, 'document')}
+                    </div>
                   </div>
                 </div>
                 <div className='department-wrgl-files'>
