@@ -1,0 +1,278 @@
+import React from 'react'
+import { Route, MemoryRouter } from 'react-router-dom'
+import sinon from 'sinon'
+import { Provider } from 'react-redux'
+import { render } from '@testing-library/react'
+import MockStore from 'redux-mock-store'
+
+import Officer from 'components/officer-page'
+
+const mockHistoryPush = jest.fn()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}))
+
+beforeEach(() => {
+  mockHistoryPush.mockClear()
+})
+
+describe('Officer component', () => {
+  it('should render correctly with documents', () => {
+    const officerData = {
+      annualSalary: '$57k/year',
+      badges: ['123', '456'],
+      complaintsCount: 0,
+      dataPeriod: '2012 and 2018-2020',
+      documentsDataPeriod: '2015-2016',
+      complaintsDataPeriod: '2012, 2014 and 2016-2018',
+      department: { id: 10029, name: 'Officer Name' },
+      description: 'age-year-old gender race',
+      documentsCount: 1,
+      name: 'officer name',
+    }
+    const fetchOfficerSpy = sinon.spy()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} fetchOfficer={fetchOfficerSpy} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(fetchOfficerSpy).toHaveBeenCalledWith(1)
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('officer-period')[0].textContent
+    ).toEqual(
+      'Data for this officer is limited to the years\u00A02012 and 2018-2020'
+    )
+    expect(
+      baseElement.getElementsByClassName('officer-title')[0].textContent
+    ).toEqual('Police Officer')
+    expect(
+      baseElement.getElementsByClassName('officer-name')[0].textContent
+    ).toEqual('Officer Name')
+
+    const officerBasicInfoRows = baseElement.getElementsByClassName(
+      'officer-basic-info-row'
+    )
+    expect(officerBasicInfoRows[0].textContent).toEqual('123,456')
+    expect(officerBasicInfoRows[1].textContent).toEqual(
+      'age-year-old gender race'
+    )
+    expect(officerBasicInfoRows[2].textContent).toEqual('$57k/year')
+
+    expect(
+      baseElement.getElementsByClassName('officer-department')[0].textContent
+    ).toEqual('Officer Name')
+
+    expect(
+      baseElement.getElementsByClassName('officer-summary-info')[0].textContent
+    ).toEqual('Officer Name was named in\u00A01 document in 2015-2016')
+  })
+
+  it('should render correctly with complaints', () => {
+    const officerData = {
+      annualSalary: '$57k/year',
+      badges: ['123', '456'],
+      complaintsCount: 2,
+      dataPeriod: '2012 and 2018-2020',
+      documentsDataPeriod: '2015-2016',
+      complaintsDataPeriod: '2012, 2014 and 2016-2018',
+      department: { id: 10029, name: 'Officer Name' },
+      description: 'age-year-old gender race',
+      documentsCount: 0,
+      name: 'officer name',
+    }
+    const fetchOfficerSpy = sinon.spy()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} fetchOfficer={fetchOfficerSpy} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(fetchOfficerSpy).toHaveBeenCalledWith(1)
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('officer-period')[0].textContent
+    ).toEqual(
+      'Data for this officer is limited to the years\u00A02012 and 2018-2020'
+    )
+    expect(
+      baseElement.getElementsByClassName('officer-title')[0].textContent
+    ).toEqual('Police Officer')
+    expect(
+      baseElement.getElementsByClassName('officer-name')[0].textContent
+    ).toEqual('Officer Name')
+
+    const officerBasicInfoRows = baseElement.getElementsByClassName(
+      'officer-basic-info-row'
+    )
+    expect(officerBasicInfoRows[0].textContent).toEqual('123,456')
+    expect(officerBasicInfoRows[1].textContent).toEqual(
+      'age-year-old gender race'
+    )
+    expect(officerBasicInfoRows[2].textContent).toEqual('$57k/year')
+
+    expect(
+      baseElement.getElementsByClassName('officer-department')[0].textContent
+    ).toEqual('Officer Name')
+
+    expect(
+      baseElement.getElementsByClassName('officer-summary-info')[0].textContent
+    ).toEqual('Officer Name has\u00A02 allegations in 2012, 2014 and 2016-2018')
+  })
+
+  it('should render correctly without complaints and document', () => {
+    const officerData = {
+      annualSalary: '$57k/year',
+      badges: ['123', '456'],
+      complaintsCount: 0,
+      dataPeriod: '2012 and 2018-2020',
+      documentsDataPeriod: '2015-2016',
+      complaintsDataPeriod: '2012, 2014 and 2016-2018',
+      department: { id: 10029, name: 'Officer Name' },
+      description: 'age-year-old gender race',
+      documentsCount: 0,
+      name: 'officer name',
+    }
+    const fetchOfficerSpy = sinon.spy()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} fetchOfficer={fetchOfficerSpy} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(fetchOfficerSpy).toHaveBeenCalledWith(1)
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('officer-summary-info').length
+    ).toEqual(0)
+  })
+
+  it('should render documents section', () => {
+    const officerData = {
+      annualSalary: '$57k/year',
+      badges: ['123', '456'],
+      complaintsCount: 2,
+      dataPeriod: ['2012', '2018-2020'],
+      department: { id: 10029, name: 'Officer Name' },
+      description: 'age-year-old gender race',
+      name: 'officer name',
+      documentsCount: 2,
+    }
+    const documentsData = [
+      {
+        id: 1,
+        documentType: 'json',
+        title: 'title 1',
+        url: 'url 1',
+        incidentDate: 'May 04, 2020',
+      },
+      {
+        id: 2,
+        documentType: 'jpeg',
+        title: 'title 2',
+        url: 'url 2',
+        incidentDate: 'Jan 21, 2019',
+      },
+    ]
+
+    const fetchOfficerSpy = sinon.spy()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer
+              officer={officerData}
+              documents={documentsData}
+              fetchOfficer={fetchOfficerSpy}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('officer-documents-title')[0]
+        .textContent
+    ).toEqual('Documents (2)')
+
+    const documentElements = baseElement.getElementsByClassName('document-item')
+    expect(documentElements.length).toBe(2)
+    const firstDocument = documentElements[0]
+    const secondDocument = documentElements[1]
+
+    const firstDocumentTitle = firstDocument.getElementsByClassName(
+      'document-item-name'
+    )[0]
+    expect(firstDocumentTitle.textContent).toEqual('title 1')
+
+    const secondDocumentTitle = secondDocument.getElementsByClassName(
+      'document-item-name'
+    )[0]
+    expect(secondDocumentTitle.textContent).toEqual('title 2')
+  })
+  it('should redirect to home if departmentId is NaN', () => {
+    const invalidOfficerId = 'abcd'
+    const officerData = {
+      id: invalidOfficerId,
+    }
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={[`officers/${invalidOfficerId}`]}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} isRequesting={true} />
+          </Route>
+          <Route path='/'>Home</Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { getByText } = container
+
+    expect(getByText('Home')).toBeTruthy()
+  })
+
+  it('should not render if isRequesting', () => {
+    const officerData = {}
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} isRequesting={true} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+    expect(baseElement.getElementsByClassName('officer-content').length).toBe(0)
+  })
+})

@@ -2,6 +2,7 @@ import moment from 'moment'
 import numeral from 'numeral'
 import pluralize from 'pluralize'
 import isEmpty from 'lodash/isEmpty'
+import reduce from 'lodash/reduce'
 
 import { DATE_FORMAT } from 'constants/common'
 
@@ -28,3 +29,10 @@ export const formatNumber = (value) => {
 export const stringifyTotalItems = (count, itemName) => {
   return `${formatNumber(count)} ${pluralize(itemName, count)}`
 }
+
+export const formatDataPeriods = (periods) =>
+  reduce(
+    periods,
+    (acc, element, key) =>
+      `${acc}${key !== periods.length - 1 ? ', ' : ' and '}${element}`
+  )

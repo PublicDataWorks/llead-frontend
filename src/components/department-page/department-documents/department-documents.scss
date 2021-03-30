@@ -28,7 +28,8 @@
   .department-documents-count {
     @include small-text;
     color: $boulder-color;
-    margin: $v-small-margin $h-card-margin;
+    padding: $v-small-margin $h-card-margin;
+    border-top: 1px solid $alto-color;
   }
 
   .department-documents-loadmore {

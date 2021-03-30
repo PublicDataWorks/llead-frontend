@@ -16,6 +16,7 @@ const DocumentItem = (props) => {
     textContent,
     textContentHighlight,
     url,
+    highlighting,
   } = props
 
   const items = departments.map((department) => (
@@ -39,12 +40,14 @@ const DocumentItem = (props) => {
         {incidentDate && (
           <div className='document-item-incident-date'>{incidentDate}</div>
         )}
-        <div
-          className='document-item-text-content'
-          dangerouslySetInnerHTML={{
-            __html: santinizedHTML,
-          }}
-        />
+        {(highlighting || !incidentDate) && (
+          <div
+            className='document-item-text-content'
+            dangerouslySetInnerHTML={{
+              __html: santinizedHTML,
+            }}
+          />
+        )}
       </div>
     </OuterLink>
   )
@@ -58,6 +61,7 @@ DocumentItem.propTypes = {
   url: PropTypes.string,
   textContent: PropTypes.string,
   textContentHighlight: PropTypes.string,
+  highlighting: PropTypes.bool,
 }
 
 DocumentItem.defaultProps = {

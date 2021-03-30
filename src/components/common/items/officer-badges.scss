@@ -1,0 +1,13 @@
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.officer-badges {
+  @include small-text;
+  padding-left: 23px;
+  color: $boulder-color;
+  background: url('assets/icons/star.svg') no-repeat left;
+
+  :first-child {
+    color: $thunder-color;
+  }
+}

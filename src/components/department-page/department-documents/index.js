@@ -61,7 +61,11 @@ const DepartmentDocuments = (props) => {
       />
       <div className='department-documents-listview'>
         {map(documents, ({ id, ...rest }) => (
-          <DocumentItem key={id} {...rest} />
+          <DocumentItem
+            key={id}
+            {...rest}
+            highlighting={!isEmpty(departmentSearchQuery)}
+          />
         ))}
       </div>
 

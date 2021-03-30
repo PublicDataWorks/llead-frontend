@@ -1,42 +1,39 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import startCase from 'lodash/startCase'
 
 import './officer-card.scss'
-import ArrayWithSeparator from 'components/common/array-with-separator'
-import { departmentPath } from 'utils/paths'
+import OfficerBadges from 'components/common/items/officer-badges'
+import { departmentPath, officerPath } from 'utils/paths'
+import CustomLink from '../links/custom-link'
 
 const OfficerCard = (props) => {
-  const { name, badges, department } = props
-
-  const items = badges.map((badge) => <span key={badge}>{badge}</span>)
+  const { id, name, badges, department } = props
 
   return (
-    <div className='officer-card'>
+    <CustomLink className='officer-card' to={officerPath(id)}>
       <div className='officer-info'>
         <div className='officer-type'>Police Officer</div>
         <div className='officer-name'>{startCase(name)}</div>
-        <div className='officer-badges'>
-          <ArrayWithSeparator items={items} separator=',' />
-        </div>
+        <OfficerBadges badges={badges} />
       </div>
       <div className='officer-card-footer'>
         {!isEmpty(department) && (
-          <Link
+          <CustomLink
             to={departmentPath(department.id)}
             className='officer-department-name'
           >
             {department.name}
-          </Link>
+          </CustomLink>
         )}
       </div>
-    </div>
+    </CustomLink>
   )
 }
 
 OfficerCard.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   badges: PropTypes.array,
   department: PropTypes.object,

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
-import reduce from 'lodash/reduce'
 import isString from 'lodash/isString'
 import compact from 'lodash/compact'
 import filter from 'lodash/filter'
@@ -18,7 +17,7 @@ import Header from 'pages/common/header'
 import Footer from 'components/common/footer'
 import WRGLFile from './wrgl-file'
 import DepartmentDocumentsContainer from 'pages/department-page/department-documents'
-import { stringifyTotalItems } from 'utils/formatter'
+import { formatDataPeriods, stringifyTotalItems } from 'utils/formatter'
 
 const Department = (props) => {
   const { department, fetchDepartment, isRequesting } = props
@@ -49,15 +48,9 @@ const Department = (props) => {
     ? {}
     : { backgroundImage: `url(${locationMapUrl})` }
 
-  const joinedDataPeriod = useMemo(
-    () =>
-      reduce(dataPeriod, (acc, element, key) => [
-        acc,
-        key !== dataPeriod.length - 1 ? ', ' : ' and ',
-        element,
-      ]),
-    [dataPeriod]
-  )
+  const joinedDataPeriod = useMemo(() => formatDataPeriods(dataPeriod), [
+    dataPeriod,
+  ])
 
   useEffect(() => {
     fetchDepartment(departmentId)

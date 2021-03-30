@@ -5,7 +5,6 @@ import {
   documentsPaginationSelector,
 } from 'selectors/department-page'
 
-
 describe('#getIsRequesting', () => {
   it('returns isRequesting', () => {
     const state = {
@@ -66,7 +65,7 @@ describe('#departmentSelector', () => {
 
 describe('#documentsSelector', () => {
   describe('has data', () => {
-    it('returns department data', () => {
+    it('returns documents data', () => {
       const documentsData = [
         {
           id: 39,
@@ -98,8 +97,11 @@ describe('#documentsSelector', () => {
   })
 
   describe('does not have data', () => {
-    it('returns falsy data', () => {
-      const documents = documentsSelector([])
+    it('returns empty data', () => {
+      const state = {
+        departmentPage: {},
+      }
+      const documents = documentsSelector(state)
 
       expect(documents).toStrictEqual([])
     })

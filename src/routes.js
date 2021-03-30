@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom'
 import noop from 'lodash/noop'
 
 import DepartmentPage from 'pages/department-page'
+import OfficerPage from 'pages/officer-page'
 import FrontPage from 'pages/front-page'
 import LoginPage from 'pages/login-page'
 import SearchPage from 'pages/search-page'
@@ -48,6 +49,12 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
         {...privateRouteAttributes}
         path={`${paths.DEPARTMENTS_PATH}:id/`}
         component={DepartmentPage}
+        exact
+      />
+      <PrivateRoute
+        {...privateRouteAttributes}
+        path={`${paths.OFFICERS_PATH}:id/`}
+        component={OfficerPage}
         exact
       />
     </Switch>

@@ -6,10 +6,10 @@ import './documents-list.scss'
 import DocumentItem from 'components/common/items/document-item'
 
 const DocumentsList = (props) => {
-  const { items } = props
+  const { items, highlighting } = props
 
   const itemsList = map(items, (document) => (
-    <DocumentItem key={document.id} {...document} />
+    <DocumentItem key={document.id} {...document} highlighting={highlighting} />
   ))
 
   return (
@@ -22,6 +22,7 @@ const DocumentsList = (props) => {
 
 DocumentsList.propTypes = {
   items: PropTypes.array,
+  highlighting: PropTypes.bool,
 }
 
 DocumentsList.defaultProps = {
