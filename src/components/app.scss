@@ -1,17 +1,16 @@
 @import 'styles/variables';
 
-body {
-  margin: 0;
-}
-
-%main-container {
+.main-container {
   padding-top: $header-height;
-  min-height: calc(100vh - #{$footer-height});
   box-sizing: border-box;
 }
 
 @media only screen and (max-width: $mobile-breakpoint) {
-  %main-container {
+  .main-container {
     padding-top: $header-height-mobile;
+
+    &.unauthorized {
+      padding-top: $header-height;
+    }
   }
 }

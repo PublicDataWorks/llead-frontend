@@ -6,6 +6,7 @@ $icon-width: calc(2 * #{$h-side-frame} + 16px);
 
 .input-container {
   position: relative;
+  width: $input-width;
 
   .svg-icon {
     position: absolute;
@@ -21,7 +22,7 @@ $icon-width: calc(2 * #{$h-side-frame} + 16px);
     border-radius: 2px;
     width: 100%;
     padding: 0 $h-side-frame;
-    line-height: 48px;
+    line-height: 46px;
     border: 1px solid $alto-color;
     background-color: $wild-sand-color;
     color: $thunder-color;
@@ -46,7 +47,7 @@ $icon-width: calc(2 * #{$h-side-frame} + 16px);
     &:focus {
       border: 3px solid $blue-ribbon-50-color;
       padding: 0 calc(#{$h-side-frame} - 2px);
-      line-height: 44px;
+      line-height: 42px;
     }
 
     &.has-icon {
@@ -62,11 +63,17 @@ $icon-width: calc(2 * #{$h-side-frame} + 16px);
     .input-field {
       border: 3px solid $thunder-color;
       padding: 0 calc(#{$h-side-frame} - 2px);
-      line-height: 44px;
+      line-height: 42px;
 
       &.has-icon {
         padding-left: calc(#{$icon-width} - 2px);
       }
     }
+  }
+}
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  .input-container {
+    width: 100%;
   }
 }

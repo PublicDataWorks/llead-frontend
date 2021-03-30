@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
 
-import Header from 'pages/common/header'
-import Footer from 'components/common/footer'
 import AnalyticSummary from './analytic-summary'
 import './front-page.scss'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
@@ -32,41 +30,35 @@ const FrontPage = (props) => {
   }, [])
 
   return (
-    <>
-      <Header />
-      <div className='front-page'>
-        <div className='content-container'>
-          <div
-            className='summary'
-            data-testid='test--summary'
-            dangerouslySetInnerHTML={{ __html: cms.summary }}
-          />
-        </div>
-        <AnalyticSummary analyticSummary={analyticSummary} />
-        {!isEmpty(departments) && (
-          <DepartmentsCarousel
-            items={departments}
-            sortedField='size'
-            className='front-page-carousel'
-          />
-        )}
-        {!isEmpty(officers) && (
-          <OfficersCarousel
-            items={officers}
-            sortedField='most recently added'
-            className='front-page-carousel'
-          />
-        )}
-        {!isEmpty(documents) && (
-          <DocumentsCarousel
-            items={documents}
-            sortedField='most recently added'
-            className='front-page-carousel'
-          />
-        )}
-      </div>
-      <Footer />
-    </>
+    <div className='front-page'>
+      <div
+        className='summary'
+        data-testid='test--summary'
+        dangerouslySetInnerHTML={{ __html: cms.summary }}
+      />
+      <AnalyticSummary analyticSummary={analyticSummary} />
+      {!isEmpty(departments) && (
+        <DepartmentsCarousel
+          items={departments}
+          sortedField='size'
+          className='front-page-carousel'
+        />
+      )}
+      {!isEmpty(officers) && (
+        <OfficersCarousel
+          items={officers}
+          sortedField='most recently added'
+          className='front-page-carousel'
+        />
+      )}
+      {!isEmpty(documents) && (
+        <DocumentsCarousel
+          items={documents}
+          sortedField='most recently added'
+          className='front-page-carousel'
+        />
+      )}
+    </div>
   )
 }
 

@@ -9,8 +9,6 @@ import startCase from 'lodash/startCase'
 import map from 'lodash/map'
 
 import './officer-page.scss'
-import Header from 'pages/common/header'
-import Footer from 'components/common/footer'
 import CustomLink from 'components/common/links/custom-link'
 import OfficerBadges from 'components/common/items/officer-badges'
 import DocumentItem from 'components/common/items/document-item'
@@ -72,62 +70,56 @@ const Officer = (props) => {
   }
 
   return (
-    <>
-      <Header />
-      <div className='officer-page'>
-        <div className='page-container'>
-          {!isOfficerRequesting && !isEmpty(department) && (
-            <>
-              {!isEmpty(dataPeriod) && (
-                <div className='officer-period'>
-                  Data for this officer is limited to the years&nbsp;
-                  {dataPeriod}
+    <div className='officer-page'>
+      {!isOfficerRequesting && !isEmpty(department) && (
+        <>
+          {!isEmpty(dataPeriod) && (
+            <div className='officer-period'>
+              Data for this officer is limited to the years&nbsp;
+              {dataPeriod}
+            </div>
+          )}
+          <div className='officer-content'>
+            <div className='officer-title'>Police Officer</div>
+            <div className='officer-name'>{startCase(name)}</div>
+            <div className='officer-basic-info'>
+              {!isEmpty(badges) && (
+                <div className='officer-basic-info-row'>
+                  <OfficerBadges badges={badges} />
                 </div>
               )}
-              <div className='officer-content'>
-                <div className='officer-title'>Police Officer</div>
-                <div className='officer-name'>{startCase(name)}</div>
-                <div className='officer-basic-info'>
-                  {!isEmpty(badges) && (
-                    <div className='officer-basic-info-row'>
-                      <OfficerBadges badges={badges} />
-                    </div>
-                  )}
-                  {description && (
-                    <div className='officer-basic-info-row'>{description}</div>
-                  )}
-                  {annualSalary && (
-                    <div className='officer-basic-info-row'>{annualSalary}</div>
-                  )}
-                  {!isEmpty(department) && (
-                    <CustomLink
-                      className='officer-department'
-                      to={departmentPath(department.id)}
-                    >
-                      {department.name}
-                    </CustomLink>
-                  )}
-                  {displaySummaryInfo()}
+              {description && (
+                <div className='officer-basic-info-row'>{description}</div>
+              )}
+              {annualSalary && (
+                <div className='officer-basic-info-row'>{annualSalary}</div>
+              )}
+              {!isEmpty(department) && (
+                <CustomLink
+                  className='officer-department'
+                  to={departmentPath(department.id)}
+                >
+                  {department.name}
+                </CustomLink>
+              )}
+              {displaySummaryInfo()}
+            </div>
+            {documentsCount > 0 && (
+              <div className='officer-documents'>
+                <div className='officer-documents-title'>
+                  Documents ({formatNumber(documentsCount)})
                 </div>
-                {documentsCount > 0 && (
-                  <div className='officer-documents'>
-                    <div className='officer-documents-title'>
-                      Documents ({formatNumber(documentsCount)})
-                    </div>
-                    <div className='officer-documents-listview'>
-                      {map(documents, ({ id, ...rest }) => (
-                        <DocumentItem key={id} {...rest} />
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <div className='officer-documents-listview'>
+                  {map(documents, ({ id, ...rest }) => (
+                    <DocumentItem key={id} {...rest} />
+                  ))}
+                </div>
               </div>
-            </>
-          )}
-        </div>
-      </div>
-      <Footer />
-    </>
+            )}
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 

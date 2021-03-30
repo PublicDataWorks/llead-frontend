@@ -20,8 +20,9 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
   .logo {
     @include h1;
     color: $thunder-color;
-    padding: $v-frame-margin 0 $v-frame-margin $h-side-frame;
+    padding-left: $h-side-frame;
     text-decoration: none;
+    line-height: $header-height;
     order: 1;
   }
   .search-input-container {
@@ -29,6 +30,10 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
     flex-grow: 1;
     position: relative;
     flex-basis: auto;
+
+    .search-input {
+      width: 100%;
+    }
 
     .close-btn {
       position: absolute;

@@ -1,31 +1,24 @@
 @import 'styles/variables';
-@import 'styles/components';
 @import 'styles/colors';
 
 .front-page {
-  @extend %main-container;
-
   .front-page-carousel {
     & + .front-page-carousel {
       border-top: 1px solid $thunder-color;
     }
   }
 
-  .content-container {
-    .summary {
-      box-sizing: border-box  ;
-      padding: $v-small-margin $h-side-frame $v-margin $h-side-frame;
-      width: 50%;
-    }
+  .summary {
+    box-sizing: border-box;
+    padding: $v-small-margin $h-side-frame $v-margin $h-side-frame;
+    width: 50%;
   }
 }
 
 @media only screen and (max-width: $mobile-breakpoint) {
   .front-page {
-    .content-container {
-      .summary {
-        width: 100%;
-      }
+    .summary {
+      width: 100%;
     }
   }
 }

@@ -1,18 +1,11 @@
-@import 'styles/components';
 @import 'styles/colors';
 
 .search-page {
-  @extend %main-container;
-
   .search-results {
     background-color: $white-color;
 
     & + .search-results {
       border-top: 1px solid $thunder-color;
-    }
-
-    .carousel-title {
-      color: $boulder-color;
     }
   }
 
