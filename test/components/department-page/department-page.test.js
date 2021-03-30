@@ -8,11 +8,11 @@ import qs from 'qs'
 
 import Department from 'components/department-page'
 
-const mockHistoryPush = jest.fn()
+const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
-    push: mockHistoryPush,
+    replace: mockHistoryReplace,
   }),
 }))
 
@@ -21,7 +21,7 @@ jest.mock('pages/department-page/department-documents', () => () =>
 )
 
 beforeEach(() => {
-  mockHistoryPush.mockClear()
+  mockHistoryReplace.mockClear()
 })
 
 describe('Department component', () => {
@@ -389,7 +389,7 @@ describe('Department component', () => {
       const expandArrowElement = getByTestId('test--expand-control')
       fireEvent.click(expandArrowElement)
 
-      expect(mockHistoryPush).toHaveBeenCalledWith({
+      expect(mockHistoryReplace).toHaveBeenCalledWith({
         search: qs.stringify(
           { csv: ['slug-1', 'com-madisonville-pd'] },
           { arrayFormat: 'comma', encode: false }
@@ -451,7 +451,7 @@ describe('Department component', () => {
       const expandArrowElement = getByTestId('test--expand-control')
       fireEvent.click(expandArrowElement)
 
-      expect(mockHistoryPush).toHaveBeenCalledWith({
+      expect(mockHistoryReplace).toHaveBeenCalledWith({
         search: qs.stringify(
           { csv: ['slug-1'] },
           { arrayFormat: 'comma', encode: false }
