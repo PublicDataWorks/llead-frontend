@@ -92,6 +92,9 @@ describe('FrontPage recent items', () => {
     cy.get('.recent-items-carousel').should('not.exist')
     cy.get('.departments-carousel').find('.swiper-slide').eq(0).click()
     cy.location('pathname').should('eq', `/departments/9/`)
+    cy.get('.department-content')
+      .find('.department-name')
+      .should('text', 'Baton Rouge Department 1')
 
     cy.get('.logo').click()
 
@@ -130,6 +133,9 @@ describe('FrontPage recent items', () => {
 
     cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
     cy.location('pathname').should('eq', `/officers/${officerId}/`)
+    cy.get('.officer-content')
+      .find('.officer-name')
+      .should('text', 'Mark Carlson')
 
     cy.get('.logo').click()
 

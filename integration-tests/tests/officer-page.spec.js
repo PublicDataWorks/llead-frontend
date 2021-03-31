@@ -6,14 +6,14 @@ import {
 
 describe('Officer Page', () => {
   it('redirect to login when not logged in', () => {
+    cy.clearLocalStorage()
     cy.visit('/officers/1')
 
-    cy.location('pathname').should('eq', '/login/')
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/login/'))
   })
 
   describe('render successfully', () => {
     beforeEach(() => {
-      cy.login()
       cy.intercept(
         {
           method: 'GET',
@@ -35,6 +35,8 @@ describe('Officer Page', () => {
         },
         officerDetailsData
       )
+
+      cy.login()
     })
 
     it('render officer basics info', () => {

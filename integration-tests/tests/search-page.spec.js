@@ -3,14 +3,14 @@ import { firstSearchData, secondSearchData } from '../data/search-page-data'
 
 describe('Search Page', () => {
   it('redirect to login when not logged in', () => {
+    cy.clearLocalStorage()
     cy.visit('/search')
 
-    cy.location('pathname').should('eq', '/login/')
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/login/'))
   })
 
   describe('render successfully', () => {
     beforeEach(() => {
-      cy.login()
       cy.intercept(
         {
           method: 'GET',
@@ -35,6 +35,8 @@ describe('Search Page', () => {
         },
         secondSearchData
       )
+
+      cy.login()
     })
 
     it('redirect to search when type in input from homepage', () => {
