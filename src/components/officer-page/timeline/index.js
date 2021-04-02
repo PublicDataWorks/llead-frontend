@@ -1,0 +1,81 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+
+import './timeline.scss'
+import { TIMELINE_KINDS } from 'constants/common'
+import ComplaintItem from './complaint-item'
+import MainItem from './main-item'
+
+const TIMELINE_COMPONENTS_MAPPING = {
+  [TIMELINE_KINDS.JOINED]: MainItem,
+  [TIMELINE_KINDS.LEFT]: MainItem,
+  [TIMELINE_KINDS.COMPLAINT]: ComplaintItem,
+}
+
+const Timeline = (props) => {
+  const { timeline } = props
+
+  const renderTimelineItem = (item, index, { group, leftGroup }) => {
+    const Component = TIMELINE_COMPONENTS_MAPPING[item.kind]
+    return (
+      Component && (
+        <div
+          className={cx('timeline-item', {
+            'first-timeline-item': index === 0,
+          })}
+          key={index}
+        >
+          {group.isDateEvent && (
+            <div className='timeline-connected-line-container'>
+              <div className='timeline-connected-line'>
+                <div className='line' />
+              </div>
+            </div>
+          )}
+          <Component
+            {...item}
+            className={cx({
+              'has-connected-line': group.isDateEvent,
+              'left-item': leftGroup,
+            })}
+          />
+        </div>
+      )
+    )
+  }
+
+  return (
+    <div className='officer-timeline'>
+      <div className='timeline-header'>
+        <div className='timeline-header-text'>Timeline</div>
+      </div>
+      {timeline.map((group, groupIndex) => {
+        const leftGroup = groupIndex % 2 === 0
+        return (
+          <div
+            key={groupIndex}
+            className={cx('timeline-group', {
+              'left-group': leftGroup,
+              'date-event-group': group.isDateEvent,
+            })}
+          >
+            <div className='timeline-group-title'>{group.groupName}</div>
+            {group.items.map((item, index) =>
+              renderTimelineItem(item, index, { group, leftGroup })
+            )}
+          </div>
+        )
+      })}
+      <div className='clearfix' />
+    </div>
+  )
+}
+
+Timeline.propTypes = {
+  timeline: PropTypes.array,
+}
+
+Timeline.defaultProps = {}
+
+export default Timeline

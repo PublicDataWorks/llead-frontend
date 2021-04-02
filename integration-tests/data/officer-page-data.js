@@ -67,3 +67,56 @@ export const officerDocumentsData = [
     ],
   },
 ]
+
+export const officerTimelineData = [
+  {
+    kind: 'COMPLAINT',
+    date: '2019-03-10',
+    year: 2019,
+    rule_violation: 'officer rule violation 2019-03-10',
+    paragraph_violation: 'officer paragraph violation 2019-03-10',
+    disposition: 'officer dispostion 2019-03-10',
+    action: 'officer action 2019-03-10',
+    tracking_number: '10-03',
+  },
+  {
+    kind: 'COMPLAINT',
+    date: null,
+    year: null,
+    rule_violation: 'officer rule violation of unknowed time',
+    paragraph_violation: 'officer paragraph violation of unknowed time',
+    disposition: 'officer dispostion of unknowed time',
+    action: 'officer action of unknowed time',
+    tracking_number: '123-456',
+  },
+  {
+    kind: 'COMPLAINT',
+    date: null,
+    year: 2020,
+    rule_violation: 'officer rule violation year 2020',
+    paragraph_violation: 'officer paragraph violation year 2020',
+    disposition: 'officer dispostion year 2020',
+    action: 'officer action year 2020',
+    tracking_number: '2020',
+  },
+  {
+    kind: 'COMPLAINT',
+    date: '2019-03-10',
+    year: 2019,
+    rule_violation: 'officer rule violation 2019-03-10 no1',
+    paragraph_violation: 'officer paragraph violation 2019-03-10 no1',
+    disposition: 'officer dispostion 2019-03-10 no1',
+    action: 'officer action 2019-03-10 no1',
+    tracking_number: '10-03-1',
+  },
+  {
+    kind: 'JOINED',
+    date: null,
+    year: null,
+  },
+  {
+    kind: 'LEFT',
+    date: '2020-03-10',
+    year: 2020,
+  },
+]

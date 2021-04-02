@@ -133,7 +133,7 @@ describe('FrontPage recent items', () => {
 
     cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
     cy.location('pathname').should('eq', `/officers/${officerId}/`)
-    cy.get('.officer-content')
+    cy.get('.officer-basic-info')
       .find('.officer-name')
       .should('text', 'Mark Carlson')
 

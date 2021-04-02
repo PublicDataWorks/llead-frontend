@@ -5,6 +5,7 @@ import {
   officerSelector,
   documentsSelector,
   officerRecentDataSelector,
+  timelineSelector,
 } from 'selectors/officer-page'
 
 describe('#getIsOfficerRequesting', () => {
@@ -305,6 +306,191 @@ describe('#documentsSelector', () => {
       const documents = documentsSelector(state)
 
       expect(documents).toStrictEqual([])
+    })
+  })
+})
+
+describe('#timelineSelector', () => {
+  describe('has data', () => {
+    it('returns timeline data', () => {
+      const timelineData = [
+        {
+          kind: 'COMPLAINT',
+          date: '2019-06-13',
+          year: 2019,
+          ruleViolation: 'officer rule violation 2019-06-13',
+          paragraphViolation: 'officer paragraph violation 2019-06-13',
+          disposition: 'officer dispostion 2019-06-13',
+          action: 'officer action 2019-06-13',
+          trackingNumber: '13-06',
+        },
+        {
+          kind: 'COMPLAINT',
+          date: '2019-03-10',
+          year: 2019,
+          ruleViolation: 'officer rule violation 2019-03-10',
+          paragraphViolation: 'officer paragraph violation 2019-03-10',
+          disposition: 'officer dispostion 2019-03-10',
+          action: 'officer action 2019-03-10',
+          trackingNumber: '10-03',
+        },
+        {
+          kind: 'COMPLAINT',
+          date: '2018-10-20',
+          year: 2018,
+          ruleViolation: 'officer rule violation 2018-10-20',
+          paragraphViolation: 'officer paragraph violation 2018-10-20',
+          disposition: 'officer dispostion 2018-10-20',
+          action: 'officer action 2018-10-20',
+          trackingNumber: '20-10',
+        },
+        {
+          kind: 'COMPLAINT',
+          date: null,
+          year: null,
+          ruleViolation: 'officer rule violation of unknowed time',
+          paragraphViolation: 'officer paragraph violation of unknowed time',
+          disposition: 'officer dispostion of unknowed time',
+          action: 'officer action of unknowed time',
+          trackingNumber: '123-456',
+        },
+        {
+          kind: 'COMPLAINT',
+          date: null,
+          year: 2018,
+          ruleViolation: 'officer rule violation year 2018',
+          paragraphViolation: 'officer paragraph violation year 2018',
+          disposition: 'officer dispostion year 2018',
+          action: 'officer action year 2018',
+          trackingNumber: '2018',
+        },
+        {
+          kind: 'COMPLAINT',
+          date: '2019-03-10',
+          year: 2019,
+          ruleViolation: 'officer rule violation 2019-03-10 no1',
+          paragraphViolation: 'officer paragraph violation 2019-03-10 no1',
+          disposition: 'officer dispostion 2019-03-10 no1',
+          action: 'officer action 2019-03-10 no1',
+          trackingNumber: '10-03-1',
+        },
+        {
+          kind: 'JOINED',
+          date: null,
+          year: 2018,
+        },
+        {
+          kind: 'LEFT',
+          date: '2018-10-20',
+          year: 2018,
+        },
+      ]
+      const state = {
+        officerPage: {
+          timeline: timelineData,
+        },
+      }
+
+      const timeline = timelineSelector(state)
+
+      expect(timeline).toStrictEqual([
+        {
+          groupName: 'Jun 13, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'COMPLAINT',
+              ruleViolation: 'Officer rule violation 2019-06-13',
+              paragraphViolation: 'Officer paragraph violation 2019-06-13',
+              disposition: 'Officer dispostion 2019-06-13',
+              action: 'Officer action 2019-06-13',
+              trackingNumber: '13-06',
+            },
+          ],
+        },
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+            {
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03-1',
+              ruleViolation: 'Officer rule violation 2019-03-10 no1',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10 no1',
+              disposition: 'Officer dispostion 2019-03-10 no1',
+              action: 'Officer action 2019-03-10 no1',
+            },
+          ],
+        },
+        {
+          groupName: '2018',
+          isDateEvent: false,
+          items: [
+            {
+              kind: 'JOINED',
+            },
+            {
+              kind: 'COMPLAINT',
+              trackingNumber: '2018',
+              ruleViolation: 'Officer rule violation year 2018',
+              paragraphViolation: 'Officer paragraph violation year 2018',
+              disposition: 'Officer dispostion year 2018',
+              action: 'Officer action year 2018',
+            },
+          ],
+        },
+        {
+          groupName: 'Oct 20, 2018',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'LEFT',
+            },
+            {
+              kind: 'COMPLAINT',
+              trackingNumber: '20-10',
+              ruleViolation: 'Officer rule violation 2018-10-20',
+              paragraphViolation: 'Officer paragraph violation 2018-10-20',
+              disposition: 'Officer dispostion 2018-10-20',
+              action: 'Officer action 2018-10-20',
+            },
+          ],
+        },
+        {
+          groupName: 'No Date',
+          isDateEvent: false,
+          items: [
+            {
+              kind: 'COMPLAINT',
+              trackingNumber: '123-456',
+              ruleViolation: 'Officer rule violation of unknowed time',
+              paragraphViolation:
+                'Officer paragraph violation of unknowed time',
+              disposition: 'Officer dispostion of unknowed time',
+              action: 'Officer action of unknowed time',
+            },
+          ],
+        },
+      ])
+    })
+  })
+
+  describe('does not have data', () => {
+    it('returns empty data', () => {
+      const state = {
+        officerPage: {},
+      }
+      const timeline = documentsSelector(state)
+
+      expect(timeline).toStrictEqual([])
     })
   })
 })

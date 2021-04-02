@@ -1,0 +1,128 @@
+@import 'styles/variables';
+@import 'styles/mixins';
+
+$connection-line-height: 44px;
+$start-connection-line-height: 54px;
+$first-connection-line-height: 156px;
+
+.officer-timeline {
+  max-width: 1024px;
+  margin: auto;
+
+  .timeline-header {
+    margin: $v-header-margin $h-side-frame $v-small-margin $h-side-frame;
+
+    .timeline-header-text {
+      @include h1;
+      color: $boulder-color;
+      text-align: center;
+    }
+  }
+
+  .timeline-group {
+    margin-bottom: $v-footer-margin;
+    box-sizing: border-box;
+
+    .timeline-group-title {
+      padding-top: $v-small-margin;
+      text-align: center;
+      line-height: 24px;
+    }
+
+    .timeline-item {
+      margin-top: $v-small-margin;
+      position: relative;
+
+      .timeline-connected-line-container {
+        position: absolute;
+        left: 23px;
+        top: -($connection-line-height - 32px);
+
+        .timeline-connected-line {
+          position: relative;
+          z-index: 1;
+
+          .line {
+            height: $connection-line-height;
+            width: 2px;
+            background-color: $alto-color;
+          }
+
+          &:after {
+            position: absolute;
+            z-index: -1;
+            display: block;
+            content: '';
+            left: -7px;
+            bottom: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 16px;
+            background-color: $gallery-color;
+          }
+        }
+      }
+    }
+
+    &.date-event-group {
+      .timeline-item.first-timeline-item {
+        .timeline-connected-line-container {
+          top: -($start-connection-line-height - 32px);
+
+          .line {
+            height: $start-connection-line-height;
+          }
+
+          &:before {
+            position: absolute;
+            display: block;
+            content: '';
+            left: -3px;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 8px;
+            background-color: $silver-color;
+          }
+        }
+      }
+
+      & + .date-event-group {
+        .timeline-item.first-timeline-item {
+          .timeline-connected-line-container {
+            top: -($first-connection-line-height - 32px);
+
+            .line {
+              height: $first-connection-line-height;
+              width: 2px;
+            }
+
+            &:before {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .officer-timeline {
+    .timeline-group {
+      width: calc(50% + 24px);
+      float: right;
+
+      &.left-group {
+        float: left;
+
+        .timeline-item {
+          .timeline-connected-line-container {
+            right: 23px;
+            left: auto;
+          }
+        }
+      }
+    }
+  }
+}

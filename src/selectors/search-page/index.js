@@ -7,7 +7,7 @@ import startsWith from 'lodash/startsWith'
 import slice from 'lodash/slice'
 
 import { MAX_SEARCH_QUERY_SUGGESTIONS } from 'constants/common'
-import { formatDocumentDate } from 'utils/formatter'
+import { formatDate } from 'utils/formatter'
 import { departmentFormatter, officerFormatter } from 'selectors/common'
 import { createSelector } from 'reselect'
 
@@ -28,7 +28,7 @@ export const documentFormatter = (document) => {
 
   return {
     ...pick(document, documentAttributes),
-    incidentDate: formatDocumentDate(document.incidentDate),
+    incidentDate: formatDate(document.incidentDate),
     departments,
   }
 }

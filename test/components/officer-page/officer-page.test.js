@@ -7,6 +7,16 @@ import MockStore from 'redux-mock-store'
 
 import Officer from 'components/officer-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
+import Timeline from 'components/officer-page/timeline'
+
+const MockTimelineComponent = () => {
+  return <div>Timeline</div>
+}
+jest.mock('components/officer-page/timeline', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
 
 const mockHistoryPush = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -16,12 +26,17 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
+beforeAll(() => {
+  Timeline.mockImplementation(MockTimelineComponent)
+})
+
 beforeEach(() => {
   mockHistoryPush.mockClear()
+  Timeline.mockClear()
 })
 
 describe('Officer component', () => {
-  it('should fetch data', () => {
+  it('fetches data', () => {
     const fetchOfficerSpy = sinon.spy()
     const fetchOfficerDocumentsSpy = sinon.spy()
 
@@ -43,7 +58,7 @@ describe('Officer component', () => {
   })
 
   describe('save to reccent item', () => {
-    it('should save to reccent item', () => {
+    it('saves to reccent item', () => {
       const saveRecentItemSpy = sinon.spy()
 
       const officerData = {
@@ -78,7 +93,7 @@ describe('Officer component', () => {
       })
     })
 
-    it('should not save to recent item if isRequesting is true', () => {
+    it('does not save to recent item if isRequesting is true', () => {
       const saveRecentItemSpy = sinon.spy()
 
       const officerData = {
@@ -104,7 +119,7 @@ describe('Officer component', () => {
       expect(saveRecentItemSpy).not.toHaveBeenCalled()
     })
 
-    it('should not save to recent item if officer data id is not match id in url', () => {
+    it('does not save to recent item if officer data id is not match id in url', () => {
       const saveRecentItemSpy = sinon.spy()
 
       const officerData = {
@@ -130,7 +145,7 @@ describe('Officer component', () => {
     })
   })
 
-  it('should render correctly', () => {
+  it('renders correctly', () => {
     const officerData = {
       annualSalary: '$57k/year',
       badges: ['123', '456'],
@@ -160,6 +175,7 @@ describe('Officer component', () => {
     ).toEqual(
       'Data for this officer is limited to the years\u00A02012 and 2018-2020'
     )
+
     expect(
       baseElement.getElementsByClassName('officer-title')[0].textContent
     ).toEqual('Police Officer')
@@ -186,7 +202,7 @@ describe('Officer component', () => {
   })
 
   describe('Data summary', () => {
-    it('should render complaints summary', () => {
+    it('renders complaints summary', () => {
       const officerData = {
         name: 'officer name',
         complaintsCount: 2,
@@ -215,7 +231,7 @@ describe('Officer component', () => {
       )
     })
 
-    it('should render documents summary if no complaints', () => {
+    it('renders documents summary if no complaints', () => {
       const officerData = {
         name: 'officer name',
         complaintsCount: 0,
@@ -242,7 +258,7 @@ describe('Officer component', () => {
       ).toEqual('Officer Name was named in\u00A01 document in 2015-2016')
     })
 
-    it('should not render officer summary if no complaints and documents', () => {
+    it('does not render officer summary if no complaints and documents', () => {
       const officerData = {
         complaintsCount: 0,
         documentsCount: 0,
@@ -266,7 +282,7 @@ describe('Officer component', () => {
     })
   })
 
-  it('should render documents section', () => {
+  it('renders documents section', () => {
     const officerData = {
       annualSalary: '$57k/year',
       badges: ['123', '456'],
@@ -333,7 +349,7 @@ describe('Officer component', () => {
     expect(secondDocumentTitle.textContent).toEqual('title 2')
   })
 
-  it('should redirect to home if departmentId is NaN', () => {
+  it('redirects to home if departmentId is NaN', () => {
     const invalidOfficerId = 'abcd'
     const officerData = {
       id: invalidOfficerId,
@@ -354,7 +370,7 @@ describe('Officer component', () => {
     expect(getByText('Home')).toBeTruthy()
   })
 
-  it('should not render if isRequesting', () => {
+  it('does not render if isRequesting', () => {
     const officerData = {}
 
     const container = render(
@@ -369,5 +385,92 @@ describe('Officer component', () => {
 
     const { baseElement } = container
     expect(baseElement.getElementsByClassName('officer-content').length).toBe(0)
+  })
+
+  describe('timeline section', () => {
+    it('renders officer timeline', () => {
+      const officerData = {
+        officer: {
+          id: 1,
+        },
+        timeline: [
+          {
+            groupName: 'Mar 10, 2019',
+            isDateEvent: true,
+            items: [
+              {
+                kind: 'COMPLAINT',
+                trackingNumber: '10-03',
+                ruleViolation: 'Officer rule violation 2019-03-10',
+                paragraphViolation: 'Officer paragraph violation 2019-03-10',
+                disposition: 'Officer dispostion 2019-03-10',
+                action: 'Officer action 2019-03-10',
+              },
+            ],
+          },
+        ],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer {...officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-page')[0].classList
+      ).not.toContain('empty-timeline')
+
+      expect(Timeline.mock.calls[0][0]).toStrictEqual({
+        timeline: [
+          {
+            groupName: 'Mar 10, 2019',
+            isDateEvent: true,
+            items: [
+              {
+                kind: 'COMPLAINT',
+                trackingNumber: '10-03',
+                ruleViolation: 'Officer rule violation 2019-03-10',
+                paragraphViolation: 'Officer paragraph violation 2019-03-10',
+                disposition: 'Officer dispostion 2019-03-10',
+                action: 'Officer action 2019-03-10',
+              },
+            ],
+          },
+        ],
+      })
+    })
+
+    it('does not render officer timeline', () => {
+      const officerData = {
+        officer: {
+          id: 1,
+        },
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer {...officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-page')[0].classList
+      ).toContain('empty-timeline')
+
+      expect(Timeline).not.toHaveBeenCalled()
+    })
   })
 })

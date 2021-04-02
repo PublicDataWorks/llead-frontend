@@ -1,0 +1,98 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.timeline-complaint-item {
+  background-color: $wild-sand-color;
+  border-radius: 8px;
+
+  .complaint-item-header {
+    @include small-text;
+    background-color: $white-color;
+    border-radius: 8px;
+    padding: $v-small-margin $h-card-margin 0 $h-card-margin;
+
+    .complaint-item-title {
+      font-weight: 300;
+    }
+
+    .complaint-item-subtitle {
+      font-weight: 500;
+    }
+
+    .complaint-item-expand-icon {
+      box-sizing: border-box;
+      height: 48px;
+      line-height: 48px;
+      padding-left: $h-card-margin;
+      background: url('assets/icons/down-disclosure-indicator.svg') no-repeat
+        left;
+
+      &.expanded-icon {
+        background-image: url('assets/icons/up-disclosure-indicator.svg');
+      }
+    }
+  }
+
+  .complaint-item-content {
+    .complaint-item-info-row {
+      @include small-text;
+      padding: $v-small-margin $h-card-margin $v-small-margin $h-card-margin;
+
+      & + .complaint-item-info-row {
+        border-top: 1px solid $alto-color;
+      }
+
+      .complaint-item-info-row-title {
+        color: $boulder-color;
+      }
+
+      .complaint-item-info-row-value {
+        color: $thunder-color;
+      }
+    }
+
+    .complaint-item-copy-link {
+      border-radius: 0 0 8px 8px;
+      box-sizing: border-box;
+      height: 48px;
+      padding-right: 48px;
+      color: $boulder-color;
+      cursor: pointer;
+      background: $white-color url('assets/icons/chain.svg') no-repeat
+        calc(100% - 16px);
+      text-align: right;
+      line-height: 48px;
+    }
+  }
+
+  &.has-connected-line {
+    .complaint-item-header {
+      padding-left: $h-card-margin + $icon-width;
+    }
+
+    .complaint-item-content {
+      .complaint-item-info-row {
+        padding-left: $h-card-margin + $icon-width;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .timeline-complaint-item {
+    &.has-connected-line {
+      &.left-item {
+        .complaint-item-header {
+          padding-right: $h-card-margin + $icon-width;
+        }
+
+        .complaint-item-content {
+          .complaint-item-info-row {
+            padding-right: $h-card-margin + $icon-width;
+          }
+        }
+      }
+    }
+  }
+}

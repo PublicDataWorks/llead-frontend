@@ -28,3 +28,15 @@ export const RECENT_ITEM_TYPES = {
 }
 
 export const REQUEST_CANCEL_MESSAGE = 'Cancel old request'
+
+export const TIMELINE_KIND_ORDERS = {
+  LEFT: 1,
+  JOINED: 2,
+  COMPLAINT: 3,
+}
+
+export const TIMELINE_KINDS = {
+  JOINED: 'JOINED',
+  LEFT: 'LEFT',
+  COMPLAINT: 'COMPLAINT',
+}

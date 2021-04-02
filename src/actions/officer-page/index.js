@@ -21,3 +21,13 @@ export const fetchOfficerDocuments = (id) =>
     ],
     `${OFFICERS_API_URL}${id}/documents/`
   )()
+
+export const fetchOfficerTimeline = (id) =>
+  get(
+    [
+      actionTypes.OFFICER_TIMELINE_FETCH_START,
+      actionTypes.OFFICER_TIMELINE_FETCH_SUCCESS,
+      actionTypes.OFFICER_TIMELINE_FETCH_FAILURE,
+    ],
+    `${OFFICERS_API_URL}${id}/timeline/`
+  )()

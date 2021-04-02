@@ -2,6 +2,7 @@ import { appConfigData } from '../data/common-data'
 import {
   officerDetailsData,
   officerDocumentsData,
+  officerTimelineData,
 } from '../data/officer-page-data'
 
 describe('Officer Page', () => {
@@ -31,6 +32,13 @@ describe('Officer Page', () => {
       cy.intercept(
         {
           method: 'GET',
+          url: 'http://localhost:8000/api/officers/1/timeline/',
+        },
+        officerTimelineData
+      )
+      cy.intercept(
+        {
+          method: 'GET',
           url: 'http://localhost:8000/api/officers/1/',
         },
         officerDetailsData
@@ -39,7 +47,7 @@ describe('Officer Page', () => {
       cy.login()
     })
 
-    it('render officer basics info', () => {
+    it('renders officer basics info', () => {
       cy.visit('/officers/1')
 
       cy.location('pathname').should('eq', '/officers/1')
@@ -48,25 +56,25 @@ describe('Officer Page', () => {
         'text',
         'Data for this officer is limited to the years\u00A02012, 2013, 2014 and 2017-2019'
       )
-      cy.get('.officer-content')
+      cy.get('.officer-basic-info')
         .find('.officer-name')
         .should('text', 'Corliss Conway')
-      cy.get('.officer-content')
+      cy.get('.officer-basic-info')
         .find('.officer-basic-info-row')
         .eq(0)
         .should('text', '911,192')
-      cy.get('.officer-content')
+      cy.get('.officer-basic-info')
         .find('.officer-basic-info-row')
         .eq(1)
         .should('text', '59-year-old male white')
-      cy.get('.officer-content')
+      cy.get('.officer-basic-info')
         .find('.officer-basic-info-row')
         .eq(2)
         .should('text', '$57k/year')
-      cy.get('.officer-content')
+      cy.get('.officer-basic-info')
         .find('.officer-department')
         .should('text', 'New Orleans PD')
-      cy.get('.officer-content')
+      cy.get('.officer-basic-info')
         .find('.officer-summary-info')
         .should(
           'text',
@@ -74,16 +82,9 @@ describe('Officer Page', () => {
         )
     })
 
-    describe('render officer documents', () => {
-      it('renders officer documents items on desktop browser', () => {
-        cy.viewport('macbook-13')
-
-        cy.visit('/officers/1', {
-          headers: {
-            'user-agent':
-              'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-          },
-        })
+    describe('officer documents', () => {
+      it('renders officer documents items', () => {
+        cy.visit('/officers/1')
 
         cy.contains(`Documents (${officerDocumentsData.length})`)
 
@@ -123,6 +124,163 @@ describe('Officer Page', () => {
           .eq(2)
           .find('.document-item-department-name')
           .should('text', 'Any PD')
+      })
+    })
+
+    describe.only('officer timeline', () => {
+      it('renders officer timeline', () => {
+        cy.visit('/officers/1')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-header-text')
+          .should('text', 'Timeline')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .should('have.length', 4)
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(0)
+          .as('firstTimelineGroup')
+          .find('.timeline-group-title')
+          .should('text', '2020')
+        cy.get('@firstTimelineGroup')
+          .find('.timeline-item')
+          .eq(0)
+          .find('.complaint-item-title')
+          .should('text', 'Accused of misconduct')
+        cy.get('@firstTimelineGroup')
+          .find('.timeline-item')
+          .eq(0)
+          .find('.complaint-item-subtitle')
+          .should('text', 'Exonerated')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(1)
+          .as('secondTimelineGroup')
+          .find('.timeline-group-title')
+          .should('text', 'Mar 10, 2020')
+        cy.get('@secondTimelineGroup')
+          .find('.timeline-item')
+          .should('have.length', 1)
+        cy.get('@secondTimelineGroup')
+          .find('.timeline-main-item')
+          .should('text', 'Left from department')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(2)
+          .as('thirdTimelineGroup')
+          .find('.timeline-group-title')
+          .should('text', 'Mar 10, 2019')
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .should('have.length', 2)
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .eq(0)
+          .find('.complaint-item-title')
+          .should('text', 'Accused of misconduct')
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .eq(0)
+          .find('.complaint-item-subtitle')
+          .should('text', 'Exonerated')
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .eq(1)
+          .find('.complaint-item-title')
+          .should('text', 'Accused of misconduct')
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .eq(1)
+          .find('.complaint-item-subtitle')
+          .should('text', 'Exonerated')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(3)
+          .as('forthTimelineGroup')
+          .find('.timeline-group-title')
+          .should('text', 'No Date')
+        cy.get('@forthTimelineGroup')
+          .find('.timeline-item')
+          .eq(0)
+          .find('.timeline-main-item')
+          .should('text', 'Joined department')
+        cy.get('@forthTimelineGroup')
+          .find('.timeline-item')
+          .eq(1)
+          .find('.complaint-item-title')
+          .should('text', 'Accused of misconduct')
+        cy.get('@forthTimelineGroup')
+          .find('.timeline-item')
+          .eq(1)
+          .find('.complaint-item-subtitle')
+          .should('text', 'Exonerated')
+      })
+
+      it('expands complaint on click', () => {
+        cy.visit('/officers/1')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(0)
+          .find('.timeline-item')
+          .eq(0)
+          .as('complaintItem')
+          .find('.complaint-item-title')
+          .should('text', 'Accused of misconduct')
+        cy.get('@complaintItem')
+          .find('.complaint-item-subtitle')
+          .should('text', 'Exonerated')
+        cy.get('@complaintItem')
+          .find('.complaint-item-content')
+          .should('not.exist')
+        cy.get('@complaintItem').find('.complaint-item-expand-icon').click()
+        cy.get('@complaintItem').find('.complaint-item-content').should('exist')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(0)
+          .contains('Rule Violation')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(0)
+          .contains('Officer rule violation year 2020')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(1)
+          .contains('Paragraph Violation')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(1)
+          .contains('Officer paragraph violation year 2020')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(2)
+          .contains('Disposition')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(2)
+          .contains('Officer dispostion year 2020')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(3)
+          .contains('Action')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(3)
+          .contains('Officer action year 2020')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(4)
+          .contains('Tracking ID')
+        cy.get('@complaintItem')
+          .find('.complaint-item-info-row')
+          .eq(4)
+          .contains('2020')
       })
     })
   })

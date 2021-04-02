@@ -7,9 +7,17 @@ import pick from 'lodash/pick'
 import trim from 'lodash/trim'
 import map from 'lodash/map'
 import mapValues from 'lodash/mapValues'
+import capitalize from 'lodash/capitalize'
+import orderBy from 'lodash/orderBy'
+import groupBy from 'lodash/groupBy'
 
-import { formatDocumentDate, formatDataPeriods } from 'utils/formatter'
+import {
+  formatDate,
+  formatDataPeriods,
+  formatTimelineDate,
+} from 'utils/formatter'
 import { officerFormatter, documentFormatter } from 'selectors/common'
+import { TIMELINE_KINDS, TIMELINE_KIND_ORDERS } from 'constants/common'
 
 const officerDocumentFormatter = (document) => {
   const documentAttributes = [
@@ -26,10 +34,68 @@ const officerDocumentFormatter = (document) => {
 
   return {
     ...pick(document, documentAttributes),
-    incidentDate: formatDocumentDate(document.incidentDate),
+    incidentDate: formatDate(document.incidentDate),
     departments,
     recentData: documentFormatter(document),
   }
+}
+
+const baseTimelineItemFormatter = (item) => pick(item, ['kind'])
+
+const complaintTimelineItemFormatter = (item) => {
+  const attributes = [
+    'kind',
+    'trackingNumber',
+  ]
+
+  const capitalizeAttributes = [
+    'ruleViolation',
+    'paragraphViolation',
+    'disposition',
+    'action',
+  ]
+
+  return {
+    ...pick(item, attributes),
+    ...mapValues(pick(item, capitalizeAttributes), capitalize),
+  }
+}
+
+const TIMELINE_ITEMS_MAPPINGS = {
+  [TIMELINE_KINDS.COMPLAINT]: complaintTimelineItemFormatter,
+}
+
+const timelineItemsFormatter = (items) => {
+  const formattedItems = map(items, (item) =>
+    get(TIMELINE_ITEMS_MAPPINGS, item.kind, baseTimelineItemFormatter)(item)
+  )
+  return orderBy(
+    formattedItems,
+    (item) => TIMELINE_KIND_ORDERS[item.kind],
+    'asc'
+  )
+}
+
+const officerTimelineFormatter = (timeline) => {
+  const groups = groupBy(timeline, (item) => item.date || item.year || '')
+
+  const formattedGroups = map(groups, (items, groupName) => ({
+    groupName,
+    isDateEvent: !isEmpty(items[0].date),
+    items: timelineItemsFormatter(items),
+  }))
+
+  const orderedGroup = orderBy(
+    formattedGroups,
+    (item) =>
+      item.groupName ? `${item.groupName}${item.isDateEvent || 'z'}` : '',
+    'desc'
+  )
+
+  return map(orderedGroup, (group) => ({
+    ...group,
+    groupName: formatTimelineDate(group.groupName),
+  }))
 }
 
 const formatOfficerDescription = (officer) => {
@@ -82,6 +148,7 @@ const officerDetailsFormatter = (officer) => {
 
 const getOfficer = (state) => get(state.officerPage, 'officer', {})
 const getDocuments = (state) => get(state.officerPage, 'documents', {})
+const getTimeline = (state) => get(state.officerPage, 'timeline', [])
 
 export const getIsOfficerRequesting = (state) =>
   get(state, 'officerPage.isOfficerRequesting')
@@ -101,3 +168,8 @@ export const documentsSelector = (state) => {
 
   return map(rawDocuments, officerDocumentFormatter)
 }
+
+export const timelineSelector = createSelector(
+  getTimeline,
+  officerTimelineFormatter
+)

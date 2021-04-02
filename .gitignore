@@ -15,8 +15,8 @@
 .eslintcache
 
 cypress/integration/examples
-
 cypress/videos
+cypress/screenshots
 
 .history
 

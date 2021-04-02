@@ -3,7 +3,7 @@
 @import 'styles/mixins';
 
 .department-card {
-  width: 247px;
+  width: 312px;
   height: 313px;
   background: $white-color;
   border-radius: 8px;
@@ -67,8 +67,8 @@
   }
 }
 
-@media only screen and (min-width: $mobile-breakpoint) {
+@media only screen and (max-width: $mobile-breakpoint) {
   .department-card {
-    width: 312px;
+    width: 247px;
   }
 }

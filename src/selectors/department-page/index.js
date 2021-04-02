@@ -4,7 +4,7 @@ import map from 'lodash/map'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 
-import { formatDocumentDate } from 'utils/formatter'
+import { formatDate } from 'utils/formatter'
 import { departmentFormatter, documentFormatter } from 'selectors/common'
 
 const departmentDocumentFormatter = (document) => {
@@ -19,7 +19,7 @@ const departmentDocumentFormatter = (document) => {
 
   return {
     ...pick(document, documentAttributes),
-    incidentDate: formatDocumentDate(document.incidentDate),
+    incidentDate: formatDate(document.incidentDate),
     recentData: documentFormatter(document),
   }
 }
