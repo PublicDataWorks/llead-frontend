@@ -3,9 +3,6 @@
 @import 'styles/mixins';
 
 .header {
-  position: fixed;
-  left: 0;
-  top: 0;
   width: 100%;
   box-sizing: border-box;
   background-color: $white-color;
@@ -20,7 +17,7 @@
     color: $thunder-color;
     padding-left: $h-side-frame;
     text-decoration: none;
-    line-height: $header-height;
+    line-height: $toolbar-height;
     order: 1;
   }
 
