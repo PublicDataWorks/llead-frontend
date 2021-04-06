@@ -5,7 +5,7 @@ import cx from 'classnames'
 import noop from 'lodash/noop'
 
 import AppRoutes from 'routes'
-import Header from 'pages/common/header'
+import HeaderContainer from 'containers/common/header-container'
 import Footer from 'components/common/footer'
 import './app.scss'
 
@@ -28,7 +28,7 @@ const App = (props) => {
 
   return (
     <Router>
-      <Header />
+      <HeaderContainer />
       <div
         className={cx('main-container', { unauthorized: !isLoggedIn })}
         style={{ minHeight: `calc(100vh - ${footerHeight}px)` }}

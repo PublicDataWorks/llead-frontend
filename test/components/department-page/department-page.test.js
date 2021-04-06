@@ -17,7 +17,7 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
-jest.mock('pages/department-page/department-documents', () => () =>
+jest.mock('containers/department-page/department-documents-container', () => () =>
   'DepartmentDocumentsContainer'
 )
 
