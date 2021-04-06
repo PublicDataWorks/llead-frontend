@@ -14,7 +14,7 @@ import isNaN from 'lodash/isNaN'
 
 import './department-page.scss'
 import WRGLFile from './wrgl-file'
-import DepartmentDocumentsContainer from 'pages/department-page/department-documents'
+import DepartmentDocumentsContainer from 'containers/department-page/department-documents-container'
 import { formatDataPeriods, stringifyTotalItems } from 'utils/formatter'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 

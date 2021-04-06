@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import noop from 'lodash/noop'
 
-import DepartmentPage from 'pages/department-page'
-import OfficerPage from 'pages/officer-page'
-import FrontPage from 'pages/front-page'
-import LoginPage from 'pages/login-page'
-import SearchPage from 'pages/search-page'
+import DepartmentPageContainer from 'containers/department-page'
+import OfficerPageContainer from 'containers/officer-page'
+import FrontPageContainer from 'containers/front-page'
+import LoginPageContainer from 'containers/login-page'
+import SearchPageContainer from 'containers/search-page'
 import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
 import PrivateRoute from 'components/common/higher-order/private-route'
@@ -32,29 +32,29 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
 
   return (
     <Switch>
-      <Route path={paths.LOGIN_PATH} component={LoginPage} />
+      <Route path={paths.LOGIN_PATH} component={LoginPageContainer} />
       <PrivateRoute
         {...privateRouteAttributes}
         path={paths.FRONT_PAGE_PATH}
         exact
-        component={FrontPage}
+        component={FrontPageContainer}
       />
       <PrivateRoute
         {...privateRouteAttributes}
         path={paths.SEARCH_PATH}
         exact
-        component={SearchPage}
+        component={SearchPageContainer}
       />
       <PrivateRoute
         {...privateRouteAttributes}
         path={`${paths.DEPARTMENTS_PATH}:id/`}
-        component={DepartmentPage}
+        component={DepartmentPageContainer}
         exact
       />
       <PrivateRoute
         {...privateRouteAttributes}
         path={`${paths.OFFICERS_PATH}:id/`}
-        component={OfficerPage}
+        component={OfficerPageContainer}
         exact
       />
     </Switch>
