@@ -1,5 +1,5 @@
 export const departmentDetailsData = {
-  id: 23,
+  id: 1,
   name: 'Harmonbury Department',
   city: 'Baton Rouge',
   parish: 'East Baton Rouge',
@@ -45,46 +45,83 @@ export const departmentDocumentData = {
       id: 1,
       document_type: 'json',
       title: 'Pattern risk team election myself suffer wind.',
-      url: '/glass/shoulder.pdf',
+      url: 'http://documents.com/glass/shoulder.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/him/process.jpg',
+      preview_image_url: 'http://image.com/him/process.jpg',
       pages_count: 15,
+      text_content:
+        'Motion by Daryl Edgens to approve exam grades for Fire Investigator',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 2,
       document_type: 'flac',
       title: 'Structure land official huge draw significant.',
-      url: '/after/last.pdf',
+      url: 'http://documents.com/after/last.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/traditional/particularly.jpg',
+      preview_image_url: 'http://image.com/traditional/particularly.jpg',
       pages_count: 20,
+      text_content:
+        'Assistant Chief Fire Investigator and Assistant Fire Prevention Chief',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 3,
       document_type: 'doc',
       title: 'Skin range quite might.',
-      url: '/ok/our.pdf',
+      url: 'http://documents.com/ok/our.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/blood/same.jpg',
+      preview_image_url: 'http://image.com/blood/same.jpg',
       pages_count: 3,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 4,
       document_type: 'mp3',
       title: 'Hold surface cultural deep education occur analysis.',
-      url: '/difference/site.pdf',
+      url: 'http://documents.com/difference/site.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/vote/serve.jpg',
+      preview_image_url: 'http://image.com/vote/serve.jpg',
       pages_count: 3,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 5,
       document_type: 'js',
       title: 'Letter industry good quite serious hotel church.',
-      url: '/threat/place.pdf',
+      url: 'http://documents.com/threat/place.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/college/but.jpg',
+      preview_image_url: 'http://image.com/college/but.jpg',
       pages_count: 1,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
   ],
 }
@@ -98,46 +135,81 @@ export const departmentNextDocumentsData = {
       id: 6,
       document_type: 'xls',
       title: 'Quality practice real think image training buy.',
-      url: '/be/agent.pdf',
+      url: 'http://documents.com/be/agent.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/indeed/still.jpg',
+      preview_image_url: 'http://image.com/indeed/still.jpg',
       pages_count: 10,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 7,
       document_type: 'pptx',
       title: 'Democratic those body cold win.',
-      url: '/learn/style.pdf',
+      url: 'http://documents.com/learn/style.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/third/common.jpg',
+      preview_image_url: 'http://image.com/third/common.jpg',
       pages_count: 18,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 8,
       document_type: 'js',
       title: 'Film road I seat huge mind.',
-      url: '/yard/so.pdf',
+      url: 'http://documents.com/yard/so.pdf',
       incident_date: '2020-05-04',
-      preview_image_url: '/morning/tree.jpg',
+      preview_image_url: 'http://image.com/morning/tree.jpg',
       pages_count: 9,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 9,
       document_type: 'numbers',
       title: 'Learn reach significant no.',
-      url: '/image/discuss.pdf',
+      url: 'http://documents.com/image/discuss.pdf',
       incident_date: '2019-11-06',
-      preview_image_url: '/pay/effect.jpg',
+      preview_image_url: 'http://image.com/pay/effect.jpg',
       pages_count: 17,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       id: 10,
       document_type: 'mp3',
       title: 'Later sure once thought film.',
-      url: '/tonight/form.pdf',
+      url: 'http://documents.com/tonight/form.pdf',
       incident_date: '2019-11-06',
-      preview_image_url: '/record/growth.jpg',
+      preview_image_url: 'http://image.com/record/growth.jpg',
       pages_count: 7,
+      text_content: '',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
   ],
 }
@@ -155,7 +227,13 @@ export const departmentDocumentsSearchData = {
       document_type: 'pdf',
       title: 'Search result No 1',
       url: 'https://picsum.photos/200/300',
-      incident_date: null,
+      incident_date: '2019-11-06',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       text_content: 'This is the text content no 2',
@@ -164,7 +242,13 @@ export const departmentDocumentsSearchData = {
       document_type: 'png',
       title: 'Search result No 2',
       url: 'https://picsum.photos/200/300',
-      incident_date: null,
+      incident_date: '2018-09-05',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
   ],
 }
@@ -183,6 +267,12 @@ export const departmentDocumentsSearchNextData = {
       title: 'Search result No 3',
       url: 'https://picsum.photos/200/300',
       incident_date: null,
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
     {
       text_content: 'This is the text content no 4',
@@ -191,7 +281,13 @@ export const departmentDocumentsSearchNextData = {
       document_type: 'jpeg',
       title: 'Search result No 4',
       url: 'https://picsum.photos/200/300',
-      incident_date: null,
+      incident_date: '2017-07-12',
+      departments: [
+        {
+          id: 1,
+          name: 'Harmonbury Department',
+        },
+      ],
     },
   ],
 }

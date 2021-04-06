@@ -58,6 +58,7 @@ describe('#departmentsSelector', () => {
         city: 'Baton Rouge',
         parish: 'East Baton Rouge',
         locationMapUrl: 'http://mapurl.com/department1',
+        extraField: 'field',
       },
       {
         id: 2,
@@ -65,6 +66,7 @@ describe('#departmentsSelector', () => {
         city: 'New Orleans',
         parish: 'Orleans',
         locationMapUrl: 'http://mapurl.com/department2',
+        extraField: 'field',
       },
     ]
 
@@ -108,12 +110,14 @@ describe('#officersSelector', () => {
           id: 26,
           name: 'North Paulaberg Department',
         },
+        extraField: 'data',
       },
       {
         id: 22,
         name: 'Eric Patel',
         badges: ['12345'],
         department: null,
+        extraField: 'data',
       },
     ]
 
@@ -154,7 +158,7 @@ describe('#documentsSelector', () => {
         id: 36,
         documentType: 'csv',
         title: 'Her hard step sea.',
-        url: '/century/five.pdf',
+        url: 'http://documents.com/century/five.pdf',
         previewImageUrl: '/cell/least.jpg',
         incidentDate: '2020-01-06',
         pagesCount: 5,
@@ -164,12 +168,13 @@ describe('#documentsSelector', () => {
             name: 'Petersonmouth Department',
           },
         ],
+        extraField: 'data',
       },
       {
         id: 35,
         documentType: 'webm',
         title: 'Yourself say language meeting ok.',
-        url: '/national/must.pdf',
+        url: 'http://documents.com/national/must.pdf',
         previewImageUrl: '/production/activity.jpg',
         incidentDate: '2020-01-06',
         pagesCount: 5,
@@ -179,6 +184,7 @@ describe('#documentsSelector', () => {
             name: 'Petersonmouth Department',
           },
         ],
+        extraField: 'data',
       },
     ]
 
@@ -187,7 +193,7 @@ describe('#documentsSelector', () => {
         id: 36,
         documentType: 'csv',
         title: 'Her hard step sea.',
-        url: '/century/five.pdf',
+        url: 'http://documents.com/century/five.pdf',
         previewImageUrl: '/cell/least.jpg',
         incidentDate: 'Jan 6, 2020',
         pagesCount: 5,
@@ -202,7 +208,7 @@ describe('#documentsSelector', () => {
         id: 35,
         documentType: 'webm',
         title: 'Yourself say language meeting ok.',
-        url: '/national/must.pdf',
+        url: 'http://documents.com/national/must.pdf',
         previewImageUrl: '/production/activity.jpg',
         incidentDate: 'Jan 6, 2020',
         pagesCount: 5,

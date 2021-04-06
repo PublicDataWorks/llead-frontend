@@ -5,18 +5,17 @@ import cx from 'classnames'
 
 import Carousel from 'components/common/carousel'
 import OfficerCard from 'components/common/cards/officer-card'
-import './officers-carousel.scss'
 
 const OfficersCarousel = (props) => {
   const { items, sortedField, className } = props
 
   const cards = map(items, (officer) => (
-    <OfficerCard key={officer.id} {...officer} />
+    <OfficerCard key={officer.id} className='swiper-slide' {...officer} />
   ))
 
   return (
     <Carousel
-      className={ cx('officers-carousel', className) }
+      className={cx('officers-carousel', className)}
       title='Officers'
       sortedField={sortedField}
       cards={cards}

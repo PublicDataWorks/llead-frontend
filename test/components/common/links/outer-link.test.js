@@ -7,8 +7,13 @@ import OuterLink from 'components/common/links/outer-link'
 describe('OuterLink component', () => {
   it('should render correctly', () => {
     const windowOpenStub = sinon.stub(window, 'open')
+    const onClickSpy = sinon.spy()
     const link = '/link'
-    const container = render(<OuterLink href={link}>Outer Link</OuterLink>)
+    const container = render(
+      <OuterLink href={link} onClick={onClickSpy}>
+        Outer Link
+      </OuterLink>
+    )
 
     const { getByText } = container
     const outerLinkElement = getByText('Outer Link')
@@ -19,5 +24,6 @@ describe('OuterLink component', () => {
       '_blank',
       'noopener noreferrer'
     )
+    expect(onClickSpy).toHaveBeenCalled()
   })
 })

@@ -12,7 +12,7 @@ import DocumentsList from 'components/search-page/search-results/documents-list'
 import { SEARCH_THROTTLE_TIME_OUT } from 'constants/common'
 
 const SearchPage = (props) => {
-  const { searchResults, searchQuery, search } = props
+  const { searchResults, searchQuery, search, saveRecentItem } = props
   const { departments, officers, documents } = searchResults
 
   const searchResultsComponents = [
@@ -40,7 +40,13 @@ const SearchPage = (props) => {
         searchResultsComponents,
         ({ component: Component, key, items }) =>
           !isEmpty(items) && (
-            <Component items={items} key={key} className='search-results' highlighting/>
+            <Component
+              items={items}
+              key={key}
+              className='search-results'
+              saveRecentItem={saveRecentItem}
+              highlighting
+            />
           )
       )}
     </div>
@@ -51,11 +57,13 @@ SearchPage.propTypes = {
   searchResults: PropTypes.object,
   searchQuery: PropTypes.string,
   search: PropTypes.func,
+  saveRecentItem: PropTypes.func,
 }
 
 SearchPage.defaultProps = {
   searchResults: {},
   search: noop,
+  saveRecentItem: noop,
 }
 
 export default SearchPage

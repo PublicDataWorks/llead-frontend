@@ -1,0 +1,1 @@
+export const SAVE_RECENT_ITEM = 'SAVE_RECENT_ITEM'

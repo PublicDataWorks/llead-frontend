@@ -10,13 +10,18 @@ describe('Department card component', () => {
       city: 'city',
       name: 'name',
       parish: 'parish',
+      className: 'custom-class-name',
     }
     const container = render(<DepartmentCard {...props} />)
     const { baseElement } = container
+    const departmentCard = baseElement.getElementsByClassName(
+      'department-card'
+    )[0]
 
-    expect(baseElement.textContent.includes('Police Department')).toBe(true)
-    expect(baseElement.textContent.includes(props.city)).toBe(true)
-    expect(baseElement.textContent.includes(props.name)).toBe(true)
-    expect(baseElement.textContent.includes(props.parish)).toBe(true)
+    expect(departmentCard.classList.value).toContain('custom-class-name')
+    expect(departmentCard.textContent.includes('Police Department')).toBe(true)
+    expect(departmentCard.textContent.includes(props.city)).toBe(true)
+    expect(departmentCard.textContent.includes(props.name)).toBe(true)
+    expect(departmentCard.textContent.includes(props.parish)).toBe(true)
   })
 })

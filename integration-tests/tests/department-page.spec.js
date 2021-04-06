@@ -9,14 +9,14 @@ import {
 
 describe('Department Page', () => {
   it('redirect to login when not logged in', () => {
+    cy.clearLocalStorage()
     cy.visit('/departments/1')
 
-    cy.location('pathname').should('eq', '/login/')
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/login/'))
   })
 
   describe('render successfully', () => {
     beforeEach(() => {
-      cy.login()
       cy.intercept(
         {
           method: 'GET',
@@ -62,6 +62,8 @@ describe('Department Page', () => {
         },
         departmentDetailsData
       )
+
+      cy.login()
     })
 
     it('render department basics', () => {

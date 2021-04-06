@@ -7,6 +7,7 @@ import MockStore from 'redux-mock-store'
 import qs from 'qs'
 
 import Department from 'components/department-page'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -25,6 +26,110 @@ beforeEach(() => {
 })
 
 describe('Department component', () => {
+  it('should fetch data', () => {
+    const fetchDepartmentSpy = sinon.spy()
+
+    render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['departments/1']}>
+          <Route path='departments/:id'>
+            <Department fetchDepartment={fetchDepartmentSpy} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(fetchDepartmentSpy).toHaveBeenCalledWith(1)
+  })
+
+  describe('save to reccent item', () => {
+    it('should save to reccent item', () => {
+      const saveRecentItemSpy = sinon.spy()
+
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
+
+      const recentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                saveRecentItem={saveRecentItemSpy}
+                recentData={recentData}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).toHaveBeenCalledWith({
+        type: RECENT_ITEM_TYPES.DEPARTMENT,
+        id: 1,
+        data: recentData,
+      })
+    })
+
+    it('should not save to recent item if isRequesting is true', () => {
+      const saveRecentItemSpy = sinon.spy()
+
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                saveRecentItem={saveRecentItemSpy}
+                isRequesting={true}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).not.toHaveBeenCalled()
+    })
+
+    it('should not save to recent item if department data id is not match id in url', () => {
+      const saveRecentItemSpy = sinon.spy()
+
+      const departmentData = {
+        id: 2,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['departments/1']}>
+            <Route path='departments/:id'>
+              <Department
+                department={departmentData}
+                saveRecentItem={saveRecentItemSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(saveRecentItemSpy).not.toHaveBeenCalled()
+    })
+  })
+
   it('should render correctly', () => {
     const departmentData = {
       id: 1,
@@ -36,22 +141,16 @@ describe('Department component', () => {
       parish: 'department parish',
       officersCount: 3,
     }
-    const fetchDepartmentSpy = sinon.spy()
 
     const container = render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['departments/1']}>
           <Route path='departments/:id'>
-            <Department
-              department={departmentData}
-              fetchDepartment={fetchDepartmentSpy}
-            />
+            <Department department={departmentData} />
           </Route>
         </MemoryRouter>
       </Provider>
     )
-
-    expect(fetchDepartmentSpy).toHaveBeenCalledWith(1)
 
     const { baseElement } = container
     expect(

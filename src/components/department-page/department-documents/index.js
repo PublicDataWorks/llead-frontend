@@ -19,6 +19,7 @@ const DepartmentDocuments = (props) => {
     count,
     limit,
     offset,
+    saveRecentItem,
   } = props
 
   const [departmentSearchQuery, setDepartmentSearchQuery] = useState('')
@@ -60,11 +61,12 @@ const DepartmentDocuments = (props) => {
         className='search-input'
       />
       <div className='department-documents-listview'>
-        {map(documents, ({ id, ...rest }) => (
+        {map(documents, (document) => (
           <DocumentItem
-            key={id}
-            {...rest}
+            key={document.id}
+            {...document}
             highlighting={!isEmpty(departmentSearchQuery)}
+            saveRecentItem={saveRecentItem}
           />
         ))}
       </div>
@@ -94,12 +96,14 @@ DepartmentDocuments.propTypes = {
   count: PropTypes.number,
   limit: PropTypes.number,
   offset: PropTypes.number,
+  saveRecentItem: PropTypes.func,
 }
 
 DepartmentDocuments.defaultProps = {
   documents: [],
   searchResults: [],
   fetchDocuments: noop,
+  saveRecentItem: noop,
 }
 
 export default DepartmentDocuments

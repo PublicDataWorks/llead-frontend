@@ -31,9 +31,10 @@ describe('Officers carousel', () => {
       </MemoryRouter>
     )
     const { baseElement } = container
+    const carouselItems = baseElement.getElementsByClassName('swiper-slide')
 
     expect(baseElement.textContent.includes('Officers')).toBe(true)
-    expect(baseElement.textContent.includes('Mark Carlson')).toBe(true)
-    expect(baseElement.textContent.includes('Eric Patel')).toBe(true)
+    expect(carouselItems[0].textContent.includes('Mark Carlson')).toBe(true)
+    expect(carouselItems[1].textContent.includes('Eric Patel')).toBe(true)
   })
 })

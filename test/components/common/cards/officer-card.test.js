@@ -14,6 +14,7 @@ describe('Officer card component', () => {
         id: 9,
         name: 'Baton Rouge Department 1',
       },
+      className: 'custom-class-name',
     }
     const container = render(
       <MemoryRouter initialEntries={['/']}>
@@ -23,10 +24,12 @@ describe('Officer card component', () => {
       </MemoryRouter>
     )
     const { baseElement } = container
+    const officerCard = baseElement.getElementsByClassName('officer-card')[0]
 
-    expect(baseElement.textContent.includes('Mark Carlson')).toBe(true)
-    expect(baseElement.textContent.includes(props.badges[0])).toBe(true)
-    expect(baseElement.textContent.includes(props.badges[1])).toBe(true)
-    expect(baseElement.textContent.includes(props.department.name)).toBe(true)
+    expect(officerCard.classList.value).toContain('custom-class-name')
+    expect(officerCard.textContent.includes('Mark Carlson')).toBe(true)
+    expect(officerCard.textContent.includes(props.badges[0])).toBe(true)
+    expect(officerCard.textContent.includes(props.badges[1])).toBe(true)
+    expect(officerCard.textContent.includes(props.department.name)).toBe(true)
   })
 })

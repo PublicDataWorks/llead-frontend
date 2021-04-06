@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import map from 'lodash/map'
 import cx from 'classnames'
 import Swiper from 'react-id-swiper'
 import 'swiper/swiper.scss'
@@ -31,15 +30,7 @@ const Carousel = (props) => {
           </div>
         )}
       </div>
-      {
-        <Swiper {...settings}>
-          {map(cards, (item, index) => (
-            <div className='swiper-slide' key={index}>
-              {item}
-            </div>
-          ))}
-        </Swiper>
-      }
+      {<Swiper {...settings}>{cards}</Swiper>}
     </div>
   )
 }

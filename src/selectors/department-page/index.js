@@ -1,11 +1,13 @@
+import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 
 import { formatDocumentDate } from 'utils/formatter'
+import { departmentFormatter, documentFormatter } from 'selectors/common'
 
-const documentFormatter = (document) => {
+const departmentDocumentFormatter = (document) => {
   const documentAttributes = [
     'id',
     'title',
@@ -18,18 +20,11 @@ const documentFormatter = (document) => {
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDocumentDate(document.incidentDate),
+    recentData: documentFormatter(document),
   }
 }
 
-const getDepartment = (state) => get(state.departmentPage, 'department', {})
-const getDocuments = (state) => get(state.departmentPage, 'documents', {})
-const getDocumentsPagination = (state) =>
-  get(state.departmentPage, 'documentsPagination', {})
-
-export const getIsRequesting = (state) =>
-  get(state.departmentPage, 'isRequesting')
-
-export const departmentSelector = (state) => {
+const departmentDetailsFormatter = (department) => {
   const wrglAttributes = [
     'id',
     'name',
@@ -51,22 +46,39 @@ export const departmentSelector = (state) => {
     'dataPeriod',
   ]
 
-  const rawDepartment = getDepartment(state)
-  if (isEmpty(rawDepartment)) {
+  if (isEmpty(department)) {
     return {}
   }
-  const rawWrglFiles = get(rawDepartment, 'wrglFiles')
+  const rawWrglFiles = get(department, 'wrglFiles')
 
   return {
-    ...pick(rawDepartment, departmentAttributes),
+    ...pick(department, departmentAttributes),
     wrglFiles: map(rawWrglFiles, (wrglFile) => pick(wrglFile, wrglAttributes)),
   }
 }
 
+const getDepartment = (state) => get(state.departmentPage, 'department', {})
+const getDocuments = (state) => get(state.departmentPage, 'documents', {})
+const getDocumentsPagination = (state) =>
+  get(state.departmentPage, 'documentsPagination', {})
+
+export const getIsDepartmentRequesting = (state) =>
+  get(state.departmentPage, 'isRequesting')
+
+export const departmentSelector = createSelector(
+  getDepartment,
+  departmentDetailsFormatter
+)
+
+export const departmentRecentDataSelector = createSelector(
+  getDepartment,
+  departmentFormatter
+)
+
 export const documentsSelector = (state) => {
   const rawDocuments = getDocuments(state)
 
-  return map(rawDocuments, documentFormatter)
+  return map(rawDocuments, departmentDocumentFormatter)
 }
 
 export const documentsPaginationSelector = (state) => {
