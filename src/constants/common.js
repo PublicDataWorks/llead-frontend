@@ -17,6 +17,8 @@ export const DATE_FORMAT = {
 }
 
 export const SEARCH_THROTTLE_TIME_OUT = 500
+export const MAX_SEARCH_QUERIES = 200
+export const MAX_SEARCH_QUERY_SUGGESTIONS = 10
 
 export const MAX_RECENT_ITEMS = 10
 export const RECENT_ITEM_TYPES = {

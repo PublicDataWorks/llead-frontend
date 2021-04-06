@@ -12,7 +12,13 @@ import DocumentsList from 'components/search-page/search-results/documents-list'
 import { SEARCH_THROTTLE_TIME_OUT } from 'constants/common'
 
 const SearchPage = (props) => {
-  const { searchResults, searchQuery, search, saveRecentItem } = props
+  const {
+    searchResults,
+    searchQuery,
+    search,
+    saveRecentItem,
+    saveSearchQuery,
+  } = props
   const { departments, officers, documents } = searchResults
 
   const searchResultsComponents = [
@@ -34,6 +40,10 @@ const SearchPage = (props) => {
     }
   }, [searchQuery])
 
+  const handleItemClick = () => {
+    saveSearchQuery(searchQuery)
+  }
+
   return (
     <div className='search-page'>
       {map(
@@ -44,6 +54,7 @@ const SearchPage = (props) => {
               items={items}
               key={key}
               className='search-results'
+              onItemClick={handleItemClick}
               saveRecentItem={saveRecentItem}
               highlighting
             />
@@ -58,12 +69,14 @@ SearchPage.propTypes = {
   searchQuery: PropTypes.string,
   search: PropTypes.func,
   saveRecentItem: PropTypes.func,
+  saveSearchQuery: PropTypes.func,
 }
 
 SearchPage.defaultProps = {
   searchResults: {},
   search: noop,
   saveRecentItem: noop,
+  saveSearchQuery: noop,
 }
 
 export default SearchPage

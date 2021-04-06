@@ -1,4 +1,11 @@
-import { getSearchQuery, searchResultsSelector } from 'selectors/search-page'
+import sinon from 'sinon'
+
+import {
+  getSearchQuery,
+  searchResultsSelector,
+  searchQuerySuggestionsSelector,
+} from 'selectors/search-page'
+import * as commonConstants from 'constants/common'
 
 describe('#getSearchQuery', () => {
   it('returns search query', () => {
@@ -102,6 +109,84 @@ describe('#searchResultsSelector', () => {
         },
       ],
     }
+
+    expect(results).toStrictEqual(expectedResults)
+  })
+})
+
+describe('#searchQuerySuggestionsSelector', () => {
+  it('returns search result suggestions', () => {
+    const searchQuery = 'query'
+    const searchQueries = ['query_1', 'query_2', 'other_query']
+
+    const state = {
+      searchPage: {
+        searchQuery,
+        searchQueries,
+      },
+    }
+
+    const results = searchQuerySuggestionsSelector(state)
+
+    const expectedResults = ['query_1', 'query_2']
+
+    expect(results).toStrictEqual(expectedResults)
+  })
+
+  it('returns top MAX_SEARCH_QUERY_SUGGESTIONS search result suggestions exclude the query', () => {
+    const MAX_SEARCH_QUERY_SUGGESTIONS_STUB = 3
+    sinon
+      .stub(commonConstants, 'MAX_SEARCH_QUERY_SUGGESTIONS')
+      .get(() => MAX_SEARCH_QUERY_SUGGESTIONS_STUB)
+
+    const searchQuery = 'query'
+    const searchQueries = [
+      'query_1',
+      'query_2',
+      'other_query',
+      'query',
+      'query_3',
+      'query_4',
+    ]
+    const state = {
+      searchPage: {
+        searchQuery,
+        searchQueries,
+      },
+    }
+
+    const results = searchQuerySuggestionsSelector(state)
+
+    const expectedResults = ['query_1', 'query_2', 'query_3']
+
+    expect(results).toStrictEqual(expectedResults)
+  })
+
+  it('returns top MAX_SEARCH_QUERY_SUGGESTIONS recent results if search query is empty', () => {
+    const MAX_SEARCH_QUERY_SUGGESTIONS_STUB = 3
+    sinon
+      .stub(commonConstants, 'MAX_SEARCH_QUERY_SUGGESTIONS')
+      .get(() => MAX_SEARCH_QUERY_SUGGESTIONS_STUB)
+
+    const searchQuery = ''
+    const searchQueries = [
+      'query_1',
+      'query_2',
+      'other_query',
+      'query_3',
+      'query_4',
+    ]
+
+    const state = {
+      searchPage: {
+        searchQuery,
+        searchQueries,
+      },
+    }
+
+    const results = searchQuerySuggestionsSelector(state)
+
+    const expectedResults = ['query_1', 'query_2', 'other_query']
 
     expect(results).toStrictEqual(expectedResults)
   })

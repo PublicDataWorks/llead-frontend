@@ -1,16 +1,16 @@
 import sinon from 'sinon'
 import { CancelToken } from 'axios'
 
-import { search, changeSearchQuery } from 'actions/search-page'
+import { search, changeSearchQuery, saveSearchQuery } from 'actions/search-page'
 import * as actionTypes from 'action-types/search-page'
 import * as ServiceApi from 'utils/api'
 import { SEARCH_API_URL } from 'constants/api'
 
 describe('#search', () => {
-  let cancel;
+  let cancel
 
   beforeEach(function () {
-    cancel = sinon.spy();
+    cancel = sinon.spy()
     sinon.stub(CancelToken, 'source').returns({
       token: 'token',
       cancel,
@@ -36,8 +36,8 @@ describe('#search', () => {
   })
 
   it('cancels old request if new request is called', () => {
-    search('keyword');
-    search('keywords');
+    search('keyword')
+    search('keywords')
     expect(cancel).toHaveBeenCalled()
   })
 })
@@ -48,6 +48,17 @@ describe('#changeSearchQuery', () => {
 
     expect(changeSearchQuery(query)).toEqual({
       type: actionTypes.CHANGE_SEARCH_QUERY,
+      payload: query,
+    })
+  })
+})
+
+describe('#saveSearchQuery', () => {
+  it('returns the right action', () => {
+    const query = 'query'
+
+    expect(saveSearchQuery(query)).toEqual({
+      type: actionTypes.SAVE_SEARCH_QUERY,
       payload: query,
     })
   })

@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
+import sinon from 'sinon'
 
 import CustomLink from 'components/common/links/custom-link'
 
@@ -19,11 +20,14 @@ beforeEach(() => {
 
 describe('CustomLink component', () => {
   it('should render correctly', () => {
+    const onClickSpy = sinon.spy()
     const link = '/link'
     const container = render(
       <MemoryRouter initialEntries={['/']}>
         <Route path='/'>
-          <CustomLink to={link}>Custom Link</CustomLink>
+          <CustomLink to={link} onClick={onClickSpy}>
+            Custom Link
+          </CustomLink>
         </Route>
       </MemoryRouter>
     )
@@ -33,5 +37,6 @@ describe('CustomLink component', () => {
     fireEvent.click(customLinkElement)
 
     expect(mockHistoryPush).toHaveBeenCalledWith(link)
+    expect(onClickSpy).toHaveBeenCalled()
   })
 })
