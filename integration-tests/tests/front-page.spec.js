@@ -258,7 +258,7 @@ describe('FrontPage', () => {
 
       it('redirects to officer page when clicks on officer card', () => {
         cy.visit('/')
-
+        cy.waitUntil(() => cy.get('.officers-carousel').should('exist'))
         cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
 
         cy.location('pathname').should('eq', `/officers/${officersData[0].id}/`)
@@ -302,7 +302,7 @@ describe('FrontPage', () => {
           .contains('Her hard step sea.')
         cy.get('@visibleSlides')
           .eq(0)
-          .find('.document-incident-date')
+          .find('.document-subtitle')
           .contains('Jan 6, 2020')
         cy.get('@visibleSlides')
           .eq(0)

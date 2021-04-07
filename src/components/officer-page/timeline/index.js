@@ -6,22 +6,32 @@ import './timeline.scss'
 import { TIMELINE_KINDS } from 'constants/common'
 import ComplaintItem from './complaint-item'
 import MainItem from './main-item'
+import DocumentCard from './document-card'
+import noop from 'lodash/noop'
 
 const TIMELINE_COMPONENTS_MAPPING = {
-  [TIMELINE_KINDS.JOINED]: MainItem,
-  [TIMELINE_KINDS.LEFT]: MainItem,
-  [TIMELINE_KINDS.COMPLAINT]: ComplaintItem,
+  [TIMELINE_KINDS.JOINED]: { component: MainItem },
+  [TIMELINE_KINDS.LEFT]: { component: MainItem },
+  [TIMELINE_KINDS.COMPLAINT]: {
+    component: ComplaintItem,
+  },
+  [TIMELINE_KINDS.DOCUMENT]: {
+    component: DocumentCard,
+    className: 'inline-item',
+  },
 }
 
 const Timeline = (props) => {
-  const { timeline } = props
+  const { timeline, saveRecentItem } = props
 
   const renderTimelineItem = (item, index, { group, leftGroup }) => {
-    const Component = TIMELINE_COMPONENTS_MAPPING[item.kind]
+    const { component: Component, className } = TIMELINE_COMPONENTS_MAPPING[
+      item.kind
+    ]
     return (
       Component && (
         <div
-          className={cx('timeline-item', {
+          className={cx('timeline-item', className, {
             'first-timeline-item': index === 0,
           })}
           key={index}
@@ -35,6 +45,7 @@ const Timeline = (props) => {
           )}
           <Component
             {...item}
+            saveRecentItem={saveRecentItem}
             className={cx({
               'has-connected-line': group.isDateEvent,
               'left-item': leftGroup,
@@ -74,8 +85,11 @@ const Timeline = (props) => {
 
 Timeline.propTypes = {
   timeline: PropTypes.array,
+  saveRecentItem: PropTypes.func,
 }
 
-Timeline.defaultProps = {}
+Timeline.defaultProps = {
+  saveRecentItem: noop,
+}
 
 export default Timeline

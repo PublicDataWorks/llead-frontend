@@ -11,6 +11,7 @@ import {
   officer1DetailsData,
   officer1DocumentsData,
   recentItemsData,
+  officerTimelineData,
 } from '../data/recent-items-data'
 
 describe('FrontPage recent items', () => {
@@ -39,6 +40,14 @@ describe('FrontPage recent items', () => {
         url: `http://localhost:8000/api/officers/1/documents/`,
       },
       officer1DocumentsData
+    )
+
+    cy.intercept(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/officers/1/timeline/',
+      },
+      officerTimelineData
     )
 
     cy.intercept(
@@ -176,7 +185,7 @@ describe('FrontPage recent items', () => {
       .contains('Her hard step sea.')
     cy.get('@visibleSlides')
       .eq(0)
-      .find('.document-incident-date')
+      .find('.document-subtitle')
       .contains('Jan 6, 2020')
     cy.get('@visibleSlides')
       .eq(0)
@@ -216,7 +225,7 @@ describe('FrontPage recent items', () => {
       .contains('Pattern risk team election myself suffer wind.')
     cy.get('@visibleSlides')
       .eq(0)
-      .find('.document-incident-date')
+      .find('.document-subtitle')
       .contains('May 4, 2020')
     cy.get('@visibleSlides')
       .eq(0)
@@ -257,7 +266,7 @@ describe('FrontPage recent items', () => {
       .contains('Structure land official huge draw significant.')
     cy.get('@visibleSlides')
       .eq(0)
-      .find('.document-incident-date')
+      .find('.document-subtitle')
       .contains('Jun 12, 2021')
     cy.get('@visibleSlides')
       .eq(0)
@@ -270,6 +279,49 @@ describe('FrontPage recent items', () => {
         'have.css',
         'background-image',
         'url("http://image.com/after/last-preview.jpg")'
+      )
+  })
+
+  it('adds document to recent items when click document card in officer page', () => {
+    cy.visit('/')
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('open')
+    })
+
+    cy.get('.recent-items-carousel').should('not.exist')
+
+    cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
+    cy.location('pathname').should('eq', `/officers/1/`)
+
+    cy.get('.officer-timeline').find('.timeline-document-card').eq(0).click()
+
+    cy.get('.logo').click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 2)
+
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('pdf')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-title')
+      .contains('Document 2019-03-10')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-subtitle')
+      .contains('Mar 10, 2019')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-department-name')
+      .contains('Department')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-preview')
+      .should(
+        'have.css',
+        'background-image',
+        'url("http://image.com/image/our-preview.jpg")'
       )
   })
 

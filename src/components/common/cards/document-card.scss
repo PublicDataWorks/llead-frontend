@@ -31,32 +31,9 @@
       overflow: hidden;
     }
 
-    .document-incident-date {
+    .document-subtitle {
       @include small-text;
       margin-top: $v-tiny-margin;
-    }
-
-    .document-preview-container {
-      .document-preview {
-        display: inline-block;
-        width: 61px;
-        height: 79px;
-        border: 1px solid $alto-color;
-        box-sizing: border-box;
-        background-color: $white-color;
-        position: relative;
-        background-size: cover;
-      }
-
-      .document-preview-page {
-        display: inline-block;
-        width: 13px;
-        height: 79px;
-        border: solid $alto-color;
-        border-width: 1px 1px 1px 0;
-        box-sizing: border-box;
-        background-color: $wild-sand-color;
-      }
     }
   }
 

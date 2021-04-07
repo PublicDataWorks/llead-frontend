@@ -119,4 +119,32 @@ export const officerTimelineData = [
     date: '2020-03-10',
     year: 2020,
   },
+  {
+    id: 39,
+    document_type: 'pdf',
+    title: 'Document 2019-03-10',
+    url: 'http://document.com/image/our.pdf',
+    incident_date: '2019-03-10',
+    preview_image_url: 'http://image.com/image/our-preview.jpg',
+    pages_count: 24,
+    departments: [
+      {
+        id: 10031,
+        name: 'Department',
+      },
+    ],
+    kind: 'DOCUMENT',
+    date: '2019-03-10',
+    year: 2019,
+  },
+  {
+    kind: 'JOINED',
+    date: '2019-03-10',
+    year: 2019,
+  },
+  {
+    kind: 'LEFT',
+    date: '2019-03-10',
+    year: 2019,
+  },
 ]

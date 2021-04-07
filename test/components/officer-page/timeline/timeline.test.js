@@ -4,6 +4,7 @@ import { render } from '@testing-library/react'
 import Timeline from 'components/officer-page/timeline'
 import ComplaintItem from 'components/officer-page/timeline/complaint-item'
 import MainItem from 'components/officer-page/timeline/main-item'
+import DocumentCard from 'components/officer-page/timeline/document-card'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -23,14 +24,25 @@ jest.mock('components/officer-page/timeline/main-item', () => ({
   default: jest.fn(),
 }))
 
+const MockDocumentCardComponent = () => {
+  return <div>Main Item</div>
+}
+jest.mock('components/officer-page/timeline/document-card', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
 beforeAll(() => {
   ComplaintItem.mockImplementation(MockComplaintItemComponent)
   MainItem.mockImplementation(MockMainItemComponent)
+  DocumentCard.mockImplementation(MockDocumentCardComponent)
 })
 
 beforeEach(() => {
   ComplaintItem.mockClear()
   MainItem.mockClear()
+  DocumentCard.mockClear()
 })
 
 describe('Timeline component', () => {
@@ -83,7 +95,11 @@ describe('Timeline component', () => {
       },
     ]
 
-    const container = render(<Timeline timeline={timelineData} />)
+    const mockSaveRecentItem = jest.fn()
+
+    const container = render(
+      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+    )
 
     const { baseElement } = container
 
@@ -112,6 +128,7 @@ describe('Timeline component', () => {
     expect(MainItem.mock.calls[0][0]).toStrictEqual({
       kind: 'LEFT',
       className: 'has-connected-line left-item',
+      saveRecentItem: mockSaveRecentItem,
     })
 
     const timelineSecondGroup = timelineGroups[1]
@@ -137,6 +154,7 @@ describe('Timeline component', () => {
       disposition: 'Officer dispostion 2019-03-10',
       action: 'Officer action 2019-03-10',
       className: 'has-connected-line',
+      saveRecentItem: mockSaveRecentItem,
     })
     const secondGroupItem1 = secondGroupItems[1]
     const secondGroupItem1Line = secondGroupItem1.getElementsByClassName('line')
@@ -149,6 +167,7 @@ describe('Timeline component', () => {
       disposition: 'Officer dispostion 2019-03-10 no1',
       action: 'Officer action 2019-03-10 no1',
       className: 'has-connected-line',
+      saveRecentItem: mockSaveRecentItem,
     })
 
     const timelineThirdGroup = timelineGroups[2]
@@ -172,6 +191,7 @@ describe('Timeline component', () => {
       disposition: 'Officer dispostion year 2018',
       action: 'Officer action year 2018',
       className: 'left-item',
+      saveRecentItem: mockSaveRecentItem,
     })
   })
 
@@ -192,8 +212,11 @@ describe('Timeline component', () => {
         ],
       },
     ]
+    const mockSaveRecentItem = jest.fn()
 
-    render(<Timeline timeline={timelineData} />)
+    render(
+      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+    )
 
     expect(ComplaintItem.mock.calls[0][0]).toStrictEqual({
       kind: 'COMPLAINT',
@@ -203,6 +226,7 @@ describe('Timeline component', () => {
       disposition: 'Officer dispostion 2019-03-10',
       action: 'Officer action 2019-03-10',
       className: 'has-connected-line left-item',
+      saveRecentItem: mockSaveRecentItem,
     })
   })
 
@@ -218,12 +242,16 @@ describe('Timeline component', () => {
         ],
       },
     ]
+    const mockSaveRecentItem = jest.fn()
 
-    render(<Timeline timeline={timelineData} />)
+    render(
+      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+    )
 
     expect(MainItem.mock.calls[0][0]).toStrictEqual({
       kind: 'LEFT',
       className: 'has-connected-line left-item',
+      saveRecentItem: mockSaveRecentItem,
     })
   })
 
@@ -239,12 +267,59 @@ describe('Timeline component', () => {
         ],
       },
     ]
+    const mockSaveRecentItem = jest.fn()
 
-    render(<Timeline timeline={timelineData} />)
+    render(
+      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+    )
 
     expect(MainItem.mock.calls[0][0]).toStrictEqual({
       kind: 'JOINED',
       className: 'has-connected-line left-item',
+      saveRecentItem: mockSaveRecentItem,
+    })
+  })
+
+  it('renders timeline with document item', () => {
+    const documentData = {
+      id: 1,
+      kind: 'DOCUMENT',
+      documentType: 'csv',
+      url: 'https://i.imgur.com/nHTFohI.csv',
+      title: 'document',
+      previewImageUrl: 'previewImageUrl',
+      pagesCount: 3,
+    }
+    const timelineData = [
+      {
+        groupName: 'Apr 1, 2018',
+        isDateEvent: true,
+        items: [
+          {
+            ...documentData,
+            saveRecentItem: mockSaveRecentItem,
+            recentData: documentData,
+          },
+        ],
+      },
+    ]
+    const mockSaveRecentItem = jest.fn()
+
+    render(
+      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+    )
+
+    expect(DocumentCard.mock.calls[0][0]).toStrictEqual({
+      id: 1,
+      kind: 'DOCUMENT',
+      documentType: 'csv',
+      url: 'https://i.imgur.com/nHTFohI.csv',
+      title: 'document',
+      previewImageUrl: 'previewImageUrl',
+      pagesCount: 3,
+      recentData: documentData,
+      className: 'has-connected-line left-item',
+      saveRecentItem: mockSaveRecentItem,
     })
   })
 })

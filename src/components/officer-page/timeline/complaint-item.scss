@@ -84,11 +84,13 @@
     &.has-connected-line {
       &.left-item {
         .complaint-item-header {
+          padding-left: $h-card-margin;
           padding-right: $h-card-margin + $icon-width;
         }
 
         .complaint-item-content {
           .complaint-item-info-row {
+            padding-left: $h-card-margin;
             padding-right: $h-card-margin + $icon-width;
           }
         }

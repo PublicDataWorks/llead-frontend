@@ -90,61 +90,62 @@ const Officer = (props) => {
   const hasTimeline = !isEmpty(timeline)
 
   return (
-    <div className={cx('officer-page', { 'empty-timeline': !hasTimeline })}>
-      {!isRequesting && !isEmpty(officer) && (
-        <>
-          {!isEmpty(dataPeriod) && (
-            <div className='officer-period'>
-              Data for this officer is limited to the years&nbsp;
-              {dataPeriod}
-            </div>
-          )}
-          <div className='officer-basic-info'>
-            <div className='officer-title'>Police Officer</div>
-            <div className='officer-name'>{startCase(name)}</div>
-            {!isEmpty(badges) && (
-              <div className='officer-basic-info-row'>
-                <OfficerBadges badges={badges} />
-              </div>
-            )}
-            {description && (
-              <div className='officer-basic-info-row'>{description}</div>
-            )}
-            {annualSalary && (
-              <div className='officer-basic-info-row'>{annualSalary}</div>
-            )}
-            {!isEmpty(department) && (
-              <CustomLink
-                className='officer-department'
-                to={departmentPath(department.id)}
-              >
-                {department.name}
-              </CustomLink>
-            )}
-            {displaySummaryInfo()}
+    !isRequesting &&
+    !isEmpty(officer) && (
+      <div className={cx('officer-page', { 'empty-timeline': !hasTimeline })}>
+        {!isEmpty(dataPeriod) && (
+          <div className='officer-period'>
+            Data for this officer is limited to the years&nbsp;
+            {dataPeriod}
           </div>
-
-          {hasTimeline && <Timeline timeline={timeline} />}
-
-          {documentsCount > 0 && (
-            <div className='officer-documents'>
-              <div className='officer-documents-title'>
-                Documents ({formatNumber(documentsCount)})
-              </div>
-              <div className='officer-documents-listview'>
-                {map(documents, (document) => (
-                  <DocumentItem
-                    key={document.id}
-                    {...document}
-                    saveRecentItem={saveRecentItem}
-                  />
-                ))}
-              </div>
+        )}
+        <div className='officer-basic-info'>
+          <div className='officer-title'>Police Officer</div>
+          <div className='officer-name'>{startCase(name)}</div>
+          {!isEmpty(badges) && (
+            <div className='officer-basic-info-row'>
+              <OfficerBadges badges={badges} />
             </div>
           )}
-        </>
-      )}
-    </div>
+          {description && (
+            <div className='officer-basic-info-row'>{description}</div>
+          )}
+          {annualSalary && (
+            <div className='officer-basic-info-row'>{annualSalary}</div>
+          )}
+          {!isEmpty(department) && (
+            <CustomLink
+              className='officer-department'
+              to={departmentPath(department.id)}
+            >
+              {department.name}
+            </CustomLink>
+          )}
+          {displaySummaryInfo()}
+        </div>
+
+        {hasTimeline && (
+          <Timeline timeline={timeline} saveRecentItem={saveRecentItem} />
+        )}
+
+        {documentsCount > 0 && (
+          <div className='officer-documents'>
+            <div className='officer-documents-title'>
+              Documents ({formatNumber(documentsCount)})
+            </div>
+            <div className='officer-documents-listview'>
+              {map(documents, (document) => (
+                <DocumentItem
+                  key={document.id}
+                  {...document}
+                  saveRecentItem={saveRecentItem}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    )
   )
 }
 

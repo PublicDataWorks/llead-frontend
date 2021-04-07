@@ -410,12 +410,13 @@ describe('Officer component', () => {
           },
         ],
       }
+      const mockSaveRecentItem = jest.fn()
 
       const container = render(
         <Provider store={MockStore()()}>
           <MemoryRouter initialEntries={['officers/1']}>
             <Route path='officers/:id'>
-              <Officer {...officerData} />
+              <Officer {...officerData} saveRecentItem={mockSaveRecentItem} />
             </Route>
           </MemoryRouter>
         </Provider>
@@ -444,6 +445,7 @@ describe('Officer component', () => {
             ],
           },
         ],
+        saveRecentItem: mockSaveRecentItem,
       })
     })
 

@@ -325,6 +325,34 @@ describe('#timelineSelector', () => {
           trackingNumber: '13-06',
         },
         {
+          id: 39,
+          documentType: 'pdf',
+          title: 'Document 2019-06-13',
+          url: 'url',
+          incidentDate: '2019-06-13',
+          previewImageUrl: 'previewImageUrl',
+          pagesCount: 24,
+          departments: [
+            {
+              id: 10031,
+              name: 'Department',
+            },
+          ],
+          kind: 'DOCUMENT',
+          date: '2019-06-13',
+          year: 2019,
+        },
+        {
+          kind: 'JOINED',
+          date: '2019-06-13',
+          year: 2019,
+        },
+        {
+          kind: 'LEFT',
+          date: '2019-06-13',
+          year: 2019,
+        },
+        {
           kind: 'COMPLAINT',
           date: '2019-03-10',
           year: 2019,
@@ -384,6 +412,24 @@ describe('#timelineSelector', () => {
           date: '2018-10-20',
           year: 2018,
         },
+        {
+          id: 39,
+          documentType: 'pdf',
+          title: 'Document 2019-03-10',
+          url: 'url',
+          incidentDate: '2019-03-10',
+          previewImageUrl: 'previewImageUrl',
+          pagesCount: 24,
+          departments: [
+            {
+              id: 10031,
+              name: 'Department',
+            },
+          ],
+          kind: 'DOCUMENT',
+          date: '2019-03-10',
+          year: 2019,
+        },
       ]
       const state = {
         officerPage: {
@@ -399,12 +445,49 @@ describe('#timelineSelector', () => {
           isDateEvent: true,
           items: [
             {
+              kind: 'JOINED',
+            },
+            {
+              kind: 'LEFT',
+            },
+            {
               kind: 'COMPLAINT',
               ruleViolation: 'Officer rule violation 2019-06-13',
               paragraphViolation: 'Officer paragraph violation 2019-06-13',
               disposition: 'Officer dispostion 2019-06-13',
               action: 'Officer action 2019-06-13',
               trackingNumber: '13-06',
+            },
+            {
+              id: 39,
+              documentType: 'pdf',
+              title: 'Document 2019-06-13',
+              url: 'url',
+              incidentDate: 'Jun 13, 2019',
+              previewImageUrl: 'previewImageUrl',
+              pagesCount: 24,
+              departments: [
+                {
+                  id: 10031,
+                  name: 'Department',
+                },
+              ],
+              kind: 'DOCUMENT',
+              recentData: {
+                id: 39,
+                documentType: 'pdf',
+                title: 'Document 2019-06-13',
+                url: 'url',
+                incidentDate: 'Jun 13, 2019',
+                previewImageUrl: 'previewImageUrl',
+                pagesCount: 24,
+                departments: [
+                  {
+                    id: 10031,
+                    name: 'Department',
+                  },
+                ],
+              },
             },
           ],
         },
@@ -427,6 +510,37 @@ describe('#timelineSelector', () => {
               paragraphViolation: 'Officer paragraph violation 2019-03-10 no1',
               disposition: 'Officer dispostion 2019-03-10 no1',
               action: 'Officer action 2019-03-10 no1',
+            },
+            {
+              id: 39,
+              documentType: 'pdf',
+              title: 'Document 2019-03-10',
+              url: 'url',
+              incidentDate: 'Mar 10, 2019',
+              previewImageUrl: 'previewImageUrl',
+              pagesCount: 24,
+              departments: [
+                {
+                  id: 10031,
+                  name: 'Department',
+                },
+              ],
+              kind: 'DOCUMENT',
+              recentData: {
+                id: 39,
+                documentType: 'pdf',
+                title: 'Document 2019-03-10',
+                url: 'url',
+                incidentDate: 'Mar 10, 2019',
+                previewImageUrl: 'previewImageUrl',
+                pagesCount: 24,
+                departments: [
+                  {
+                    id: 10031,
+                    name: 'Department',
+                  },
+                ],
+              },
             },
           ],
         },

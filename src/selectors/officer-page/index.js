@@ -43,10 +43,7 @@ const officerDocumentFormatter = (document) => {
 const baseTimelineItemFormatter = (item) => pick(item, ['kind'])
 
 const complaintTimelineItemFormatter = (item) => {
-  const attributes = [
-    'kind',
-    'trackingNumber',
-  ]
+  const attributes = ['kind', 'trackingNumber']
 
   const capitalizeAttributes = [
     'ruleViolation',
@@ -61,8 +58,18 @@ const complaintTimelineItemFormatter = (item) => {
   }
 }
 
+const documentTimelineItemFormatter = (document) => {
+  const formattedDocument = documentFormatter(document)
+  return {
+    ...baseTimelineItemFormatter(document),
+    ...formattedDocument,
+    recentData: formattedDocument,
+  }
+}
+
 const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.COMPLAINT]: complaintTimelineItemFormatter,
+  [TIMELINE_KINDS.DOCUMENT]: documentTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {

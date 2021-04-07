@@ -119,58 +119,57 @@ const Department = (props) => {
   }
 
   return (
-    <div className='department-page'>
-      {!isRequesting && !isEmpty(department) && (
-        <>
-          {!isEmpty(joinedDataPeriod) && (
-            <div className='department-period'>
-              Data for this department is limited to the years&nbsp;
-              {joinedDataPeriod}
-            </div>
-          )}
-          <div className='department-content'>
-            <div className='department-title'>Police Department</div>
-            <div className='department-name'>{name}</div>
-            <div className='department-basic-info'>
-              <div className='department-location'>
-                {!isEmpty(mapElementStyles) && (
-                  <div className='department-map' style={mapElementStyles} />
-                )}
-                <div className='department-location-info'>
-                  <div className='department-city'>{city}</div>
-                  <div className='department-parish'>{parish}</div>
-                </div>
-              </div>
-              <div className='department-summary'>
-                <div className='department-summary-row'>
-                  {stringifyTotalItems(officersCount, 'officer')}
-                </div>
-                <div className='department-summary-row'>
-                  {stringifyTotalItems(complaintsCount, 'complaint')}
-                </div>
-                <div className='department-summary-row'>
-                  {stringifyTotalItems(documentsCount, 'document')}
-                </div>
-              </div>
-            </div>
-            <div className='department-wrgl-files'>
-              {map(wrglFiles, ({ id, ...rest }) => (
-                <WRGLFile
-                  key={id}
-                  {...rest}
-                  expandedCsvFiles={expandedCsvFiles}
-                  updateExpandedCsvFiles={updateExpandedCsvFiles}
-                />
-              ))}
-            </div>
-
-            {documentsCount > 0 && (
-              <DepartmentDocumentsContainer departmentId={departmentId} />
-            )}
+    !isRequesting &&
+    !isEmpty(department) && (
+      <div className='department-page'>
+        {!isEmpty(joinedDataPeriod) && (
+          <div className='department-period'>
+            Data for this department is limited to the years&nbsp;
+            {joinedDataPeriod}
           </div>
-        </>
-      )}
-    </div>
+        )}
+        <div className='department-content'>
+          <div className='department-title'>Police Department</div>
+          <div className='department-name'>{name}</div>
+          <div className='department-basic-info'>
+            <div className='department-location'>
+              {!isEmpty(mapElementStyles) && (
+                <div className='department-map' style={mapElementStyles} />
+              )}
+              <div className='department-location-info'>
+                <div className='department-city'>{city}</div>
+                <div className='department-parish'>{parish}</div>
+              </div>
+            </div>
+            <div className='department-summary'>
+              <div className='department-summary-row'>
+                {stringifyTotalItems(officersCount, 'officer')}
+              </div>
+              <div className='department-summary-row'>
+                {stringifyTotalItems(complaintsCount, 'complaint')}
+              </div>
+              <div className='department-summary-row'>
+                {stringifyTotalItems(documentsCount, 'document')}
+              </div>
+            </div>
+          </div>
+          <div className='department-wrgl-files'>
+            {map(wrglFiles, ({ id, ...rest }) => (
+              <WRGLFile
+                key={id}
+                {...rest}
+                expandedCsvFiles={expandedCsvFiles}
+                updateExpandedCsvFiles={updateExpandedCsvFiles}
+              />
+            ))}
+          </div>
+
+          {documentsCount > 0 && (
+            <DepartmentDocumentsContainer departmentId={departmentId} />
+          )}
+        </div>
+      </div>
+    )
   )
 }
 

@@ -1,0 +1,38 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.timeline-document-card {
+  box-sizing: border-box;
+  width: 140px;
+  height: 178px;
+  padding-bottom: $v-small-margin;
+  background-color: $white-color;
+  border-radius: 8px;
+  margin-right: $h-margin;
+
+  .document-timeline-preview {
+    background-color: $wild-sand-color;
+    border-radius: 8px 8px 0 0;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .document-title {
+    @include small-text;
+    margin-top: $v-small-margin;
+    padding: 0 $h-side-frame;
+    color: $thunder-color;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .document-subtitle {
+    @include small-text;
+    color: $boulder-color;
+    padding: 0 $h-side-frame;
+  }
+}

@@ -17,15 +17,12 @@ const EVENT_KINDS_MAPPING = {
 }
 
 const MainEventItem = (props) => {
-  const { kind, className, ...rest } = props
+  const { kind, className } = props
 
   const event = EVENT_KINDS_MAPPING[kind]
 
   return (
-    <div
-      className={cx('timeline-main-item', className, event.className)}
-      {...rest}
-    >
+    <div className={cx('timeline-main-item', className, event.className)}>
       {event.description}
     </div>
   )
