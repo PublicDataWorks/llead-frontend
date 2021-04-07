@@ -13,7 +13,7 @@
 
   .search-input {
     margin: $v-frame-margin $h-card-margin;
-    width: 320px;
+    width: auto;
   }
 
   .department-documents-listview {
@@ -39,11 +39,10 @@
   }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (min-width: $mobile-breakpoint) {
   .department-documents {
-    margin-top: $v-header-margin;
     .search-input {
-      width: auto;
+      width: 320px;
     }
   }
 }

@@ -8,7 +8,8 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
   padding: $v-frame-margin $h-side-frame;
   flex-grow: 1;
   position: relative;
-  flex-basis: auto;
+  order: 3;
+  flex-basis: 100%;
   z-index: 1000;
 
   .search-input-with-suggestions {
@@ -76,8 +77,6 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
       display: block;
     }
   }
-
-  order: 2;
 }
 
 .search-suggestion-overlay {
@@ -90,10 +89,9 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
   z-index: 999;
 }
 
-@media only screen and (max-width: $mobile-breakpoint) {
+@media only screen and (min-width: $mobile-breakpoint) {
   .search-input-container {
-    order: 3;
-    flex-basis: 100%;
-    margin-top: 0;
+    flex-basis: auto;
+    order: 2;
   }
 }
