@@ -9,6 +9,9 @@ defaults:
     GOOGLE_PROJECT_ID: 'excellent-zoo-300106'
     GOOGLE_COMPUTE_ZONE: 'us-east4-a'
     GOOGLE_CLUSTER_NAME: 'ipno-staging'
+  - &set-gcloud-service-key
+    command: |
+      echo 'export GCLOUD_SERVICE_KEY=$(echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -d)' >> $BASH_ENV
 
 version: 2.1
 jobs:
@@ -83,6 +86,7 @@ jobs:
     machine: true
     environment: *gcloud-env
     steps:
+      - run: *set-gcloud-service-key
       - checkout
       - run: echo "frontend-$CIRCLE_BUILD_NUM" > buildnum
       - persist_to_workspace:
