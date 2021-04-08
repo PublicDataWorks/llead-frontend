@@ -5,6 +5,7 @@ import Timeline from 'components/officer-page/timeline'
 import ComplaintItem from 'components/officer-page/timeline/complaint-item'
 import MainItem from 'components/officer-page/timeline/main-item'
 import DocumentCard from 'components/officer-page/timeline/document-card'
+import SalaryChangeItem from 'components/officer-page/timeline/salary-change-item'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -33,10 +34,20 @@ jest.mock('components/officer-page/timeline/document-card', () => ({
   default: jest.fn(),
 }))
 
+const MockSalaryChangeItemComponent = () => {
+  return <div>Salary Change Item</div>
+}
+jest.mock('components/officer-page/timeline/salary-change-item', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
 beforeAll(() => {
   ComplaintItem.mockImplementation(MockComplaintItemComponent)
   MainItem.mockImplementation(MockMainItemComponent)
   DocumentCard.mockImplementation(MockDocumentCardComponent)
+  SalaryChangeItem.mockImplementation(MockSalaryChangeItemComponent)
 })
 
 beforeEach(() => {
@@ -320,6 +331,34 @@ describe('Timeline component', () => {
       recentData: documentData,
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,
+    })
+  })
+
+  it('renders timeline with salary change item', () => {
+    const timelineData = [
+      {
+        groupName: 'Jun 13, 2019',
+        isDateEvent: true,
+        items: [
+          {
+            kind: 'SALARY_CHANGE',
+            annualSalary: '65k',
+          },
+        ],
+      },
+    ]
+
+    const mockSaveRecentItem = jest.fn()
+
+    render(
+      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+    )
+
+    expect(SalaryChangeItem.mock.calls[0][0]).toStrictEqual({
+      kind: 'SALARY_CHANGE',
+      annualSalary: '65k',
+      saveRecentItem: mockSaveRecentItem,
+      className: 'has-connected-line left-item',
     })
   })
 })

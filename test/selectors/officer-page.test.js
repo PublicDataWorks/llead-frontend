@@ -363,6 +363,12 @@ describe('#timelineSelector', () => {
           trackingNumber: '10-03',
         },
         {
+          kind: 'SALARY_CHANGE',
+          year: 2019,
+          annualSalary: '65k',
+          date: '2019-06-13',
+        },
+        {
           kind: 'COMPLAINT',
           date: '2018-10-20',
           year: 2018,
@@ -449,6 +455,10 @@ describe('#timelineSelector', () => {
             },
             {
               kind: 'LEFT',
+            },
+            {
+              kind: 'SALARY_CHANGE',
+              annualSalary: '65k',
             },
             {
               kind: 'COMPLAINT',

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import MainItem from 'components/officer-page/timeline/main-item.js'
+import MainItem from 'components/officer-page/timeline/main-item'
 import { TIMELINE_KINDS } from 'constants/common'
 
 describe('MainItem component', () => {

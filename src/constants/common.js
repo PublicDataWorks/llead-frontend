@@ -32,8 +32,9 @@ export const REQUEST_CANCEL_MESSAGE = 'Cancel old request'
 export const TIMELINE_KIND_ORDERS = {
   JOINED: 1,
   LEFT: 2,
-  COMPLAINT: 3,
-  DOCUMENT: 4,
+  SALARY_CHANGE: 3,
+  COMPLAINT: 4,
+  DOCUMENT: 5,
 }
 
 export const TIMELINE_KINDS = {
@@ -41,4 +42,5 @@ export const TIMELINE_KINDS = {
   LEFT: 'LEFT',
   COMPLAINT: 'COMPLAINT',
   DOCUMENT: 'DOCUMENT',
+  SALARY_CHANGE: 'SALARY_CHANGE',
 }

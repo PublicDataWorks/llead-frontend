@@ -147,4 +147,10 @@ export const officerTimelineData = [
     date: '2019-03-10',
     year: 2019,
   },
+  {
+    kind: 'SALARY_CHANGE',
+    year: 2019,
+    annualSalary: '65k',
+    date: '2019-03-10',
+  },
 ]

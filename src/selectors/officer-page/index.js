@@ -67,9 +67,15 @@ const documentTimelineItemFormatter = (document) => {
   }
 }
 
+const salaryChangeTimelineItemFormatter = (salaryChange) => {
+  const attributes = ['kind', 'annualSalary']
+  return pick(salaryChange, attributes)
+}
+
 const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.COMPLAINT]: complaintTimelineItemFormatter,
   [TIMELINE_KINDS.DOCUMENT]: documentTimelineItemFormatter,
+  [TIMELINE_KINDS.SALARY_CHANGE]: salaryChangeTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {

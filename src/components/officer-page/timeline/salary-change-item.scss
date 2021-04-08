@@ -1,0 +1,20 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.timeline-salary-change-item {
+  @include small-text;
+  padding: $v-small-margin $h-card-margin;
+  color: $boulder-color;
+  background-color: $wild-sand-color;
+  border-radius: 8px;
+  font-weight: 400;
+
+  .salary-value {
+    color: $thunder-color;
+  }
+
+  &.has-connected-line {
+    padding-left: $h-card-margin + $icon-width;
+  }
+}

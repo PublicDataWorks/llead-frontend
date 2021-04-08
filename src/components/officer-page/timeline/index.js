@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
+import noop from 'lodash/noop'
 
 import './timeline.scss'
-import { TIMELINE_KINDS } from 'constants/common'
 import ComplaintItem from './complaint-item'
 import MainItem from './main-item'
 import DocumentCard from './document-card'
-import noop from 'lodash/noop'
+import SalaryChangeItem from './salary-change-item'
+import { TIMELINE_KINDS } from 'constants/common'
 
 const TIMELINE_COMPONENTS_MAPPING = {
   [TIMELINE_KINDS.JOINED]: { component: MainItem },
@@ -19,6 +20,9 @@ const TIMELINE_COMPONENTS_MAPPING = {
     component: DocumentCard,
     className: 'inline-item',
   },
+  [TIMELINE_KINDS.SALARY_CHANGE]: {
+    component: SalaryChangeItem
+  }
 }
 
 const Timeline = (props) => {
