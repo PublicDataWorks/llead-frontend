@@ -436,6 +436,12 @@ describe('#timelineSelector', () => {
           date: '2019-03-10',
           year: 2019,
         },
+        {
+          kind: 'RANK_CHANGE',
+          year: 2019,
+          rankDesc: 'senior police officer',
+          date: '2019-06-13',
+        },
       ]
       const state = {
         officerPage: {
@@ -455,6 +461,10 @@ describe('#timelineSelector', () => {
             },
             {
               kind: 'LEFT',
+            },
+            {
+              kind: 'RANK_CHANGE',
+              rankDesc: 'Senior police officer',
             },
             {
               kind: 'SALARY_CHANGE',

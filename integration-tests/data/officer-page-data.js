@@ -150,7 +150,13 @@ export const officerTimelineData = [
   {
     kind: 'SALARY_CHANGE',
     year: 2019,
-    annualSalary: '65k',
+    annual_salary: '65k',
+    date: '2019-03-10',
+  },
+  {
+    kind: 'RANK_CHANGE',
+    year: 2018,
+    rank_desc: 'senior police officer',
     date: '2019-03-10',
   },
 ]

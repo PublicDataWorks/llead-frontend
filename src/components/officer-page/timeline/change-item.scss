@@ -1,16 +1,15 @@
 @import 'styles/variables';
 @import 'styles/colors';
 @import 'styles/mixins';
-
-.timeline-salary-change-item {
+.timeline-change-item {
   @include small-text;
+  border-radius: 8px;
   padding: $v-small-margin $h-card-margin;
   color: $boulder-color;
   background-color: $wild-sand-color;
-  border-radius: 8px;
   font-weight: 400;
 
-  .salary-value {
+  .change-item-value {
     color: $thunder-color;
   }
 

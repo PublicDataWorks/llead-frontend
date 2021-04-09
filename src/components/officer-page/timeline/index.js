@@ -8,6 +8,7 @@ import ComplaintItem from './complaint-item'
 import MainItem from './main-item'
 import DocumentCard from './document-card'
 import SalaryChangeItem from './salary-change-item'
+import RankChangeItem from './rank-change-item'
 import { TIMELINE_KINDS } from 'constants/common'
 
 const TIMELINE_COMPONENTS_MAPPING = {
@@ -21,8 +22,11 @@ const TIMELINE_COMPONENTS_MAPPING = {
     className: 'inline-item',
   },
   [TIMELINE_KINDS.SALARY_CHANGE]: {
-    component: SalaryChangeItem
-  }
+    component: SalaryChangeItem,
+  },
+  [TIMELINE_KINDS.RANK_CHANGE]: {
+    component: RankChangeItem,
+  },
 }
 
 const Timeline = (props) => {

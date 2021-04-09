@@ -6,6 +6,7 @@ import ComplaintItem from 'components/officer-page/timeline/complaint-item'
 import MainItem from 'components/officer-page/timeline/main-item'
 import DocumentCard from 'components/officer-page/timeline/document-card'
 import SalaryChangeItem from 'components/officer-page/timeline/salary-change-item'
+import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -43,17 +44,29 @@ jest.mock('components/officer-page/timeline/salary-change-item', () => ({
   default: jest.fn(),
 }))
 
+const MockRankChangeItemComponent = () => {
+  return <div>Rank Change Item</div>
+}
+jest.mock('components/officer-page/timeline/rank-change-item', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
 beforeAll(() => {
   ComplaintItem.mockImplementation(MockComplaintItemComponent)
   MainItem.mockImplementation(MockMainItemComponent)
   DocumentCard.mockImplementation(MockDocumentCardComponent)
   SalaryChangeItem.mockImplementation(MockSalaryChangeItemComponent)
+  RankChangeItem.mockImplementation(MockRankChangeItemComponent)
 })
 
 beforeEach(() => {
   ComplaintItem.mockClear()
   MainItem.mockClear()
   DocumentCard.mockClear()
+  SalaryChangeItem.mockClear()
+  RankChangeItem.mockClear()
 })
 
 describe('Timeline component', () => {
@@ -357,6 +370,34 @@ describe('Timeline component', () => {
     expect(SalaryChangeItem.mock.calls[0][0]).toStrictEqual({
       kind: 'SALARY_CHANGE',
       annualSalary: '65k',
+      saveRecentItem: mockSaveRecentItem,
+      className: 'has-connected-line left-item',
+    })
+  })
+
+  it('renders timeline with rank change item', () => {
+    const timelineData = [
+      {
+        groupName: 'Jun 13, 2019',
+        isDateEvent: true,
+        items: [
+          {
+            kind: 'RANK_CHANGE',
+            rankDesc: 'senior police officer',
+          },
+        ],
+      },
+    ]
+
+    const mockSaveRecentItem = jest.fn()
+
+    render(
+      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+    )
+
+    expect(RankChangeItem.mock.calls[0][0]).toStrictEqual({
+      kind: 'RANK_CHANGE',
+      rankDesc: 'senior police officer',
       saveRecentItem: mockSaveRecentItem,
       className: 'has-connected-line left-item',
     })

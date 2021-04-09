@@ -10,6 +10,7 @@ import mapValues from 'lodash/mapValues'
 import capitalize from 'lodash/capitalize'
 import orderBy from 'lodash/orderBy'
 import groupBy from 'lodash/groupBy'
+import upperFirst from 'lodash/upperFirst'
 
 import {
   formatDate,
@@ -72,10 +73,18 @@ const salaryChangeTimelineItemFormatter = (salaryChange) => {
   return pick(salaryChange, attributes)
 }
 
+const rankChangeTimelineItemFormatter = (rankChange) => {
+  return {
+    kind: rankChange.kind,
+    rankDesc: upperFirst(rankChange.rankDesc),
+  }
+}
+
 const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.COMPLAINT]: complaintTimelineItemFormatter,
   [TIMELINE_KINDS.DOCUMENT]: documentTimelineItemFormatter,
   [TIMELINE_KINDS.SALARY_CHANGE]: salaryChangeTimelineItemFormatter,
+  [TIMELINE_KINDS.RANK_CHANGE]: rankChangeTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {
