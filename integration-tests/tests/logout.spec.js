@@ -2,7 +2,7 @@ describe('Logout', () => {
   it('should log out successfully', () => {
     cy.login()
 
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'POST',
         url: 'http://localhost:8000/api/token/revoke/',

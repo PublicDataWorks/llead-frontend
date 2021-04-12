@@ -1,4 +1,5 @@
 import 'cypress-wait-until'
+import escapeRegExp from 'lodash/escapeRegExp'
 
 Cypress.Commands.add('setReduxLocalStorage', (data) => {
   const reduxLocalStorage = JSON.parse(window.localStorage.getItem('redux'))
@@ -15,6 +16,20 @@ Cypress.Commands.add('login', () => {
   cy.setReduxLocalStorage({
     token: { access: accessToken },
   })
+})
+
+Cypress.Commands.add('interceptExact', (request, response) => {
+  const url = new RegExp(
+    `^${escapeRegExp(request.url)}${request.noQuery ? '' : '(\\?.*)?'}$`
+  )
+  delete request.noQuery
+  cy.intercept(
+    {
+      ...request,
+      url,
+    },
+    response
+  )
 })
 
 beforeEach(() => {

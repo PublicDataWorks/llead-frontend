@@ -11,6 +11,7 @@ import capitalize from 'lodash/capitalize'
 import orderBy from 'lodash/orderBy'
 import groupBy from 'lodash/groupBy'
 import upperFirst from 'lodash/upperFirst'
+import compact from 'lodash/compact'
 
 import {
   formatDate,
@@ -81,6 +82,8 @@ const rankChangeTimelineItemFormatter = (rankChange) => {
 }
 
 const TIMELINE_ITEMS_MAPPINGS = {
+  [TIMELINE_KINDS.JOINED]: baseTimelineItemFormatter,
+  [TIMELINE_KINDS.LEFT]: baseTimelineItemFormatter,
   [TIMELINE_KINDS.COMPLAINT]: complaintTimelineItemFormatter,
   [TIMELINE_KINDS.DOCUMENT]: documentTimelineItemFormatter,
   [TIMELINE_KINDS.SALARY_CHANGE]: salaryChangeTimelineItemFormatter,
@@ -88,11 +91,13 @@ const TIMELINE_ITEMS_MAPPINGS = {
 }
 
 const timelineItemsFormatter = (items) => {
-  const formattedItems = map(items, (item) =>
-    get(TIMELINE_ITEMS_MAPPINGS, item.kind, baseTimelineItemFormatter)(item)
-  )
+  const formattedItems = map(items, (item) => {
+    const formatter = get(TIMELINE_ITEMS_MAPPINGS, item.kind, null)
+    return formatter && formatter(item)
+  })
+
   return orderBy(
-    formattedItems,
+    compact(formattedItems),
     (item) => TIMELINE_KIND_ORDERS[item.kind],
     'asc'
   )

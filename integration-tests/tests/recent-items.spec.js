@@ -18,15 +18,45 @@ describe('FrontPage recent items', () => {
   beforeEach(() => {
     cy.login()
 
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
-        url: `http://localhost:8000/api/departments/9/documents/`,
+        url: 'http://localhost:8000/api/app-config/',
       },
-      department9DocumentsData
+      appConfigData
     )
 
-    cy.intercept(
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/analytics/summary/',
+      },
+      analyticSummaryData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/departments/',
+      },
+      departmentsData
+    )
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/officers/',
+      },
+      officersData
+    )
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/documents/',
+      },
+      documentsData
+    )
+
+    cy.interceptExact(
       {
         method: 'GET',
         url: `http://localhost:8000/api/departments/9/`,
@@ -34,7 +64,22 @@ describe('FrontPage recent items', () => {
       department9DetailsData
     )
 
-    cy.intercept(
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: `http://localhost:8000/api/departments/9/documents/`,
+      },
+      department9DocumentsData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: `http://localhost:8000/api/officers/1/`,
+      },
+      officer1DetailsData
+    )
+    cy.interceptExact(
       {
         method: 'GET',
         url: `http://localhost:8000/api/officers/1/documents/`,
@@ -42,56 +87,12 @@ describe('FrontPage recent items', () => {
       officer1DocumentsData
     )
 
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
         url: 'http://localhost:8000/api/officers/1/timeline/',
       },
       officerTimelineData
-    )
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: `http://localhost:8000/api/officers/1/`,
-      },
-      officer1DetailsData
-    )
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/app-config/',
-      },
-      appConfigData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/analytics/summary/',
-      },
-      analyticSummaryData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/departments/',
-      },
-      departmentsData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/officers/',
-      },
-      officersData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/documents/',
-      },
-      documentsData
     )
   })
 
@@ -374,7 +375,7 @@ describe('FrontPage recent items', () => {
   })
 
   it('fetches recent items data from api', () => {
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
         url: `http://localhost:8000/api/historical-data/recent-items/`,

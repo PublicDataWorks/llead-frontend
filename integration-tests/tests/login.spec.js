@@ -2,7 +2,7 @@ import { appConfigData } from '../data/common-data'
 
 describe('Login Page', () => {
   it('should redirect to FrontPage when loging in successfully', () => {
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'POST',
         url: 'http://localhost:8000/api/token/',
@@ -12,10 +12,10 @@ describe('Login Page', () => {
         refresh: 'refreshToken',
       }
     )
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
-        url: 'http://localhost:8000/api/app-config',
+        url: 'http://localhost:8000/api/app-config/',
       },
       appConfigData
     )
@@ -31,7 +31,7 @@ describe('Login Page', () => {
   })
 
   it('should redirect to previous page when loging in successfully', () => {
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'POST',
         url: 'http://localhost:8000/api/token/',
@@ -41,10 +41,10 @@ describe('Login Page', () => {
         refresh: 'refreshToken',
       }
     )
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
-        url: 'http://localhost:8000/api/app-config',
+        url: 'http://localhost:8000/api/app-config/',
       },
       appConfigData
     )
@@ -62,7 +62,7 @@ describe('Login Page', () => {
   })
 
   it('should show error when loging in unsuccessfully', () => {
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'POST',
         url: 'http://localhost:8000/api/token/',

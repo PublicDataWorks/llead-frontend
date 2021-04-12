@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import noop from 'lodash/noop'
+import get from 'lodash/get'
 
 import './timeline.scss'
 import ComplaintItem from './complaint-item'
@@ -33,9 +34,12 @@ const Timeline = (props) => {
   const { timeline, saveRecentItem } = props
 
   const renderTimelineItem = (item, index, { group, leftGroup }) => {
-    const { component: Component, className } = TIMELINE_COMPONENTS_MAPPING[
-      item.kind
-    ]
+    const { component: Component, className } = get(
+      TIMELINE_COMPONENTS_MAPPING,
+      item.kind,
+      {}
+    )
+
     return (
       Component && (
         <div

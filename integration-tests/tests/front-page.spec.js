@@ -32,35 +32,35 @@ describe('FrontPage', () => {
   describe('render successfully', () => {
     beforeEach(() => {
       cy.login()
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/analytics/summary/',
         },
         analyticSummaryData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/',
         },
         departmentsData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/officers/',
         },
         officersData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/documents/',

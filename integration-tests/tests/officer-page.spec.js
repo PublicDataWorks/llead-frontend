@@ -15,35 +15,35 @@ describe('Officer Page', () => {
 
   describe('render successfully', () => {
     beforeEach(() => {
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
       )
-      cy.intercept(
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/officers/1/',
+          noQuery: true,
+        },
+        officerDetailsData
+      )
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/officers/1/documents/',
         },
         officerDocumentsData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/officers/1/timeline/',
         },
         officerTimelineData
       )
-      cy.intercept(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/officers/1/',
-        },
-        officerDetailsData
-      )
-
       cy.login()
     })
 
