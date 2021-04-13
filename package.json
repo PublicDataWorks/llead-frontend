@@ -42,7 +42,8 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "eslint .",
-    "itest": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'yarn cypress:run'",
+    "itest": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'yarn cypress:run --browser chrome --headless'",
+    "itest:debug": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'DEBUG=cypress:server:browsers:electron* yarn cypress:run'",
     "itest:open": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'yarn cypress:open'"
   },
   "eslintConfig": {
