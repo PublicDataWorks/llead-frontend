@@ -20,3 +20,4 @@ Builds the app for production to the `dist` folder.
 ## Development Guides
 
 - [CSS development guide](docs/css-development-guide.md)
+- [Circleci](docs/circleci.md)
