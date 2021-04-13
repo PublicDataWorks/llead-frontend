@@ -315,6 +315,7 @@ describe('#timelineSelector', () => {
     it('returns timeline data', () => {
       const timelineData = [
         {
+          id: '123',
           kind: 'COMPLAINT',
           date: '2019-06-13',
           year: 2019,
@@ -353,6 +354,7 @@ describe('#timelineSelector', () => {
           year: 2019,
         },
         {
+          id: '124',
           kind: 'COMPLAINT',
           date: '2019-03-10',
           year: 2019,
@@ -369,6 +371,7 @@ describe('#timelineSelector', () => {
           date: '2019-06-13',
         },
         {
+          id: '125',
           kind: 'COMPLAINT',
           date: '2018-10-20',
           year: 2018,
@@ -379,6 +382,7 @@ describe('#timelineSelector', () => {
           trackingNumber: '20-10',
         },
         {
+          id: '126',
           kind: 'COMPLAINT',
           date: null,
           year: null,
@@ -389,6 +393,7 @@ describe('#timelineSelector', () => {
           trackingNumber: '123-456',
         },
         {
+          id: '127',
           kind: 'COMPLAINT',
           date: null,
           year: 2018,
@@ -399,6 +404,7 @@ describe('#timelineSelector', () => {
           trackingNumber: '2018',
         },
         {
+          id: '128',
           kind: 'COMPLAINT',
           date: '2019-03-10',
           year: 2019,
@@ -471,6 +477,7 @@ describe('#timelineSelector', () => {
               annualSalary: '65k',
             },
             {
+              id: '123',
               kind: 'COMPLAINT',
               ruleViolation: 'Officer rule violation 2019-06-13',
               paragraphViolation: 'Officer paragraph violation 2019-06-13',
@@ -516,6 +523,7 @@ describe('#timelineSelector', () => {
           isDateEvent: true,
           items: [
             {
+              id: '124',
               kind: 'COMPLAINT',
               trackingNumber: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
@@ -524,6 +532,7 @@ describe('#timelineSelector', () => {
               action: 'Officer action 2019-03-10',
             },
             {
+              id: '128',
               kind: 'COMPLAINT',
               trackingNumber: '10-03-1',
               ruleViolation: 'Officer rule violation 2019-03-10 no1',
@@ -572,6 +581,7 @@ describe('#timelineSelector', () => {
               kind: 'JOINED',
             },
             {
+              id: '127',
               kind: 'COMPLAINT',
               trackingNumber: '2018',
               ruleViolation: 'Officer rule violation year 2018',
@@ -589,6 +599,7 @@ describe('#timelineSelector', () => {
               kind: 'LEFT',
             },
             {
+              id: '125',
               kind: 'COMPLAINT',
               trackingNumber: '20-10',
               ruleViolation: 'Officer rule violation 2018-10-20',
@@ -603,6 +614,7 @@ describe('#timelineSelector', () => {
           isDateEvent: false,
           items: [
             {
+              id: '126',
               kind: 'COMPLAINT',
               trackingNumber: '123-456',
               ruleViolation: 'Officer rule violation of unknowed time',

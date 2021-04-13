@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import './complaint-item.scss'
+import { complaintItemUrl } from 'utils/urls'
+import { ANIMATION_DURATION } from 'constants/common'
 
 const ComplaintItem = (props) => {
-  const [expanded, setExpanded] = useState(false)
-
   const {
     className,
     ruleViolation,
@@ -14,7 +15,44 @@ const ComplaintItem = (props) => {
     disposition,
     action,
     trackingNumber,
+    highlight,
+    officerId,
+    id,
   } = props
+
+  const [expanded, setExpanded] = useState(false)
+  const [highlighting, setHighlighting] = useState(highlight)
+  const [copyTimeoutId, setCopyTimeoutId] = useState()
+  const expandItemRef = useRef()
+
+  let highlightTimeoutId
+
+  useEffect(() => {
+    setHighlighting(highlight)
+    highlightTimeoutId = setTimeout(
+      () => setHighlighting(false),
+      ANIMATION_DURATION
+    )
+
+    if (highlight && expandItemRef.current) {
+      expandItemRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+      setExpanded(true)
+    }
+
+    return () => {
+      clearTimeout(highlightTimeoutId)
+      clearTimeout(copyTimeoutId)
+    }
+  }, [highlight])
+
+  const handleOnCopied = () => {
+    setCopyTimeoutId(
+      setTimeout(() => setCopyTimeoutId(null), ANIMATION_DURATION)
+    )
+  }
 
   const complaintData = [
     {
@@ -40,7 +78,11 @@ const ComplaintItem = (props) => {
   ]
 
   return (
-    <div className={cx('timeline-complaint-item', className)}>
+    <div
+      className={cx('timeline-complaint-item', className, {
+        'timeline-complaint-highlight': highlighting,
+      })}
+    >
       <div
         className='complaint-item-header'
         onClick={() => setExpanded(!expanded)}
@@ -51,6 +93,7 @@ const ComplaintItem = (props) => {
           className={cx('complaint-item-expand-icon', {
             'expanded-icon': expanded,
           })}
+          ref={expandItemRef}
         />
       </div>
 
@@ -70,7 +113,20 @@ const ComplaintItem = (props) => {
               )
           )}
 
-          <div className='complaint-item-copy-link'>Copy link</div>
+          <div
+            className={cx('complaint-item-copy-link', {
+              'copy-link-active': copyTimeoutId,
+            })}
+          >
+            <CopyToClipboard
+              text={complaintItemUrl(officerId, id)}
+              onCopy={handleOnCopied}
+            >
+              <div>
+                {copyTimeoutId ? 'Link copied to your clipboard' : 'Copy link'}
+              </div>
+            </CopyToClipboard>
+          </div>
         </div>
       )}
     </div>
@@ -79,11 +135,14 @@ const ComplaintItem = (props) => {
 
 ComplaintItem.propTypes = {
   className: PropTypes.string,
+  id: PropTypes.number,
   ruleViolation: PropTypes.string,
   paragraphViolation: PropTypes.string,
   disposition: PropTypes.string,
   action: PropTypes.string,
   trackingNumber: PropTypes.string,
+  highlight: PropTypes.bool,
+  officerId: PropTypes.string,
 }
 
 ComplaintItem.defaultProps = {}

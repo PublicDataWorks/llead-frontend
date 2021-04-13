@@ -45,7 +45,7 @@ const officerDocumentFormatter = (document) => {
 const baseTimelineItemFormatter = (item) => pick(item, ['kind'])
 
 const complaintTimelineItemFormatter = (item) => {
-  const attributes = ['kind', 'trackingNumber']
+  const attributes = ['kind', 'trackingNumber', 'id']
 
   const capitalizeAttributes = [
     'ruleViolation',

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import noop from 'lodash/noop'
+import qs from 'qs'
+import { useLocation, useParams } from 'react-router-dom'
 import get from 'lodash/get'
+import noop from 'lodash/noop'
 
 import './timeline.scss'
 import ComplaintItem from './complaint-item'
@@ -32,6 +34,18 @@ const TIMELINE_COMPONENTS_MAPPING = {
 
 const Timeline = (props) => {
   const { timeline, saveRecentItem } = props
+  const [highlightItemId, sethighlightItemId] = useState(null)
+
+  const location = useLocation()
+  const { id: officerId } = useParams()
+
+  useEffect(() => {
+    const search = qs.parse(location.search, { ignoreQueryPrefix: true })
+    const { complaint_id: complaintId } = search
+    if (complaintId) {
+      sethighlightItemId(complaintId)
+    }
+  }, [])
 
   const renderTimelineItem = (item, index, { group, leftGroup }) => {
     const { component: Component, className } = get(
@@ -62,6 +76,8 @@ const Timeline = (props) => {
               'has-connected-line': group.isDateEvent,
               'left-item': leftGroup,
             })}
+            highlight={!!item.id && item.id == highlightItemId}
+            officerId={officerId}
           />
         </div>
       )

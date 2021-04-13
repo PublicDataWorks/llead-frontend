@@ -1,7 +1,10 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
+import sinon from 'sinon'
 
 import ComplaintItem from 'components/officer-page/timeline/complaint-item.js'
+import { complaintItemUrl } from 'utils/urls'
+import { ANIMATION_DURATION } from 'constants/common'
 
 describe('ComplaintItem component', () => {
   it('should render complaint component', () => {
@@ -113,5 +116,93 @@ describe('ComplaintItem component', () => {
       'complaint-item-info-row-value'
     )[2]
     expect(complaintTrackingNumber.textContent).toEqual('123-456')
+  })
+
+  it('highlights complaint if it is the hightlighted item', () => {
+    const clock = sinon.useFakeTimers()
+    const mockScrollIntoView = jest.fn()
+    window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView
+
+    const complaintData = {
+      ruleViolation: 'Rule Vialation',
+      paragraphViolation: 'Paragraph Violation',
+      disposition: 'Disposition',
+      action: 'Action',
+      trackingNumber: '123-456',
+      highlight: true,
+    }
+
+    const container = render(<ComplaintItem {...complaintData} />)
+
+    const { baseElement } = container
+
+    const timelineComplaintItem = baseElement.getElementsByClassName(
+      'timeline-complaint-item'
+    )[0]
+
+    expect(timelineComplaintItem.classList).toContain(
+      'timeline-complaint-highlight'
+    )
+    expect(mockScrollIntoView).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'center',
+    })
+
+    act(() => {
+      clock.tick(ANIMATION_DURATION + 100)
+    })
+
+    expect(timelineComplaintItem.classList).not.toContain(
+      'timeline-complaint-highlight'
+    )
+
+    window.HTMLElement.prototype.scrollIntoView = undefined
+  })
+
+  it('shows copy description when click on copy guide', () => {
+    const clock = sinon.useFakeTimers()
+
+    window.HTMLElement.prototype.scrollIntoView = jest.fn()
+    const mockPropmt = jest.fn()
+    window.prompt = mockPropmt
+
+    const complaintId = 1
+    const officerId = '101'
+
+    const complaintData = {
+      id: complaintId,
+      officerId,
+      ruleViolation: 'Rule Vialation',
+      paragraphViolation: 'Paragraph Violation',
+      disposition: 'Disposition',
+      action: 'Action',
+      trackingNumber: '123-456',
+      highlight: true,
+    }
+
+    const container = render(<ComplaintItem {...complaintData} />)
+
+    const { getByText, queryByText } = container
+
+    const copyItem = getByText('Copy link')
+
+    expect(queryByText('Link copied to your clipboard')).toBeFalsy()
+
+    fireEvent.click(copyItem)
+
+    expect(queryByText('Link copied to your clipboard')).toBeTruthy()
+
+    act(() => {
+      clock.tick(ANIMATION_DURATION + 100)
+    })
+
+    expect(queryByText('Link copied to your clipboard')).toBeFalsy()
+
+    const expectedClipboard = complaintItemUrl(officerId, complaintId)
+
+    expect(mockPropmt).toHaveBeenCalledWith(
+      'Copy to clipboard: Ctrl+C, Enter',
+      expectedClipboard
+    )
   })
 })

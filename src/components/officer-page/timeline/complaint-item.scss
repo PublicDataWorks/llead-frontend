@@ -9,6 +9,7 @@
   .complaint-item-header {
     @include small-text;
     background-color: $white-color;
+    transition: all 1s ease;
     border-radius: 8px;
     padding: $v-small-margin $h-card-margin 0 $h-card-margin;
 
@@ -63,6 +64,10 @@
         calc(100% - 16px);
       text-align: right;
       line-height: 48px;
+
+      &.copy-link-active {
+        background-image: url('assets/icons/check.svg');
+      }
     }
   }
 
@@ -74,6 +79,20 @@
     .complaint-item-content {
       .complaint-item-info-row {
         padding-left: $h-card-margin + $icon-width;
+      }
+    }
+  }
+
+  &.timeline-complaint-highlight {
+    .complaint-item-header {
+      background-color: $half-and-half-color;
+      transition: all 1s ease;
+    }
+
+    .complaint-item-content {
+      .complaint-item-copy-link {
+        background-color: $half-and-half-color;
+        transition: all 1s ease;
       }
     }
   }

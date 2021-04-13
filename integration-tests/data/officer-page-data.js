@@ -70,6 +70,7 @@ export const officerDocumentsData = [
 
 export const officerTimelineData = [
   {
+    id: 101,
     kind: 'COMPLAINT',
     date: '2019-03-10',
     year: 2019,
@@ -80,6 +81,7 @@ export const officerTimelineData = [
     tracking_number: '10-03',
   },
   {
+    id: 102,
     kind: 'COMPLAINT',
     date: null,
     year: null,
@@ -90,6 +92,7 @@ export const officerTimelineData = [
     tracking_number: '123-456',
   },
   {
+    id: 103,
     kind: 'COMPLAINT',
     date: null,
     year: 2020,
@@ -100,6 +103,7 @@ export const officerTimelineData = [
     tracking_number: '2020',
   },
   {
+    id: 104,
     kind: 'COMPLAINT',
     date: '2019-03-10',
     year: 2019,

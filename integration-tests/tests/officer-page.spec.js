@@ -307,6 +307,46 @@ describe('Officer Page', () => {
           .find('.complaint-item-info-row')
           .eq(4)
           .contains('2020')
+
+        cy.window().then((win) => {
+          cy.stub(win, 'prompt').returns(win.prompt).as('copyToClipboardPrompt')
+        })
+        cy.get('@complaintItem').contains('Copy link').click()
+        cy.get('@copyToClipboardPrompt').should('be.called')
+        cy.get('@copyToClipboardPrompt').should((prompt) => {
+          expect(prompt.args[0][1]).to.equal(
+            'http://localhost:8080/officers/1/?complaint_id=103'
+          )
+        })
+      })
+
+      it('hightlights and scrolls to the complaint belong to the url', () => {
+        cy.visit('/officers/1/?complaint_id=101')
+
+        cy.get('.timeline-complaint-highlight')
+          .find('.complaint-item-content')
+          .should('be.visible')
+
+        cy.get('.timeline-complaint-highlight')
+          .find('.complaint-item-info-row-value')
+          .eq(0)
+          .should('have.text', 'Officer rule violation 2019-03-10')
+        cy.get('.timeline-complaint-highlight')
+          .find('.complaint-item-info-row-value')
+          .eq(1)
+          .should('have.text', 'Officer paragraph violation 2019-03-10')
+        cy.get('.timeline-complaint-highlight')
+          .find('.complaint-item-info-row-value')
+          .eq(2)
+          .should('have.text', 'Officer dispostion 2019-03-10')
+        cy.get('.timeline-complaint-highlight')
+          .find('.complaint-item-info-row-value')
+          .eq(3)
+          .should('have.text', 'Officer action 2019-03-10')
+        cy.get('.timeline-complaint-highlight')
+          .find('.complaint-item-info-row-value')
+          .eq(4)
+          .should('have.text', '10-03')
       })
     })
   })

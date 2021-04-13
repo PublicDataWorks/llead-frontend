@@ -1,4 +1,5 @@
 import React from 'react'
+import qs from 'qs'
 import { render } from '@testing-library/react'
 
 import Timeline from 'components/officer-page/timeline'
@@ -7,6 +8,7 @@ import MainItem from 'components/officer-page/timeline/main-item'
 import DocumentCard from 'components/officer-page/timeline/document-card'
 import SalaryChangeItem from 'components/officer-page/timeline/salary-change-item'
 import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
+import { MemoryRouter, Route } from 'react-router'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -122,7 +124,14 @@ describe('Timeline component', () => {
     const mockSaveRecentItem = jest.fn()
 
     const container = render(
-      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            saveRecentItem={mockSaveRecentItem}
+          />
+        </Route>
+      </MemoryRouter>
     )
 
     const { baseElement } = container
@@ -153,6 +162,8 @@ describe('Timeline component', () => {
       kind: 'LEFT',
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
     })
 
     const timelineSecondGroup = timelineGroups[1]
@@ -179,6 +190,8 @@ describe('Timeline component', () => {
       action: 'Officer action 2019-03-10',
       className: 'has-connected-line',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
     })
     const secondGroupItem1 = secondGroupItems[1]
     const secondGroupItem1Line = secondGroupItem1.getElementsByClassName('line')
@@ -192,6 +205,8 @@ describe('Timeline component', () => {
       action: 'Officer action 2019-03-10 no1',
       className: 'has-connected-line',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
     })
 
     const timelineThirdGroup = timelineGroups[2]
@@ -216,41 +231,109 @@ describe('Timeline component', () => {
       action: 'Officer action year 2018',
       className: 'left-item',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
     })
   })
 
-  it('renders timeline with complaint item', () => {
-    const timelineData = [
-      {
-        groupName: 'Mar 10, 2019',
-        isDateEvent: true,
-        items: [
-          {
-            kind: 'COMPLAINT',
-            trackingNumber: '10-03',
-            ruleViolation: 'Officer rule violation 2019-03-10',
-            paragraphViolation: 'Officer paragraph violation 2019-03-10',
-            disposition: 'Officer dispostion 2019-03-10',
-            action: 'Officer action 2019-03-10',
-          },
-        ],
-      },
-    ]
-    const mockSaveRecentItem = jest.fn()
+  describe('complaint item', () => {
+    it('renders timeline with not highlight complaint item', () => {
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 123,
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+          ],
+        },
+      ]
+      const mockSaveRecentItem = jest.fn()
 
-    render(
-      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
-    )
+      render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+            />
+          </Route>
+        </MemoryRouter>
+      )
 
-    expect(ComplaintItem.mock.calls[0][0]).toStrictEqual({
-      kind: 'COMPLAINT',
-      trackingNumber: '10-03',
-      ruleViolation: 'Officer rule violation 2019-03-10',
-      paragraphViolation: 'Officer paragraph violation 2019-03-10',
-      disposition: 'Officer dispostion 2019-03-10',
-      action: 'Officer action 2019-03-10',
-      className: 'has-connected-line left-item',
-      saveRecentItem: mockSaveRecentItem,
+      expect(ComplaintItem.mock.calls[0][0]).toStrictEqual({
+        id: 123,
+        kind: 'COMPLAINT',
+        trackingNumber: '10-03',
+        ruleViolation: 'Officer rule violation 2019-03-10',
+        paragraphViolation: 'Officer paragraph violation 2019-03-10',
+        disposition: 'Officer dispostion 2019-03-10',
+        action: 'Officer action 2019-03-10',
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: false,
+        officerId: '1',
+      })
+    })
+
+    it('renders timeline with highlight complaint item', () => {
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 123,
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+          ],
+        },
+      ]
+      const mockSaveRecentItem = jest.fn()
+
+      const query = qs.stringify(
+        { complaint_id: 123 },
+        { addQueryPrefix: true }
+      )
+
+      render(
+        <MemoryRouter
+          initialEntries={[{ pathname: 'officers/1', search: query }]}
+        >
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      expect(ComplaintItem.mock.calls[1][0]).toStrictEqual({
+        id: 123,
+        kind: 'COMPLAINT',
+        trackingNumber: '10-03',
+        ruleViolation: 'Officer rule violation 2019-03-10',
+        paragraphViolation: 'Officer paragraph violation 2019-03-10',
+        disposition: 'Officer dispostion 2019-03-10',
+        action: 'Officer action 2019-03-10',
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: true,
+        officerId: '1',
+      })
     })
   })
 
@@ -269,13 +352,22 @@ describe('Timeline component', () => {
     const mockSaveRecentItem = jest.fn()
 
     render(
-      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            saveRecentItem={mockSaveRecentItem}
+          />
+        </Route>
+      </MemoryRouter>
     )
 
     expect(MainItem.mock.calls[0][0]).toStrictEqual({
       kind: 'LEFT',
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
     })
   })
 
@@ -294,13 +386,22 @@ describe('Timeline component', () => {
     const mockSaveRecentItem = jest.fn()
 
     render(
-      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            saveRecentItem={mockSaveRecentItem}
+          />
+        </Route>
+      </MemoryRouter>
     )
 
     expect(MainItem.mock.calls[0][0]).toStrictEqual({
       kind: 'JOINED',
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
     })
   })
 
@@ -330,7 +431,14 @@ describe('Timeline component', () => {
     const mockSaveRecentItem = jest.fn()
 
     render(
-      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            saveRecentItem={mockSaveRecentItem}
+          />
+        </Route>
+      </MemoryRouter>
     )
 
     expect(DocumentCard.mock.calls[0][0]).toStrictEqual({
@@ -344,6 +452,8 @@ describe('Timeline component', () => {
       recentData: documentData,
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
     })
   })
 
@@ -364,7 +474,14 @@ describe('Timeline component', () => {
     const mockSaveRecentItem = jest.fn()
 
     render(
-      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            saveRecentItem={mockSaveRecentItem}
+          />
+        </Route>
+      </MemoryRouter>
     )
 
     expect(SalaryChangeItem.mock.calls[0][0]).toStrictEqual({
@@ -372,6 +489,8 @@ describe('Timeline component', () => {
       annualSalary: '65k',
       saveRecentItem: mockSaveRecentItem,
       className: 'has-connected-line left-item',
+      highlight: false,
+      officerId: '1',
     })
   })
 
@@ -392,7 +511,14 @@ describe('Timeline component', () => {
     const mockSaveRecentItem = jest.fn()
 
     render(
-      <Timeline timeline={timelineData} saveRecentItem={mockSaveRecentItem} />
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            saveRecentItem={mockSaveRecentItem}
+          />
+        </Route>
+      </MemoryRouter>
     )
 
     expect(RankChangeItem.mock.calls[0][0]).toStrictEqual({
@@ -400,6 +526,8 @@ describe('Timeline component', () => {
       rankDesc: 'senior police officer',
       saveRecentItem: mockSaveRecentItem,
       className: 'has-connected-line left-item',
+      highlight: false,
+      officerId: '1',
     })
   })
 })
