@@ -4,6 +4,7 @@ import {
   fetchOfficer,
   fetchOfficerDocuments,
   fetchOfficerTimeline,
+  changeFilterGroupKey,
 } from 'actions/officer-page'
 import * as actionTypes from 'action-types/officer-page'
 import * as ServiceApi from 'utils/api'
@@ -66,5 +67,16 @@ describe('#fetchOfficerTimeline', () => {
       `${OFFICERS_API_URL}1/timeline/`
     )
     expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#changeFilterGroupKey', () => {
+  it('returns the right action', () => {
+    const filterGroupKey = 'group keuy'
+
+    expect(changeFilterGroupKey(filterGroupKey)).toEqual({
+      type: actionTypes.CHANGE_FILTER_GROUP_KEY,
+      payload: filterGroupKey,
+    })
   })
 })

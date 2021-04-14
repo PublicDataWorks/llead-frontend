@@ -17,7 +17,7 @@ import { departmentPath } from 'utils/paths'
 import { stringifyTotalItems } from 'utils/formatter'
 import { formatNumber } from 'utils/formatter'
 import { RECENT_ITEM_TYPES } from 'constants/common'
-import Timeline from './timeline'
+import TimelineContainer from 'containers/officer-page/timeline'
 
 const Officer = (props) => {
   const {
@@ -25,11 +25,10 @@ const Officer = (props) => {
     documents,
     fetchOfficer,
     fetchOfficerDocuments,
-    fetchOfficerTimeline,
     isRequesting,
     saveRecentItem,
     recentData,
-    timeline,
+    hasTimeline,
   } = props
   const { id } = useParams()
 
@@ -54,7 +53,6 @@ const Officer = (props) => {
   useEffect(() => {
     fetchOfficer(officerId)
     fetchOfficerDocuments(officerId)
-    fetchOfficerTimeline(officerId)
   }, [officerId])
 
   useEffect(() => {
@@ -87,12 +85,14 @@ const Officer = (props) => {
     }
   }
 
-  const hasTimeline = !isEmpty(timeline)
-
   return (
     !isRequesting &&
     !isEmpty(officer) && (
-      <div className={cx('officer-page', { 'empty-timeline': !hasTimeline })}>
+      <div
+        className={cx('officer-page', {
+          'empty-timeline': !hasTimeline && documentsCount > 0,
+        })}
+      >
         {!isEmpty(dataPeriod) && (
           <div className='officer-period'>
             Data for this officer is limited to the years&nbsp;
@@ -124,9 +124,7 @@ const Officer = (props) => {
           {displaySummaryInfo()}
         </div>
 
-        {hasTimeline && (
-          <Timeline timeline={timeline} saveRecentItem={saveRecentItem} />
-        )}
+        <TimelineContainer officerId={officerId} />
 
         {documentsCount > 0 && (
           <div className='officer-documents'>
@@ -153,22 +151,20 @@ Officer.propTypes = {
   officer: PropTypes.object,
   recentData: PropTypes.object,
   documents: PropTypes.array,
-  timeline: PropTypes.array,
   fetchOfficer: PropTypes.func,
   fetchOfficerDocuments: PropTypes.func,
-  fetchOfficerTimeline: PropTypes.func,
   saveRecentItem: PropTypes.func,
   isRequesting: PropTypes.bool,
+  hasTimeline: PropTypes.bool,
 }
 
 Officer.defaultProps = {
   officer: {},
   recentData: {},
   documents: [],
-  timeline: [],
+  timelineFilterGroups: {},
   fetchOfficer: noop,
   fetchOfficerDocuments: noop,
-  fetchOfficerTimeline: noop,
   saveRecentItem: noop,
   isRequesting: false,
 }

@@ -7,12 +7,12 @@ import MockStore from 'redux-mock-store'
 
 import Officer from 'components/officer-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
-import Timeline from 'components/officer-page/timeline'
+import TimelineContainer from 'containers/officer-page/timeline'
 
 const MockTimelineComponent = () => {
-  return <div>Timeline</div>
+  return <div>TimelineContainer</div>
 }
-jest.mock('components/officer-page/timeline', () => ({
+jest.mock('containers/officer-page/timeline', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
@@ -27,12 +27,12 @@ jest.mock('react-router-dom', () => ({
 }))
 
 beforeAll(() => {
-  Timeline.mockImplementation(MockTimelineComponent)
+  TimelineContainer.mockImplementation(MockTimelineComponent)
 })
 
 beforeEach(() => {
   mockHistoryPush.mockClear()
-  Timeline.mockClear()
+  TimelineContainer.mockClear()
 })
 
 describe('Officer component', () => {
@@ -428,24 +428,8 @@ describe('Officer component', () => {
         baseElement.getElementsByClassName('officer-page')[0].classList
       ).not.toContain('empty-timeline')
 
-      expect(Timeline.mock.calls[0][0]).toStrictEqual({
-        timeline: [
-          {
-            groupName: 'Mar 10, 2019',
-            isDateEvent: true,
-            items: [
-              {
-                kind: 'COMPLAINT',
-                trackingNumber: '10-03',
-                ruleViolation: 'Officer rule violation 2019-03-10',
-                paragraphViolation: 'Officer paragraph violation 2019-03-10',
-                disposition: 'Officer dispostion 2019-03-10',
-                action: 'Officer action 2019-03-10',
-              },
-            ],
-          },
-        ],
-        saveRecentItem: mockSaveRecentItem,
+      expect(TimelineContainer.mock.calls[0][0]).toStrictEqual({
+        officerId: 1,
       })
     })
 
@@ -453,6 +437,7 @@ describe('Officer component', () => {
       const officerData = {
         officer: {
           id: 1,
+          documentsCount: 1,
         },
       }
 
@@ -467,12 +452,9 @@ describe('Officer component', () => {
       )
 
       const { baseElement } = container
-
       expect(
         baseElement.getElementsByClassName('officer-page')[0].classList
       ).toContain('empty-timeline')
-
-      expect(Timeline).not.toHaveBeenCalled()
     })
   })
 })

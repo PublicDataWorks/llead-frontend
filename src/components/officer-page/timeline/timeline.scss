@@ -10,12 +10,60 @@ $first-connection-line-height: 156px;
   margin: auto;
 
   .timeline-header {
-    margin: $v-header-margin $h-side-frame $v-small-margin $h-side-frame;
+    margin: $v-header-margin 0 $v-small-margin 0;
+    position: relative;
 
     .timeline-header-text {
       @include h1;
       color: $boulder-color;
       text-align: center;
+    }
+
+    .timeline-header-actions-container {
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: translateY(-25%);
+      z-index: 10;
+
+      .timeline-header-actions-btn {
+        width: 48px;
+        height: 48px;
+        border: 2px solid $alto-color;
+        border-radius: 8px;
+        background: url('assets/icons/filter.svg') no-repeat center;
+        cursor: pointer;
+      }
+
+      .timeline-header-actions {
+        position: absolute;
+        right: 0;
+        top: 32px;
+        width: 288px;
+        box-sizing: border-box;
+        background-color: $white-color;
+        border-radius: 8px;
+        filter: drop-shadow(0px 2px 2px $black-15-color);
+
+        .show-event-details {
+          margin: $v-margin $h-card-margin $v-mid-margin $h-card-margin;
+          padding: 14px 16px 13px 15px;
+          box-sizing: border-box;
+          border: 1px solid $alto-color;
+          border-radius: 8px;
+          display: inline-block;
+        }
+
+        .filters-panel {
+          padding: $v-mid-margin $h-card-margin $v-margin $h-card-margin;
+          background-color: $wild-sand-color;
+          border-radius: 0 0 8px 8px;
+
+          .filters-panel-title {
+            margin-bottom: 2 * $v-small-margin;
+          }
+        }
+      }
     }
   }
 
@@ -117,6 +165,20 @@ $first-connection-line-height: 156px;
 
 @media only screen and (min-width: $mobile-breakpoint) {
   .officer-timeline {
+    .timeline-header {
+      .timeline-header-actions-container {
+        .timeline-header-actions-btn {
+          .timeline-header-actions {
+            .show-event-details {
+              border: none;
+              margin: 13px $v-margin 14px $v-margin;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+
     .timeline-group {
       width: calc(50% + 24px);
       float: right;

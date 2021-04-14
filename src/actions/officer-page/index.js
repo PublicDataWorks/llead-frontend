@@ -1,6 +1,7 @@
 import * as actionTypes from 'action-types/officer-page'
 import { get } from 'utils/api'
 import { OFFICERS_API_URL } from 'constants/api'
+import { createAction } from 'redux-actions'
 
 export const fetchOfficer = (id) =>
   get(
@@ -31,3 +32,7 @@ export const fetchOfficerTimeline = (id) =>
     ],
     `${OFFICERS_API_URL}${id}/timeline/`
   )()
+
+export const changeFilterGroupKey = createAction(
+  actionTypes.CHANGE_FILTER_GROUP_KEY
+)

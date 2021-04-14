@@ -1,6 +1,7 @@
 import React from 'react'
 import qs from 'qs'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
+import sinon from 'sinon'
 
 import Timeline from 'components/officer-page/timeline'
 import ComplaintItem from 'components/officer-page/timeline/complaint-item'
@@ -8,12 +9,23 @@ import MainItem from 'components/officer-page/timeline/main-item'
 import DocumentCard from 'components/officer-page/timeline/document-card'
 import SalaryChangeItem from 'components/officer-page/timeline/salary-change-item'
 import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
+import TimelineFilters from 'components/officer-page/timeline/filters'
+import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
 }
 jest.mock('components/officer-page/timeline/complaint-item', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockFiltersComponent = () => {
+  return <div>Filters Item</div>
+}
+jest.mock('components/officer-page/timeline/filters', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
@@ -61,6 +73,7 @@ beforeAll(() => {
   DocumentCard.mockImplementation(MockDocumentCardComponent)
   SalaryChangeItem.mockImplementation(MockSalaryChangeItemComponent)
   RankChangeItem.mockImplementation(MockRankChangeItemComponent)
+  TimelineFilters.mockImplementation(MockFiltersComponent)
 })
 
 beforeEach(() => {
@@ -69,6 +82,7 @@ beforeEach(() => {
   DocumentCard.mockClear()
   SalaryChangeItem.mockClear()
   RankChangeItem.mockClear()
+  TimelineFilters.mockClear()
 })
 
 describe('Timeline component', () => {
@@ -233,6 +247,121 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+    })
+  })
+
+  it('renders nothing if timeline is empty', () => {
+    const container = render(
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline timeline={[]} />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { baseElement } = container
+
+    expect(baseElement.textContent).toEqual('')
+  })
+
+  describe('Timeline filters', () => {
+    it('renders timeline filter on BrowserView', () => {
+      const timelineData = [
+        {
+          groupName: 'Apr 1, 2020',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'LEFT',
+            },
+          ],
+        },
+      ]
+
+      const mockSaveRecentItem = jest.fn()
+      const mockChangeFilterGroupKey = jest.fn()
+
+      const container = render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+              timelineFilterGroups={[]}
+              changeFilterGroupKey={mockChangeFilterGroupKey}
+              filterGroupKey={''}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { baseElement, queryByText } = container
+
+      const timelineHeaderActionsButton = baseElement.getElementsByClassName(
+        'timeline-header-actions-btn'
+      )
+      fireEvent.click(timelineHeaderActionsButton[0])
+
+      expect(queryByText('Show event details')).toBeTruthy()
+      expect(queryByText('Filter by event type')).toBeFalsy()
+      expect(TimelineFilters.mock.calls[0][0]).toStrictEqual({
+        className: 'center-items',
+        timelineFilterGroups: [],
+        changeFilterGroupKey: mockChangeFilterGroupKey,
+        filterGroupKey: '',
+      })
+    })
+    it('renders timeline filter on MobileView', () => {
+      // eslint-disable-next-line react/prop-types
+      const MobileView = ({ children }) => {
+        return <div>{children}</div>
+      }
+      sinon.stub(reactDeviceDetect, 'MobileView').get(() => MobileView)
+      sinon.stub(reactDeviceDetect, 'BrowserView').get(() => () => null)
+
+      const timelineData = [
+        {
+          groupName: 'Apr 1, 2020',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'LEFT',
+            },
+          ],
+        },
+      ]
+
+      const mockSaveRecentItem = jest.fn()
+      const mockChangeFilterGroupKey = jest.fn()
+
+      const container = render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+              timelineFilterGroups={[]}
+              changeFilterGroupKey={mockChangeFilterGroupKey}
+              filterGroupKey={''}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { baseElement, queryByText } = container
+
+      const timelineHeaderActionsButton = baseElement.getElementsByClassName(
+        'timeline-header-actions-btn'
+      )
+      fireEvent.click(timelineHeaderActionsButton[0])
+
+      expect(queryByText('Show event details')).toBeTruthy()
+      expect(queryByText('Filter by event type')).toBeTruthy()
+      expect(TimelineFilters.mock.calls[0][0]).toStrictEqual({
+        timelineFilterGroups: [],
+        changeFilterGroupKey: mockChangeFilterGroupKey,
+        filterGroupKey: '',
+      })
     })
   })
 

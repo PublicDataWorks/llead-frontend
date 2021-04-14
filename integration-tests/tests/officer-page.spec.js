@@ -348,6 +348,62 @@ describe('Officer Page', () => {
           .eq(4)
           .should('have.text', '10-03')
       })
+
+      it('renders filter groups', () => {
+        cy.visit('/officers/1')
+
+        cy.get('.timeline-filters')
+          .find('.filter-item')
+          .should('have.length', 4)
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .should('have.length', 4)
+
+        cy.get('.timeline-filters')
+          .find('.filter-item')
+          .eq(0)
+          .should('have.text', 'All')
+
+        cy.get('.timeline-filters')
+          .find('.filter-item')
+          .eq(1)
+          .should('have.text', 'Complaints (4)')
+
+        cy.get('.timeline-filters')
+          .find('.filter-item')
+          .eq(2)
+          .should('have.text', 'Documents (1)')
+
+        cy.get('.timeline-filters')
+          .find('.filter-item')
+          .eq(3)
+          .should('have.text', 'Rank/unit (1)')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-header-actions')
+          .should('not.exist')
+
+        cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
+
+        cy.get('.officer-timeline')
+          .find('.timeline-header-actions')
+          .should('exist')
+
+        cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
+
+        cy.get('.timeline-filters').find('.filter-item').eq(1).click()
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .should('have.length', 3)
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(0)
+          .find('.complaint-item-title')
+          .should('have.text', 'Accused of misconduct')
+      })
     })
   })
 })

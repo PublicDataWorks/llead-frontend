@@ -47,4 +47,19 @@ export const TIMELINE_KINDS = {
   RANK_CHANGE: 'RANK_CHANGE',
 }
 
+export const TIMELINE_FILTERS = {
+  COMPLAINTS: {
+    title: 'Complaints',
+    kinds: [TIMELINE_KINDS.COMPLAINT],
+  },
+  DOCUMENTS: {
+    title: 'Documents',
+    kinds: [TIMELINE_KINDS.DOCUMENT],
+  },
+  RANKS_AND_UNITS: {
+    title: 'Rank/unit',
+    kinds: [TIMELINE_KINDS.RANK_CHANGE],
+  },
+}
+
 export const ANIMATION_DURATION = 1500
