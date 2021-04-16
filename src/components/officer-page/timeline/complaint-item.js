@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import noop from 'lodash/noop'
 
 import './complaint-item.scss'
 import { complaintItemUrl } from 'utils/urls'
@@ -16,29 +17,32 @@ const ComplaintItem = (props) => {
     action,
     trackingNumber,
     highlight,
+    showEventDetails,
     officerId,
     id,
   } = props
 
   const [expanded, setExpanded] = useState(false)
-  const [highlighting, setHighlighting] = useState(highlight)
+  const [highlighting, setHighlighting] = useState(false)
   const [copyTimeoutId, setCopyTimeoutId] = useState()
   const expandItemRef = useRef()
 
   let highlightTimeoutId
 
   useEffect(() => {
-    setHighlighting(highlight)
-    highlightTimeoutId = setTimeout(
-      () => setHighlighting(false),
-      ANIMATION_DURATION
-    )
+    setExpanded(showEventDetails)
+  }, [showEventDetails])
 
-    if (highlight && expandItemRef.current) {
-      expandItemRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      })
+  useEffect(() => {
+    setHighlighting(highlight)
+
+    if (highlight) {
+      if (expandItemRef.current) {
+        expandItemRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
+      }
       setExpanded(true)
     }
 
@@ -142,9 +146,12 @@ ComplaintItem.propTypes = {
   action: PropTypes.string,
   trackingNumber: PropTypes.string,
   highlight: PropTypes.bool,
+  showEventDetails: PropTypes.bool,
   officerId: PropTypes.string,
 }
 
-ComplaintItem.defaultProps = {}
+ComplaintItem.defaultProps = {
+  showEventDetails: noop,
+}
 
 export default ComplaintItem

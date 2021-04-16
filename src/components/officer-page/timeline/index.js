@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { BrowserView, MobileView } from 'react-device-detect'
+import { BrowserView, MobileView, isMobile } from 'react-device-detect'
 import cx from 'classnames'
 import qs from 'qs'
 import get from 'lodash/get'
@@ -14,8 +14,8 @@ import MainItem from './main-item'
 import DocumentCard from './document-card'
 import SalaryChangeItem from './salary-change-item'
 import RankChangeItem from './rank-change-item'
-import { TIMELINE_KINDS } from 'constants/common'
 import TimelineFilters from './filters'
+import { ANIMATION_DURATION, TIMELINE_KINDS } from 'constants/common'
 
 const TIMELINE_COMPONENTS_MAPPING = {
   [TIMELINE_KINDS.JOINED]: { component: MainItem },
@@ -43,10 +43,12 @@ const Timeline = (props) => {
     changeFilterGroupKey,
     filterGroupKey,
     fetchOfficerTimeline,
+    hasEventDetails,
   } = props
 
-  const [highlightItemId, sethighlightItemId] = useState()
-  const [showFiter, setShowFilter] = useState(false)
+  const [highlightItemId, setHighlightItemId] = useState()
+  const [showActionsPanel, setShowActionsPanel] = useState(false)
+  const [showEventDetails, setShowEventDetails] = useState(false)
 
   const location = useLocation()
   const { id: officerId } = useParams()
@@ -55,7 +57,15 @@ const Timeline = (props) => {
     const search = qs.parse(location.search, { ignoreQueryPrefix: true })
     const { complaint_id: complaintId } = search
     if (complaintId) {
-      sethighlightItemId(complaintId)
+      setHighlightItemId(complaintId)
+    }
+    const setHighlightItemIdTimeoutId = setTimeout(
+      () => setHighlightItemId(null),
+      ANIMATION_DURATION
+    )
+
+    return () => {
+      clearTimeout(setHighlightItemIdTimeoutId)
     }
   }, [])
 
@@ -94,27 +104,47 @@ const Timeline = (props) => {
             })}
             highlight={!!item.id && item.id == highlightItemId}
             officerId={officerId}
+            showEventDetails={showEventDetails}
           />
         </div>
       )
     )
   }
 
+  const handleShowEventDetails = () => {
+    setShowEventDetails(!showEventDetails)
+    hideActionsPanel()
+  }
+
+  const hideActionsPanel = () => {
+    setShowActionsPanel(false)
+  }
+
+  const showHeaderActionsButton =
+    hasEventDetails || (isMobile && !isEmpty(timelineFilterGroups))
+
   return (
     !isEmpty(timeline) && (
       <div className='officer-timeline'>
         <div className='timeline-header'>
           <div className='timeline-header-text'>Timeline</div>
-          <div className='timeline-header-actions-container'>
-            <div
-              className='timeline-header-actions-btn'
-              onClick={() => setShowFilter(!showFiter)}
-            />
-            {showFiter && (
-              <div className='timeline-header-actions'>
-                <div className='show-event-details'>Show event details</div>
-                <MobileView>
-                  <div className='filters-panel'>
+          {showHeaderActionsButton && (
+            <div className='timeline-header-actions-container'>
+              <div
+                className='timeline-header-actions-btn'
+                onClick={() => setShowActionsPanel(!showActionsPanel)}
+              />
+              {showActionsPanel && (
+                <div className='timeline-header-actions'>
+                  {hasEventDetails && (
+                    <div
+                      className='show-event-details'
+                      onClick={handleShowEventDetails}
+                    >
+                      {showEventDetails ? 'Hide' : 'Show'} event details
+                    </div>
+                  )}
+                  <MobileView className='filters-panel'>
                     <div className='filters-panel-title'>
                       Filter by event type
                     </div>
@@ -122,12 +152,13 @@ const Timeline = (props) => {
                       timelineFilterGroups={timelineFilterGroups}
                       changeFilterGroupKey={changeFilterGroupKey}
                       filterGroupKey={filterGroupKey}
+                      hideActionsPanel={hideActionsPanel}
                     />
-                  </div>
-                </MobileView>
-              </div>
-            )}
-          </div>
+                  </MobileView>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <BrowserView>
           <TimelineFilters
@@ -162,6 +193,7 @@ const Timeline = (props) => {
 
 Timeline.propTypes = {
   timeline: PropTypes.array,
+  hasEventDetails: PropTypes.bool,
   timelineFilterGroups: PropTypes.array,
   filterGroupKey: PropTypes.string,
   saveRecentItem: PropTypes.func,

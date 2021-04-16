@@ -52,16 +52,22 @@ $first-connection-line-height: 156px;
           border: 1px solid $alto-color;
           border-radius: 8px;
           display: inline-block;
+          cursor: pointer;
+          color: $boulder-color;
         }
 
         .filters-panel {
           padding: $v-mid-margin $h-card-margin $v-margin $h-card-margin;
           background-color: $wild-sand-color;
-          border-radius: 0 0 8px 8px;
+          border-radius: 8px;
 
           .filters-panel-title {
             margin-bottom: 2 * $v-small-margin;
           }
+        }
+
+        .show-event-details + .filters-panel {
+          border-radius: 0 0 8px 8px;
         }
       }
     }
@@ -167,13 +173,12 @@ $first-connection-line-height: 156px;
   .officer-timeline {
     .timeline-header {
       .timeline-header-actions-container {
-        .timeline-header-actions-btn {
-          .timeline-header-actions {
-            .show-event-details {
-              border: none;
-              margin: 13px $v-margin 14px $v-margin;
-              padding: 0;
-            }
+        .timeline-header-actions {
+          .show-event-details {
+            border: none;
+            padding: 13px $v-margin 14px $v-margin;
+            margin: 0;
+            display: block;
           }
         }
       }

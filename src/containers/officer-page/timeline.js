@@ -5,7 +5,8 @@ import {
   timelineSelector,
   timelineFilterGroupsSelector,
   getTimelineFilterGroupKey,
-} from 'selectors/officer-page'
+  hasEventDetailsSelector,
+} from 'selectors/officer-page/timeline'
 import {
   changeFilterGroupKey,
   fetchOfficerTimeline,
@@ -16,6 +17,7 @@ const mapStateToProps = (state) => ({
   timeline: timelineSelector(state),
   timelineFilterGroups: timelineFilterGroupsSelector(state),
   filterGroupKey: getTimelineFilterGroupKey(state),
+  hasEventDetails: hasEventDetailsSelector(state),
 })
 
 const mapDispatchToProps = {

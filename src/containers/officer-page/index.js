@@ -6,12 +6,9 @@ import {
   getIsOfficerRequesting,
   documentsSelector,
   officerRecentDataSelector,
-  hasTimelineSelector,
 } from 'selectors/officer-page'
-import {
-  fetchOfficer,
-  fetchOfficerDocuments,
-} from 'actions/officer-page'
+import { hasTimelineSelector } from 'selectors/officer-page/timeline'
+import { fetchOfficer, fetchOfficerDocuments } from 'actions/officer-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 
 const mapStateToProps = (state) => ({

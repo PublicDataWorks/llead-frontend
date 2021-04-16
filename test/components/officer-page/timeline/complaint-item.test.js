@@ -7,13 +7,14 @@ import { complaintItemUrl } from 'utils/urls'
 import { ANIMATION_DURATION } from 'constants/common'
 
 describe('ComplaintItem component', () => {
-  it('should render complaint component', () => {
+  it('renders complaint component', () => {
     const complaintData = {
       ruleViolation: 'Rule Vialation',
       paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
       trackingNumber: '123-456',
+      showEventDetails: false,
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
@@ -80,13 +81,14 @@ describe('ComplaintItem component', () => {
     expect(complaintCopyLink.textContent).toEqual('Copy link')
   })
 
-  it('should render complaint component when missing some data', () => {
+  it('renders complaint component when missing some data', () => {
     const complaintData = {
       ruleViolation: 'Rule Vialation',
       paragraphViolation: null,
       disposition: null,
       action: 'Action',
       trackingNumber: '123-456',
+      showEventDetails: false,
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
@@ -119,7 +121,6 @@ describe('ComplaintItem component', () => {
   })
 
   it('highlights complaint if it is the hightlighted item', () => {
-    const clock = sinon.useFakeTimers()
     const mockScrollIntoView = jest.fn()
     window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView
 
@@ -130,6 +131,7 @@ describe('ComplaintItem component', () => {
       action: 'Action',
       trackingNumber: '123-456',
       highlight: true,
+      showEventDetails: false,
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
@@ -147,14 +149,6 @@ describe('ComplaintItem component', () => {
       behavior: 'smooth',
       block: 'center',
     })
-
-    act(() => {
-      clock.tick(ANIMATION_DURATION + 100)
-    })
-
-    expect(timelineComplaintItem.classList).not.toContain(
-      'timeline-complaint-highlight'
-    )
 
     window.HTMLElement.prototype.scrollIntoView = undefined
   })
@@ -178,6 +172,7 @@ describe('ComplaintItem component', () => {
       action: 'Action',
       trackingNumber: '123-456',
       highlight: true,
+      showEventDetails: true,
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
@@ -204,5 +199,27 @@ describe('ComplaintItem component', () => {
       'Copy to clipboard: Ctrl+C, Enter',
       expectedClipboard
     )
+  })
+
+  it('shows complaint component when showEventDetails is true', () => {
+    const complaintData = {
+      ruleViolation: 'Rule Vialation',
+      paragraphViolation: 'Paragraph Violation',
+      disposition: 'Disposition',
+      action: 'Action',
+      trackingNumber: '123-456',
+      highlight: false,
+      showEventDetails: true,
+    }
+
+    const container = render(<ComplaintItem {...complaintData} />)
+
+    const { baseElement } = container
+
+    const complaintItemContent = baseElement.getElementsByClassName(
+      'complaint-item-content'
+    )[0]
+
+    expect(complaintItemContent).toBeTruthy()
   })
 })

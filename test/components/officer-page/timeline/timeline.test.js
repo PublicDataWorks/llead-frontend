@@ -1,7 +1,8 @@
 import React from 'react'
 import qs from 'qs'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import sinon from 'sinon'
+import * as rdd from 'react-device-detect'
 
 import Timeline from 'components/officer-page/timeline'
 import ComplaintItem from 'components/officer-page/timeline/complaint-item'
@@ -12,6 +13,7 @@ import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
 import TimelineFilters from 'components/officer-page/timeline/filters'
 import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
+import { ANIMATION_DURATION } from 'constants/common'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -178,6 +180,7 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
 
     const timelineSecondGroup = timelineGroups[1]
@@ -206,6 +209,7 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
     const secondGroupItem1 = secondGroupItems[1]
     const secondGroupItem1Line = secondGroupItem1.getElementsByClassName('line')
@@ -221,6 +225,7 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
 
     const timelineThirdGroup = timelineGroups[2]
@@ -247,6 +252,7 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
   })
 
@@ -290,6 +296,7 @@ describe('Timeline component', () => {
               timelineFilterGroups={[]}
               changeFilterGroupKey={mockChangeFilterGroupKey}
               filterGroupKey={''}
+              hasEventDetails
             />
           </Route>
         </MemoryRouter>
@@ -299,8 +306,8 @@ describe('Timeline component', () => {
 
       const timelineHeaderActionsButton = baseElement.getElementsByClassName(
         'timeline-header-actions-btn'
-      )
-      fireEvent.click(timelineHeaderActionsButton[0])
+      )[0]
+      fireEvent.click(timelineHeaderActionsButton)
 
       expect(queryByText('Show event details')).toBeTruthy()
       expect(queryByText('Filter by event type')).toBeFalsy()
@@ -311,6 +318,7 @@ describe('Timeline component', () => {
         filterGroupKey: '',
       })
     })
+
     it('renders timeline filter on MobileView', () => {
       // eslint-disable-next-line react/prop-types
       const MobileView = ({ children }) => {
@@ -343,6 +351,7 @@ describe('Timeline component', () => {
               timelineFilterGroups={[]}
               changeFilterGroupKey={mockChangeFilterGroupKey}
               filterGroupKey={''}
+              hasEventDetails
             />
           </Route>
         </MemoryRouter>
@@ -352,20 +361,85 @@ describe('Timeline component', () => {
 
       const timelineHeaderActionsButton = baseElement.getElementsByClassName(
         'timeline-header-actions-btn'
-      )
-      fireEvent.click(timelineHeaderActionsButton[0])
+      )[0]
+      fireEvent.click(timelineHeaderActionsButton)
+
+      expect(
+        baseElement.getElementsByClassName('timeline-header-actions')[0]
+      ).toBeTruthy()
 
       expect(queryByText('Show event details')).toBeTruthy()
       expect(queryByText('Filter by event type')).toBeTruthy()
-      expect(TimelineFilters.mock.calls[0][0]).toStrictEqual({
-        timelineFilterGroups: [],
-        changeFilterGroupKey: mockChangeFilterGroupKey,
-        filterGroupKey: '',
+
+      const timelineFiltersProps = TimelineFilters.mock.calls[0][0]
+
+      expect(timelineFiltersProps.timelineFilterGroups).toEqual([])
+      expect(timelineFiltersProps.changeFilterGroupKey).toEqual(
+        mockChangeFilterGroupKey
+      )
+      expect(timelineFiltersProps.filterGroupKey).toEqual('')
+
+      const hideActionsPanel = timelineFiltersProps.hideActionsPanel
+      act(() => {
+        hideActionsPanel()
       })
+
+      expect(
+        baseElement.getElementsByClassName('timeline-header-actions')[0]
+      ).toBeFalsy()
+    })
+
+    it('toggles showEventDetails on click', () => {
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 123,
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+          ],
+        },
+      ]
+      const mockSaveRecentItem = jest.fn()
+
+      const container = render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+              hasEventDetails
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { queryByText, baseElement } = container
+
+      const firstComplaintItemProps = ComplaintItem.mock.calls[0][0]
+      expect(firstComplaintItemProps.showEventDetails).toBeFalsy()
+
+      const timelineHeaderActionsButton = baseElement.getElementsByClassName(
+        'timeline-header-actions-btn'
+      )[0]
+      fireEvent.click(timelineHeaderActionsButton)
+
+      const showEventDetailButton = queryByText('Show event details')
+      fireEvent.click(showEventDetailButton)
+
+      const secondComplaintItemProps = ComplaintItem.mock.calls[2][0]
+      expect(secondComplaintItemProps.showEventDetails).toBeTruthy()
     })
   })
 
-  describe('complaint item', () => {
+  describe('Complaint item', () => {
     it('renders timeline with not highlight complaint item', () => {
       const timelineData = [
         {
@@ -409,10 +483,13 @@ describe('Timeline component', () => {
         saveRecentItem: mockSaveRecentItem,
         highlight: false,
         officerId: '1',
+        showEventDetails: false,
       })
     })
 
     it('renders timeline with highlight complaint item', () => {
+      const clock = sinon.useFakeTimers()
+
       const timelineData = [
         {
           groupName: 'Mar 10, 2019',
@@ -462,8 +539,82 @@ describe('Timeline component', () => {
         saveRecentItem: mockSaveRecentItem,
         highlight: true,
         officerId: '1',
+        showEventDetails: false,
+      })
+
+      ComplaintItem.mockClear()
+
+      act(() => {
+        clock.tick(ANIMATION_DURATION + 100)
+      })
+
+      expect(ComplaintItem.mock.calls[0][0]).toStrictEqual({
+        id: 123,
+        kind: 'COMPLAINT',
+        trackingNumber: '10-03',
+        ruleViolation: 'Officer rule violation 2019-03-10',
+        paragraphViolation: 'Officer paragraph violation 2019-03-10',
+        disposition: 'Officer dispostion 2019-03-10',
+        action: 'Officer action 2019-03-10',
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: false,
+        officerId: '1',
+        showEventDetails: false,
       })
     })
+  })
+
+  it('toggles show event details', () => {
+    const timelineData = [
+      {
+        groupName: 'Mar 10, 2019',
+        isDateEvent: true,
+        items: [
+          {
+            id: 123,
+            kind: 'COMPLAINT',
+            trackingNumber: '10-03',
+            ruleViolation: 'Officer rule violation 2019-03-10',
+            paragraphViolation: 'Officer paragraph violation 2019-03-10',
+            disposition: 'Officer dispostion 2019-03-10',
+            action: 'Officer action 2019-03-10',
+          },
+        ],
+      },
+    ]
+    const mockSaveRecentItem = jest.fn()
+
+    const container = render(
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            saveRecentItem={mockSaveRecentItem}
+            hasEventDetails
+          />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { baseElement, queryByText } = container
+
+    const timelineHeaderActionsButton = baseElement.getElementsByClassName(
+      'timeline-header-actions-btn'
+    )[0]
+    fireEvent.click(timelineHeaderActionsButton)
+
+    let showEventDetailsButton = queryByText('Show event details')
+    let hideEventDetailsButton = queryByText('Hide event details')
+    expect(showEventDetailsButton).toBeTruthy()
+    expect(hideEventDetailsButton).toBeFalsy()
+
+    fireEvent.click(showEventDetailsButton)
+    fireEvent.click(timelineHeaderActionsButton)
+    showEventDetailsButton = queryByText('Show event details')
+    hideEventDetailsButton = queryByText('Hide event details')
+    expect(showEventDetailsButton).toBeFalsy()
+    expect(hideEventDetailsButton).toBeTruthy()
   })
 
   it('renders timeline with left item', () => {
@@ -497,6 +648,7 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
   })
 
@@ -531,6 +683,7 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
   })
 
@@ -583,6 +736,7 @@ describe('Timeline component', () => {
       saveRecentItem: mockSaveRecentItem,
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
   })
 
@@ -620,6 +774,7 @@ describe('Timeline component', () => {
       className: 'has-connected-line left-item',
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
     })
   })
 
@@ -657,6 +812,85 @@ describe('Timeline component', () => {
       className: 'has-connected-line left-item',
       highlight: false,
       officerId: '1',
+      showEventDetails: false,
+    })
+  })
+
+  describe('Header Actions Button', () => {
+    it('shows header actions button if has event details', () => {
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 123,
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+          ],
+        },
+      ]
+
+      const container = render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline timeline={timelineData} hasEventDetails={true} />
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { baseElement } = container
+      const timelineHeaderActionsContainer = baseElement.getElementsByClassName(
+        'timeline-header-actions-container'
+      )[0]
+
+      expect(timelineHeaderActionsContainer).toBeTruthy()
+    })
+
+    it('shows header actions button if does not have event details but on mobile and has timelineFilter groups', () => {
+      sinon.stub(rdd, 'isMobile').get(() => true)
+
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 123,
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+          ],
+        },
+      ]
+
+      const container = render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              hasEventDetails={false}
+              timelineFilterGroups={['any-filter-group']}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { baseElement } = container
+      const timelineHeaderActionsContainer = baseElement.getElementsByClassName(
+        'timeline-header-actions-container'
+      )[0]
+
+      expect(timelineHeaderActionsContainer).toBeTruthy()
     })
   })
 })
