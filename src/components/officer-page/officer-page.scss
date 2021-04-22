@@ -58,41 +58,4 @@
       border-radius: 2px;
     }
   }
-
-  .officer-documents {
-    border: 1px solid $alto-color;
-    border-radius: 8px;
-    box-sizing: border-box;
-    background-color: $white-color;
-    padding: $v-header-margin 0 $v-margin 0;
-
-    .officer-documents-title {
-      @include h1;
-      color: $boulder-color;
-      margin: 0 $h-card-margin;
-    }
-
-    .officer-documents-listview {
-      margin-top: $v-frame-margin;
-
-      .document-item {
-        padding: $v-small-margin $h-card-margin;
-      }
-    }
-  }
-
-  &.empty-timeline {
-    .officer-basic-info {
-      border-bottom: none;
-      padding-bottom: 0;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    .officer-documents {
-      border-top: none;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-  }
 }

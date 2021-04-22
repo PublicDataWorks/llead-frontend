@@ -203,14 +203,10 @@ describe('FrontPage recent items', () => {
   })
 
   it('adds document to recent items when click document row in department page', () => {
-    cy.visit('/')
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
     })
-
-    cy.get('.recent-items-carousel').should('not.exist')
-    cy.get('.departments-carousel').find('.swiper-slide').eq(0).click()
-    cy.location('pathname').should('eq', `/departments/9/`)
+    cy.visit('/departments/9/')
     cy.get('.document-item').click()
     cy.get('.logo').click()
 
@@ -242,60 +238,12 @@ describe('FrontPage recent items', () => {
       )
   })
 
-  it('adds document to recent items when click document row in officer page', () => {
-    cy.visit('/')
+  it('adds document to recent items when click document card in officer timeline', () => {
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
     })
-
-    cy.get('.recent-items-carousel').should('not.exist')
-
-    cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
-    cy.location('pathname').should('eq', `/officers/1/`)
-    cy.get('.document-item').click()
-    cy.get('.logo').click()
-
-    cy.get('.recent-items-carousel')
-      .find('.swiper-slide:visible')
-      .as('visibleSlides')
-      .should('length', 2)
-
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('flac')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-title')
-      .contains('Structure land official huge draw significant.')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-subtitle')
-      .contains('Jun 12, 2021')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-department-name')
-      .contains('New Orleans PD')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-preview')
-      .should(
-        'have.css',
-        'background-image',
-        'url("http://image.com/after/last-preview.jpg")'
-      )
-  })
-
-  it('adds document to recent items when click document card in officer page', () => {
-    cy.visit('/')
-    cy.window().then((win) => {
-      cy.stub(win, 'open').as('open')
-    })
-
-    cy.get('.recent-items-carousel').should('not.exist')
-
-    cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
-    cy.location('pathname').should('eq', `/officers/1/`)
-
+    cy.visit('/officers/1/')
     cy.get('.officer-timeline').find('.timeline-document-card').eq(0).click()
-
     cy.get('.logo').click()
 
     cy.get('.recent-items-carousel')
@@ -327,10 +275,10 @@ describe('FrontPage recent items', () => {
   })
 
   it('adds multiple recent items', () => {
-    cy.visit('/')
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
     })
+    cy.visit('/')
 
     cy.get('.recent-items-carousel').should('not.exist')
     cy.get('.documents-carousel').find('.swiper-slide').eq(0).click()

@@ -153,11 +153,6 @@ export const timelineFilterGroupsSelector = createSelector(
   }
 )
 
-export const hasTimelineSelector = createSelector(
-  getTimeline,
-  (timeline) => !isEmpty(timeline)
-)
-
 export const hasEventDetailsSelector = createSelector(getTimeline, (timeline) =>
   some(timeline, { kind: TIMELINE_KINDS.COMPLAINT })
 )

@@ -3,34 +3,12 @@ import moment from 'moment'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import join from 'lodash/join'
-import map from 'lodash/map'
 import mapValues from 'lodash/mapValues'
 import pick from 'lodash/pick'
 import trim from 'lodash/trim'
 
-import { formatDate, formatDataPeriods } from 'utils/formatter'
-import { officerFormatter, documentFormatter } from 'selectors/common'
-
-const officerDocumentFormatter = (document) => {
-  const documentAttributes = [
-    'id',
-    'title',
-    'documentType',
-    'url',
-    'textContent',
-  ]
-  const rawDepartments = get(document, 'departments')
-  const departments = map(rawDepartments, (department) =>
-    pick(department, ['id', 'name'])
-  )
-
-  return {
-    ...pick(document, documentAttributes),
-    incidentDate: formatDate(document.incidentDate),
-    departments,
-    recentData: documentFormatter(document),
-  }
-}
+import { formatDataPeriods } from 'utils/formatter'
+import { officerFormatter } from 'selectors/common'
 
 const formatOfficerDescription = (officer) => {
   const birthYear = get(officer, 'birthYear')
@@ -81,7 +59,6 @@ const officerDetailsFormatter = (officer) => {
 }
 
 const getOfficer = (state) => get(state.officerPage, 'officer', {})
-const getDocuments = (state) => get(state.officerPage, 'documents', {})
 
 export const getIsOfficerRequesting = (state) =>
   get(state, 'officerPage.isOfficerRequesting')
@@ -95,9 +72,3 @@ export const officerRecentDataSelector = createSelector(
   getOfficer,
   officerFormatter
 )
-
-export const documentsSelector = (state) => {
-  const rawDocuments = getDocuments(state)
-
-  return map(rawDocuments, officerDocumentFormatter)
-}

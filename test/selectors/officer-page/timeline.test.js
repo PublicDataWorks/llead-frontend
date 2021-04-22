@@ -1,6 +1,5 @@
 import {
   timelineSelector,
-  hasTimelineSelector,
   timelineFilterGroupsSelector,
   hasEventDetailsSelector,
 } from 'selectors/officer-page/timeline'
@@ -562,32 +561,6 @@ describe('#timelineSelector', () => {
     const timeline = timelineSelector(state)
 
     expect(timeline).toStrictEqual([])
-  })
-})
-
-describe('#hasTimelineSelector', () => {
-  it('returns true if timeline is not empty', () => {
-    const timelineData = ['timeline data']
-    const state = {
-      officerPage: {
-        timeline: timelineData,
-      },
-    }
-    const hasTimeline = hasTimelineSelector(state)
-
-    expect(hasTimeline).toBe(true)
-  })
-
-  it('returns false if timeline is empty', () => {
-    const timelineData = []
-    const state = {
-      officerPage: {
-        timeline: timelineData,
-      },
-    }
-    const hasTimeline = hasTimelineSelector(state)
-
-    expect(hasTimeline).toBe(false)
   })
 })
 

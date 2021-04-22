@@ -3,7 +3,6 @@ import moment from 'moment'
 import {
   getIsOfficerRequesting,
   officerSelector,
-  documentsSelector,
   officerRecentDataSelector,
 } from 'selectors/officer-page'
 
@@ -244,67 +243,6 @@ describe('#officerRecentDataSelector', () => {
         id: 100,
         name: 'Department Name',
       },
-    })
-  })
-})
-
-describe('#documentsSelector', () => {
-  describe('has data', () => {
-    it('returns document data', () => {
-      const documentsData = [
-        {
-          id: 39,
-          documentType: 'json',
-          title: 'Pattern risk team election myself suffer wind.',
-          url: 'http://documents.com/glass/shoulder.pdf',
-          incidentDate: '2020-05-04',
-          extraField: 'data',
-          departments: [
-            {
-              id: 1234,
-              name: 'department name',
-              extraField: 'data',
-            },
-          ],
-        },
-      ]
-      const state = {
-        officerPage: {
-          documents: documentsData,
-        },
-      }
-
-      const documents = documentsSelector(state)
-
-      expect(documents).toStrictEqual([
-        {
-          id: 39,
-          documentType: 'json',
-          title: 'Pattern risk team election myself suffer wind.',
-          url: 'http://documents.com/glass/shoulder.pdf',
-          incidentDate: 'May 4, 2020',
-          departments: [{ id: 1234, name: 'department name' }],
-          recentData: {
-            id: 39,
-            documentType: 'json',
-            title: 'Pattern risk team election myself suffer wind.',
-            url: 'http://documents.com/glass/shoulder.pdf',
-            incidentDate: 'May 4, 2020',
-            departments: [{ id: 1234, name: 'department name' }],
-          },
-        },
-      ])
-    })
-  })
-
-  describe('does not have data', () => {
-    it('returns empty data', () => {
-      const state = {
-        officerPage: {},
-      }
-      const documents = documentsSelector(state)
-
-      expect(documents).toStrictEqual([])
     })
   })
 })

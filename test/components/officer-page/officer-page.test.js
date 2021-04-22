@@ -38,23 +38,18 @@ beforeEach(() => {
 describe('Officer component', () => {
   it('fetches data', () => {
     const fetchOfficerSpy = sinon.spy()
-    const fetchOfficerDocumentsSpy = sinon.spy()
 
     render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['officers/1']}>
           <Route path='officers/:id'>
-            <Officer
-              fetchOfficer={fetchOfficerSpy}
-              fetchOfficerDocuments={fetchOfficerDocumentsSpy}
-            />
+            <Officer fetchOfficer={fetchOfficerSpy} />
           </Route>
         </MemoryRouter>
       </Provider>
     )
 
     expect(fetchOfficerSpy).toHaveBeenCalledWith(1)
-    expect(fetchOfficerDocumentsSpy).toHaveBeenCalledWith(1)
   })
 
   describe('save to reccent item', () => {
@@ -282,73 +277,6 @@ describe('Officer component', () => {
     })
   })
 
-  it('renders documents section', () => {
-    const officerData = {
-      annualSalary: '$57k/year',
-      badges: ['123', '456'],
-      complaintsCount: 2,
-      dataPeriod: ['2012', '2018-2020'],
-      department: { id: 10029, name: 'Officer Name' },
-      description: 'age-year-old gender race',
-      name: 'officer name',
-      documentsCount: 2,
-    }
-    const documentsData = [
-      {
-        id: 1,
-        documentType: 'json',
-        title: 'title 1',
-        url: 'url 1',
-        incidentDate: 'May 04, 2020',
-      },
-      {
-        id: 2,
-        documentType: 'jpeg',
-        title: 'title 2',
-        url: 'url 2',
-        incidentDate: 'Jan 21, 2019',
-      },
-    ]
-
-    const fetchOfficerSpy = sinon.spy()
-
-    const container = render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['officers/1']}>
-          <Route path='officers/:id'>
-            <Officer
-              officer={officerData}
-              documents={documentsData}
-              fetchOfficer={fetchOfficerSpy}
-            />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
-
-    const { baseElement } = container
-
-    expect(
-      baseElement.getElementsByClassName('officer-documents-title')[0]
-        .textContent
-    ).toEqual('Documents (2)')
-
-    const documentElements = baseElement.getElementsByClassName('document-item')
-    expect(documentElements.length).toBe(2)
-    const firstDocument = documentElements[0]
-    const secondDocument = documentElements[1]
-
-    const firstDocumentTitle = firstDocument.getElementsByClassName(
-      'document-item-name'
-    )[0]
-    expect(firstDocumentTitle.textContent).toEqual('title 1')
-
-    const secondDocumentTitle = secondDocument.getElementsByClassName(
-      'document-item-name'
-    )[0]
-    expect(secondDocumentTitle.textContent).toEqual('title 2')
-  })
-
   it('redirects to home if departmentId is NaN', () => {
     const invalidOfficerId = 'abcd'
     const officerData = {
@@ -387,74 +315,42 @@ describe('Officer component', () => {
     expect(baseElement.getElementsByClassName('officer-content').length).toBe(0)
   })
 
-  describe('timeline section', () => {
-    it('renders officer timeline', () => {
-      const officerData = {
-        officer: {
-          id: 1,
+  it('renders officer timeline', () => {
+    const officerData = {
+      officer: {
+        id: 1,
+      },
+      timeline: [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+          ],
         },
-        timeline: [
-          {
-            groupName: 'Mar 10, 2019',
-            isDateEvent: true,
-            items: [
-              {
-                kind: 'COMPLAINT',
-                trackingNumber: '10-03',
-                ruleViolation: 'Officer rule violation 2019-03-10',
-                paragraphViolation: 'Officer paragraph violation 2019-03-10',
-                disposition: 'Officer dispostion 2019-03-10',
-                action: 'Officer action 2019-03-10',
-              },
-            ],
-          },
-        ],
-      }
-      const mockSaveRecentItem = jest.fn()
+      ],
+    }
+    const mockSaveRecentItem = jest.fn()
 
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['officers/1']}>
-            <Route path='officers/:id'>
-              <Officer {...officerData} saveRecentItem={mockSaveRecentItem} />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
+    render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer {...officerData} saveRecentItem={mockSaveRecentItem} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
 
-      const { baseElement } = container
-
-      expect(
-        baseElement.getElementsByClassName('officer-page')[0].classList
-      ).not.toContain('empty-timeline')
-
-      expect(TimelineContainer.mock.calls[0][0]).toStrictEqual({
-        officerId: 1,
-      })
-    })
-
-    it('does not render officer timeline', () => {
-      const officerData = {
-        officer: {
-          id: 1,
-          documentsCount: 1,
-        },
-      }
-
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['officers/1']}>
-            <Route path='officers/:id'>
-              <Officer {...officerData} />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { baseElement } = container
-      expect(
-        baseElement.getElementsByClassName('officer-page')[0].classList
-      ).toContain('empty-timeline')
+    expect(TimelineContainer.mock.calls[0][0]).toStrictEqual({
+      officerId: 1,
     })
   })
 })

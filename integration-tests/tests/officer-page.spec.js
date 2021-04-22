@@ -82,51 +82,6 @@ describe('Officer Page', () => {
         )
     })
 
-    describe('officer documents', () => {
-      it('renders officer documents items', () => {
-        cy.visit('/officers/1')
-
-        cy.contains(`Documents (${officerDocumentsData.length})`)
-
-        cy.get('.officer-documents-listview')
-          .find('.document-item')
-          .should('length', officerDocumentsData.length)
-
-        cy.get('.officer-documents-listview')
-          .find('.document-item')
-          .eq(0)
-          .find('.document-item-name')
-          .should('text', officerDocumentsData[0].title)
-        cy.get('.officer-documents-listview')
-          .find('.document-item')
-          .eq(0)
-          .find('.document-item-department-name')
-          .should('text', 'Port Allen PD')
-
-        cy.get('.officer-documents-listview')
-          .find('.document-item')
-          .eq(1)
-          .find('.document-item-name')
-          .should('text', officerDocumentsData[1].title)
-        cy.get('.officer-documents-listview')
-          .find('.document-item')
-          .eq(1)
-          .find('.document-item-department-name')
-          .should('text', 'ABC PD')
-
-        cy.get('.officer-documents-listview')
-          .find('.document-item')
-          .eq(2)
-          .find('.document-item-name')
-          .should('text', officerDocumentsData[2].title)
-        cy.get('.officer-documents-listview')
-          .find('.document-item')
-          .eq(2)
-          .find('.document-item-department-name')
-          .should('text', 'Any PD')
-      })
-    })
-
     describe('officer timeline', () => {
       it('renders officer timeline', () => {
         cy.visit('/officers/1')
@@ -405,7 +360,7 @@ describe('Officer Page', () => {
           .should('have.text', 'Accused of misconduct')
       })
 
-      it.only('shows event details', () => {
+      it('shows event details', () => {
         cy.visit('/officers/1')
 
         cy.get('.officer-timeline')
