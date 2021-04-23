@@ -9,7 +9,9 @@ import { ANIMATION_DURATION } from 'constants/common'
 describe('ComplaintItem component', () => {
   it('renders complaint component', () => {
     const complaintData = {
+      ruleCode: 'Rule_code',
       ruleViolation: 'Rule Vialation',
+      paragraphCode: 'Paragraph_code',
       paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
@@ -24,12 +26,12 @@ describe('ComplaintItem component', () => {
     const complaintItemTitle = baseElement.getElementsByClassName(
       'complaint-item-title'
     )[0]
-    expect(complaintItemTitle.textContent).toEqual('Accused of misconduct')
+    expect(complaintItemTitle.textContent).toEqual('Accused of Rule Vialation')
 
     const complaintItemSubtitle = baseElement.getElementsByClassName(
       'complaint-item-subtitle'
     )[0]
-    expect(complaintItemSubtitle.textContent).toEqual('Exonerated')
+    expect(complaintItemSubtitle.textContent).toEqual('Disposition')
 
     expect(
       baseElement.getElementsByClassName('complaint-item-content').length
@@ -51,13 +53,15 @@ describe('ComplaintItem component', () => {
     const complaintRuleViolation = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[0]
-    expect(complaintRuleViolation.textContent).toEqual('Rule Vialation')
+    expect(complaintRuleViolation.textContent).toEqual(
+      'Rule_code - Rule Vialation'
+    )
 
     const complaintParagraphViolation = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[1]
     expect(complaintParagraphViolation.textContent).toEqual(
-      'Paragraph Violation'
+      'Paragraph_code - Paragraph Violation'
     )
 
     const complaintDisposition = complaintItemContent.getElementsByClassName(
@@ -83,6 +87,7 @@ describe('ComplaintItem component', () => {
 
   it('renders complaint component when missing some data', () => {
     const complaintData = {
+      ruleCode: 'Rule_code',
       ruleViolation: 'Rule Vialation',
       paragraphViolation: null,
       disposition: null,
@@ -107,7 +112,9 @@ describe('ComplaintItem component', () => {
     const complaintRuleViolation = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[0]
-    expect(complaintRuleViolation.textContent).toEqual('Rule Vialation')
+    expect(complaintRuleViolation.textContent).toEqual(
+      'Rule_code - Rule Vialation'
+    )
 
     const complaintAction = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'

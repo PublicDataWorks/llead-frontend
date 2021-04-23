@@ -12,6 +12,7 @@
     transition: all 1s ease;
     border-radius: 8px;
     padding: $v-small-margin $h-card-margin 0 $h-card-margin;
+    cursor: pointer;
 
     .complaint-item-title {
       font-weight: 300;

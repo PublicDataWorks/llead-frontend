@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import noop from 'lodash/noop'
+import join from 'lodash/join'
+import compact from 'lodash/compact'
 
 import './complaint-item.scss'
 import { complaintItemUrl } from 'utils/urls'
@@ -11,7 +13,9 @@ import { ANIMATION_DURATION } from 'constants/common'
 const ComplaintItem = (props) => {
   const {
     className,
+    ruleCode,
     ruleViolation,
+    paragraphCode,
     paragraphViolation,
     disposition,
     action,
@@ -61,11 +65,11 @@ const ComplaintItem = (props) => {
   const complaintData = [
     {
       title: 'Rule Violation',
-      content: ruleViolation,
+      content: join(compact([ruleCode, ruleViolation]), ' - '),
     },
     {
       title: 'Paragraph Violation',
-      content: paragraphViolation,
+      content: join(compact([paragraphCode, paragraphViolation]), ' - '),
     },
     {
       title: 'Disposition',
@@ -91,8 +95,10 @@ const ComplaintItem = (props) => {
         className='complaint-item-header'
         onClick={() => setExpanded(!expanded)}
       >
-        <div className='complaint-item-title'>Accused of misconduct</div>
-        <div className='complaint-item-subtitle'>Exonerated</div>
+        <div className='complaint-item-title'>
+          Accused of {ruleViolation}
+        </div>
+        <div className='complaint-item-subtitle'>{disposition}</div>
         <div
           className={cx('complaint-item-expand-icon', {
             'expanded-icon': expanded,
@@ -148,6 +154,8 @@ ComplaintItem.propTypes = {
   highlight: PropTypes.bool,
   showEventDetails: PropTypes.bool,
   officerId: PropTypes.string,
+  ruleCode: PropTypes.string,
+  paragraphCode: PropTypes.string,
 }
 
 ComplaintItem.defaultProps = {

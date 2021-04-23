@@ -33,6 +33,10 @@ const complaintTimelineItemFormatter = (item) => {
     'paragraphViolation',
     'disposition',
     'action',
+    'ruleCode',
+    'paragraphCode',
+    'allegationFinding',
+    'allegationClass',
   ]
 
   return {
