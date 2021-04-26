@@ -115,6 +115,7 @@ jobs:
     machine: true
     environment: *gcloud-env
     steps:
+      - run: *set-gcloud-service-key
       - checkout
       - attach_workspace:
           at: /tmp/workspace
