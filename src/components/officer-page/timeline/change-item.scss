@@ -17,3 +17,13 @@
     padding-left: $h-card-margin + $icon-width;
   }
 }
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .timeline-change-item {
+    &.has-connected-line {
+      &.left-item {
+        padding-left: $h-card-margin;
+      }
+    }
+  }
+}

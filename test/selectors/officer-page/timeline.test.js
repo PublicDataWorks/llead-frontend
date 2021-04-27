@@ -141,6 +141,24 @@ describe('#timelineSelector', () => {
         rankDesc: 'senior police officer',
         date: '2019-06-13',
       },
+      {
+        year: 2019,
+        date: '2019-06-13',
+        kind: 'UNIT_CHANGE',
+        departmentCode: '610',
+        departmentDesc: 'detective area - central',
+        prevDepartmentCode: '177',
+        prevDepartmentDesc: 'superior area',
+      },
+      {
+        year: 2018,
+        date: null,
+        kind: 'UNIT_CHANGE',
+        departmentCode: '193',
+        departmentDesc: 'gang investigation division',
+        prevDepartmentCode: null,
+        prevDepartmentDesc: null,
+      },
     ]
     const state = {
       officerPage: {
@@ -164,6 +182,13 @@ describe('#timelineSelector', () => {
           {
             kind: 'RANK_CHANGE',
             rankDesc: 'Senior police officer',
+          },
+          {
+            kind: 'UNIT_CHANGE',
+            departmentCode: '610',
+            departmentDesc: 'Detective area - central',
+            prevDepartmentCode: '177',
+            prevDepartmentDesc: 'Superior area',
           },
           {
             kind: 'SALARY_CHANGE',
@@ -272,6 +297,13 @@ describe('#timelineSelector', () => {
         items: [
           {
             kind: 'JOINED',
+          },
+          {
+            kind: 'UNIT_CHANGE',
+            departmentCode: '193',
+            departmentDesc: 'Gang investigation division',
+            prevDepartmentCode: null,
+            prevDepartmentDesc: null,
           },
           {
             id: '127',
@@ -456,11 +488,29 @@ describe('#timelineSelector', () => {
         rankDesc: 'senior police officer',
         date: '2019-06-13',
       },
+      {
+        year: 2019,
+        date: '2019-06-13',
+        kind: 'UNIT_CHANGE',
+        departmentCode: '610',
+        departmentDesc: 'detective area - central',
+        prevDepartmentCode: '177',
+        prevDepartmentDesc: 'superior area',
+      },
+      {
+        year: 2018,
+        date: null,
+        kind: 'UNIT_CHANGE',
+        departmentCode: '193',
+        departmentDesc: 'gang investigation division',
+        prevDepartmentCode: null,
+        prevDepartmentDesc: null,
+      },
     ]
     const state = {
       officerPage: {
         timeline: timelineData,
-        filterGroupKey: 'COMPLAINTS',
+        filterGroupKey: 'RANKS_AND_UNITS',
       },
     }
 
@@ -472,37 +522,15 @@ describe('#timelineSelector', () => {
         isDateEvent: true,
         items: [
           {
-            id: '123',
-            kind: 'COMPLAINT',
-            ruleViolation: 'Officer rule violation 2019-06-13',
-            paragraphViolation: 'Officer paragraph violation 2019-06-13',
-            disposition: 'Officer dispostion 2019-06-13',
-            action: 'Officer action 2019-06-13',
-            trackingNumber: '13-06',
-          },
-        ],
-      },
-      {
-        groupName: 'Mar 10, 2019',
-        isDateEvent: true,
-        items: [
-          {
-            id: '124',
-            kind: 'COMPLAINT',
-            trackingNumber: '10-03',
-            ruleViolation: 'Officer rule violation 2019-03-10',
-            paragraphViolation: 'Officer paragraph violation 2019-03-10',
-            disposition: 'Officer dispostion 2019-03-10',
-            action: 'Officer action 2019-03-10',
+            kind: 'RANK_CHANGE',
+            rankDesc: 'Senior police officer',
           },
           {
-            id: '128',
-            kind: 'COMPLAINT',
-            trackingNumber: '10-03-1',
-            ruleViolation: 'Officer rule violation 2019-03-10 no1',
-            paragraphViolation: 'Officer paragraph violation 2019-03-10 no1',
-            disposition: 'Officer dispostion 2019-03-10 no1',
-            action: 'Officer action 2019-03-10 no1',
+            kind: 'UNIT_CHANGE',
+            departmentCode: '610',
+            departmentDesc: 'Detective area - central',
+            prevDepartmentCode: '177',
+            prevDepartmentDesc: 'Superior area',
           },
         ],
       },
@@ -511,43 +539,11 @@ describe('#timelineSelector', () => {
         isDateEvent: false,
         items: [
           {
-            id: '127',
-            kind: 'COMPLAINT',
-            trackingNumber: '2018',
-            ruleViolation: 'Officer rule violation year 2018',
-            paragraphViolation: 'Officer paragraph violation year 2018',
-            disposition: 'Officer dispostion year 2018',
-            action: 'Officer action year 2018',
-          },
-        ],
-      },
-      {
-        groupName: 'Oct 20, 2018',
-        isDateEvent: true,
-        items: [
-          {
-            id: '125',
-            kind: 'COMPLAINT',
-            trackingNumber: '20-10',
-            ruleViolation: 'Officer rule violation 2018-10-20',
-            paragraphViolation: 'Officer paragraph violation 2018-10-20',
-            disposition: 'Officer dispostion 2018-10-20',
-            action: 'Officer action 2018-10-20',
-          },
-        ],
-      },
-      {
-        groupName: 'No Date',
-        isDateEvent: false,
-        items: [
-          {
-            id: '126',
-            kind: 'COMPLAINT',
-            trackingNumber: '123-456',
-            ruleViolation: 'Officer rule violation of unknowed time',
-            paragraphViolation: 'Officer paragraph violation of unknowed time',
-            disposition: 'Officer dispostion of unknowed time',
-            action: 'Officer action of unknowed time',
+            kind: 'UNIT_CHANGE',
+            departmentCode: '193',
+            departmentDesc: 'Gang investigation division',
+            prevDepartmentCode: null,
+            prevDepartmentDesc: null,
           },
         ],
       },
@@ -701,6 +697,24 @@ describe('#timelineFilterGroupsSelector', () => {
         rankDesc: 'senior police officer',
         date: '2019-06-13',
       },
+      {
+        year: 2019,
+        date: '2019-06-13',
+        kind: 'UNIT_CHANGE',
+        departmentCode: 'current department code',
+        departmentDesc: 'current department desc',
+        prevDepartmentCode: 'previous code',
+        prevDepartmentDesc: 'previous desc',
+      },
+      {
+        year: 2018,
+        date: null,
+        kind: 'UNIT_CHANGE',
+        departmentCode: 'No date current department code',
+        departmentDesc: 'No date current department desc',
+        prevDepartmentCode: 'No date previous code',
+        prevDepartmentDesc: 'No date previous desc',
+      },
     ]
     const state = {
       officerPage: {
@@ -728,7 +742,7 @@ describe('#timelineFilterGroupsSelector', () => {
       {
         filterGroupKey: 'RANKS_AND_UNITS',
         title: 'Rank/unit',
-        count: 1,
+        count: 3,
       },
     ]
 

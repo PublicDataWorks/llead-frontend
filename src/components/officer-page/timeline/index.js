@@ -14,6 +14,7 @@ import MainItem from './main-item'
 import DocumentCard from './document-card'
 import SalaryChangeItem from './salary-change-item'
 import RankChangeItem from './rank-change-item'
+import UnitChangeItem from './unit-change-item'
 import TimelineFilters from './filters'
 import { ANIMATION_DURATION, TIMELINE_KINDS } from 'constants/common'
 
@@ -32,6 +33,9 @@ const TIMELINE_COMPONENTS_MAPPING = {
   },
   [TIMELINE_KINDS.RANK_CHANGE]: {
     component: RankChangeItem,
+  },
+  [TIMELINE_KINDS.UNIT_CHANGE]: {
+    component: UnitChangeItem,
   },
 }
 

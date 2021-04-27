@@ -66,6 +66,23 @@ const rankChangeTimelineItemFormatter = (rankChange) => {
   }
 }
 
+const unitChangeTimelineItemFormatter = (unitChange) => {
+  const unitChangeAttributes = ['kind', 'departmentCode', 'prevDepartmentCode']
+
+  const unitChangeUpperFirstAttributes = [
+    'departmentDesc',
+    'prevDepartmentDesc',
+  ]
+
+  return {
+    ...pick(unitChange, unitChangeAttributes),
+    ...mapValues(
+      pick(unitChange, unitChangeUpperFirstAttributes),
+      (value) => value && upperFirst(value)
+    ),
+  }
+}
+
 const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.JOINED]: baseTimelineItemFormatter,
   [TIMELINE_KINDS.LEFT]: baseTimelineItemFormatter,
@@ -73,6 +90,7 @@ const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.DOCUMENT]: documentTimelineItemFormatter,
   [TIMELINE_KINDS.SALARY_CHANGE]: salaryChangeTimelineItemFormatter,
   [TIMELINE_KINDS.RANK_CHANGE]: rankChangeTimelineItemFormatter,
+  [TIMELINE_KINDS.UNIT_CHANGE]: unitChangeTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {

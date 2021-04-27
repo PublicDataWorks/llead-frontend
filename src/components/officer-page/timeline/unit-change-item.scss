@@ -1,0 +1,45 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.timeline-unit-change-item {
+  .timeline-unit-change-row {
+    @include small-text;
+    padding: $v-small-margin $h-card-margin;
+    color: $boulder-color;
+    background-color: $wild-sand-color;
+
+    .timeline-unit-change-value {
+      color: $thunder-color;
+    }
+
+    &.has-connected-line {
+      padding-left: $h-card-margin + $icon-width;
+    }
+
+    &:first-child {
+      border-radius: 8px 8px 0 0;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+
+    & + .timeline-unit-change-row {
+      border-top: 1px dashed $alto-color;
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .timeline-unit-change-item {
+    .timeline-unit-change-row {
+      &.has-connected-line {
+        &.left-item {
+          padding-left: $h-card-margin;
+        }
+      }
+    }
+  }
+}
