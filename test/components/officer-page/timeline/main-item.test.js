@@ -31,7 +31,7 @@ describe('MainItem component', () => {
       'timeline-main-item'
     )[0]
 
-    expect(baseElement.textContent).toEqual('Left from department')
+    expect(baseElement.textContent).toEqual('Left department')
     expect(leftComponent.classList).toContain('timeline-left-item')
   })
 })

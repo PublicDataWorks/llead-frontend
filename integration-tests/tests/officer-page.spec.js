@@ -129,7 +129,7 @@ describe('Officer Page', () => {
           .should('have.length', 1)
         cy.get('@secondTimelineGroup')
           .find('.timeline-main-item')
-          .should('text', 'Left from department')
+          .should('text', 'Left department')
 
         cy.get('.officer-timeline')
           .find('.timeline-group')
@@ -147,7 +147,7 @@ describe('Officer Page', () => {
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(1)
-          .should('text', 'Left from department')
+          .should('text', 'Left department')
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(2)
