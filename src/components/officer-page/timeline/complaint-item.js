@@ -95,9 +95,7 @@ const ComplaintItem = (props) => {
         className='complaint-item-header'
         onClick={() => setExpanded(!expanded)}
       >
-        <div className='complaint-item-title'>
-          Accused of {ruleViolation}
-        </div>
+        <div className='complaint-item-title'>Accused of {ruleViolation}</div>
         <div className='complaint-item-subtitle'>{disposition}</div>
         <div
           className={cx('complaint-item-expand-icon', {
@@ -123,20 +121,17 @@ const ComplaintItem = (props) => {
               )
           )}
 
-          <div
+          <CopyToClipboard
+            text={complaintItemUrl(officerId, id)}
+            onCopy={handleOnCopied}
             className={cx('complaint-item-copy-link', {
               'copy-link-active': copyTimeoutId,
             })}
           >
-            <CopyToClipboard
-              text={complaintItemUrl(officerId, id)}
-              onCopy={handleOnCopied}
-            >
-              <div>
-                {copyTimeoutId ? 'Link copied to your clipboard' : 'Copy link'}
-              </div>
-            </CopyToClipboard>
-          </div>
+            <div>
+              {copyTimeoutId ? 'Link copied to your clipboard' : 'Copy link'}
+            </div>
+          </CopyToClipboard>
         </div>
       )}
     </div>
