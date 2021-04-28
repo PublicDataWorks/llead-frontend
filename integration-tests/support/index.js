@@ -16,3 +16,7 @@ Cypress.Commands.add('login', () => {
     token: { access: accessToken },
   })
 })
+
+beforeEach(() => {
+  cy.clearLocalStorage()
+})
