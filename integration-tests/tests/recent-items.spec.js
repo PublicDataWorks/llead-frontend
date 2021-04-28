@@ -16,6 +16,7 @@ import {
 
 describe('FrontPage recent items', () => {
   beforeEach(() => {
+    cy.clearLocalStorage()
     cy.login()
 
     cy.interceptExact(

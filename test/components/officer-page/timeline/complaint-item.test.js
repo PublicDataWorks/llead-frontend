@@ -4,10 +4,12 @@ import sinon from 'sinon'
 
 import ComplaintItem from 'components/officer-page/timeline/complaint-item.js'
 import { complaintItemUrl } from 'utils/urls'
-import { ANIMATION_DURATION } from 'constants/common'
+import { ANIMATION_DURATION, QUICK_ANIMATION_DURATION } from 'constants/common'
 
 describe('ComplaintItem component', () => {
   it('renders complaint component', () => {
+    const clock = sinon.useFakeTimers()
+
     const complaintData = {
       ruleCode: 'Rule_code',
       ruleViolation: 'Rule Vialation',
@@ -21,7 +23,7 @@ describe('ComplaintItem component', () => {
 
     const container = render(<ComplaintItem {...complaintData} />)
 
-    const { baseElement } = container
+    const { baseElement, getByTestId } = container
 
     const complaintItemTitle = baseElement.getElementsByClassName(
       'complaint-item-title'
@@ -33,18 +35,20 @@ describe('ComplaintItem component', () => {
     )[0]
     expect(complaintItemSubtitle.textContent).toEqual('Disposition')
 
-    expect(
-      baseElement.getElementsByClassName('complaint-item-content').length
-    ).toEqual(0)
+    expect(getByTestId('test--complaint-animation').style['height']).toEqual(
+      '0px'
+    )
 
     const complaintItemHeader = baseElement.getElementsByClassName(
       'complaint-item-header'
     )[0]
-    fireEvent.click(complaintItemHeader)
 
-    expect(
-      baseElement.getElementsByClassName('complaint-item-content').length
-    ).not.toEqual(0)
+    fireEvent.click(complaintItemHeader)
+    clock.tick(QUICK_ANIMATION_DURATION)
+
+    expect(getByTestId('test--complaint-animation').style['height']).toEqual(
+      'auto'
+    )
 
     const complaintItemContent = baseElement.getElementsByClassName(
       'complaint-item-content'

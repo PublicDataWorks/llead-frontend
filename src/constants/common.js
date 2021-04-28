@@ -64,4 +64,5 @@ export const TIMELINE_FILTERS = {
   },
 }
 
+export const QUICK_ANIMATION_DURATION = 400
 export const ANIMATION_DURATION = 1500

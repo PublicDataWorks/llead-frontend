@@ -23,15 +23,17 @@
     }
 
     .complaint-item-expand-icon {
+      transition: all 0.25s linear;
       box-sizing: border-box;
       height: 48px;
       line-height: 48px;
-      padding-left: $h-card-margin;
+      display: inline-block;
+      width: 16px;
       background: url('assets/icons/down-disclosure-indicator.svg') no-repeat
-        left;
+        center;
 
       &.expanded-icon {
-        background-image: url('assets/icons/up-disclosure-indicator.svg');
+        transform: rotateZ(180deg);
       }
     }
   }

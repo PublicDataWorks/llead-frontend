@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import AnimateHeight from 'react-animate-height'
 import noop from 'lodash/noop'
 import join from 'lodash/join'
 import compact from 'lodash/compact'
 
 import './complaint-item.scss'
 import { complaintItemUrl } from 'utils/urls'
-import { ANIMATION_DURATION } from 'constants/common'
+import { ANIMATION_DURATION, QUICK_ANIMATION_DURATION } from 'constants/common'
 
 const ComplaintItem = (props) => {
   const {
@@ -105,7 +106,11 @@ const ComplaintItem = (props) => {
         />
       </div>
 
-      {expanded && (
+      <AnimateHeight
+        duration={QUICK_ANIMATION_DURATION}
+        height={expanded ? 'auto' : 0}
+        data-testid='test--complaint-animation'
+      >
         <div className='complaint-item-content'>
           {complaintData.map(
             (element) =>
@@ -133,7 +138,7 @@ const ComplaintItem = (props) => {
             </div>
           </CopyToClipboard>
         </div>
-      )}
+      </AnimateHeight>
     </div>
   )
 }
