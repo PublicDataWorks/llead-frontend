@@ -71,6 +71,7 @@
       background: $white-color url('assets/icons/chain.svg') no-repeat
         calc(100% - 16px);
       text-align: right;
+      transition: all 1s ease;
       line-height: 48px;
 
       &.copy-link-active {
