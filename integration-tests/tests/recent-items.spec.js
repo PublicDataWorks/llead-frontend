@@ -159,7 +159,7 @@ describe('FrontPage recent items', () => {
       .eq(0)
       .find('.officer-name')
       .contains('Mark Carlson')
-    cy.get('@visibleSlides').eq(0).find('.officer-badges').contains('12435,612')
+    cy.get('@visibleSlides').eq(0).find('.officer-badges').contains('12435, 612')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.officer-department-name')

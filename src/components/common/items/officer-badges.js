@@ -14,7 +14,7 @@ const OfficerBadges = (props) => {
 
   return (
     <div className='officer-badges'>
-      <ArrayWithSeparator items={officerBadges} separator=',' />
+      <ArrayWithSeparator items={officerBadges} separator=', ' />
     </div>
   )
 }

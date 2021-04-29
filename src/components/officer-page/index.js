@@ -99,7 +99,7 @@ const Officer = (props) => {
             <div className='officer-basic-info-row'>{description}</div>
           )}
           {annualSalary && (
-            <div className='officer-basic-info-row'>{annualSalary}</div>
+            <div className='officer-basic-info-row'>{annualSalary}/year</div>
           )}
           {!isEmpty(department) && (
             <CustomLink

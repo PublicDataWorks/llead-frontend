@@ -142,7 +142,7 @@ describe('Officer component', () => {
 
   it('renders correctly', () => {
     const officerData = {
-      annualSalary: '$57k/year',
+      annualSalary: '$57,123,72',
       badges: ['123', '456'],
       complaintsCount: 0,
       dataPeriod: '2012 and 2018-2020',
@@ -181,11 +181,11 @@ describe('Officer component', () => {
     const officerBasicInfoRows = baseElement.getElementsByClassName(
       'officer-basic-info-row'
     )
-    expect(officerBasicInfoRows[0].textContent).toEqual('123,456')
+    expect(officerBasicInfoRows[0].textContent).toEqual('123, 456')
     expect(officerBasicInfoRows[1].textContent).toEqual(
       'age-year-old gender race'
     )
-    expect(officerBasicInfoRows[2].textContent).toEqual('$57k/year')
+    expect(officerBasicInfoRows[2].textContent).toEqual('$57,123,72/year')
 
     expect(
       baseElement.getElementsByClassName('officer-department')[0].textContent

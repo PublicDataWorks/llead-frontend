@@ -10,7 +10,7 @@ const SalaryChangeItem = (props) => {
   return (
     <div className={cx('timeline-change-item', className)}>
       Salary changed to
-      <span className='change-item-value'> ${annualSalary}/yr</span>
+      <span className='change-item-value'> {annualSalary}/yr</span>
     </div>
   )
 }

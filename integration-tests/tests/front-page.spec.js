@@ -199,7 +199,7 @@ describe('FrontPage', () => {
         cy.get('@visibleSlides')
           .eq(0)
           .find('.officer-badges')
-          .contains('12435,612')
+          .contains('12435, 612')
         cy.get('@visibleSlides')
           .eq(0)
           .find('.officer-department-name')

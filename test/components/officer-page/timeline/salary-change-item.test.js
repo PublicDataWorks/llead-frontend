@@ -8,13 +8,13 @@ describe('SalaryChangeItem component', () => {
   it('renders component successfully', () => {
     const props = {
       kind: TIMELINE_KINDS.SALARY_CHANGE,
-      annualSalary: '50k',
+      annualSalary: '$50,526.78',
     }
 
     const container = render(<SalaryChangeItem {...props} />)
 
     const { baseElement } = container
 
-    expect(baseElement.textContent).toEqual('Salary changed to $50k/yr')
+    expect(baseElement.textContent).toEqual('Salary changed to $50,526.78/yr')
   })
 })

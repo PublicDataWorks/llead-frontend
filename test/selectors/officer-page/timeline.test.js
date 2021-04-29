@@ -60,7 +60,7 @@ describe('#timelineSelector', () => {
       {
         kind: 'SALARY_CHANGE',
         year: 2019,
-        annualSalary: '65k',
+        annualSalary: '65123.23',
         date: '2019-06-13',
       },
       {
@@ -192,7 +192,7 @@ describe('#timelineSelector', () => {
           },
           {
             kind: 'SALARY_CHANGE',
-            annualSalary: '65k',
+            annualSalary: '$65,123.23',
           },
           {
             id: '123',
@@ -407,7 +407,7 @@ describe('#timelineSelector', () => {
       {
         kind: 'SALARY_CHANGE',
         year: 2019,
-        annualSalary: '65k',
+        annualSalary: '65123.23',
         date: '2019-06-13',
       },
       {
@@ -616,7 +616,7 @@ describe('#timelineFilterGroupsSelector', () => {
       {
         kind: 'SALARY_CHANGE',
         year: 2019,
-        annualSalary: '65k',
+        annualSalary: '$65,123.23',
         date: '2019-06-13',
       },
       {

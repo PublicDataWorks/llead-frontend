@@ -7,7 +7,7 @@ import mapValues from 'lodash/mapValues'
 import pick from 'lodash/pick'
 import trim from 'lodash/trim'
 
-import { formatDataPeriods } from 'utils/formatter'
+import { formatDataPeriods, formatCurrencyNumber } from 'utils/formatter'
 import { officerFormatter } from 'selectors/common'
 
 const formatOfficerDescription = (officer) => {
@@ -36,7 +36,9 @@ const officerDetailsFormatter = (officer) => {
   ]
 
   const rawAnnualSalary = get(officer, 'annualSalary')
-  const annualSalary = rawAnnualSalary ? `$${rawAnnualSalary}/year` : ''
+  const annualSalary = rawAnnualSalary
+    ? `${formatCurrencyNumber(rawAnnualSalary)}`
+    : ''
 
   const allDataPeriods = mapValues(
     pick(officer, [
