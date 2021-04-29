@@ -28,7 +28,7 @@ describe('ComplaintItem component', () => {
     const complaintItemTitle = baseElement.getElementsByClassName(
       'complaint-item-title'
     )[0]
-    expect(complaintItemTitle.textContent).toEqual('Accused of Rule Vialation')
+    expect(complaintItemTitle.textContent).toEqual('Accused of misconduct')
 
     const complaintItemSubtitle = baseElement.getElementsByClassName(
       'complaint-item-subtitle'

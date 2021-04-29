@@ -16,6 +16,11 @@
 
     .complaint-item-title {
       font-weight: 300;
+      color: $boulder-color;
+
+      span {
+        color: $thunder-color;
+      }
     }
 
     .complaint-item-subtitle {

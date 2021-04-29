@@ -96,7 +96,9 @@ const ComplaintItem = (props) => {
         className='complaint-item-header'
         onClick={() => setExpanded(!expanded)}
       >
-        <div className='complaint-item-title'>Accused of {ruleViolation}</div>
+        <div className='complaint-item-title'>
+          Accused of <span>misconduct</span>
+        </div>
         <div className='complaint-item-subtitle'>{disposition}</div>
         <div
           className={cx('complaint-item-expand-icon', {
