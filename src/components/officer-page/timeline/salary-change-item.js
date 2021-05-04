@@ -5,21 +5,19 @@ import cx from 'classnames'
 import './change-item.scss'
 
 const SalaryChangeItem = (props) => {
-  const { annualSalary, className } = props
+  const { salary, className } = props
 
   return (
     <div className={cx('timeline-change-item', className)}>
       Salary changed to
-      <span className='change-item-value'> {annualSalary}/yr</span>
+      <span className='change-item-value'> {salary}</span>
     </div>
   )
 }
 
 SalaryChangeItem.propTypes = {
   className: PropTypes.string,
-  annualSalary: PropTypes.string,
+  salary: PropTypes.string,
 }
-
-SalaryChangeItem.defaultProps = {}
 
 export default SalaryChangeItem

@@ -75,6 +75,13 @@ describe('#timelineSelector', () => {
         trackingNumber: '20-10',
       },
       {
+        kind: 'SALARY_CHANGE',
+        year: 2018,
+        annualSalary: null,
+        hourlySalary: '12.57',
+        date: '2018-10-20',
+      },
+      {
         id: '126',
         kind: 'COMPLAINT',
         date: null,
@@ -192,7 +199,7 @@ describe('#timelineSelector', () => {
           },
           {
             kind: 'SALARY_CHANGE',
-            annualSalary: '$65,123.23',
+            salary: '$65,123.23/yr',
           },
           {
             id: '123',
@@ -322,6 +329,10 @@ describe('#timelineSelector', () => {
         items: [
           {
             kind: 'LEFT',
+          },
+          {
+            kind: 'SALARY_CHANGE',
+            salary: '$12.57/hr',
           },
           {
             id: '125',

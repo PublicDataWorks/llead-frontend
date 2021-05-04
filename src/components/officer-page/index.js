@@ -35,7 +35,7 @@ const Officer = (props) => {
     department,
     badges,
     description,
-    annualSalary,
+    salary,
     documentsCount,
     complaintsCount,
     dataPeriod,
@@ -98,9 +98,7 @@ const Officer = (props) => {
           {description && (
             <div className='officer-basic-info-row'>{description}</div>
           )}
-          {annualSalary && (
-            <div className='officer-basic-info-row'>{annualSalary}/year</div>
-          )}
+          {salary && <div className='officer-basic-info-row'>{salary}</div>}
           {!isEmpty(department) && (
             <CustomLink
               className='officer-department'

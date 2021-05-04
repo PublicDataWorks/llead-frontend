@@ -26,10 +26,6 @@ export const formatNumber = (value) => {
   return numeral(value).format('0,0')
 }
 
-export const formatCurrencyNumber = (value) => {
-  return numeral(value).format('$0,0.[00]')
-}
-
 export const stringifyTotalItems = (count, itemName) => {
   return `${formatNumber(count)} ${pluralize(itemName, count)}`
 }

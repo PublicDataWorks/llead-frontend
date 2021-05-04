@@ -8,7 +8,7 @@ describe('SalaryChangeItem component', () => {
   it('renders component successfully', () => {
     const props = {
       kind: TIMELINE_KINDS.SALARY_CHANGE,
-      annualSalary: '$50,526.78',
+      salary: '$50,526.78/yr',
     }
 
     const container = render(<SalaryChangeItem {...props} />)

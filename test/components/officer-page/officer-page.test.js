@@ -142,7 +142,7 @@ describe('Officer component', () => {
 
   it('renders correctly', () => {
     const officerData = {
-      annualSalary: '$57,123,72',
+      salary: '$57,123,72/year',
       badges: ['123', '456'],
       complaintsCount: 0,
       dataPeriod: '2012 and 2018-2020',

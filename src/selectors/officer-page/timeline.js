@@ -15,8 +15,9 @@ import upperFirst from 'lodash/upperFirst'
 import values from 'lodash/values'
 import some from 'lodash/some'
 
-import { formatTimelineDate, formatCurrencyNumber } from 'utils/formatter'
+import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter } from 'selectors/common'
+import { formatSalary } from 'selectors/officer-page'
 import {
   TIMELINE_FILTERS,
   TIMELINE_KINDS,
@@ -57,14 +58,11 @@ const documentTimelineItemFormatter = (document) => {
 const salaryChangeTimelineItemFormatter = (salaryChange) => {
   const attributes = ['kind']
 
-  const rawAnnualSalary = get(salaryChange, 'annualSalary')
-  const annualSalary = rawAnnualSalary
-    ? `${formatCurrencyNumber(rawAnnualSalary)}`
-    : ''
+  const salary = formatSalary(salaryChange)
 
   return {
     ...pick(salaryChange, attributes),
-    annualSalary,
+    salary,
   }
 }
 
