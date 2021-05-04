@@ -8,7 +8,7 @@ describe('SalaryChangeItem component', () => {
   it('renders component successfully', () => {
     const props = {
       kind: TIMELINE_KINDS.RANK_CHANGE,
-      rankDesc: 'senior police officer',
+      rank: 'senior police officer',
     }
 
     const container = render(<RankChangeItem {...props} />)

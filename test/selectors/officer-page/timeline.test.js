@@ -188,7 +188,7 @@ describe('#timelineSelector', () => {
           },
           {
             kind: 'RANK_CHANGE',
-            rankDesc: 'Senior police officer',
+            rank: 'Senior police officer',
           },
           {
             kind: 'UNIT_CHANGE',
@@ -357,6 +357,54 @@ describe('#timelineSelector', () => {
             paragraphViolation: 'Officer paragraph violation of unknowed time',
             disposition: 'Officer dispostion of unknowed time',
             action: 'Officer action of unknowed time',
+          },
+        ],
+      },
+    ])
+  })
+
+  it('handles rank change rows', () => {
+    const timelineData = [
+      {
+        kind: 'RANK_CHANGE',
+        year: 2019,
+        rankDesc: 'senior police officer',
+        rankCode: '123985',
+        date: '2019-06-13',
+      },
+      {
+        kind: 'RANK_CHANGE',
+        year: 2018,
+        rankCode: '0992834',
+        date: null,
+      },
+    ]
+    const state = {
+      officerPage: {
+        timeline: timelineData,
+      },
+    }
+
+    const timeline = timelineSelector(state)
+
+    expect(timeline).toStrictEqual([
+      {
+        groupName: 'Jun 13, 2019',
+        isDateEvent: true,
+        items: [
+          {
+            kind: 'RANK_CHANGE',
+            rank: 'Senior police officer',
+          },
+        ],
+      },
+      {
+        groupName: '2018',
+        isDateEvent: false,
+        items: [
+          {
+            kind: 'RANK_CHANGE',
+            rank: '0992834',
           },
         ],
       },
@@ -534,7 +582,7 @@ describe('#timelineSelector', () => {
         items: [
           {
             kind: 'RANK_CHANGE',
-            rankDesc: 'Senior police officer',
+            rank: 'Senior police officer',
           },
           {
             kind: 'UNIT_CHANGE',

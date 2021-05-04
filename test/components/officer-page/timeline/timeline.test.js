@@ -786,7 +786,7 @@ describe('Timeline component', () => {
         items: [
           {
             kind: 'RANK_CHANGE',
-            rankDesc: 'senior police officer',
+            rank: 'senior police officer',
           },
         ],
       },
@@ -807,7 +807,7 @@ describe('Timeline component', () => {
 
     expect(RankChangeItem.mock.calls[0][0]).toStrictEqual({
       kind: 'RANK_CHANGE',
-      rankDesc: 'senior police officer',
+      rank: 'senior police officer',
       saveRecentItem: mockSaveRecentItem,
       className: 'has-connected-line left-item',
       highlight: false,

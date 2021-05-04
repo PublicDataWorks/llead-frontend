@@ -69,7 +69,7 @@ const salaryChangeTimelineItemFormatter = (salaryChange) => {
 const rankChangeTimelineItemFormatter = (rankChange) => {
   return {
     kind: rankChange.kind,
-    rankDesc: upperFirst(rankChange.rankDesc),
+    rank: upperFirst(rankChange.rankDesc) || rankChange.rankCode,
   }
 }
 

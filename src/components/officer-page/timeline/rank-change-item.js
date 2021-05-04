@@ -5,19 +5,19 @@ import cx from 'classnames'
 import './change-item.scss'
 
 const RankChangeItem = (props) => {
-  const { rankDesc, className } = props
+  const { rank, className } = props
 
   return (
     <div className={cx('timeline-change-item', className)}>
       Changed rank to
-      <span className='change-item-value'> {rankDesc}</span>
+      <span className='change-item-value'> {rank}</span>
     </div>
   )
 }
 
 RankChangeItem.propTypes = {
   className: PropTypes.string,
-  rankDesc: PropTypes.string,
+  rank: PropTypes.string,
 }
 
 RankChangeItem.defaultProps = {}
