@@ -44,13 +44,13 @@ const FrontPage = (props) => {
         data-testid='test--summary'
         dangerouslySetInnerHTML={{ __html: cms.summary }}
       />
+      <AnalyticSummary analyticSummary={analyticSummary} />
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
           items={recentItems}
           className='front-page-carousel'
         />
       )}
-      <AnalyticSummary analyticSummary={analyticSummary} />
       {!isEmpty(departments) && (
         <DepartmentsCarousel
           items={departments}
