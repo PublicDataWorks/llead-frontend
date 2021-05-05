@@ -9,7 +9,7 @@ module.exports = {
   entry: path.resolve(srcPath, 'index.js'),
   output: {
     path: path.resolve(rootPath, 'dist'),
-    filename: 'app.js',
+    filename: 'app-[contenthash].js',
     publicPath: '/',
   },
   devServer: {
