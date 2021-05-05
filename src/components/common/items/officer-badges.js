@@ -8,11 +8,13 @@ import ArrayWithSeparator from 'components/common/array-with-separator'
 const OfficerBadges = (props) => {
   const { badges } = props
 
-  const officerBadges = map(badges, (badge) => <span key={badge}>{badge}</span>)
+  const officerBadges = map(badges, (badge, index) => (
+    <span key={index}>{badge}</span>
+  ))
 
   return (
     <div className='officer-badges'>
-      <ArrayWithSeparator items={officerBadges} separator=',' />
+      <ArrayWithSeparator items={officerBadges} separator=', ' />
     </div>
   )
 }

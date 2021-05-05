@@ -11,26 +11,26 @@ describe('Search Page', () => {
 
   describe('render successfully', () => {
     beforeEach(() => {
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/search',
+          url: 'http://localhost:8000/api/search/',
           query: { q: 'ba' },
         },
         firstSearchData
       )
 
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/search',
+          url: 'http://localhost:8000/api/search/',
           query: { q: 'baton' },
         },
         secondSearchData

@@ -11,21 +11,53 @@ import {
   officer1DetailsData,
   officer1DocumentsData,
   recentItemsData,
+  officerTimelineData,
 } from '../data/recent-items-data'
 
 describe('FrontPage recent items', () => {
   beforeEach(() => {
+    cy.clearLocalStorage()
     cy.login()
 
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
-        url: `http://localhost:8000/api/departments/9/documents/`,
+        url: 'http://localhost:8000/api/app-config/',
       },
-      department9DocumentsData
+      appConfigData
     )
 
-    cy.intercept(
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/analytics/summary/',
+      },
+      analyticSummaryData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/departments/',
+      },
+      departmentsData
+    )
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/officers/',
+      },
+      officersData
+    )
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/documents/',
+      },
+      documentsData
+    )
+
+    cy.interceptExact(
       {
         method: 'GET',
         url: `http://localhost:8000/api/departments/9/`,
@@ -33,7 +65,22 @@ describe('FrontPage recent items', () => {
       department9DetailsData
     )
 
-    cy.intercept(
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: `http://localhost:8000/api/departments/9/documents/`,
+      },
+      department9DocumentsData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: `http://localhost:8000/api/officers/1/`,
+      },
+      officer1DetailsData
+    )
+    cy.interceptExact(
       {
         method: 'GET',
         url: `http://localhost:8000/api/officers/1/documents/`,
@@ -41,48 +88,12 @@ describe('FrontPage recent items', () => {
       officer1DocumentsData
     )
 
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
-        url: `http://localhost:8000/api/officers/1/`,
+        url: 'http://localhost:8000/api/officers/1/timeline/',
       },
-      officer1DetailsData
-    )
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/app-config/',
-      },
-      appConfigData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/analytics/summary/',
-      },
-      analyticSummaryData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/departments/',
-      },
-      departmentsData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/officers/',
-      },
-      officersData
-    )
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/documents/',
-      },
-      documentsData
+      officerTimelineData
     )
   })
 
@@ -133,7 +144,7 @@ describe('FrontPage recent items', () => {
 
     cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
     cy.location('pathname').should('eq', `/officers/${officerId}/`)
-    cy.get('.officer-content')
+    cy.get('.officer-basic-info')
       .find('.officer-name')
       .should('text', 'Mark Carlson')
 
@@ -148,7 +159,7 @@ describe('FrontPage recent items', () => {
       .eq(0)
       .find('.officer-name')
       .contains('Mark Carlson')
-    cy.get('@visibleSlides').eq(0).find('.officer-badges').contains('12435,612')
+    cy.get('@visibleSlides').eq(0).find('.officer-badges').contains('12435, 612')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.officer-department-name')
@@ -176,7 +187,7 @@ describe('FrontPage recent items', () => {
       .contains('Her hard step sea.')
     cy.get('@visibleSlides')
       .eq(0)
-      .find('.document-incident-date')
+      .find('.document-subtitle')
       .contains('Jan 6, 2020')
     cy.get('@visibleSlides')
       .eq(0)
@@ -193,14 +204,10 @@ describe('FrontPage recent items', () => {
   })
 
   it('adds document to recent items when click document row in department page', () => {
-    cy.visit('/')
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
     })
-
-    cy.get('.recent-items-carousel').should('not.exist')
-    cy.get('.departments-carousel').find('.swiper-slide').eq(0).click()
-    cy.location('pathname').should('eq', `/departments/9/`)
+    cy.visit('/departments/9/')
     cy.get('.document-item').click()
     cy.get('.logo').click()
 
@@ -216,7 +223,7 @@ describe('FrontPage recent items', () => {
       .contains('Pattern risk team election myself suffer wind.')
     cy.get('@visibleSlides')
       .eq(0)
-      .find('.document-incident-date')
+      .find('.document-subtitle')
       .contains('May 4, 2020')
     cy.get('@visibleSlides')
       .eq(0)
@@ -232,17 +239,12 @@ describe('FrontPage recent items', () => {
       )
   })
 
-  it('adds document to recent items when click document row in officer page', () => {
-    cy.visit('/')
+  it('adds document to recent items when click document card in officer timeline', () => {
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
     })
-
-    cy.get('.recent-items-carousel').should('not.exist')
-
-    cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
-    cy.location('pathname').should('eq', `/officers/1/`)
-    cy.get('.document-item').click()
+    cy.visit('/officers/1/')
+    cy.get('.officer-timeline').find('.timeline-document-card').eq(0).click()
     cy.get('.logo').click()
 
     cy.get('.recent-items-carousel')
@@ -250,34 +252,34 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 2)
 
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('flac')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('pdf')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')
-      .contains('Structure land official huge draw significant.')
+      .contains('Document 2019-03-10')
     cy.get('@visibleSlides')
       .eq(0)
-      .find('.document-incident-date')
-      .contains('Jun 12, 2021')
+      .find('.document-subtitle')
+      .contains('Mar 10, 2019')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-department-name')
-      .contains('New Orleans PD')
+      .contains('Department')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-preview')
       .should(
         'have.css',
         'background-image',
-        'url("http://image.com/after/last-preview.jpg")'
+        'url("http://image.com/image/our-preview.jpg")'
       )
   })
 
   it('adds multiple recent items', () => {
-    cy.visit('/')
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
     })
+    cy.visit('/')
 
     cy.get('.recent-items-carousel').should('not.exist')
     cy.get('.documents-carousel').find('.swiper-slide').eq(0).click()
@@ -322,7 +324,7 @@ describe('FrontPage recent items', () => {
   })
 
   it('fetches recent items data from api', () => {
-    cy.intercept(
+    cy.interceptExact(
       {
         method: 'GET',
         url: `http://localhost:8000/api/historical-data/recent-items/`,

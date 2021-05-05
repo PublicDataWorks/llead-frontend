@@ -1,6 +1,6 @@
 import config from 'config'
 
-const API_URL = `${config.serverUrl}api/`
+const API_URL = `${config.serverUrl}/api/`
 export const TOKEN_API_URL = `${API_URL}token/`
 export const LOG_OUT_API_URL = `${API_URL}token/revoke/`
 export const REFRESH_TOKEN_API_URL = `${API_URL}token/refresh/`

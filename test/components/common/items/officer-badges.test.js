@@ -12,6 +12,6 @@ describe('OfficerBadges item component', () => {
     const container = render(<OfficerBadges {...props} />)
     const { baseElement } = container
 
-    expect(baseElement.textContent).toEqual('123,456')
+    expect(baseElement.textContent).toEqual('123, 456')
   })
 })

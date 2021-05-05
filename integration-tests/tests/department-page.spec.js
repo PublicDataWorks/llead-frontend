@@ -17,14 +17,30 @@ describe('Department Page', () => {
 
   describe('render successfully', () => {
     beforeEach(() => {
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
       )
-      cy.intercept(
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/1/documents/',
+          noQuery: true,
+        },
+        departmentDocumentData
+      )
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/1/documents/',
@@ -32,7 +48,7 @@ describe('Department Page', () => {
         },
         departmentDocumentsSearchNextData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/1/documents/',
@@ -40,27 +56,13 @@ describe('Department Page', () => {
         },
         departmentDocumentsSearchData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/1/documents/',
           query: { limit: '5', offset: '5' },
         },
         departmentNextDocumentsData
-      )
-      cy.intercept(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/departments/1/documents/',
-        },
-        departmentDocumentData
-      )
-      cy.intercept(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/departments/1',
-        },
-        departmentDetailsData
       )
 
       cy.login()
@@ -208,14 +210,14 @@ describe('Department Page', () => {
   describe('render data period info', () => {
     beforeEach(() => {
       cy.login()
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/1/documents/',
@@ -223,7 +225,7 @@ describe('Department Page', () => {
         },
         departmentNextDocumentsData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/1/documents/',
@@ -232,10 +234,10 @@ describe('Department Page', () => {
       )
     })
     it('should render with data period', () => {
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/departments/1',
+          url: 'http://localhost:8000/api/departments/1/',
         },
         departmentDetailsData
       )
@@ -247,7 +249,7 @@ describe('Department Page', () => {
       )
     })
     it('should render with no data period', () => {
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/1',

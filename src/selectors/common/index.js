@@ -6,7 +6,7 @@ import mapValues from 'lodash/mapValues'
 import map from 'lodash/map'
 
 import { CMS_KEYS } from 'constants/common'
-import { formatDocumentDate } from 'utils/formatter'
+import { formatDate } from 'utils/formatter'
 
 export const departmentFormatter = (department) => {
   const attributes = ['id', 'name', 'city', 'parish', 'locationMapUrl']
@@ -43,7 +43,7 @@ export const documentFormatter = (document) => {
 
   return {
     ...pick(document, documentAttributes),
-    incidentDate: formatDocumentDate(document.incidentDate),
+    incidentDate: formatDate(document.incidentDate),
     departments,
   }
 }

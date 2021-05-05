@@ -2,8 +2,8 @@ import moment from 'moment'
 
 import {
   getIsOfficerRequesting,
+  formatSalary,
   officerSelector,
-  documentsSelector,
   officerRecentDataSelector,
 } from 'selectors/officer-page'
 
@@ -35,7 +35,8 @@ describe('#officerSelector', () => {
           name: 'Department Name',
           extraDepartmentField: 'should not be included',
         },
-        annualSalary: '57k',
+        annualSalary: '54267.789',
+        hourlySalary: '12.24',
         documentsCount: 1,
         complaintsCount: 2,
         dataPeriod: ['2012', '2018-2020'],
@@ -61,7 +62,7 @@ describe('#officerSelector', () => {
         dataPeriod: '2012 and 2018-2020',
         documentsDataPeriod: '2015-2016',
         complaintsDataPeriod: '2012, 2014 and 2016-2018',
-        annualSalary: '$57k/year',
+        salary: '$54,267.79/year',
         description: `${age}-year-old gender race`,
         department: {
           id: 100,
@@ -70,7 +71,56 @@ describe('#officerSelector', () => {
       })
     })
 
-    it('returns department data with empty annualSalary', () => {
+    it('returns department data with hourly salary', () => {
+      const officerData = {
+        id: 1,
+        name: 'Officer Name',
+        badges: ['12345'],
+        birthYear: 1962,
+        race: 'race',
+        gender: 'gender',
+        department: {
+          id: 100,
+          name: 'Department Name',
+          extraDepartmentField: 'should not be included',
+        },
+        annualSalary: null,
+        hourlySalary: '12.24',
+        documentsCount: 1,
+        complaintsCount: 2,
+        dataPeriod: ['2012', '2018-2020'],
+        extraField: 'should not be included',
+        documentsDataPeriod: ['2015-2016'],
+        complaintsDataPeriod: ['2012', '2014', '2016-2018'],
+      }
+      const state = {
+        officerPage: {
+          officer: officerData,
+        },
+      }
+
+      const age = moment().diff(moment('1962', 'YYYY'), 'years')
+      const officer = officerSelector(state)
+
+      expect(officer).toStrictEqual({
+        id: 1,
+        name: 'Officer Name',
+        badges: ['12345'],
+        documentsCount: 1,
+        complaintsCount: 2,
+        salary: '$12.24/hour',
+        description: `${age}-year-old gender race`,
+        department: {
+          id: 100,
+          name: 'Department Name',
+        },
+        dataPeriod: '2012 and 2018-2020',
+        documentsDataPeriod: '2015-2016',
+        complaintsDataPeriod: '2012, 2014 and 2016-2018',
+      })
+    })
+
+    it('returns department data with empty salary', () => {
       const officerData = {
         id: 1,
         name: 'Officer Name',
@@ -105,7 +155,7 @@ describe('#officerSelector', () => {
         badges: ['12345'],
         documentsCount: 1,
         complaintsCount: 2,
-        annualSalary: '',
+        salary: undefined,
         description: `${age}-year-old gender race`,
         department: {
           id: 100,
@@ -127,7 +177,7 @@ describe('#officerSelector', () => {
           name: 'Department Name',
           extraDepartmentField: 'should not be included',
         },
-        annualSalary: '57k',
+        annualSalary: '54267.789',
         documentsCount: 1,
         complaintsCount: 2,
         dataPeriod: ['2012', '2018-2020'],
@@ -149,7 +199,7 @@ describe('#officerSelector', () => {
         badges: ['12345'],
         documentsCount: 1,
         complaintsCount: 2,
-        annualSalary: '$57k/year',
+        salary: '$54,267.79/year',
         description: '',
         department: {
           id: 100,
@@ -171,7 +221,7 @@ describe('#officerSelector', () => {
           name: 'Department Name',
           extraDepartmentField: 'should not be included',
         },
-        annualSalary: '57k',
+        annualSalary: '54267.789',
         documentsCount: 1,
         complaintsCount: 2,
         dataPeriod: [],
@@ -193,7 +243,7 @@ describe('#officerSelector', () => {
         badges: ['12345'],
         documentsCount: 1,
         complaintsCount: 2,
-        annualSalary: '$57k/year',
+        salary: '$54,267.79/year',
         description: '',
         department: {
           id: 100,
@@ -248,63 +298,54 @@ describe('#officerRecentDataSelector', () => {
   })
 })
 
-describe('#documentsSelector', () => {
-  describe('has data', () => {
-    it('returns document data', () => {
-      const documentsData = [
-        {
-          id: 39,
-          documentType: 'json',
-          title: 'Pattern risk team election myself suffer wind.',
-          url: 'http://documents.com/glass/shoulder.pdf',
-          incidentDate: '2020-05-04',
-          extraField: 'data',
-          departments: [
-            {
-              id: 1234,
-              name: 'department name',
-              extraField: 'data',
-            },
-          ],
-        },
-      ]
-      const state = {
-        officerPage: {
-          documents: documentsData,
-        },
-      }
+describe('#formatSalary', () => {
+  it('formats annual salary in short form', () => {
+    const data = {
+      annualSalary: '1900531.231',
+      hourlySalary: '29.1450',
+    }
 
-      const documents = documentsSelector(state)
-
-      expect(documents).toStrictEqual([
-        {
-          id: 39,
-          documentType: 'json',
-          title: 'Pattern risk team election myself suffer wind.',
-          url: 'http://documents.com/glass/shoulder.pdf',
-          incidentDate: 'May 4, 2020',
-          departments: [{ id: 1234, name: 'department name' }],
-          recentData: {
-            id: 39,
-            documentType: 'json',
-            title: 'Pattern risk team election myself suffer wind.',
-            url: 'http://documents.com/glass/shoulder.pdf',
-            incidentDate: 'May 4, 2020',
-            departments: [{ id: 1234, name: 'department name' }],
-          },
-        },
-      ])
-    })
+    const salary = formatSalary(data)
+    expect(salary).toEqual('$1,900,531.23/yr')
   })
 
-  describe('does not have data', () => {
-    it('returns empty data', () => {
-      const state = {
-        officerPage: {},
-      }
-      const documents = documentsSelector(state)
+  it('formats annual salary in long form', () => {
+    const data = {
+      annualSalary: '1900531.231',
+      hourlySalary: '29.1450',
+    }
 
-      expect(documents).toStrictEqual([])
-    })
+    const salary = formatSalary(data, true)
+    expect(salary).toEqual('$1,900,531.23/year')
+  })
+
+  it('formats hourly salary in short form', () => {
+    const data = {
+      annualSalary: null,
+      hourlySalary: '29.1450',
+    }
+
+    const salary = formatSalary(data)
+    expect(salary).toEqual('$29.15/hr')
+  })
+
+  it('formats hourly salary in long form', () => {
+    const data = {
+      annualSalary: null,
+      hourlySalary: '29.1450',
+    }
+
+    const salary = formatSalary(data, true)
+    expect(salary).toEqual('$29.15/hour')
+  })
+
+  it('returns null if both annualSalary and hourlySalary do not exist', () => {
+    const data = {
+      annualSalary: null,
+      hourlySalary: null,
+    }
+
+    const salary = formatSalary(data)
+    expect(salary).toEqual(undefined)
   })
 })

@@ -9,11 +9,12 @@
     display: flex;
     color: $white-color;
     padding: $v-margin $h-card-margin;
+    flex-wrap: wrap;
 
     .analytic-summary-content {
       @include callout-text;
       flex-grow: 1;
-      flex-basis: auto;
+      flex-basis: 100%;
     }
 
     .recent-summary {
@@ -28,14 +29,11 @@
   }
 }
 
-@media only screen and (max-width: $mobile-breakpoint) {
+@media only screen and (min-width: $mobile-breakpoint) {
   .analytic-summary {
     .analytic-summary-item {
-      flex-wrap: wrap;
-
       .analytic-summary-content {
-        flex-grow: 1;
-        flex-basis: 100%;
+        flex-basis: auto;
       }
     }
   }

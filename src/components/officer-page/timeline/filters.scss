@@ -1,0 +1,26 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.timeline-filters {
+  margin-top: 2 * $v-small-margin;
+
+  &.center-items {
+    text-align: center;
+  }
+
+  .filter-item {
+    @include small-text;
+    padding: $v-small-margin $h-side-frame;
+    background-color: $white-color;
+    color: $thunder-color;
+    border-radius: 8px;
+    margin: 0 $h-small-margin $v-tinier-margin 0;
+    display: inline-block;
+    cursor: pointer;
+
+    &.filter-item-selected {
+      background-color: $alto-color;
+    }
+  }
+}

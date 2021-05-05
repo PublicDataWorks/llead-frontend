@@ -28,3 +28,41 @@ export const RECENT_ITEM_TYPES = {
 }
 
 export const REQUEST_CANCEL_MESSAGE = 'Cancel old request'
+
+export const TIMELINE_KIND_ORDERS = {
+  JOINED: 1,
+  LEFT: 2,
+  RANK_CHANGE: 3,
+  UNIT_CHANGE: 4,
+  SALARY_CHANGE: 5,
+  COMPLAINT: 6,
+  DOCUMENT: 7,
+}
+
+export const TIMELINE_KINDS = {
+  JOINED: 'JOINED',
+  LEFT: 'LEFT',
+  COMPLAINT: 'COMPLAINT',
+  DOCUMENT: 'DOCUMENT',
+  SALARY_CHANGE: 'SALARY_CHANGE',
+  RANK_CHANGE: 'RANK_CHANGE',
+  UNIT_CHANGE: 'UNIT_CHANGE',
+}
+
+export const TIMELINE_FILTERS = {
+  COMPLAINTS: {
+    title: 'Complaints',
+    kinds: [TIMELINE_KINDS.COMPLAINT],
+  },
+  DOCUMENTS: {
+    title: 'Documents',
+    kinds: [TIMELINE_KINDS.DOCUMENT],
+  },
+  RANKS_AND_UNITS: {
+    title: 'Rank/unit',
+    kinds: [TIMELINE_KINDS.RANK_CHANGE, TIMELINE_KINDS.UNIT_CHANGE],
+  },
+}
+
+export const QUICK_ANIMATION_DURATION = 400
+export const ANIMATION_DURATION = 1500

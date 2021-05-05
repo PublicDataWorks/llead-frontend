@@ -1,23 +1,24 @@
 import {
-  formatDocumentDate,
+  formatDate,
   formatNumber,
   stringifyTotalItems,
   formatDataPeriods,
+  formatTimelineDate,
 } from 'utils/formatter'
 
-describe('#formatDocumentDate', () => {
+describe('#formatDate', () => {
   it('returns empty on invalidDate', () => {
-    const dateString = formatDocumentDate('adsfads')
+    const dateString = formatDate('adsfads')
     expect(dateString).toBe('')
   })
 
   it('returns formatted date string', () => {
-    const dateString = formatDocumentDate('2020-01-06')
+    const dateString = formatDate('2020-01-06')
     expect(dateString).toEqual('Jan 6, 2020')
   })
 
   it('returns emtpy on empty date', () => {
-    const dateString = formatDocumentDate('')
+    const dateString = formatDate('')
     expect(dateString).toBe('')
   })
 })
@@ -52,5 +53,31 @@ describe('#formatDataPeriods', () => {
     const formattedItem = formatDataPeriods(['123', '456-789', '1012'])
 
     expect(formattedItem).toEqual('123, 456-789 and 1012')
+  })
+})
+
+describe('#formatTimelineDate', () => {
+  it('formatted timeline with year only', () => {
+    const dateString = formatTimelineDate('1980')
+
+    expect(dateString).toEqual('1980')
+  })
+
+  it('formatted timeline with full date string', () => {
+    const dateString = formatTimelineDate('1980-12-20')
+
+    expect(dateString).toEqual('Dec 20, 1980')
+  })
+
+  it('formatted timeline with empty date string', () => {
+    const dateString = formatTimelineDate('')
+
+    expect(dateString).toEqual('No Date')
+  })
+
+  it('formatted timeline with invalid date string', () => {
+    const dateString = formatTimelineDate('abcsadsf')
+
+    expect(dateString).toEqual('No Date')
   })
 })

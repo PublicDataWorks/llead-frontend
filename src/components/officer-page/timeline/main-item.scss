@@ -1,0 +1,17 @@
+@import 'styles/variables';
+@import 'styles/colors';
+
+.timeline-main-item {
+  padding: $v-small-margin 0;
+  text-align: center;
+  color: $white-color;
+  border-radius: 8px;
+
+  &.timeline-joined-item {
+    background-color: $rhino-color;
+  }
+
+  &.timeline-left-item {
+    background-color: $rustic-red-color;
+  }
+}

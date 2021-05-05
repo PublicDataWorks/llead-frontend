@@ -32,35 +32,35 @@ describe('FrontPage', () => {
   describe('render successfully', () => {
     beforeEach(() => {
       cy.login()
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/analytics/summary/',
         },
         analyticSummaryData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/departments/',
         },
         departmentsData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/officers/',
         },
         officersData
       )
-      cy.intercept(
+      cy.interceptExact(
         {
           method: 'GET',
           url: 'http://localhost:8000/api/documents/',
@@ -199,7 +199,7 @@ describe('FrontPage', () => {
         cy.get('@visibleSlides')
           .eq(0)
           .find('.officer-badges')
-          .contains('12435,612')
+          .contains('12435, 612')
         cy.get('@visibleSlides')
           .eq(0)
           .find('.officer-department-name')
@@ -258,7 +258,7 @@ describe('FrontPage', () => {
 
       it('redirects to officer page when clicks on officer card', () => {
         cy.visit('/')
-
+        cy.waitUntil(() => cy.get('.officers-carousel').should('exist'))
         cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
 
         cy.location('pathname').should('eq', `/officers/${officersData[0].id}/`)
@@ -302,7 +302,7 @@ describe('FrontPage', () => {
           .contains('Her hard step sea.')
         cy.get('@visibleSlides')
           .eq(0)
-          .find('.document-incident-date')
+          .find('.document-subtitle')
           .contains('Jan 6, 2020')
         cy.get('@visibleSlides')
           .eq(0)

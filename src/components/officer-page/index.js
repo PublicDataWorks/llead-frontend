@@ -6,23 +6,19 @@ import isEmpty from 'lodash/isEmpty'
 import toNumber from 'lodash/toNumber'
 import isNaN from 'lodash/isNaN'
 import startCase from 'lodash/startCase'
-import map from 'lodash/map'
 
 import './officer-page.scss'
 import CustomLink from 'components/common/links/custom-link'
 import OfficerBadges from 'components/common/items/officer-badges'
-import DocumentItem from 'components/common/items/document-item'
 import { departmentPath } from 'utils/paths'
 import { stringifyTotalItems } from 'utils/formatter'
-import { formatNumber } from 'utils/formatter'
 import { RECENT_ITEM_TYPES } from 'constants/common'
+import TimelineContainer from 'containers/officer-page/timeline'
 
 const Officer = (props) => {
   const {
     officer,
-    documents,
     fetchOfficer,
-    fetchOfficerDocuments,
     isRequesting,
     saveRecentItem,
     recentData,
@@ -39,7 +35,7 @@ const Officer = (props) => {
     department,
     badges,
     description,
-    annualSalary,
+    salary,
     documentsCount,
     complaintsCount,
     dataPeriod,
@@ -49,7 +45,6 @@ const Officer = (props) => {
 
   useEffect(() => {
     fetchOfficer(officerId)
-    fetchOfficerDocuments(officerId)
   }, [officerId])
 
   useEffect(() => {
@@ -83,69 +78,48 @@ const Officer = (props) => {
   }
 
   return (
-    <div className='officer-page'>
-      {!isRequesting && !isEmpty(officer) && (
-        <>
-          {!isEmpty(dataPeriod) && (
-            <div className='officer-period'>
-              Data for this officer is limited to the years&nbsp;
-              {dataPeriod}
+    !isRequesting &&
+    !isEmpty(officer) && (
+      <div className='officer-page'>
+        {!isEmpty(dataPeriod) && (
+          <div className='officer-period'>
+            Data for this officer is limited to the years&nbsp;
+            {dataPeriod}
+          </div>
+        )}
+        <div className='officer-basic-info'>
+          <div className='officer-title'>Police Officer</div>
+          <div className='officer-name'>{startCase(name)}</div>
+          {!isEmpty(badges) && (
+            <div className='officer-basic-info-row'>
+              <OfficerBadges badges={badges} />
             </div>
           )}
-          <div className='officer-content'>
-            <div className='officer-title'>Police Officer</div>
-            <div className='officer-name'>{startCase(name)}</div>
-            <div className='officer-basic-info'>
-              {!isEmpty(badges) && (
-                <div className='officer-basic-info-row'>
-                  <OfficerBadges badges={badges} />
-                </div>
-              )}
-              {description && (
-                <div className='officer-basic-info-row'>{description}</div>
-              )}
-              {annualSalary && (
-                <div className='officer-basic-info-row'>{annualSalary}</div>
-              )}
-              {!isEmpty(department) && (
-                <CustomLink
-                  className='officer-department'
-                  to={departmentPath(department.id)}
-                >
-                  {department.name}
-                </CustomLink>
-              )}
-              {displaySummaryInfo()}
-            </div>
-            {documentsCount > 0 && (
-              <div className='officer-documents'>
-                <div className='officer-documents-title'>
-                  Documents ({formatNumber(documentsCount)})
-                </div>
-                <div className='officer-documents-listview'>
-                  {map(documents, (document) => (
-                    <DocumentItem
-                      key={document.id}
-                      {...document}
-                      saveRecentItem={saveRecentItem}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </>
-      )}
-    </div>
+          {description && (
+            <div className='officer-basic-info-row'>{description}</div>
+          )}
+          {salary && <div className='officer-basic-info-row'>{salary}</div>}
+          {!isEmpty(department) && (
+            <CustomLink
+              className='officer-department'
+              to={departmentPath(department.id)}
+            >
+              {department.name}
+            </CustomLink>
+          )}
+          {displaySummaryInfo()}
+        </div>
+
+        <TimelineContainer officerId={officerId} />
+      </div>
+    )
   )
 }
 
 Officer.propTypes = {
   officer: PropTypes.object,
   recentData: PropTypes.object,
-  documents: PropTypes.array,
   fetchOfficer: PropTypes.func,
-  fetchOfficerDocuments: PropTypes.func,
   saveRecentItem: PropTypes.func,
   isRequesting: PropTypes.bool,
 }
@@ -153,9 +127,8 @@ Officer.propTypes = {
 Officer.defaultProps = {
   officer: {},
   recentData: {},
-  documents: [],
+  timelineFilterGroups: {},
   fetchOfficer: noop,
-  fetchOfficerDocuments: noop,
   saveRecentItem: noop,
   isRequesting: false,
 }

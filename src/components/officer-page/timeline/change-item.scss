@@ -1,0 +1,29 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+.timeline-change-item {
+  @include small-text;
+  border-radius: 8px;
+  padding: $v-small-margin $h-card-margin;
+  color: $boulder-color;
+  background-color: $wild-sand-color;
+  font-weight: 400;
+
+  .change-item-value {
+    color: $thunder-color;
+  }
+
+  &.has-connected-line {
+    padding-left: $h-card-margin + $icon-width;
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .timeline-change-item {
+    &.has-connected-line {
+      &.left-item {
+        padding-left: $h-card-margin;
+      }
+    }
+  }
+}

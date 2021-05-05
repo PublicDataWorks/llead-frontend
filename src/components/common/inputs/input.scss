@@ -6,7 +6,7 @@ $icon-width: calc(2 * #{$h-side-frame} + 16px);
 
 .input-container {
   position: relative;
-  width: $input-width;
+  width: 100%;
 
   .svg-icon {
     position: absolute;
@@ -72,8 +72,8 @@ $icon-width: calc(2 * #{$h-side-frame} + 16px);
   }
 }
 
-@media only screen and (max-width: $mobile-breakpoint) {
+@media only screen and (min-width: $mobile-breakpoint) {
   .input-container {
-    width: 100%;
+    width: $input-width;
   }
 }

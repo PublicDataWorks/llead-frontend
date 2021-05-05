@@ -3,7 +3,7 @@
 @import 'styles/mixins';
 
 .officer-page {
-  background-color: $wild-sand-color;
+  background-color: $gallery-color;
   padding: $v-frame-margin $h-side-frame;
 
   .officer-period {
@@ -16,14 +16,13 @@
     color: $boulder-color;
   }
 
-  .officer-content {
+  .officer-basic-info {
     @include small-text;
     padding: $v-margin 0;
     border: 1px solid $alto-color;
     border-radius: 8px;
     box-sizing: border-box;
     background-color: $white-color;
-    border-radius: 8px;
 
     .officer-title {
       @include small-text;
@@ -37,46 +36,26 @@
       color: $thunder-color;
     }
 
-    .officer-basic-info {
-      .officer-basic-info-row {
-        @include small-text;
-        color: $thunder-color;
-        border-bottom: 1px solid $alto-color;
-        padding: $v-small-margin $h-card-margin;
-      }
-
-      .officer-department {
-        @include small-text;
-        color: $thunder-color;
-        margin: $v-small-margin $h-card-margin;
-      }
-
-      .officer-summary-info {
-        @include body-text;
-        margin: $v-small-margin $h-card-margin 0 $h-card-margin;
-        padding: $v-margin $h-card-margin;
-        background-color: $willow-brook-color;
-        text-align: center;
-        border-radius: 2px;
-      }
+    .officer-basic-info-row {
+      @include small-text;
+      color: $thunder-color;
+      border-bottom: 1px solid $alto-color;
+      padding: $v-small-margin $h-card-margin;
     }
 
-    .officer-documents {
-      margin-top: $v-header-margin;
+    .officer-department {
+      @include small-text;
+      color: $thunder-color;
+      margin: $v-small-margin $h-card-margin;
+    }
 
-      .officer-documents-title {
-        @include h1;
-        color: $boulder-color;
-        margin: 0 $h-card-margin;
-      }
-
-      .officer-documents-listview {
-        margin-top: $v-frame-margin;
-
-        .document-item {
-          padding: $v-small-margin $h-card-margin;
-        }
-      }
+    .officer-summary-info {
+      @include body-text;
+      margin: $v-small-margin $h-card-margin 0 $h-card-margin;
+      padding: $v-margin $h-card-margin;
+      background-color: $willow-brook-color;
+      text-align: center;
+      border-radius: 2px;
     }
   }
 }

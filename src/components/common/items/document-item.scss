@@ -39,6 +39,7 @@
       float: right;
       color: $boulder-color;
       white-space: nowrap;
+      display: none;
     }
   }
 
@@ -67,11 +68,11 @@
   }
 }
 
-@media only screen and (max-width: $mobile-breakpoint) {
+@media only screen and (min-width: $mobile-breakpoint) {
   .document-item {
     .document-item-title {
       .document-item-department-name {
-        display: none;
+        display: block;
       }
     }
   }

@@ -1,35 +1,31 @@
 import { createSelector } from 'reselect'
 import moment from 'moment'
+import numeral from 'numeral'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import join from 'lodash/join'
+import mapValues from 'lodash/mapValues'
 import pick from 'lodash/pick'
 import trim from 'lodash/trim'
-import map from 'lodash/map'
-import mapValues from 'lodash/mapValues'
 
-import { formatDocumentDate, formatDataPeriods } from 'utils/formatter'
-import { officerFormatter, documentFormatter } from 'selectors/common'
+import { formatDataPeriods } from 'utils/formatter'
+import { officerFormatter } from 'selectors/common'
 
-const officerDocumentFormatter = (document) => {
-  const documentAttributes = [
-    'id',
-    'title',
-    'documentType',
-    'url',
-    'textContent',
-  ]
-  const rawDepartments = get(document, 'departments')
-  const departments = map(rawDepartments, (department) =>
-    pick(department, ['id', 'name'])
-  )
+const formatCurrencyNumber = (value) => {
+  return numeral(value).format('$0,0.[00]')
+}
 
-  return {
-    ...pick(document, documentAttributes),
-    incidentDate: formatDocumentDate(document.incidentDate),
-    departments,
-    recentData: documentFormatter(document),
+export const formatSalary = (data, longForm = false) => {
+  const annualSalary = get(data, 'annualSalary')
+  const hourlySalary = get(data, 'hourlySalary')
+
+  let salary
+  if (!isEmpty(annualSalary)) {
+    salary = `${formatCurrencyNumber(annualSalary)}/${longForm ? 'year' : 'yr'}`
+  } else if (!isEmpty(hourlySalary)) {
+    salary = `${formatCurrencyNumber(hourlySalary)}/${longForm ? 'hour' : 'hr'}`
   }
+  return salary
 }
 
 const formatOfficerDescription = (officer) => {
@@ -57,8 +53,7 @@ const officerDetailsFormatter = (officer) => {
     'complaintsCount',
   ]
 
-  const rawAnnualSalary = get(officer, 'annualSalary')
-  const annualSalary = rawAnnualSalary ? `$${rawAnnualSalary}/year` : ''
+  const salary = formatSalary(officer, true)
 
   const allDataPeriods = mapValues(
     pick(officer, [
@@ -74,14 +69,13 @@ const officerDetailsFormatter = (officer) => {
   return {
     ...pick(officer, officerAttributes),
     description: formatOfficerDescription(officer),
-    annualSalary,
+    salary,
     ...allDataPeriods,
     department: pick(officerDepartment, officerDepartmentAttributes),
   }
 }
 
 const getOfficer = (state) => get(state.officerPage, 'officer', {})
-const getDocuments = (state) => get(state.officerPage, 'documents', {})
 
 export const getIsOfficerRequesting = (state) =>
   get(state, 'officerPage.isOfficerRequesting')
@@ -95,9 +89,3 @@ export const officerRecentDataSelector = createSelector(
   getOfficer,
   officerFormatter
 )
-
-export const documentsSelector = (state) => {
-  const rawDocuments = getDocuments(state)
-
-  return map(rawDocuments, officerDocumentFormatter)
-}

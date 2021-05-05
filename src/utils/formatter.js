@@ -6,7 +6,7 @@ import reduce from 'lodash/reduce'
 
 import { DATE_FORMAT } from 'constants/common'
 
-export const formatDocumentDate = (date) => {
+export const formatDate = (date) => {
   if (isEmpty(date)) {
     return ''
   }
@@ -36,3 +36,11 @@ export const formatDataPeriods = (periods) =>
     (acc, element, key) =>
       `${acc}${key !== periods.length - 1 ? ', ' : ' and '}${element}`
   )
+
+export const formatTimelineDate = (date) => {
+  if (/^\d{4}$/.test(date)) {
+    return date
+  } else {
+    return formatDate(date) || 'No Date'
+  }
+}

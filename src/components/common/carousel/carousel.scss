@@ -9,7 +9,7 @@
   .carousel-title-container {
     color: $thunder-color;
     display: flex;
-    padding-right: $h-card-margin;
+    padding-right: $h-side-frame;
     margin-bottom: 2 * $v-small-margin;
 
     .carousel-title {
@@ -65,10 +65,10 @@
   }
 }
 
-@media only screen and (max-width: $mobile-breakpoint) {
+@media only screen and (min-width: $mobile-breakpoint) {
   .carousel-container {
     .carousel-title-container {
-      padding-right: $h-side-frame;
+      padding-right: $h-card-margin;
     }
   }
 }
