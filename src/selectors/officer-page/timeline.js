@@ -14,6 +14,8 @@ import sum from 'lodash/sum'
 import upperFirst from 'lodash/upperFirst'
 import values from 'lodash/values'
 import some from 'lodash/some'
+import join from 'lodash/join'
+import lowerCase from 'lodash/lowerCase'
 
 import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter } from 'selectors/common'
@@ -43,6 +45,50 @@ const complaintTimelineItemFormatter = (item) => {
   return {
     ...pick(item, attributes),
     ...mapValues(pick(item, capitalizeAttributes), capitalize),
+  }
+}
+
+const useOfForceTimelineItemFormatter = (item) => {
+  const attributes = ['kind', 'uofTrackingNumber', 'id']
+
+  const upperFirstAttributes = [
+    'citizenInvolvement',
+    'disposition',
+    'forceDescription',
+    'forceReason',
+    'forceType',
+    'serviceType',
+  ]
+
+  const detailAttributes = [
+    'citizenArrested',
+    'citizenHospitalized',
+    'citizenInjured',
+    'officerInjured',
+    'trafficStop',
+  ]
+
+  const details = map(
+    filter(detailAttributes, (attribute) => get(item, attribute) === 'yes'),
+    lowerCase
+  )
+
+  const { citizenAge, citizenRace, citizenSex } = pick(item, [
+    'citizenAge',
+    'citizenRace',
+    'citizenSex',
+  ])
+
+  const citizenInformation = join(
+    compact([citizenAge && `${citizenAge}-year-old`, citizenRace, citizenSex]),
+    ' '
+  )
+
+  return {
+    ...pick(item, attributes),
+    ...mapValues(pick(item, upperFirstAttributes), upperFirst),
+    citizenInformation,
+    details,
   }
 }
 
@@ -94,6 +140,7 @@ const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.JOINED]: baseTimelineItemFormatter,
   [TIMELINE_KINDS.LEFT]: baseTimelineItemFormatter,
   [TIMELINE_KINDS.COMPLAINT]: complaintTimelineItemFormatter,
+  [TIMELINE_KINDS.UOF]: useOfForceTimelineItemFormatter,
   [TIMELINE_KINDS.DOCUMENT]: documentTimelineItemFormatter,
   [TIMELINE_KINDS.SALARY_CHANGE]: salaryChangeTimelineItemFormatter,
   [TIMELINE_KINDS.RANK_CHANGE]: rankChangeTimelineItemFormatter,
@@ -183,5 +230,7 @@ export const timelineFilterGroupsSelector = createSelector(
 )
 
 export const hasEventDetailsSelector = createSelector(getTimeline, (timeline) =>
-  some(timeline, { kind: TIMELINE_KINDS.COMPLAINT })
+  some(timeline, (item) =>
+    [TIMELINE_KINDS.COMPLAINT, TIMELINE_KINDS.UOF].includes(item.kind)
+  )
 )

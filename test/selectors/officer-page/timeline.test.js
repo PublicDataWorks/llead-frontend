@@ -166,6 +166,27 @@ describe('#timelineSelector', () => {
         prevDepartmentCode: null,
         prevDepartmentDesc: null,
       },
+      {
+        year: 2019,
+        date: '2019-06-13',
+        kind: 'UOF',
+        id: 1,
+        forceType: 'Takedown (w/injury)',
+        forceDescription: 'L2-Takedown (w/injury)',
+        forceReason: 'Resisting lawful arrest',
+        disposition: 'UOF Justified',
+        serviceType: 'call for service',
+        citizenInvolvement: 'Complainant',
+        citizenAge: 26,
+        citizenRace: 'white',
+        citizenSex: 'female',
+        uofTrackingNumber: 'Complainant',
+        citizenArrested: 'yes',
+        citizenInjured: 'yes',
+        citizenHospitalized: 'no',
+        officerInjured: 'yes',
+        trafficStop: 'yes',
+      },
     ]
     const state = {
       officerPage: {
@@ -209,6 +230,24 @@ describe('#timelineSelector', () => {
             disposition: 'Officer dispostion 2019-06-13',
             action: 'Officer action 2019-06-13',
             trackingNumber: '13-06',
+          },
+          {
+            kind: 'UOF',
+            id: 1,
+            forceType: 'Takedown (w/injury)',
+            forceDescription: 'L2-Takedown (w/injury)',
+            forceReason: 'Resisting lawful arrest',
+            disposition: 'UOF Justified',
+            serviceType: 'Call for service',
+            citizenInvolvement: 'Complainant',
+            citizenInformation: '26-year-old white female',
+            uofTrackingNumber: 'Complainant',
+            details: [
+              'citizen arrested',
+              'citizen injured',
+              'officer injured',
+              'traffic stop',
+            ],
           },
           {
             id: 39,
@@ -862,7 +901,46 @@ describe('#hasEventDetailsSelector', () => {
     expect(hasEventDetails).toBe(true)
   })
 
-  it('returns false if timeline has no complaints', () => {
+  it('returns true if timeline has some uses of force', () => {
+    const timelineData = [
+      {
+        id: 1,
+        year: 2019,
+        date: '2019-06-13',
+        kind: 'UOF',
+        forceType: 'Takedown (w/injury)',
+        forceDescription: 'L2-Takedown (w/injury)',
+        forceReason: 'Resisting lawful arrest',
+        disposition: 'UOF Justified',
+        serviceType: 'call for service',
+        citizenInvolvement: 'Complainant',
+        citizenAge: 26,
+        citizenRace: 'white',
+        citizenSex: 'female',
+        uofTrackingNumber: 'Complainant',
+        citizenArrested: 'yes',
+        citizenInjured: 'yes',
+        citizenHospitalized: 'no',
+        officerInjured: 'yes',
+        trafficStop: 'yes',
+      },
+      {
+        kind: 'JOINED',
+        date: '2019-06-13',
+        year: 2019,
+      },
+    ]
+    const state = {
+      officerPage: {
+        timeline: timelineData,
+      },
+    }
+    const hasEventDetails = hasEventDetailsSelector(state)
+
+    expect(hasEventDetails).toBe(true)
+  })
+
+  it('returns false if timeline has no complaints and uses of force', () => {
     const timelineData = [
       {
         kind: 'JOINED',

@@ -139,7 +139,7 @@ describe('Officer Page', () => {
           .should('text', 'Mar 10, 2019')
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
-          .should('have.length', 8)
+          .should('have.length', 9)
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(0)
@@ -194,11 +194,16 @@ describe('Officer Page', () => {
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(7)
+          .find('.uof-item-subtitle')
+          .should('text', 'Takedown (w/injury)')
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .eq(8)
           .find('.document-title')
           .should('text', 'Document 2019-03-10')
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
-          .eq(7)
+          .eq(8)
           .find('.document-subtitle')
           .should('text', 'pdf')
 
@@ -299,6 +304,66 @@ describe('Officer Page', () => {
         })
       })
 
+      it('expands use of force on click', () => {
+        cy.visit('/officers/1')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(2)
+          .find('.timeline-item')
+          .eq(7)
+          .as('useOfForceItem')
+          .find('.uof-item-title')
+          .should('have.text', 'Used force')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-subtitle')
+          .should('text', 'Takedown (w/injury)')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-content')
+          .should('not.visible')
+        cy.get('@useOfForceItem').find('.uof-item-expand-icon').click()
+        cy.get('@useOfForceItem').find('.uof-item-content').should('be.visible')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-info-row')
+          .eq(0)
+          .contains('L2-Takedown (w/injury)')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-info-row')
+          .eq(1)
+          .contains('Resisting lawful arrest')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-info-row')
+          .eq(2)
+          .contains('UOF Justified')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-info-row')
+          .eq(3)
+          .contains('Call for service')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-info-row')
+          .eq(4)
+          .contains('Complainant')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-info-row')
+          .eq(5)
+          .contains('26-year-old white female')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-info-row')
+          .eq(6)
+          .contains('Complainant')
+
+        cy.window().then((win) => {
+          cy.stub(win, 'prompt').returns(win.prompt).as('copyToClipboardPrompt')
+        })
+        cy.get('@useOfForceItem').contains('Copy link').click()
+        cy.get('@copyToClipboardPrompt').should('be.called')
+        cy.get('@copyToClipboardPrompt').should((prompt) => {
+          expect(prompt.args[0][1]).to.equal(
+            'http://localhost:8080/officers/1/?uof_id=1'
+          )
+        })
+      })
+
       it('hightlights and scrolls to the complaint belong to the url', () => {
         cy.visit('/officers/1/?complaint_id=101')
 
@@ -333,7 +398,7 @@ describe('Officer Page', () => {
 
         cy.get('.timeline-filters')
           .find('.filter-item')
-          .should('have.length', 4)
+          .should('have.length', 5)
 
         cy.get('.officer-timeline')
           .find('.timeline-group')
@@ -358,6 +423,11 @@ describe('Officer Page', () => {
           .find('.filter-item')
           .eq(3)
           .should('have.text', 'Rank/unit (3)')
+
+        cy.get('.timeline-filters')
+          .find('.filter-item')
+          .eq(4)
+          .should('have.text', 'Use of force (1)')
 
         cy.get('.officer-timeline')
           .find('.timeline-header-actions')
@@ -384,7 +454,7 @@ describe('Officer Page', () => {
           .should('have.text', 'Accused of misconduct')
       })
 
-      it('shows event details', () => {
+      it.only('shows event details', () => {
         cy.visit('/officers/1')
 
         cy.get('.officer-timeline')
@@ -410,6 +480,15 @@ describe('Officer Page', () => {
           .should('not.visible')
 
         cy.get('.officer-timeline')
+          .find('.timeline-group')
+          .eq(2)
+          .find('.timeline-item')
+          .eq(7)
+          .as('useOfForceItem')
+          .find('.uof-item-content')
+          .should('not.visible')
+
+        cy.get('.officer-timeline')
           .find('.timeline-header-actions')
           .should('not.exist')
         cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
@@ -428,6 +507,7 @@ describe('Officer Page', () => {
         cy.get('@secondComplaintItem')
           .find('.complaint-item-content')
           .should('be.visible')
+        cy.get('@useOfForceItem').find('.uof-item-content').should('be.visible')
 
         cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
         cy.get('.officer-timeline')
@@ -440,6 +520,9 @@ describe('Officer Page', () => {
           .should('not.visible')
         cy.get('@secondComplaintItem')
           .find('.complaint-item-content')
+          .should('not.visible')
+        cy.get('@useOfForceItem')
+          .find('.uof-item-content')
           .should('not.visible')
       })
     })

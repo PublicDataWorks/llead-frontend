@@ -32,8 +32,6 @@ const ComplaintItem = (props) => {
   const [copyTimeoutId, setCopyTimeoutId] = useState()
   const expandItemRef = useRef()
 
-  let highlightTimeoutId
-
   useEffect(() => {
     setExpanded(showEventDetails)
   }, [showEventDetails])
@@ -52,15 +50,16 @@ const ComplaintItem = (props) => {
     }
 
     return () => {
-      clearTimeout(highlightTimeoutId)
       clearTimeout(copyTimeoutId)
     }
   }, [highlight])
 
   const handleOnCopied = () => {
-    setCopyTimeoutId(
-      setTimeout(() => setCopyTimeoutId(null), ANIMATION_DURATION)
+    const timeoutId = setTimeout(
+      () => setCopyTimeoutId(null),
+      ANIMATION_DURATION
     )
+    setCopyTimeoutId(timeoutId)
   }
 
   const complaintData = [
@@ -110,7 +109,7 @@ const ComplaintItem = (props) => {
 
       <AnimateHeight
         duration={QUICK_ANIMATION_DURATION}
-        height={expanded ? 'auto' : 0}
+        height={expanded || highlight ? 'auto' : 0}
         data-testid='test--complaint-animation'
       >
         <div className='complaint-item-content'>
