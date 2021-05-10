@@ -22,7 +22,7 @@ describe('#getIsOfficerRequesting', () => {
 
 describe('#officerSelector', () => {
   describe('has data', () => {
-    it('returns department data', () => {
+    it('returns officer data', () => {
       const officerData = {
         id: 1,
         name: 'Officer Name',
@@ -63,7 +63,7 @@ describe('#officerSelector', () => {
         documentsDataPeriod: '2015-2016',
         complaintsDataPeriod: '2012, 2014 and 2016-2018',
         salary: '$54,267.79/year',
-        description: `${age}-year-old gender race`,
+        description: `${age}-year-old race gender`,
         department: {
           id: 100,
           name: 'Department Name',
@@ -71,147 +71,130 @@ describe('#officerSelector', () => {
       })
     })
 
-    it('returns department data with hourly salary', () => {
-      const officerData = {
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        birthYear: 1962,
-        race: 'race',
-        gender: 'gender',
-        department: {
-          id: 100,
-          name: 'Department Name',
-          extraDepartmentField: 'should not be included',
-        },
-        annualSalary: null,
-        hourlySalary: '12.24',
-        documentsCount: 1,
-        complaintsCount: 2,
-        dataPeriod: ['2012', '2018-2020'],
-        extraField: 'should not be included',
-        documentsDataPeriod: ['2015-2016'],
-        complaintsDataPeriod: ['2012', '2014', '2016-2018'],
-      }
-      const state = {
-        officerPage: {
-          officer: officerData,
-        },
-      }
+    describe('officer salary', () => {
+      it('returns officer data with annual salary', () => {
+        const officerData = {
+          id: 1,
+          annualSalary: '54267.789',
+          hourlySalary: '12.24',
+        }
+        const state = {
+          officerPage: {
+            officer: officerData,
+          },
+        }
 
-      const age = moment().diff(moment('1962', 'YYYY'), 'years')
-      const officer = officerSelector(state)
+        const officer = officerSelector(state)
 
-      expect(officer).toStrictEqual({
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        documentsCount: 1,
-        complaintsCount: 2,
-        salary: '$12.24/hour',
-        description: `${age}-year-old gender race`,
-        department: {
-          id: 100,
-          name: 'Department Name',
-        },
-        dataPeriod: '2012 and 2018-2020',
-        documentsDataPeriod: '2015-2016',
-        complaintsDataPeriod: '2012, 2014 and 2016-2018',
+        expect(officer['salary']).toEqual('$54,267.79/year')
+      })
+
+      it('returns officer data with hourly salary', () => {
+        const officerData = {
+          id: 1,
+          annualSalary: null,
+          hourlySalary: '12.24',
+        }
+        const state = {
+          officerPage: {
+            officer: officerData,
+          },
+        }
+
+        const officer = officerSelector(state)
+
+        expect(officer['salary']).toEqual('$12.24/hour')
+      })
+
+      it('returns officer data with empty salary', () => {
+        const officerData = {
+          id: 1,
+        }
+        const state = {
+          officerPage: {
+            officer: officerData,
+          },
+        }
+
+        const officer = officerSelector(state)
+
+        expect(officer['salary']).toBe(undefined)
       })
     })
 
-    it('returns department data with empty salary', () => {
-      const officerData = {
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        birthYear: 1962,
-        race: 'race',
-        gender: 'gender',
-        department: {
-          id: 100,
-          name: 'Department Name',
-          extraDepartmentField: 'should not be included',
-        },
-        documentsCount: 1,
-        complaintsCount: 2,
-        dataPeriod: ['2012', '2018-2020'],
-        extraField: 'should not be included',
-        documentsDataPeriod: ['2015-2016'],
-        complaintsDataPeriod: ['2012', '2014', '2016-2018'],
-      }
-      const state = {
-        officerPage: {
-          officer: officerData,
-        },
-      }
+    describe('officer description', () => {
+      it('returns officer data with full description', () => {
+        const officerData = {
+          id: 1,
+          birthYear: 1962,
+          race: 'race',
+          gender: 'gender',
+        }
+        const state = {
+          officerPage: {
+            officer: officerData,
+          },
+        }
 
-      const age = moment().diff(moment('1962', 'YYYY'), 'years')
-      const officer = officerSelector(state)
+        const age = moment().diff(moment('1962', 'YYYY'), 'years')
+        const officer = officerSelector(state)
 
-      expect(officer).toStrictEqual({
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        documentsCount: 1,
-        complaintsCount: 2,
-        salary: undefined,
-        description: `${age}-year-old gender race`,
-        department: {
-          id: 100,
-          name: 'Department Name',
-        },
-        dataPeriod: '2012 and 2018-2020',
-        documentsDataPeriod: '2015-2016',
-        complaintsDataPeriod: '2012, 2014 and 2016-2018',
+        expect(officer['description']).toEqual(`${age}-year-old race gender`)
+      })
+
+      it('returns officer data with only age & race for description', () => {
+        const officerData = {
+          id: 1,
+          birthYear: 1962,
+          race: 'race',
+        }
+        const state = {
+          officerPage: {
+            officer: officerData,
+          },
+        }
+
+        const age = moment().diff(moment('1962', 'YYYY'), 'years')
+        const officer = officerSelector(state)
+
+        expect(officer['description']).toEqual(`${age}-year-old, race`)
+      })
+
+      it('returns officer data with only age & gender for description', () => {
+        const officerData = {
+          id: 1,
+          birthYear: 1962,
+          gender: 'gender',
+        }
+        const state = {
+          officerPage: {
+            officer: officerData,
+          },
+        }
+
+        const age = moment().diff(moment('1962', 'YYYY'), 'years')
+        const officer = officerSelector(state)
+
+        expect(officer['description']).toEqual(`${age}-year-old, gender`)
+      })
+
+      it('returns officer data with empty description', () => {
+        const officerData = {
+          id: 1,
+        }
+        const state = {
+          officerPage: {
+            officer: officerData,
+          },
+        }
+
+        const officer = officerSelector(state)
+
+        expect(officer['description']).toEqual('')
       })
     })
 
-    it('returns department data with empty description', () => {
-      const officerData = {
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        department: {
-          id: 100,
-          name: 'Department Name',
-          extraDepartmentField: 'should not be included',
-        },
-        annualSalary: '54267.789',
-        documentsCount: 1,
-        complaintsCount: 2,
-        dataPeriod: ['2012', '2018-2020'],
-        extraField: 'should not be included',
-        documentsDataPeriod: ['2015-2016'],
-        complaintsDataPeriod: ['2012', '2014', '2016-2018'],
-      }
-      const state = {
-        officerPage: {
-          officer: officerData,
-        },
-      }
-
-      const officer = officerSelector(state)
-
-      expect(officer).toStrictEqual({
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        documentsCount: 1,
-        complaintsCount: 2,
-        salary: '$54,267.79/year',
-        description: '',
-        department: {
-          id: 100,
-          name: 'Department Name',
-        },
-        dataPeriod: '2012 and 2018-2020',
-        documentsDataPeriod: '2015-2016',
-        complaintsDataPeriod: '2012, 2014 and 2016-2018',
-      })
-    })
-
-    it('returns department data with empty dataPeriods', () => {
+    it('returns officer data with empty dataPeriods', () => {
       const officerData = {
         id: 1,
         name: 'Officer Name',

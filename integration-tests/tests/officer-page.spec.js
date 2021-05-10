@@ -66,7 +66,7 @@ describe('Officer Page', () => {
       cy.get('.officer-basic-info')
         .find('.officer-basic-info-row')
         .eq(1)
-        .should('text', '59-year-old male white')
+        .should('text', '59-year-old white male')
       cy.get('.officer-basic-info')
         .find('.officer-basic-info-row')
         .eq(2)

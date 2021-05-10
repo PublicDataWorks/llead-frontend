@@ -7,6 +7,7 @@ import join from 'lodash/join'
 import mapValues from 'lodash/mapValues'
 import pick from 'lodash/pick'
 import trim from 'lodash/trim'
+import compact from 'lodash/compact'
 
 import { formatDataPeriods } from 'utils/formatter'
 import { officerFormatter } from 'selectors/common'
@@ -34,9 +35,10 @@ const formatOfficerDescription = (officer) => {
   const age = birthYear
     ? `${moment().diff(moment(birthYear, 'YYYY'), 'years')}-year-old`
     : ''
-  return trim(
-    join([age, get(officer, 'gender', ''), get(officer, 'race', '')], ' ')
-  )
+
+  const data = compact([age, get(officer, 'race'), get(officer, 'gender')])
+
+  return trim(join(data, data.length == 3 ? ' ' : ', '))
 }
 
 const officerDetailsFormatter = (officer) => {
