@@ -14,7 +14,7 @@ describe('#officersReducer', () => {
         name: 'Mark Carlson',
         badges: ['12345', '567'],
         department: {
-          id: 26,
+          id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
       },
@@ -23,7 +23,7 @@ describe('#officersReducer', () => {
         name: 'Eric Patel',
         badges: ['12345'],
         department: {
-          id: 26,
+          id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
       },

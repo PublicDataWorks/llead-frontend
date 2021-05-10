@@ -68,9 +68,9 @@ describe('Search Page', () => {
         .find('.swiper-slide')
         .as('departmentSlides')
         .should('length', 3)
-      cy.get('@departmentSlides').eq(0).contains('Baton Rouge Department 1')
-      cy.get('@departmentSlides').eq(1).contains('New Orleans Department 1')
-      cy.get('@departmentSlides').eq(2).contains('Baton Rouge Department 2')
+      cy.get('@departmentSlides').eq(0).contains('Baton Rouge PD')
+      cy.get('@departmentSlides').eq(1).contains('New Orleans PD')
+      cy.get('@departmentSlides').eq(2).contains('Baton Rouge Sheriff')
 
       cy.get('.officers-carousel')
         .find('.swiper-slide')
@@ -128,9 +128,9 @@ describe('Search Page', () => {
         .find('.swiper-slide')
         .as('departmentSlides')
         .should('length', 3)
-      cy.get('@departmentSlides').eq(0).contains('Baton Rouge Department 1')
-      cy.get('@departmentSlides').eq(1).contains('New Orleans Department 1')
-      cy.get('@departmentSlides').eq(2).contains('Baton Rouge Department 2')
+      cy.get('@departmentSlides').eq(0).contains('Baton Rouge PD')
+      cy.get('@departmentSlides').eq(1).contains('New Orleans PD')
+      cy.get('@departmentSlides').eq(2).contains('Baton Rouge Sheriff')
       cy.get('.officers-carousel')
         .find('.carousel-title')
         .should('text', 'Officers')
@@ -170,8 +170,8 @@ describe('Search Page', () => {
         .find('.swiper-slide')
         .as('departmentSlides')
         .should('length', 2)
-      cy.get('@departmentSlides').eq(0).contains('New Orleans Department 2')
-      cy.get('@departmentSlides').eq(1).contains('New Orleans Department 3')
+      cy.get('@departmentSlides').eq(0).contains('New Orleans Harbor PD')
+      cy.get('@departmentSlides').eq(1).contains('Orleans Levee PD')
       cy.get('.officers-carousel')
         .find('.carousel-title')
         .should('text', 'Officers')
@@ -226,7 +226,7 @@ describe('Search Page', () => {
 
       cy.location('pathname').should(
         'eq',
-        `/departments/${firstSearchData['departments'][0].id}/`
+        `/dept/${firstSearchData['departments'][0].id}/`
       )
     })
 

@@ -12,8 +12,8 @@ describe('Officers carousel', () => {
         name: 'Mark Carlson',
         badges: ['12435', '612'],
         department: {
-          id: 9,
-          name: 'Baton Rouge Department 1',
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
         },
       },
       {

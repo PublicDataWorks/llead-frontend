@@ -26,12 +26,7 @@ const Department = (props) => {
     saveRecentItem,
     recentData,
   } = props
-  const { id } = useParams()
-
-  const departmentId = toNumber(id)
-  if (isNaN(departmentId)) {
-    return <Redirect to='/' />
-  }
+  const { id: departmentId } = useParams()
 
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
   const location = useLocation()

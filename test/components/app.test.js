@@ -9,7 +9,8 @@ import * as ScrollToTop from 'components/common/higher-order/scroll-to-top'
 
 describe('App component', () => {
   beforeEach(() => {
-    sinon.stub(global, 'scrollTo')
+    const mockScrollToTopComponent = () => <>ScrollToTop</>
+    sinon.stub(ScrollToTop, 'default').get(() => mockScrollToTopComponent)
   })
 
   describe('fetch app config', () => {
@@ -90,9 +91,6 @@ describe('App component', () => {
   })
 
   it('renders ScrollToTop component', () => {
-    const mockScrollToTopComponent = () => <>ScrollToTop</>
-    sinon.stub(ScrollToTop, 'default').get(() => mockScrollToTopComponent)
-
     const container = render(
       <Provider store={MockStore()()}>
         <App isAppConfigFetched={true} />

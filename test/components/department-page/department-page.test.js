@@ -31,15 +31,15 @@ describe('Department component', () => {
 
     render(
       <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['departments/1']}>
-          <Route path='departments/:id'>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
             <Department fetchDepartment={fetchDepartmentSpy} />
           </Route>
         </MemoryRouter>
       </Provider>
     )
 
-    expect(fetchDepartmentSpy).toHaveBeenCalledWith(1)
+    expect(fetchDepartmentSpy).toHaveBeenCalledWith('baton-rouge-pd')
   })
 
   describe('save to reccent item', () => {
@@ -47,22 +47,22 @@ describe('Department component', () => {
       const saveRecentItemSpy = sinon.spy()
 
       const departmentData = {
-        id: 1,
-        name: 'department name',
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
         city: 'department city',
         locationMapUrl: null,
         parish: 'department parish',
       }
 
       const recentData = {
-        id: 1,
-        name: 'department name',
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
       }
 
       render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 saveRecentItem={saveRecentItemSpy}
@@ -75,7 +75,7 @@ describe('Department component', () => {
 
       expect(saveRecentItemSpy).toHaveBeenCalledWith({
         type: RECENT_ITEM_TYPES.DEPARTMENT,
-        id: 1,
+        id: 'baton-rouge-pd',
         data: recentData,
       })
     })
@@ -90,8 +90,8 @@ describe('Department component', () => {
 
       render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 saveRecentItem={saveRecentItemSpy}
@@ -115,8 +115,8 @@ describe('Department component', () => {
 
       render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 saveRecentItem={saveRecentItemSpy}
@@ -144,8 +144,8 @@ describe('Department component', () => {
 
     const container = render(
       <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['departments/1']}>
-          <Route path='departments/:id'>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
             <Department department={departmentData} />
           </Route>
         </MemoryRouter>
@@ -172,27 +172,6 @@ describe('Department component', () => {
     expect(departmentSummary.children[2].textContent).toEqual('1 document')
   })
 
-  it('should redirect to home if departmentId is NaN', () => {
-    const invalidDepartmentId = 'abcd'
-    const departmentData = {
-      id: invalidDepartmentId,
-    }
-    const container = render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={[`departments/${invalidDepartmentId}`]}>
-          <Route path='departments/:id'>
-            <Department department={departmentData} isRequesting={true} />
-          </Route>
-          <Route path='/'>Home</Route>
-        </MemoryRouter>
-      </Provider>
-    )
-
-    const { getByText } = container
-
-    expect(getByText('Home')).toBeTruthy()
-  })
-
   it('should not render if isRequesting', () => {
     const departmentData = {
       id: 1,
@@ -207,8 +186,8 @@ describe('Department component', () => {
 
     const container = render(
       <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['departments/1']}>
-          <Route path='departments/:id'>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
             <Department department={departmentData} isRequesting={true} />
           </Route>
         </MemoryRouter>
@@ -224,8 +203,8 @@ describe('Department component', () => {
   it('should not render if department is empty', () => {
     const container = render(
       <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['departments/1']}>
-          <Route path='departments/:id'>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
             <Department department={{}} />
           </Route>
         </MemoryRouter>
@@ -253,8 +232,8 @@ describe('Department component', () => {
 
     const container = render(
       <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['departments/1']}>
-          <Route path='departments/:id'>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
             <Department
               department={departmentData}
               fetchDepartment={fetchDepartmentSpy}
@@ -303,8 +282,8 @@ describe('Department component', () => {
 
       const container = render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 fetchDepartment={fetchDepartmentSpy}
@@ -354,12 +333,12 @@ describe('Department component', () => {
           <MemoryRouter
             initialEntries={[
               {
-                pathname: 'departments/1',
+                pathname: 'dept/baton-rouge-pd',
                 search: qs.stringify({ csv: 'com-madisonville-pd' }),
               },
             ]}
           >
-            <Route path='departments/:id'>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 fetchDepartment={fetchDepartmentSpy}
@@ -409,14 +388,14 @@ describe('Department component', () => {
           <MemoryRouter
             initialEntries={[
               {
-                pathname: 'departments/1',
+                pathname: 'dept/baton-rouge-pd',
                 search: qs.stringify({
                   csv: ['123', 'com-madisonville-pd'],
                 }),
               },
             ]}
           >
-            <Route path='departments/:id'>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 fetchDepartment={fetchDepartmentSpy}
@@ -468,12 +447,12 @@ describe('Department component', () => {
           <MemoryRouter
             initialEntries={[
               {
-                pathname: 'departments/1',
+                pathname: 'dept/baton-rouge-pd',
                 search: qs.stringify({ csv: ['slug-1'] }),
               },
             ]}
           >
-            <Route path='departments/:id'>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 fetchDepartment={fetchDepartmentSpy}
@@ -528,14 +507,14 @@ describe('Department component', () => {
           <MemoryRouter
             initialEntries={[
               {
-                pathname: 'departments/1',
+                pathname: 'dept/baton-rouge-pd',
                 search: qs.stringify({
                   csv: ['slug-1', 'com-madisonville-pd'],
                 }),
               },
             ]}
           >
-            <Route path='departments/:id'>
+            <Route path='dept/:id'>
               <Department
                 department={departmentData}
                 fetchDepartment={fetchDepartmentSpy}
@@ -563,8 +542,8 @@ describe('Department component', () => {
     it('show department documents element if count is greater than 0', () => {
       const container = render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department department={{ id: 1, documentsCount: 2 }} />
             </Route>
           </MemoryRouter>
@@ -579,8 +558,8 @@ describe('Department component', () => {
     it('hide department documents element if count is not greater than 0', () => {
       const container = render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department department={{ id: 1, documentsCount: 0 }} />
             </Route>
           </MemoryRouter>
@@ -601,8 +580,8 @@ describe('Department component', () => {
 
       const container = render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department department={departmentData} />
             </Route>
           </MemoryRouter>
@@ -623,8 +602,8 @@ describe('Department component', () => {
 
       const container = render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department department={departmentData} />
             </Route>
           </MemoryRouter>
@@ -647,8 +626,8 @@ describe('Department component', () => {
 
       const container = render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department department={departmentData} />
             </Route>
           </MemoryRouter>
@@ -671,8 +650,8 @@ describe('Department component', () => {
 
       const container = render(
         <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['departments/1']}>
-            <Route path='departments/:id'>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
               <Department department={departmentData} />
             </Route>
           </MemoryRouter>

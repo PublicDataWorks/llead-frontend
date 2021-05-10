@@ -50,7 +50,7 @@ describe('Login Page', () => {
     )
 
     cy.clearLocalStorage()
-    cy.visit('/departments/1/')
+    cy.visit('/dept/harmonbury-department/')
 
     cy.location('pathname').should('eq', '/login/')
 
@@ -58,7 +58,7 @@ describe('Login Page', () => {
     cy.get('input[name="password"]').type('password')
     cy.get('.btn').click()
 
-    cy.waitUntil(() => cy.location('pathname').should('eq', '/departments/1/'))
+    cy.waitUntil(() => cy.location('pathname').should('eq', '/dept/harmonbury-department/'))
   })
 
   it('should show error when loging in unsuccessfully', () => {

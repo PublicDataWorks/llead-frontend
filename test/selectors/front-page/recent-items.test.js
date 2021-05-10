@@ -40,7 +40,7 @@ describe('#recentItemsSelector', () => {
           name: 'officer 1',
           badges: ['12345', '567'],
           department: {
-            id: 26,
+            id: 'north-paulaberg-department',
             name: 'North Paulaberg Department',
           },
           extraField: 'data',
@@ -50,7 +50,7 @@ describe('#recentItemsSelector', () => {
         type: RECENT_ITEM_TYPES.DEPARTMENT,
         id: 7,
         data: {
-          id: 7,
+          id: 'department-7',
           name: 'department 7',
           city: 'Baton Rouge',
           parish: 'East Baton Rouge',
@@ -61,7 +61,7 @@ describe('#recentItemsSelector', () => {
       {
         type: RECENT_ITEM_TYPES.DEPARTMENT,
         id: 8,
-        data: { id: 8, name: 'department 8' },
+        data: { id: 'department-8', name: 'department 8' },
       },
       {
         type: RECENT_ITEM_TYPES.OFFICER,
@@ -86,7 +86,7 @@ describe('#recentItemsSelector', () => {
           pagesCount: 5,
           departments: [
             {
-              id: 22,
+              id: 'petersonmouth-department',
               name: 'Petersonmouth Department',
             },
           ],
@@ -107,13 +107,13 @@ describe('#recentItemsSelector', () => {
         name: 'officer 1',
         badges: ['12345', '567'],
         department: {
-          id: 26,
+          id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
       },
       {
         type: RECENT_ITEM_TYPES.DEPARTMENT,
-        id: 7,
+        id: 'department-7',
         name: 'department 7',
         city: 'Baton Rouge',
         parish: 'East Baton Rouge',
@@ -121,7 +121,7 @@ describe('#recentItemsSelector', () => {
       },
       {
         type: RECENT_ITEM_TYPES.DEPARTMENT,
-        id: 8,
+        id: 'department-8',
         name: 'department 8',
       },
       {
@@ -141,7 +141,7 @@ describe('#recentItemsSelector', () => {
         pagesCount: 5,
         departments: [
           {
-            id: 22,
+            id: 'petersonmouth-department',
             name: 'Petersonmouth Department',
           },
         ],

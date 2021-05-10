@@ -10,36 +10,36 @@ export const analyticSummaryData = {
 
 export const departmentsData = [
   {
-    id: 9,
-    name: 'Baton Rouge Department 1',
+    id: 'baton-rouge-pd',
+    name: 'Baton Rouge PD',
     city: 'Baton Rouge',
     parish: 'East Baton Rouge',
     location_map_url: 'https://i.imgur.com/nHTFohI.png',
   },
   {
-    id: 5,
-    name: 'New Orleans Department 1',
+    id: 'new-orleans-pd',
+    name: 'New Orleans PD',
     city: 'New Orleans',
     parish: 'Orleans',
     location_map_url: 'https://i.imgur.com/DO9ASUd.jpeg',
   },
   {
-    id: 8,
-    name: 'Baton Rouge Department 2',
+    id: 'baton-rouge-sheriff',
+    name: 'Baton Rouge Sheriff',
     city: 'Baton Rouge',
     parish: 'East Baton Rouge',
     location_map_url: 'https://i.imgur.com/nHTFohI.png',
   },
   {
-    id: 2,
-    name: 'New Orleans Department 2',
+    id: 'new-orleans-harbor-pd',
+    name: 'New Orleans Harbor PD',
     city: 'New Orleans',
     parish: 'Orleans',
     location_map_url: null,
   },
   {
-    id: 6,
-    name: 'New Orleans Department 3',
+    id: 'orleans-levee-pd',
+    name: 'Orleans Levee PD',
     city: 'New Orleans',
     parish: 'Orleans',
     location_map_url: 'https://i.imgur.com/DO9ASUd.jpeg',
@@ -52,8 +52,8 @@ export const officersData = [
     name: 'Mark Carlson',
     badges: ['12435', '612'],
     department: {
-      id: 9,
-      name: 'Baton Rouge Department 1',
+      id: 'baton-rouge-pd',
+      name: 'Baton Rouge PD',
     },
   },
   {
@@ -67,8 +67,8 @@ export const officersData = [
     name: 'Lee Allen',
     badges: ['1056'],
     department: {
-      id: 8,
-      name: 'Baton Rouge Department 2',
+      id: 'baton-rouge-sheriff',
+      name: 'Baton Rouge Sheriff',
     },
   },
   {
@@ -76,8 +76,8 @@ export const officersData = [
     name: 'Tina Holder',
     badges: ['20079'],
     department: {
-      id: 5,
-      name: 'New Orleans Department 1',
+      id: 'new-orleans-pd',
+      name: 'New Orleans PD',
     },
   },
   {
@@ -85,8 +85,8 @@ export const officersData = [
     name: 'Kelly Hunt',
     badges: ['12117'],
     department: {
-      id: 2,
-      name: 'New Orleans Department 2',
+      id: 'new-orleans-harbor-pd',
+      name: 'New Orleans Harbor PD',
     },
   },
 ]

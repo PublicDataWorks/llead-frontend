@@ -6,7 +6,7 @@ export const officerDetailsData = {
   race: 'white',
   gender: 'male',
   department: {
-    id: 10024,
+    id: 'new-orleans-pd',
     name: 'New Orleans PD',
   },
   annual_salary: '54123.124',
@@ -29,7 +29,7 @@ export const officerDocumentsData = [
     text_content: 'Daryl Edgens made a motion to call for the examinations',
     departments: [
       {
-        id: 10034,
+        id: 'port-allen-pd',
         name: 'Port Allen PD',
       },
     ],
@@ -45,8 +45,8 @@ export const officerDocumentsData = [
     text_content: '',
     departments: [
       {
-        id: 10035,
-        name: 'ABC PD',
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
       },
     ],
   },
@@ -61,7 +61,7 @@ export const officerDocumentsData = [
     text_content: '',
     departments: [
       {
-        id: 10036,
+        id: 'any-pd',
         name: 'Any PD',
       },
     ],

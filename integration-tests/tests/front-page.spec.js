@@ -110,14 +110,14 @@ describe('FrontPage', () => {
           .as('visibleSlides')
           .should('length', DEPARTMENT_VISIBLE_COUNTS)
 
-        cy.get('@visibleSlides').eq(0).contains('Baton Rouge Department 1')
-        cy.get('@visibleSlides').eq(1).contains('New Orleans Department 1')
-        cy.get('@visibleSlides').eq(2).contains('Baton Rouge Department 2')
+        cy.get('@visibleSlides').eq(0).contains('Baton Rouge PD')
+        cy.get('@visibleSlides').eq(1).contains('New Orleans PD')
+        cy.get('@visibleSlides').eq(2).contains('Baton Rouge Sheriff')
 
         cy.get('@visibleSlides')
           .eq(0)
           .find('.department-name')
-          .contains('Baton Rouge Department 1')
+          .contains('Baton Rouge PD')
         cy.get('@visibleSlides')
           .eq(0)
           .find('.department-city')
@@ -148,9 +148,9 @@ describe('FrontPage', () => {
           .as('visibleSlides')
           .should('length', DEPARTMENT_VISIBLE_COUNTS)
 
-        cy.get('@visibleSlides').eq(0).contains('Baton Rouge Department 2')
-        cy.get('@visibleSlides').eq(1).contains('New Orleans Department 2')
-        cy.get('@visibleSlides').eq(2).contains('New Orleans Department 3')
+        cy.get('@visibleSlides').eq(0).contains('Baton Rouge Sheriff')
+        cy.get('@visibleSlides').eq(1).contains('New Orleans Harbor PD')
+        cy.get('@visibleSlides').eq(2).contains('Orleans Levee PD')
       })
 
       it('redirects to department page when clicks on department card', () => {
@@ -160,7 +160,7 @@ describe('FrontPage', () => {
 
         cy.location('pathname').should(
           'eq',
-          `/departments/${departmentsData[0].id}/`
+          `/dept/${departmentsData[0].id}/`
         )
       })
     })
@@ -203,7 +203,7 @@ describe('FrontPage', () => {
         cy.get('@visibleSlides')
           .eq(0)
           .find('.officer-department-name')
-          .contains('Baton Rouge Department 1')
+          .contains('Baton Rouge PD')
 
         cy.get('@visibleSlides')
           .eq(0)
@@ -252,7 +252,7 @@ describe('FrontPage', () => {
 
         cy.location('pathname').should(
           'eq',
-          `/departments/${officersData[0].department.id}/`
+          `/dept/${officersData[0].department.id}/`
         )
       })
 
@@ -371,7 +371,7 @@ describe('FrontPage', () => {
 
         cy.location('pathname').should(
           'eq',
-          `/departments/${documentsData[0].departments[0].id}/`
+          `/dept/${documentsData[0].departments[0].id}/`
         )
       })
     })

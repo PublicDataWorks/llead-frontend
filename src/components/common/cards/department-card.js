@@ -44,7 +44,7 @@ const DepartmentCard = (props) => {
 }
 
 DepartmentCard.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   city: PropTypes.string,
   parish: PropTypes.string,
