@@ -180,7 +180,7 @@ describe('FrontPage', () => {
           .should('text', 'Officers')
         cy.get('.officers-carousel')
           .find('.sorted-by')
-          .should('text', 'most recently added')
+          .should('text', 'complaints')
         cy.get('.officers-carousel').find('.swiper-slide').should('length', 5)
         cy.get('.officers-carousel')
           .find('.swiper-slide:visible')
