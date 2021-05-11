@@ -157,7 +157,7 @@ describe('#officerSelector', () => {
         const age = moment().diff(moment('1962', 'YYYY'), 'years')
         const officer = officerSelector(state)
 
-        expect(officer['description']).toEqual(`${age}-year-old, race`)
+        expect(officer['description']).toEqual(`${age} years old, race`)
       })
 
       it('returns officer data with only age & gender for description', () => {
@@ -175,7 +175,7 @@ describe('#officerSelector', () => {
         const age = moment().diff(moment('1962', 'YYYY'), 'years')
         const officer = officerSelector(state)
 
-        expect(officer['description']).toEqual(`${age}-year-old, gender`)
+        expect(officer['description']).toEqual(`${age} years old, gender`)
       })
 
       it('returns officer data with empty description', () => {
