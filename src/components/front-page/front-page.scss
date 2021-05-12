@@ -9,6 +9,10 @@
   }
 
   .summary {
+    p {
+      margin: 0;
+    }
+
     box-sizing: border-box;
     padding: $v-small-margin $h-side-frame $v-margin $h-side-frame;
   }

@@ -57,9 +57,9 @@ export const isLoggedInSelector = (state) => !isEmpty(getAccessToken(state))
 export const isAppConfigFetchedSelector = (state) =>
   !isEmpty(getAppConfig(state))
 
-export const cmsSelector = (state, page) =>
+export const cmsSelector = (state, section) =>
   createSelector(getCMS, (cms) => {
-    const cmsKeys = get(CMS_KEYS, page, {})
+    const cmsKeys = get(CMS_KEYS, section, {})
 
     return mapValues(cmsKeys, (cms_key) => get(cms, cms_key, ''))
   })(state)

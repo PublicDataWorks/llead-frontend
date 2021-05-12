@@ -12,7 +12,7 @@ import {
   recentItemsSelector,
   recentItemIdsSelector,
 } from 'selectors/front-page/recent-items'
-import { CMS_PAGES } from 'constants/common'
+import { CMS_SECTIONS } from 'constants/common'
 import {
   fetchAnalyticSummary,
   fetchRecentItems,
@@ -23,7 +23,7 @@ import {
 import { saveRecentItem } from 'actions/common/recent-items'
 
 const mapStateToProps = (state) => ({
-  cms: cmsSelector(state, CMS_PAGES.FRONT_PAGE),
+  cms: cmsSelector(state, CMS_SECTIONS.FRONT_PAGE),
   analyticSummary: analyticSummarySelector(state),
   departments: departmentsSelector(state),
   officers: officersSelector(state),

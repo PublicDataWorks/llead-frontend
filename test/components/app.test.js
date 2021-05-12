@@ -8,6 +8,10 @@ import App from 'components/app'
 import * as ScrollToTop from 'components/common/higher-order/scroll-to-top'
 
 describe('App component', () => {
+  beforeEach(() => {
+    sinon.stub(global, 'scrollTo')
+  })
+
   describe('fetch app config', () => {
     it('should fetch app config', () => {
       const fetchAppConfig = sinon.spy()

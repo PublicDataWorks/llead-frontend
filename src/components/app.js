@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
@@ -6,13 +6,12 @@ import noop from 'lodash/noop'
 
 import AppRoutes from 'routes'
 import HeaderContainer from 'containers/common/header-container'
-import Footer from 'components/common/footer'
+import Footer from 'containers/common/footer'
 import ScrollToTop from 'components/common/higher-order/scroll-to-top'
 import './app.scss'
 
 const App = (props) => {
   const { fetchAppConfig, isAppConfigFetched, isLoggedIn } = props
-  const footerRef = useRef()
   const [footerHeight, setFooterHeight] = useState(0)
 
   useEffect(() => {
@@ -21,23 +20,18 @@ const App = (props) => {
     }
   }, [isAppConfigFetched])
 
-  useEffect(() => {
-    if (footerRef.current) {
-      setFooterHeight(footerRef.current.clientHeight)
-    }
-  }, [])
-
   return (
     <Router>
       <ScrollToTop />
-      <HeaderContainer />
+
       <div
         className={cx('main-container', { unauthorized: !isLoggedIn })}
         style={{ minHeight: `calc(100vh - ${footerHeight}px)` }}
       >
+        <HeaderContainer />
         <AppRoutes />
       </div>
-      <Footer ref={footerRef} />
+      <Footer setFooterHeight={setFooterHeight} />
     </Router>
   )
 }
