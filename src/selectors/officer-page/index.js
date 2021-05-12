@@ -6,7 +6,9 @@ import isEmpty from 'lodash/isEmpty'
 import join from 'lodash/join'
 import mapValues from 'lodash/mapValues'
 import pick from 'lodash/pick'
+import compact from 'lodash/compact'
 import trim from 'lodash/trim'
+import every from 'lodash/every'
 
 import { formatDataPeriods } from 'utils/formatter'
 import { officerFormatter } from 'selectors/common'
@@ -29,14 +31,18 @@ export const formatSalary = (data, longForm = false) => {
 }
 
 const formatOfficerDescription = (officer) => {
-  const birthYear = get(officer, 'birthYear')
+  const birthYear = trim(get(officer, 'birthYear'))
+  const race = trim(get(officer, 'race'))
+  const gender = trim(get(officer, 'gender'))
+  const age = birthYear && moment().diff(moment(birthYear, 'YYYY'), 'years')
 
-  const age = birthYear
-    ? `${moment().diff(moment(birthYear, 'YYYY'), 'years')}-year-old`
-    : ''
-  return trim(
-    join([age, get(officer, 'gender', ''), get(officer, 'race', '')], ' ')
-  )
+  if (age && race && gender) {
+    const ageString = `${age}-year-old`
+    return join([ageString, race, gender], ' ')
+  } else {
+    const ageString = age && `${age} years old`
+    return join(compact([ageString, race, gender]), ', ')
+  }
 }
 
 const officerDetailsFormatter = (officer) => {

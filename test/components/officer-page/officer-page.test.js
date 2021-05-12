@@ -59,7 +59,7 @@ describe('Officer component', () => {
       const officerData = {
         id: 1,
         name: 'officer name',
-        description: 'age-year-old gender race',
+        description: 'age-year-old race gender',
       }
 
       const recentData = {
@@ -94,7 +94,7 @@ describe('Officer component', () => {
       const officerData = {
         id: 1,
         name: 'officer name',
-        description: 'age-year-old gender race',
+        description: 'age-year-old race gender',
       }
 
       render(
@@ -120,7 +120,7 @@ describe('Officer component', () => {
       const officerData = {
         id: 2,
         name: 'officer name',
-        description: 'age-year-old gender race',
+        description: 'age-year-old race gender',
       }
 
       render(
@@ -149,7 +149,7 @@ describe('Officer component', () => {
       documentsDataPeriod: '2015-2016',
       complaintsDataPeriod: '2012, 2014 and 2016-2018',
       department: { id: 10029, name: 'Officer Name' },
-      description: 'age-year-old gender race',
+      description: 'age-year-old race gender',
       documentsCount: 1,
       name: 'officer name',
     }
@@ -183,7 +183,7 @@ describe('Officer component', () => {
     )
     expect(officerBasicInfoRows[0].textContent).toEqual('123, 456')
     expect(officerBasicInfoRows[1].textContent).toEqual(
-      'age-year-old gender race'
+      'age-year-old race gender'
     )
     expect(officerBasicInfoRows[2].textContent).toEqual('$57,123,72/year')
 
