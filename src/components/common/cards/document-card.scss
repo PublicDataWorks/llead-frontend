@@ -15,7 +15,6 @@
   .document-info {
     box-sizing: border-box;
     padding: $v-margin $h-card-margin 0 $h-card-margin;
-    height: 248px;
 
     .document-type {
       @include small-text;
@@ -41,7 +40,9 @@
     box-sizing: border-box;
     padding: 0 $h-card-margin;
     overflow: auto;
-    height: calc(100% - 248px);
+    position: absolute;
+    bottom: $v-frame-margin;
+    max-height: 71px;
 
     .document-department-name {
       display: block;
