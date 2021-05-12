@@ -10,6 +10,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import './timeline.scss'
 import ComplaintItem from './complaint-item'
+import UseOfForceItem from './use-of-force-item'
 import MainItem from './main-item'
 import DocumentCard from './document-card'
 import SalaryChangeItem from './salary-change-item'
@@ -23,6 +24,9 @@ const TIMELINE_COMPONENTS_MAPPING = {
   [TIMELINE_KINDS.LEFT]: { component: MainItem },
   [TIMELINE_KINDS.COMPLAINT]: {
     component: ComplaintItem,
+  },
+  [TIMELINE_KINDS.UOF]: {
+    component: UseOfForceItem,
   },
   [TIMELINE_KINDS.DOCUMENT]: {
     component: DocumentCard,
@@ -51,6 +55,7 @@ const Timeline = (props) => {
   } = props
 
   const [highlightItemId, setHighlightItemId] = useState()
+  const [highlightItemKind, setHighlightItemKind] = useState()
   const [showActionsPanel, setShowActionsPanel] = useState(false)
   const [showEventDetails, setShowEventDetails] = useState(false)
 
@@ -59,9 +64,13 @@ const Timeline = (props) => {
 
   useEffect(() => {
     const search = qs.parse(location.search, { ignoreQueryPrefix: true })
-    const { complaint_id: complaintId } = search
+    const { complaint_id: complaintId, uof_id: uofId } = search
     if (complaintId) {
       setHighlightItemId(complaintId)
+      setHighlightItemKind(TIMELINE_KINDS.COMPLAINT)
+    } else if (uofId) {
+      setHighlightItemId(uofId)
+      setHighlightItemKind(TIMELINE_KINDS.UOF)
     }
     const setHighlightItemIdTimeoutId = setTimeout(
       () => setHighlightItemId(null),
@@ -106,7 +115,11 @@ const Timeline = (props) => {
               'has-connected-line': group.isDateEvent,
               'left-item': leftGroup,
             })}
-            highlight={!!item.id && item.id == highlightItemId}
+            highlight={
+              !!item.id &&
+              item.kind === highlightItemKind &&
+              item.id == highlightItemId
+            }
             officerId={officerId}
             showEventDetails={showEventDetails}
           />

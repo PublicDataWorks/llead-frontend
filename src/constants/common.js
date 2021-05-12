@@ -36,13 +36,15 @@ export const TIMELINE_KIND_ORDERS = {
   UNIT_CHANGE: 4,
   SALARY_CHANGE: 5,
   COMPLAINT: 6,
-  DOCUMENT: 7,
+  UOF: 7,
+  DOCUMENT: 8,
 }
 
 export const TIMELINE_KINDS = {
   JOINED: 'JOINED',
   LEFT: 'LEFT',
   COMPLAINT: 'COMPLAINT',
+  UOF: 'UOF',
   DOCUMENT: 'DOCUMENT',
   SALARY_CHANGE: 'SALARY_CHANGE',
   RANK_CHANGE: 'RANK_CHANGE',
@@ -61,6 +63,10 @@ export const TIMELINE_FILTERS = {
   RANKS_AND_UNITS: {
     title: 'Rank/unit',
     kinds: [TIMELINE_KINDS.RANK_CHANGE, TIMELINE_KINDS.UNIT_CHANGE],
+  },
+  UOF: {
+    title: 'Use of force',
+    kinds: [TIMELINE_KINDS.UOF],
   },
 }
 

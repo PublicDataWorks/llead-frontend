@@ -11,6 +11,7 @@ import DocumentCard from 'components/officer-page/timeline/document-card'
 import SalaryChangeItem from 'components/officer-page/timeline/salary-change-item'
 import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
 import TimelineFilters from 'components/officer-page/timeline/filters'
+import UseOfForceItem from 'components/officer-page/timeline/use-of-force-item'
 import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
 import { ANIMATION_DURATION } from 'constants/common'
@@ -19,6 +20,15 @@ const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
 }
 jest.mock('components/officer-page/timeline/complaint-item', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockUOFItemComponent = () => {
+  return <div>Use of force Item</div>
+}
+jest.mock('components/officer-page/timeline/use-of-force-item', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
@@ -76,6 +86,7 @@ beforeAll(() => {
   SalaryChangeItem.mockImplementation(MockSalaryChangeItemComponent)
   RankChangeItem.mockImplementation(MockRankChangeItemComponent)
   TimelineFilters.mockImplementation(MockFiltersComponent)
+  UseOfForceItem.mockImplementation(MockUOFItemComponent)
 })
 
 beforeEach(() => {
@@ -85,6 +96,7 @@ beforeEach(() => {
   SalaryChangeItem.mockClear()
   RankChangeItem.mockClear()
   TimelineFilters.mockClear()
+  UseOfForceItem.mockClear()
 })
 
 describe('Timeline component', () => {
@@ -561,6 +573,174 @@ describe('Timeline component', () => {
         highlight: false,
         officerId: '1',
         showEventDetails: false,
+      })
+    })
+  })
+
+  describe('Use of Force item', () => {
+    it('renders timeline with not highlight use of force item', () => {
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'UOF',
+              id: 1,
+              forceType: 'Takedown (w/injury)',
+              forceDescription: 'L2-Takedown (w/injury)',
+              forceReason: 'Resisting lawful arrest',
+              disposition: 'UOF Justified',
+              serviceType: 'Call for service',
+              citizenInvolvement: 'Complainant',
+              citizenInformation: '26-year-old white female',
+              uofTrackingNumber: 'Complainant',
+              details: [
+                'citizen arrested',
+                'citizen injured',
+                'officer injured',
+                'traffic stop',
+              ],
+            },
+          ],
+        },
+      ]
+      const mockSaveRecentItem = jest.fn()
+
+      render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      expect(UseOfForceItem.mock.calls[0][0]).toStrictEqual({
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: false,
+        officerId: '1',
+        showEventDetails: false,
+        kind: 'UOF',
+        id: 1,
+        forceType: 'Takedown (w/injury)',
+        forceDescription: 'L2-Takedown (w/injury)',
+        forceReason: 'Resisting lawful arrest',
+        disposition: 'UOF Justified',
+        serviceType: 'Call for service',
+        citizenInvolvement: 'Complainant',
+        citizenInformation: '26-year-old white female',
+        uofTrackingNumber: 'Complainant',
+        details: [
+          'citizen arrested',
+          'citizen injured',
+          'officer injured',
+          'traffic stop',
+        ],
+      })
+    })
+
+    it('renders timeline with highlight use of force item', () => {
+      const clock = sinon.useFakeTimers()
+
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              kind: 'UOF',
+              id: 1,
+              forceType: 'Takedown (w/injury)',
+              forceDescription: 'L2-Takedown (w/injury)',
+              forceReason: 'Resisting lawful arrest',
+              disposition: 'UOF Justified',
+              serviceType: 'Call for service',
+              citizenInvolvement: 'Complainant',
+              citizenInformation: '26-year-old white female',
+              uofTrackingNumber: 'Complainant',
+              details: [
+                'citizen arrested',
+                'citizen injured',
+                'officer injured',
+                'traffic stop',
+              ],
+            },
+          ],
+        },
+      ]
+      const mockSaveRecentItem = jest.fn()
+
+      const query = qs.stringify({ uof_id: 1 }, { addQueryPrefix: true })
+
+      render(
+        <MemoryRouter
+          initialEntries={[{ pathname: 'officers/1', search: query }]}
+        >
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      expect(UseOfForceItem.mock.calls[1][0]).toStrictEqual({
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: true,
+        showEventDetails: false,
+        officerId: '1',
+        kind: 'UOF',
+        id: 1,
+        forceType: 'Takedown (w/injury)',
+        forceDescription: 'L2-Takedown (w/injury)',
+        forceReason: 'Resisting lawful arrest',
+        disposition: 'UOF Justified',
+        serviceType: 'Call for service',
+        citizenInvolvement: 'Complainant',
+        citizenInformation: '26-year-old white female',
+        uofTrackingNumber: 'Complainant',
+        details: [
+          'citizen arrested',
+          'citizen injured',
+          'officer injured',
+          'traffic stop',
+        ],
+      })
+
+      UseOfForceItem.mockClear()
+
+      act(() => {
+        clock.tick(ANIMATION_DURATION + 100)
+      })
+
+      expect(UseOfForceItem.mock.calls[0][0]).toStrictEqual({
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: false,
+        officerId: '1',
+        showEventDetails: false,
+        kind: 'UOF',
+        id: 1,
+        forceType: 'Takedown (w/injury)',
+        forceDescription: 'L2-Takedown (w/injury)',
+        forceReason: 'Resisting lawful arrest',
+        disposition: 'UOF Justified',
+        serviceType: 'Call for service',
+        citizenInvolvement: 'Complainant',
+        citizenInformation: '26-year-old white female',
+        uofTrackingNumber: 'Complainant',
+        details: [
+          'citizen arrested',
+          'citizen injured',
+          'officer injured',
+          'traffic stop',
+        ],
       })
     })
   })
