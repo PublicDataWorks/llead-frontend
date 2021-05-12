@@ -61,7 +61,7 @@ const FrontPage = (props) => {
       {!isEmpty(officers) && (
         <OfficersCarousel
           items={officers}
-          sortedField='most recently added'
+          sortedField='complaints'
           className='front-page-carousel'
         />
       )}
