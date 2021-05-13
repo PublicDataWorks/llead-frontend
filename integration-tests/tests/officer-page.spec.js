@@ -170,7 +170,7 @@ describe('Officer Page', () => {
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(4)
-          .should('text', 'Salary changed to $65,124.57/yr')
+          .should('text', 'Salary changed to $65,124.57/year')
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(5)
@@ -454,7 +454,7 @@ describe('Officer Page', () => {
           .should('have.text', 'Accused of misconduct')
       })
 
-      it.only('shows event details', () => {
+      it('shows event details', () => {
         cy.visit('/officers/1')
 
         cy.get('.officer-timeline')

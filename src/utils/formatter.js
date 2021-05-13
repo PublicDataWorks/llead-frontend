@@ -6,6 +6,10 @@ import reduce from 'lodash/reduce'
 
 import { DATE_FORMAT } from 'constants/common'
 
+const formatCurrencyNumber = (value) => {
+  return numeral(value).format('$0,0.[00]')
+}
+
 export const formatDate = (date) => {
   if (isEmpty(date)) {
     return ''
@@ -43,4 +47,22 @@ export const formatTimelineDate = (date) => {
   } else {
     return formatDate(date) || 'No Date'
   }
+}
+
+export const formatSalary = (salary, freq) => {
+  if (isEmpty(salary)) {
+    return ''
+  }
+
+  let parsedFreq
+
+  if (freq === 'yearly') {
+    parsedFreq = '/year'
+  } else if (freq === 'hourly') {
+    parsedFreq = '/hour'
+  } else {
+    parsedFreq = !isEmpty(freq) ? ` ${freq}` : ''
+  }
+
+  return `${formatCurrencyNumber(salary)}${parsedFreq}`
 }

@@ -2,7 +2,6 @@ import moment from 'moment'
 
 import {
   getIsOfficerRequesting,
-  formatSalary,
   officerSelector,
   officerRecentDataSelector,
 } from 'selectors/officer-page'
@@ -35,8 +34,8 @@ describe('#officerSelector', () => {
           name: 'Department Name',
           extraDepartmentField: 'should not be included',
         },
-        annualSalary: '54267.789',
-        hourlySalary: '12.24',
+        salary: '54267.789',
+        salaryFreq: 'yearly',
         documentsCount: 1,
         complaintsCount: 2,
         dataPeriod: ['2012', '2018-2020'],
@@ -75,8 +74,8 @@ describe('#officerSelector', () => {
       it('returns officer data with annual salary', () => {
         const officerData = {
           id: 1,
-          annualSalary: '54267.789',
-          hourlySalary: '12.24',
+          salary: '54267.789',
+          salaryFreq: 'yearly',
         }
         const state = {
           officerPage: {
@@ -92,8 +91,8 @@ describe('#officerSelector', () => {
       it('returns officer data with hourly salary', () => {
         const officerData = {
           id: 1,
-          annualSalary: null,
-          hourlySalary: '12.24',
+          salary: '12.24',
+          salaryFreq: 'hourly',
         }
         const state = {
           officerPage: {
@@ -118,7 +117,7 @@ describe('#officerSelector', () => {
 
         const officer = officerSelector(state)
 
-        expect(officer['salary']).toBe(undefined)
+        expect(officer['salary']).toBe('')
       })
     })
 
@@ -204,7 +203,8 @@ describe('#officerSelector', () => {
           name: 'Department Name',
           extraDepartmentField: 'should not be included',
         },
-        annualSalary: '54267.789',
+        salary: '54267.789',
+        salaryFreq: 'yearly',
         documentsCount: 1,
         complaintsCount: 2,
         dataPeriod: [],
@@ -278,57 +278,5 @@ describe('#officerRecentDataSelector', () => {
         name: 'Department Name',
       },
     })
-  })
-})
-
-describe('#formatSalary', () => {
-  it('formats annual salary in short form', () => {
-    const data = {
-      annualSalary: '1900531.231',
-      hourlySalary: '29.1450',
-    }
-
-    const salary = formatSalary(data)
-    expect(salary).toEqual('$1,900,531.23/yr')
-  })
-
-  it('formats annual salary in long form', () => {
-    const data = {
-      annualSalary: '1900531.231',
-      hourlySalary: '29.1450',
-    }
-
-    const salary = formatSalary(data, true)
-    expect(salary).toEqual('$1,900,531.23/year')
-  })
-
-  it('formats hourly salary in short form', () => {
-    const data = {
-      annualSalary: null,
-      hourlySalary: '29.1450',
-    }
-
-    const salary = formatSalary(data)
-    expect(salary).toEqual('$29.15/hr')
-  })
-
-  it('formats hourly salary in long form', () => {
-    const data = {
-      annualSalary: null,
-      hourlySalary: '29.1450',
-    }
-
-    const salary = formatSalary(data, true)
-    expect(salary).toEqual('$29.15/hour')
-  })
-
-  it('returns null if both annualSalary and hourlySalary do not exist', () => {
-    const data = {
-      annualSalary: null,
-      hourlySalary: null,
-    }
-
-    const salary = formatSalary(data)
-    expect(salary).toEqual(undefined)
   })
 })

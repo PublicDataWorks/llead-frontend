@@ -4,6 +4,7 @@ import {
   stringifyTotalItems,
   formatDataPeriods,
   formatTimelineDate,
+  formatSalary,
 } from 'utils/formatter'
 
 describe('#formatDate', () => {
@@ -79,5 +80,32 @@ describe('#formatTimelineDate', () => {
     const dateString = formatTimelineDate('abcsadsf')
 
     expect(dateString).toEqual('No Date')
+  })
+})
+
+describe('#formatSalary', () => {
+  it('formats annual salary', () => {
+    const salary = formatSalary('1900531.231', 'yearly')
+    expect(salary).toEqual('$1,900,531.23/year')
+  })
+
+  it('formats hourly salary', () => {
+    const salary = formatSalary('29.1450', 'hourly')
+    expect(salary).toEqual('$29.15/hour')
+  })
+
+  it('returns salary with default frequence if salaryFreq does not match patterns', () => {
+    const salary = formatSalary('29.1450', 'daily')
+    expect(salary).toEqual('$29.15 daily')
+  })
+
+  it('returns salary only if salaryFreq does not exist', () => {
+    const salary = formatSalary('29.1450')
+    expect(salary).toEqual('$29.15')
+  })
+
+  it('returns empty if salary does not exist', () => {
+    const salary = formatSalary(null, null)
+    expect(salary).toEqual('')
   })
 })

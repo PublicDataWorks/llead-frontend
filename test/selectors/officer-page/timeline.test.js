@@ -60,7 +60,8 @@ describe('#timelineSelector', () => {
       {
         kind: 'SALARY_CHANGE',
         year: 2019,
-        annualSalary: '65123.23',
+        salary: '65123.23',
+        salaryFreq: 'yearly',
         date: '2019-06-13',
       },
       {
@@ -77,8 +78,8 @@ describe('#timelineSelector', () => {
       {
         kind: 'SALARY_CHANGE',
         year: 2018,
-        annualSalary: null,
-        hourlySalary: '12.57',
+        salary: '12.57',
+        salaryFreq: 'hourly',
         date: '2018-10-20',
       },
       {
@@ -220,7 +221,7 @@ describe('#timelineSelector', () => {
           },
           {
             kind: 'SALARY_CHANGE',
-            salary: '$65,123.23/yr',
+            salary: '$65,123.23/year',
           },
           {
             id: '123',
@@ -371,7 +372,7 @@ describe('#timelineSelector', () => {
           },
           {
             kind: 'SALARY_CHANGE',
-            salary: '$12.57/hr',
+            salary: '$12.57/hour',
           },
           {
             id: '125',
@@ -505,7 +506,8 @@ describe('#timelineSelector', () => {
       {
         kind: 'SALARY_CHANGE',
         year: 2019,
-        annualSalary: '65123.23',
+        salary: '65123.23',
+        salaryFreq: 'yearly',
         date: '2019-06-13',
       },
       {
@@ -714,7 +716,8 @@ describe('#timelineFilterGroupsSelector', () => {
       {
         kind: 'SALARY_CHANGE',
         year: 2019,
-        annualSalary: '$65,123.23',
+        salary: '65,123.23',
+        salaryFreq: 'yearly',
         date: '2019-06-13',
       },
       {
