@@ -1,16 +1,37 @@
-import React, { forwardRef } from 'react'
+import React, { useRef, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import noop from 'lodash/noop'
 
+import ReactMarkdown from 'react-markdown'
 import './footer.scss'
 
-const Footer = forwardRef((_, ref) => {
+const Footer = ({ cms, setFooterHeight }) => {
+  const { text } = cms
+
+  const footerRef = useRef()
+
+  useEffect(() => {
+    if (footerRef.current) {
+      setFooterHeight(footerRef.current.clientHeight)
+    }
+  }, [text])
+
   return (
-    <footer className='footer' ref={ref}>
-      <b>Innocence Project New Orleans</b> in collaboration with&nbsp;
-      <b>Public Data Works</b>
+    <footer className='footer' ref={footerRef}>
+      <ReactMarkdown>{text}</ReactMarkdown>
     </footer>
   )
-})
+}
 
 Footer.displayName = 'Footer'
 
+Footer.propTypes = {
+  cms: PropTypes.object,
+  setFooterHeight: PropTypes.func,
+}
+
+Footer.defaultProps = {
+  cms: {},
+  setFooterHeight: noop,
+}
 export default Footer

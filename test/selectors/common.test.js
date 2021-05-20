@@ -5,7 +5,7 @@ import {
   isAppConfigFetchedSelector,
   cmsSelector,
 } from 'selectors/common'
-import { CMS_PAGES } from 'constants/common'
+import { CMS_SECTIONS } from 'constants/common'
 
 describe('#getAccessToken', () => {
   it('returns access token', () => {
@@ -98,7 +98,7 @@ describe('#cmsSelector', () => {
       appConfig,
     }
 
-    const frontPageCMS = cmsSelector(state, CMS_PAGES.FRONT_PAGE)
+    const frontPageCMS = cmsSelector(state, CMS_SECTIONS.FRONT_PAGE)
 
     expect(frontPageCMS).toEqual({ summary: 'Front page summary.' })
   })

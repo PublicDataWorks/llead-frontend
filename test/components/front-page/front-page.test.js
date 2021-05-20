@@ -1,6 +1,6 @@
 import React from 'react'
 import sinon from 'sinon'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
@@ -79,7 +79,7 @@ describe('FrontPage component', () => {
 
   it('should render correctly', () => {
     const cmsData = {
-      summary: '<b>Front page</b> summary.',
+      summary: '**Front page** summary.',
     }
     const analyticSummary = {
       departmentsCount: 4,
@@ -102,9 +102,12 @@ describe('FrontPage component', () => {
     )
     const { baseElement } = container
 
-    expect(screen.getByTestId('test--summary').textContent).toContain(
-      'Front page summary.'
-    )
+    const summarySection = baseElement.getElementsByClassName('summary')[0]
+    expect(summarySection.textContent).toEqual('Front page summary.')
+    expect(
+      summarySection.getElementsByTagName('strong')[0].textContent
+    ).toEqual('Front page')
+
     expect(baseElement.textContent).toContain('4 departments')
     expect(baseElement.textContent).toContain('+1 in the past 30 days')
     expect(baseElement.textContent).toContain('5 officers')

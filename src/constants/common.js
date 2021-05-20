@@ -1,10 +1,14 @@
-export const CMS_PAGES = {
+export const CMS_SECTIONS = {
   FRONT_PAGE: 'FRONT_PAGE',
+  FOOTER: 'FOOTER',
 }
 
 export const CMS_KEYS = {
-  [CMS_PAGES.FRONT_PAGE]: {
+  [CMS_SECTIONS.FRONT_PAGE]: {
     summary: 'frontPageSummary',
+  },
+  [CMS_SECTIONS.FOOTER]: {
+    text: 'footerText',
   },
 }
 

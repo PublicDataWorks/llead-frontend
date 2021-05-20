@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import ReactMarkdown from 'react-markdown'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
 
@@ -39,11 +40,7 @@ const FrontPage = (props) => {
 
   return (
     <div className='front-page'>
-      <div
-        className='summary'
-        data-testid='test--summary'
-        dangerouslySetInnerHTML={{ __html: cms.summary }}
-      />
+      <ReactMarkdown className="summary">{cms.summary}</ReactMarkdown>
       <AnalyticSummary analyticSummary={analyticSummary} />
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
