@@ -60,6 +60,8 @@ export const formatSalary = (salary, freq) => {
     parsedFreq = '/year'
   } else if (freq === 'hourly') {
     parsedFreq = '/hour'
+  } else if (freq === 'bi-weekly') {
+    parsedFreq = ' biweekly'
   } else {
     parsedFreq = !isEmpty(freq) ? ` ${freq}` : ''
   }

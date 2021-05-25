@@ -94,6 +94,11 @@ describe('#formatSalary', () => {
     expect(salary).toEqual('$29.15/hour')
   })
 
+  it('formats bi-weekyly salary', () => {
+    const salary = formatSalary('29.1450', 'bi-weekly')
+    expect(salary).toEqual('$29.15 biweekly')
+  })
+
   it('returns salary with default frequence if salaryFreq does not match patterns', () => {
     const salary = formatSalary('29.1450', 'daily')
     expect(salary).toEqual('$29.15 daily')
