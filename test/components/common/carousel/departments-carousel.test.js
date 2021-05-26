@@ -7,15 +7,15 @@ describe('Department carousel', () => {
   it('should render correctly', () => {
     const departments = [
       {
-        id: 1,
-        name: 'card-1',
+        id: 'department-1',
+        name: 'Department 1',
         city: 'city-1',
         parish: 'parish-1',
         locationMapUrl: '',
       },
       {
-        id: 2,
-        name: 'card-2',
+        id: 'department-2',
+        name: 'Department 2',
         city: 'city-2',
         parish: 'parish-2',
         locationMapUrl: 'locationMapUrl',
@@ -26,7 +26,7 @@ describe('Department carousel', () => {
     const carouselItems = baseElement.getElementsByClassName('swiper-slide')
 
     expect(baseElement.textContent.includes('Departments')).toBe(true)
-    expect(carouselItems[0].textContent.includes('card-1')).toBe(true)
-    expect(carouselItems[1].textContent.includes('card-2')).toBe(true)
+    expect(carouselItems[0].textContent.includes('Department 1')).toBe(true)
+    expect(carouselItems[1].textContent.includes('Department 2')).toBe(true)
   })
 })

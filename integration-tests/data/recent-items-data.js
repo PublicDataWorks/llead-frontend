@@ -1,6 +1,6 @@
-export const department9DetailsData = {
-  id: 9,
-  name: 'Baton Rouge Department 1',
+export const departmentBatonRougePdDetailsData = {
+  id: 'baton-rouge-pd',
+  name: 'Baton Rouge PD',
   city: 'Baton Rouge',
   parish: 'East Baton Rouge',
   location_map_url: 'https://i.imgur.com/nHTFohI.png',
@@ -45,8 +45,8 @@ export const department9DocumentsData = {
         'Motion by Daryl Edgens to approve exam grades for Fire Investigator',
       departments: [
         {
-          id: 9,
-          name: 'Baton Rouge Department 1',
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
         },
       ],
     },
@@ -61,8 +61,8 @@ export const officer1DetailsData = {
   race: 'white',
   gender: 'male',
   department: {
-    id: 9,
-    name: 'Baton Rouge Department 1',
+    id: 'baton-rouge-pd',
+    name: 'Baton Rouge PD',
   },
   documents_count: 1,
 }
@@ -79,7 +79,7 @@ export const officer1DocumentsData = [
     text_content: '',
     departments: [
       {
-        id: 10035,
+        id: 'new-orleans-pd',
         name: 'New Orleans PD',
       },
     ],
@@ -89,8 +89,8 @@ export const officer1DocumentsData = [
 export const recentItemsData = {
   department: [
     {
-      id: 9,
-      name: 'Baton Rouge Department 1',
+      id: 'baton-rouge-pd',
+      name: 'Baton Rouge PD',
       city: 'Baton Rouge',
       parish: 'East Baton Rouge',
       location_map_url: 'https://i.imgur.com/nHTFohI.png',
@@ -102,8 +102,8 @@ export const recentItemsData = {
       name: 'Mark Carlson',
       badges: ['12435', '612'],
       department: {
-        id: 9,
-        name: 'Baton Rouge Department 1',
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
       },
     },
   ],

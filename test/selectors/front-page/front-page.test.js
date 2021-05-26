@@ -107,7 +107,7 @@ describe('#officersSelector', () => {
         name: 'Mark Carlson',
         badges: ['12345', '567'],
         department: {
-          id: 26,
+          id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
         extraField: 'data',
@@ -127,7 +127,7 @@ describe('#officersSelector', () => {
         name: 'Mark Carlson',
         badges: ['12345', '567'],
         department: {
-          id: 26,
+          id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
       },

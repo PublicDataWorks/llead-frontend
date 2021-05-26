@@ -14,7 +14,7 @@ describe('SearchPage component', () => {
     const searchResults = {
       departments: [
         {
-          id: 22,
+          id: 'petersonmouth-department',
           name: 'Petersonmouth Department',
           city: 'Baton Rouge',
           parish: 'East Baton Rouge',
@@ -27,7 +27,7 @@ describe('SearchPage component', () => {
           name: 'Robert Craig',
           badges: ['12345'],
           department: {
-            id: 22,
+            id: 'petersonmouth-department',
             name: 'Petersonmouth Department',
           },
         },
@@ -41,7 +41,7 @@ describe('SearchPage component', () => {
           incidentDate: '2020-01-06',
           departments: [
             {
-              id: 22,
+              id: 'petersonmouth-department',
               name: 'Petersonmouth Department',
             },
           ],
@@ -134,7 +134,7 @@ describe('SearchPage component', () => {
     const searchResults = {
       departments: [
         {
-          id: 22,
+          id: 'petersonmouth-department',
           name: 'Petersonmouth Department',
           city: 'Baton Rouge',
           parish: 'East Baton Rouge',

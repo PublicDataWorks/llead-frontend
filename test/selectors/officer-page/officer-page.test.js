@@ -31,7 +31,7 @@ describe('#officerSelector', () => {
         race: 'race',
         gender: 'gender',
         department: {
-          id: 100,
+          id: 'department-name',
           name: 'Department Name',
           extraDepartmentField: 'should not be included',
         },
@@ -65,7 +65,7 @@ describe('#officerSelector', () => {
         salary: '$54,267.79/year',
         description: `${age}-year-old race gender`,
         department: {
-          id: 100,
+          id: 'department-name',
           name: 'Department Name',
         },
       })
@@ -200,7 +200,7 @@ describe('#officerSelector', () => {
         name: 'Officer Name',
         badges: ['12345'],
         department: {
-          id: 100,
+          id: 'department-name',
           name: 'Department Name',
           extraDepartmentField: 'should not be included',
         },
@@ -229,7 +229,7 @@ describe('#officerSelector', () => {
         salary: '$54,267.79/year',
         description: '',
         department: {
-          id: 100,
+          id: 'department-name',
           name: 'Department Name',
         },
         dataPeriod: undefined,
@@ -255,7 +255,7 @@ describe('#officerRecentDataSelector', () => {
       name: 'Officer Name',
       badges: ['12345'],
       department: {
-        id: 100,
+        id: 'department-name',
         name: 'Department Name',
         extraDepartmentField: 'should not be included',
       },
@@ -274,7 +274,7 @@ describe('#officerRecentDataSelector', () => {
       name: 'Officer Name',
       badges: ['12345'],
       department: {
-        id: 100,
+        id: 'department-name',
         name: 'Department Name',
       },
     })

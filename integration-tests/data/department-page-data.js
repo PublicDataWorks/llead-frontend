@@ -1,5 +1,5 @@
 export const departmentDetailsData = {
-  id: 1,
+  id: 'harmonbury-department',
   name: 'Harmonbury Department',
   city: 'Baton Rouge',
   parish: 'East Baton Rouge',
@@ -38,7 +38,7 @@ export const departmentDetailsData = {
 
 export const departmentDocumentData = {
   count: 10,
-  next: 'http://localhost:8000/api/departments/23/documents/?limit=5&offset=5',
+  next: 'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=5&offset=5',
   previous: null,
   results: [
     {
@@ -53,7 +53,7 @@ export const departmentDocumentData = {
         'Motion by Daryl Edgens to approve exam grades for Fire Investigator',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -70,7 +70,7 @@ export const departmentDocumentData = {
         'Assistant Chief Fire Investigator and Assistant Fire Prevention Chief',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -86,7 +86,7 @@ export const departmentDocumentData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -102,7 +102,7 @@ export const departmentDocumentData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -118,7 +118,7 @@ export const departmentDocumentData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -129,7 +129,7 @@ export const departmentDocumentData = {
 export const departmentNextDocumentsData = {
   count: 10,
   next: null,
-  previous: 'http://localhost:8000/api/departments/23/documents/?limit=5',
+  previous: 'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=5',
   results: [
     {
       id: 6,
@@ -142,7 +142,7 @@ export const departmentNextDocumentsData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -158,7 +158,7 @@ export const departmentNextDocumentsData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -174,7 +174,7 @@ export const departmentNextDocumentsData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -190,7 +190,7 @@ export const departmentNextDocumentsData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -206,7 +206,7 @@ export const departmentNextDocumentsData = {
       text_content: '',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -217,7 +217,7 @@ export const departmentNextDocumentsData = {
 export const departmentDocumentsSearchData = {
   count: 4,
   next:
-    'http://localhost:8000/api/departments/23/documents/?limit=2&offset=2&q=this',
+    'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=2&offset=2&q=this',
   previous: null,
   results: [
     {
@@ -230,7 +230,7 @@ export const departmentDocumentsSearchData = {
       incident_date: '2019-11-06',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -245,7 +245,7 @@ export const departmentDocumentsSearchData = {
       incident_date: '2018-09-05',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -257,7 +257,7 @@ export const departmentDocumentsSearchNextData = {
   count: 4,
   next: null,
   previous:
-    'http://localhost:8000/api/departments/23/documents/?limit=2&q=this',
+    'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=2&q=this',
   results: [
     {
       text_content: 'This is the text content no 3',
@@ -269,7 +269,7 @@ export const departmentDocumentsSearchNextData = {
       incident_date: null,
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],
@@ -284,7 +284,7 @@ export const departmentDocumentsSearchNextData = {
       incident_date: '2017-07-12',
       departments: [
         {
-          id: 1,
+          id: 'harmonbury-department',
           name: 'Harmonbury Department',
         },
       ],

@@ -148,7 +148,10 @@ describe('Officer component', () => {
       dataPeriod: '2012 and 2018-2020',
       documentsDataPeriod: '2015-2016',
       complaintsDataPeriod: '2012, 2014 and 2016-2018',
-      department: { id: 10029, name: 'Officer Name' },
+      department: {
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+      },
       description: 'age-year-old race gender',
       documentsCount: 1,
       name: 'officer name',
@@ -189,7 +192,7 @@ describe('Officer component', () => {
 
     expect(
       baseElement.getElementsByClassName('officer-department')[0].textContent
-    ).toEqual('Officer Name')
+    ).toEqual('Baton Rouge PD')
 
     expect(
       baseElement.getElementsByClassName('officer-summary-info')[0].textContent

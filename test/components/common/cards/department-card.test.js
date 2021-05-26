@@ -6,9 +6,9 @@ import DepartmentCard from 'components/common/cards/department-card'
 describe('Department card component', () => {
   it('should render correctly', () => {
     const props = {
-      id: 1,
+      id: 'department-name',
       city: 'city',
-      name: 'name',
+      name: 'department name',
       parish: 'parish',
       className: 'custom-class-name',
     }

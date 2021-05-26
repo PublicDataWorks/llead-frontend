@@ -38,7 +38,7 @@ describe('#searchResultsSelector', () => {
           name: 'Robert Craig',
           badges: ['12345'],
           department: {
-            id: 22,
+            id: 'petersonmouth-department',
             name: 'Petersonmouth Department',
           },
           otherFields: 'other fields',
@@ -53,7 +53,7 @@ describe('#searchResultsSelector', () => {
           incidentDate: '2020-01-06',
           departments: [
             {
-              id: 22,
+              id: 'petersonmouth-department',
               name: 'Petersonmouth Department',
             },
           ],
@@ -86,7 +86,7 @@ describe('#searchResultsSelector', () => {
           name: 'Robert Craig',
           badges: ['12345'],
           department: {
-            id: 22,
+            id: 'petersonmouth-department',
             name: 'Petersonmouth Department',
           },
         },
@@ -100,7 +100,7 @@ describe('#searchResultsSelector', () => {
           incidentDate: 'Jan 6, 2020',
           departments: [
             {
-              id: 22,
+              id: 'petersonmouth-department',
               name: 'Petersonmouth Department',
             },
           ],
