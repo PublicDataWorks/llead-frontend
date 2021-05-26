@@ -3,6 +3,7 @@ import numeral from 'numeral'
 import pluralize from 'pluralize'
 import isEmpty from 'lodash/isEmpty'
 import reduce from 'lodash/reduce'
+import get from 'lodash/get'
 
 import { DATE_FORMAT } from 'constants/common'
 
@@ -56,15 +57,13 @@ export const formatSalary = (salary, freq) => {
 
   let parsedFreq
 
-  if (freq === 'yearly') {
-    parsedFreq = '/year'
-  } else if (freq === 'hourly') {
-    parsedFreq = '/hour'
-  } else if (freq === 'bi-weekly') {
-    parsedFreq = ' biweekly'
-  } else {
-    parsedFreq = !isEmpty(freq) ? ` ${freq}` : ''
+  const mapFreqToString = {
+    yearly: '/year',
+    hourly: '/hour',
+    'bi-weekly': ' biweekly',
   }
+
+  parsedFreq = get(mapFreqToString, freq, !isEmpty(freq) ? ` ${freq}` : '')
 
   return `${formatCurrencyNumber(salary)}${parsedFreq}`
 }
