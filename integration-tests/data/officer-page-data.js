@@ -9,7 +9,8 @@ export const officerDetailsData = {
     id: 'new-orleans-pd',
     name: 'New Orleans PD',
   },
-  annual_salary: '54123.124',
+  salary: '54123.124',
+  salary_freq: 'yearly',
   documents_count: 3,
   complaints_count: 0,
   data_period: ['2012', '2013', '2014', '2017-2019'],
@@ -154,7 +155,8 @@ export const officerTimelineData = [
   {
     kind: 'SALARY_CHANGE',
     year: 2019,
-    annual_salary: '65124.567',
+    salary: '65124.567',
+    salary_freq: 'yearly',
     date: '2019-03-10',
   },
   {

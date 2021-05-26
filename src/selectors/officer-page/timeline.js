@@ -6,20 +6,20 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
+import join from 'lodash/join'
+import lowerCase from 'lodash/lowerCase'
 import map from 'lodash/map'
 import mapValues from 'lodash/mapValues'
 import orderBy from 'lodash/orderBy'
 import pick from 'lodash/pick'
+import some from 'lodash/some'
 import sum from 'lodash/sum'
 import upperFirst from 'lodash/upperFirst'
 import values from 'lodash/values'
-import some from 'lodash/some'
-import join from 'lodash/join'
-import lowerCase from 'lodash/lowerCase'
 
 import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter } from 'selectors/common'
-import { formatSalary } from 'selectors/officer-page'
+import { formatSalary } from 'utils/formatter'
 import {
   TIMELINE_FILTERS,
   TIMELINE_KINDS,
@@ -104,11 +104,14 @@ const documentTimelineItemFormatter = (document) => {
 const salaryChangeTimelineItemFormatter = (salaryChange) => {
   const attributes = ['kind']
 
-  const salary = formatSalary(salaryChange)
+  const salary = get(salaryChange, 'salary')
+  const salaryFreq = get(salaryChange, 'salaryFreq')
+
+  const salaryString = formatSalary(salary, salaryFreq)
 
   return {
     ...pick(salaryChange, attributes),
-    salary,
+    salary: salaryString,
   }
 }
 

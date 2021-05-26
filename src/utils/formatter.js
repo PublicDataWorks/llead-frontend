@@ -3,8 +3,13 @@ import numeral from 'numeral'
 import pluralize from 'pluralize'
 import isEmpty from 'lodash/isEmpty'
 import reduce from 'lodash/reduce'
+import get from 'lodash/get'
 
 import { DATE_FORMAT } from 'constants/common'
+
+const formatCurrencyNumber = (value) => {
+  return numeral(value).format('$0,0.[00]')
+}
 
 export const formatDate = (date) => {
   if (isEmpty(date)) {
@@ -43,4 +48,22 @@ export const formatTimelineDate = (date) => {
   } else {
     return formatDate(date) || 'No Date'
   }
+}
+
+export const formatSalary = (salary, freq) => {
+  if (isEmpty(salary)) {
+    return ''
+  }
+
+  let parsedFreq
+
+  const mapFreqToString = {
+    yearly: '/year',
+    hourly: '/hour',
+    'bi-weekly': ' biweekly',
+  }
+
+  parsedFreq = get(mapFreqToString, freq, !isEmpty(freq) ? ` ${freq}` : '')
+
+  return `${formatCurrencyNumber(salary)}${parsedFreq}`
 }

@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import moment from 'moment'
-import numeral from 'numeral'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import join from 'lodash/join'
@@ -8,27 +7,9 @@ import mapValues from 'lodash/mapValues'
 import pick from 'lodash/pick'
 import compact from 'lodash/compact'
 import trim from 'lodash/trim'
-import every from 'lodash/every'
 
-import { formatDataPeriods } from 'utils/formatter'
+import { formatDataPeriods, formatSalary } from 'utils/formatter'
 import { officerFormatter } from 'selectors/common'
-
-const formatCurrencyNumber = (value) => {
-  return numeral(value).format('$0,0.[00]')
-}
-
-export const formatSalary = (data, longForm = false) => {
-  const annualSalary = get(data, 'annualSalary')
-  const hourlySalary = get(data, 'hourlySalary')
-
-  let salary
-  if (!isEmpty(annualSalary)) {
-    salary = `${formatCurrencyNumber(annualSalary)}/${longForm ? 'year' : 'yr'}`
-  } else if (!isEmpty(hourlySalary)) {
-    salary = `${formatCurrencyNumber(hourlySalary)}/${longForm ? 'hour' : 'hr'}`
-  }
-  return salary
-}
 
 const formatOfficerDescription = (officer) => {
   const birthYear = trim(get(officer, 'birthYear'))
@@ -59,7 +40,10 @@ const officerDetailsFormatter = (officer) => {
     'complaintsCount',
   ]
 
-  const salary = formatSalary(officer, true)
+  const salary = get(officer, 'salary')
+  const salaryFreq = get(officer, 'salaryFreq') 
+
+  const salaryString = formatSalary(salary, salaryFreq)
 
   const allDataPeriods = mapValues(
     pick(officer, [
@@ -75,7 +59,7 @@ const officerDetailsFormatter = (officer) => {
   return {
     ...pick(officer, officerAttributes),
     description: formatOfficerDescription(officer),
-    salary,
+    salary: salaryString,
     ...allDataPeriods,
     department: pick(officerDepartment, officerDepartmentAttributes),
   }

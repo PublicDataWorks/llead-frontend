@@ -928,7 +928,7 @@ describe('Timeline component', () => {
         items: [
           {
             kind: 'SALARY_CHANGE',
-            annualSalary: '65k',
+            salary: '$65k/year',
           },
         ],
       },
@@ -949,7 +949,7 @@ describe('Timeline component', () => {
 
     expect(SalaryChangeItem.mock.calls[0][0]).toStrictEqual({
       kind: 'SALARY_CHANGE',
-      annualSalary: '65k',
+      salary: '$65k/year',
       saveRecentItem: mockSaveRecentItem,
       className: 'has-connected-line left-item',
       highlight: false,
