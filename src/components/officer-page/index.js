@@ -39,8 +39,6 @@ const Officer = (props) => {
     documentsCount,
     complaintsCount,
     dataPeriod,
-    documentsDataPeriod,
-    complaintsDataPeriod,
   } = officer
 
   useEffect(() => {
@@ -61,17 +59,16 @@ const Officer = (props) => {
     if (complaintsCount > 0) {
       return (
         <div className='officer-summary-info'>
-          {startCase(name)} has&nbsp;
-          <b>{stringifyTotalItems(complaintsCount, 'complaints')}</b>
-          {complaintsDataPeriod && ` in ${complaintsDataPeriod}`}
+          Our data shows that {startCase(name)} has&nbsp;
+          <b>{stringifyTotalItems(complaintsCount, 'misconduct complaints')}</b>
+          .
         </div>
       )
     } else if (documentsCount > 0) {
       return (
         <div className='officer-summary-info'>
-          {startCase(name)} was named in&nbsp;
-          <b>{stringifyTotalItems(documentsCount, 'document')}</b>
-          {documentsDataPeriod && ` in ${documentsDataPeriod}`}
+          {startCase(name)} is named in&nbsp;
+          <b>{stringifyTotalItems(documentsCount, 'document')}</b>.
         </div>
       )
     }

@@ -78,7 +78,7 @@ describe('Officer Page', () => {
         .find('.officer-summary-info')
         .should(
           'text',
-          'Corliss Conway was named in\u00A03 documents in 2012 and 2017'
+          'Corliss Conway is named in\u00A03 documents.'
         )
     })
 
