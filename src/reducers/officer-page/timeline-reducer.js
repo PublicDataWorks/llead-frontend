@@ -7,7 +7,7 @@ import {
 
 export default handleActions(
   {
-    [OFFICER_TIMELINE_FETCH_START]: (state, action) => [], // eslint-disable-line no-unused-vars
+    [OFFICER_TIMELINE_FETCH_START]: (state, action) => {}, // eslint-disable-line no-unused-vars
     [OFFICER_TIMELINE_FETCH_SUCCESS]: (state, action) => action.payload,
   },
   []

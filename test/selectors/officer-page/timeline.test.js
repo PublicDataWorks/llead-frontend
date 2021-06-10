@@ -2,6 +2,7 @@ import {
   timelineSelector,
   timelineFilterGroupsSelector,
   hasEventDetailsSelector,
+  timelinePeriodSelector,
 } from 'selectors/officer-page/timeline'
 
 describe('#timelineSelector', () => {
@@ -191,7 +192,9 @@ describe('#timelineSelector', () => {
     ]
     const state = {
       officerPage: {
-        timeline: timelineData,
+        timeline: {
+          timeline: timelineData,
+        },
       },
     }
 
@@ -421,7 +424,9 @@ describe('#timelineSelector', () => {
     ]
     const state = {
       officerPage: {
-        timeline: timelineData,
+        timeline: {
+          timeline: timelineData,
+        },
       },
     }
 
@@ -609,7 +614,9 @@ describe('#timelineSelector', () => {
     ]
     const state = {
       officerPage: {
-        timeline: timelineData,
+        timeline: {
+          timeline: timelineData,
+        },
         filterGroupKey: 'RANKS_AND_UNITS',
       },
     }
@@ -819,7 +826,9 @@ describe('#timelineFilterGroupsSelector', () => {
     ]
     const state = {
       officerPage: {
-        timeline: timelineData,
+        timeline: {
+          timeline: timelineData,
+        },
       },
     }
 
@@ -853,18 +862,20 @@ describe('#timelineFilterGroupsSelector', () => {
   it('returns empty array if there is no filter groups', () => {
     const state = {
       officerPage: {
-        timeline: [
-          {
-            kind: 'JOINED',
-            date: null,
-            year: 2018,
-          },
-          {
-            kind: 'LEFT',
-            date: '2018-10-20',
-            year: 2018,
-          },
-        ],
+        timeline: {
+          timeline: [
+            {
+              kind: 'JOINED',
+              date: null,
+              year: 2018,
+            },
+            {
+              kind: 'LEFT',
+              date: '2018-10-20',
+              year: 2018,
+            },
+          ],
+        },
       },
     }
 
@@ -896,7 +907,9 @@ describe('#hasEventDetailsSelector', () => {
     ]
     const state = {
       officerPage: {
-        timeline: timelineData,
+        timeline: {
+          timeline: timelineData,
+        },
       },
     }
     const hasEventDetails = hasEventDetailsSelector(state)
@@ -935,7 +948,9 @@ describe('#hasEventDetailsSelector', () => {
     ]
     const state = {
       officerPage: {
-        timeline: timelineData,
+        timeline: {
+          timeline: timelineData,
+        },
       },
     }
     const hasEventDetails = hasEventDetailsSelector(state)
@@ -953,11 +968,39 @@ describe('#hasEventDetailsSelector', () => {
     ]
     const state = {
       officerPage: {
-        timeline: timelineData,
+        timeline: {
+          timeline: timelineData,
+        },
       },
     }
     const hasEventDetails = hasEventDetailsSelector(state)
 
     expect(hasEventDetails).toBe(false)
+  })
+})
+
+describe('#timelinePeriodSelector', () => {
+  it('returns formatted timeline period', () => {
+    const timelineData = {
+      officerPage: {
+        timeline: {
+          timelinePeriod: ['2013', '2015', '2017-2019'],
+        },
+      },
+    }
+
+    const timelinePeriod = timelinePeriodSelector(timelineData)
+
+    expect(timelinePeriod).toEqual('2013, 2015 and 2017-2019')
+  })
+
+  it('returns undefined on no timeline period data', () => {
+    const timelineData = {
+      officerPage: {},
+    }
+
+    const timelinePeriod = timelinePeriodSelector(timelineData)
+
+    expect(timelinePeriod).toBeFalsy()
   })
 })

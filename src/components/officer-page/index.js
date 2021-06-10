@@ -18,6 +18,7 @@ import TimelineContainer from 'containers/officer-page/timeline'
 const Officer = (props) => {
   const {
     officer,
+    timelinePeriod,
     fetchOfficer,
     isRequesting,
     saveRecentItem,
@@ -38,7 +39,6 @@ const Officer = (props) => {
     salary,
     documentsCount,
     complaintsCount,
-    dataPeriod,
   } = officer
 
   useEffect(() => {
@@ -78,10 +78,10 @@ const Officer = (props) => {
     !isRequesting &&
     !isEmpty(officer) && (
       <div className='officer-page'>
-        {!isEmpty(dataPeriod) && (
+        {!isEmpty(timelinePeriod) && (
           <div className='officer-period'>
             Data for this officer is limited to the years&nbsp;
-            {dataPeriod}
+            {timelinePeriod}
           </div>
         )}
         <div className='officer-basic-info'>
@@ -114,6 +114,7 @@ const Officer = (props) => {
 }
 
 Officer.propTypes = {
+  timelinePeriod: PropTypes.string,
   officer: PropTypes.object,
   recentData: PropTypes.object,
   fetchOfficer: PropTypes.func,

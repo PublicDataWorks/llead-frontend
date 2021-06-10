@@ -52,10 +52,6 @@ describe('Officer Page', () => {
 
       cy.location('pathname').should('eq', '/officers/1')
       cy.contains('Police Officer')
-      cy.get('.officer-period').should(
-        'text',
-        'Data for this officer is limited to the years\u00A02012, 2013, 2014 and 2017-2019'
-      )
       cy.get('.officer-basic-info')
         .find('.officer-name')
         .should('text', 'Corliss Conway')
@@ -76,16 +72,17 @@ describe('Officer Page', () => {
         .should('text', 'New Orleans PD')
       cy.get('.officer-basic-info')
         .find('.officer-summary-info')
-        .should(
-          'text',
-          'Corliss Conway is named in\u00A03 documents.'
-        )
+        .should('text', 'Corliss Conway is named in\u00A03 documents.')
     })
 
     describe('officer timeline', () => {
       it('renders officer timeline', () => {
         cy.visit('/officers/1')
 
+        cy.get('.officer-period').should(
+          'text',
+          'Data for this officer is limited to the years\u00A02012, 2013, 2014 and 2017-2019'
+        )
         cy.get('.officer-timeline')
           .find('.timeline-header-text')
           .should('text', 'Timeline')
