@@ -27,7 +27,8 @@ const AnalyticSummary = ({ analyticSummary }) => {
           {stringifyTotalItems(documentsCount, 'documents')}
         </div>
         <div className='recent-summary'>
-          +{formatNumber(recentDocumentsCount)} in the past {recentDays} days
+          +{formatNumber(recentDocumentsCount)} in the past&nbsp;
+          {stringifyTotalItems(recentDays, 'days')}
         </div>
       </div>
       <div className='analytic-summary-item'>
@@ -35,7 +36,8 @@ const AnalyticSummary = ({ analyticSummary }) => {
           {stringifyTotalItems(officersCount, 'officers')}
         </div>
         <div className='recent-summary'>
-          +{formatNumber(recentOfficersCount)} in the past {recentDays} days
+          +{formatNumber(recentOfficersCount)} in the past&nbsp;
+          {stringifyTotalItems(recentDays, 'days')}
         </div>
       </div>
       <div className='analytic-summary-item'>
@@ -43,7 +45,8 @@ const AnalyticSummary = ({ analyticSummary }) => {
           {stringifyTotalItems(departmentsCount, 'departments')}
         </div>
         <div className='recent-summary'>
-          +{formatNumber(recentDepartmentsCount)} in the past {recentDays} days
+          +{formatNumber(recentDepartmentsCount)} in the past&nbsp;
+          {stringifyTotalItems(recentDays, 'days')}
         </div>
       </div>
     </div>
