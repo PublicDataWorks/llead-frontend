@@ -5,6 +5,7 @@ import sinon from 'sinon'
 import qs from 'qs'
 
 import Header from 'components/common/header'
+import * as UserPanel from 'containers/common/header/user-panel'
 import { FRONT_PAGE_PATH, SEARCH_PATH } from 'constants/paths'
 
 const mockHistoryPush = jest.fn()
@@ -24,6 +25,15 @@ beforeEach(() => {
 })
 
 describe('Header component', () => {
+  const MockUserPanelComponent = 'User Panel'
+
+  beforeEach(() => {
+    // eslint-disable-next-line react/display-name
+    sinon.stub(UserPanel, 'default').get(() => () => {
+      return <div>{MockUserPanelComponent}</div>
+    })
+  })
+
   describe('user is not logged in', () => {
     it('should render correctly', () => {
       const container = render(
@@ -41,7 +51,7 @@ describe('Header component', () => {
   })
 
   describe('user is logged in', () => {
-    it('should render with log out button and can click to perform logout', () => {
+    it('should render with user panel', () => {
       const logOutSpy = sinon.spy()
       const refreshToken = 'refreshToken'
       const container = render(
@@ -55,12 +65,10 @@ describe('Header component', () => {
           </Route>
         </MemoryRouter>
       )
-      const { baseElement } = container
+      const { baseElement, getByText } = container
       expect(baseElement.textContent.includes('LLEAD')).toBe(true)
 
-      expect(baseElement.getElementsByClassName('logout-btn').length).toEqual(1)
-      fireEvent.click(container.getByText('L'))
-      expect(logOutSpy).toHaveBeenCalledWith({ refresh: refreshToken })
+      expect(getByText(MockUserPanelComponent)).toBeTruthy()
     })
   })
 
