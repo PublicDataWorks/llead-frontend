@@ -145,7 +145,6 @@ describe('Officer component', () => {
       salary: '$57,123,72/year',
       badges: ['123', '456'],
       complaintsCount: 0,
-      dataPeriod: '2012 and 2018-2020',
       department: {
         id: 'baton-rouge-pd',
         name: 'Baton Rouge PD',
@@ -154,11 +153,12 @@ describe('Officer component', () => {
       documentsCount: 1,
       name: 'officer name',
     }
+    const timelinePeriod = '2012 and 2018-2020'
     const container = render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['officers/1']}>
           <Route path='officers/:id'>
-            <Officer officer={officerData} />
+            <Officer officer={officerData} timelinePeriod={timelinePeriod} />
           </Route>
         </MemoryRouter>
       </Provider>

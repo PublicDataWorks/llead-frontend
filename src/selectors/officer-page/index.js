@@ -7,7 +7,7 @@ import pick from 'lodash/pick'
 import compact from 'lodash/compact'
 import trim from 'lodash/trim'
 
-import { formatDataPeriods, formatSalary } from 'utils/formatter'
+import { formatSalary } from 'utils/formatter'
 import { officerFormatter } from 'selectors/common'
 
 const formatOfficerDescription = (officer) => {
@@ -44,15 +44,12 @@ const officerDetailsFormatter = (officer) => {
 
   const salaryString = formatSalary(salary, salaryFreq)
 
-  const dataPeriod = formatDataPeriods(get(officer, 'dataPeriod'))
-
   const officerDepartment = get(officer, 'department')
 
   return {
     ...pick(officer, officerAttributes),
     description: formatOfficerDescription(officer),
     salary: salaryString,
-    dataPeriod,
     department: pick(officerDepartment, officerDepartmentAttributes),
   }
 }

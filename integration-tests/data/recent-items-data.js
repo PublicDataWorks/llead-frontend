@@ -7,26 +7,29 @@ export const departmentBatonRougePdDetailsData = {
   documents_count: 1,
 }
 
-export const officerTimelineData = [
-  {
-    id: 39,
-    document_type: 'pdf',
-    title: 'Document 2019-03-10',
-    url: 'http://document.com/image/our.pdf',
-    incident_date: '2019-03-10',
-    preview_image_url: 'http://image.com/image/our-preview.jpg',
-    pages_count: 24,
-    departments: [
-      {
-        id: 10031,
-        name: 'Department',
-      },
-    ],
-    kind: 'DOCUMENT',
-    date: '2019-03-10',
-    year: 2019,
-  },
-]
+export const officerTimelineData = {
+  timeline: [
+    {
+      id: 39,
+      document_type: 'pdf',
+      title: 'Document 2019-03-10',
+      url: 'http://document.com/image/our.pdf',
+      incident_date: '2019-03-10',
+      preview_image_url: 'http://image.com/image/our-preview.jpg',
+      pages_count: 24,
+      departments: [
+        {
+          id: 10031,
+          name: 'Department',
+        },
+      ],
+      kind: 'DOCUMENT',
+      date: '2019-03-10',
+      year: 2019,
+    },
+  ],
+  timeline_period: ['2019'],
+}
 
 export const department9DocumentsData = {
   count: 1,

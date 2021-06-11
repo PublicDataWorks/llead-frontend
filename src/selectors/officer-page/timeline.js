@@ -19,7 +19,7 @@ import values from 'lodash/values'
 
 import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter } from 'selectors/common'
-import { formatSalary } from 'utils/formatter'
+import { formatDataPeriods, formatSalary } from 'utils/formatter'
 import {
   TIMELINE_FILTERS,
   TIMELINE_KINDS,
@@ -163,7 +163,10 @@ const timelineItemsFormatter = (items) => {
   )
 }
 
-const getTimeline = (state) => get(state.officerPage, 'timeline', [])
+const getTimeline = (state) => get(state.officerPage, 'timeline.timeline', [])
+
+const getTimelinePeriod = (state) =>
+  get(state.officerPage, 'timeline.timelinePeriod', [])
 
 export const getTimelineFilterGroupKey = (state) =>
   get(state.officerPage, 'filterGroupKey', [])
@@ -236,4 +239,9 @@ export const hasEventDetailsSelector = createSelector(getTimeline, (timeline) =>
   some(timeline, (item) =>
     [TIMELINE_KINDS.COMPLAINT, TIMELINE_KINDS.UOF].includes(item.kind)
   )
+)
+
+export const timelinePeriodSelector = createSelector(
+  getTimelinePeriod,
+  formatDataPeriods
 )

@@ -38,7 +38,6 @@ describe('#officerSelector', () => {
         salaryFreq: 'yearly',
         documentsCount: 1,
         complaintsCount: 2,
-        dataPeriod: ['2012', '2018-2020'],
         extraField: 'should not be included',
       }
       const state = {
@@ -56,7 +55,6 @@ describe('#officerSelector', () => {
         badges: ['12345'],
         documentsCount: 1,
         complaintsCount: 2,
-        dataPeriod: '2012 and 2018-2020',
         salary: '$54,267.79/year',
         description: `${age}-year-old race gender`,
         department: {
@@ -186,47 +184,6 @@ describe('#officerSelector', () => {
         const officer = officerSelector(state)
 
         expect(officer['description']).toEqual('')
-      })
-    })
-
-    it('returns officer data with empty dataPeriods', () => {
-      const officerData = {
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        department: {
-          id: 'department-name',
-          name: 'Department Name',
-          extraDepartmentField: 'should not be included',
-        },
-        salary: '54267.789',
-        salaryFreq: 'yearly',
-        documentsCount: 1,
-        complaintsCount: 2,
-        dataPeriod: [],
-        extraField: 'should not be included',
-      }
-      const state = {
-        officerPage: {
-          officer: officerData,
-        },
-      }
-
-      const officer = officerSelector(state)
-
-      expect(officer).toStrictEqual({
-        id: 1,
-        name: 'Officer Name',
-        badges: ['12345'],
-        documentsCount: 1,
-        complaintsCount: 2,
-        salary: '$54,267.79/year',
-        description: '',
-        department: {
-          id: 'department-name',
-          name: 'Department Name',
-        },
-        dataPeriod: undefined,
       })
     })
   })
