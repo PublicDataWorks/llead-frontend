@@ -146,8 +146,6 @@ describe('Officer component', () => {
       badges: ['123', '456'],
       complaintsCount: 0,
       dataPeriod: '2012 and 2018-2020',
-      documentsDataPeriod: '2015-2016',
-      complaintsDataPeriod: '2012, 2014 and 2016-2018',
       department: {
         id: 'baton-rouge-pd',
         name: 'Baton Rouge PD',
@@ -196,7 +194,7 @@ describe('Officer component', () => {
 
     expect(
       baseElement.getElementsByClassName('officer-summary-info')[0].textContent
-    ).toEqual('Officer Name was named in\u00A01 document in 2015-2016')
+    ).toEqual('Officer Name is named in\u00A01 document.')
   })
 
   describe('Data summary', () => {
@@ -205,8 +203,6 @@ describe('Officer component', () => {
         name: 'officer name',
         complaintsCount: 2,
         documentsCount: 0,
-        documentsDataPeriod: '2015-2016',
-        complaintsDataPeriod: '2012, 2014 and 2016-2018',
       }
 
       const container = render(
@@ -225,7 +221,7 @@ describe('Officer component', () => {
         baseElement.getElementsByClassName('officer-summary-info')[0]
           .textContent
       ).toEqual(
-        'Officer Name has\u00A02 complaints in 2012, 2014 and 2016-2018'
+        'Our data shows that Officer Name has\u00A02 misconduct complaints.'
       )
     })
 
@@ -234,8 +230,6 @@ describe('Officer component', () => {
         name: 'officer name',
         complaintsCount: 0,
         documentsCount: 1,
-        documentsDataPeriod: '2015-2016',
-        complaintsDataPeriod: '',
       }
 
       const container = render(
@@ -253,7 +247,7 @@ describe('Officer component', () => {
       expect(
         baseElement.getElementsByClassName('officer-summary-info')[0]
           .textContent
-      ).toEqual('Officer Name was named in\u00A01 document in 2015-2016')
+      ).toEqual('Officer Name is named in\u00A01 document.')
     })
 
     it('does not render officer summary if no complaints and documents', () => {

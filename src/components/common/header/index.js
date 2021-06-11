@@ -5,19 +5,16 @@ import noop from 'lodash/noop'
 
 import './header.scss'
 import SearchInput from './search-input'
+import UserPanel from 'containers/common/header/user-panel'
 import { FRONT_PAGE_PATH } from 'constants/paths'
 
 const Header = (props) => {
   const {
     isLoggedIn,
-    logOut,
     changeSearchQuery,
     searchQuery,
-    refreshToken,
     searchQuerySuggestions,
   } = props
-
-  const handleLogout = () => logOut({ refresh: refreshToken })
 
   return (
     <div className='header'>
@@ -31,9 +28,7 @@ const Header = (props) => {
             changeSearchQuery={changeSearchQuery}
             searchQuery={searchQuery}
           />
-          <div className='logout-btn' onClick={handleLogout}>
-            L
-          </div>
+          <UserPanel />
         </>
       )}
     </div>
@@ -43,16 +38,13 @@ const Header = (props) => {
 Header.propTypes = {
   isLoggedIn: PropTypes.bool,
   searchQuery: PropTypes.string,
-  refreshToken: PropTypes.string,
   searchQuerySuggestions: PropTypes.array,
-  logOut: PropTypes.func,
   changeSearchQuery: PropTypes.func,
 }
 
 Header.defaultProps = {
   isLoggedIn: false,
   searchQuerySuggestions: [],
-  logOut: noop,
   changeSearchQuery: noop,
 }
 

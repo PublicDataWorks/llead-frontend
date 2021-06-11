@@ -4,6 +4,7 @@ import {
   isLoggedInSelector,
   isAppConfigFetchedSelector,
   cmsSelector,
+  getUserInfo,
 } from 'selectors/common'
 import { CMS_SECTIONS } from 'constants/common'
 
@@ -101,5 +102,26 @@ describe('#cmsSelector', () => {
     const frontPageCMS = cmsSelector(state, CMS_SECTIONS.FRONT_PAGE)
 
     expect(frontPageCMS).toEqual({ summary: 'Front page summary.' })
+  })
+})
+
+describe('#getUserInfo', () => {
+  it('returns user info', () => {
+    const userInfoData = {
+      email: 'user@mail.com',
+    }
+    const state = {
+      userInfo: userInfoData,
+    }
+
+    const userInfo = getUserInfo(state)
+
+    expect(userInfo).toEqual(userInfoData)
+  })
+
+  it('returns empty object if userInfo is null', () => {
+    const userInfo = getUserInfo({})
+
+    expect(userInfo).toEqual({})
   })
 })
