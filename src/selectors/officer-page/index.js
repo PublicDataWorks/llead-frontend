@@ -3,7 +3,6 @@ import moment from 'moment'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import join from 'lodash/join'
-import mapValues from 'lodash/mapValues'
 import pick from 'lodash/pick'
 import compact from 'lodash/compact'
 import trim from 'lodash/trim'
@@ -45,14 +44,7 @@ const officerDetailsFormatter = (officer) => {
 
   const salaryString = formatSalary(salary, salaryFreq)
 
-  const allDataPeriods = mapValues(
-    pick(officer, [
-      'documentsDataPeriod',
-      'complaintsDataPeriod',
-      'dataPeriod',
-    ]),
-    (value) => formatDataPeriods(value)
-  )
+  const dataPeriod = formatDataPeriods(get(officer, 'dataPeriod'))
 
   const officerDepartment = get(officer, 'department')
 
@@ -60,7 +52,7 @@ const officerDetailsFormatter = (officer) => {
     ...pick(officer, officerAttributes),
     description: formatOfficerDescription(officer),
     salary: salaryString,
-    ...allDataPeriods,
+    dataPeriod,
     department: pick(officerDepartment, officerDepartmentAttributes),
   }
 }
