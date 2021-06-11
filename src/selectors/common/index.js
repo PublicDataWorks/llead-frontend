@@ -63,3 +63,5 @@ export const cmsSelector = (state, section) =>
 
     return mapValues(cmsKeys, (cms_key) => get(cms, cms_key, ''))
   })(state)
+
+export const getUserInfo = (state) => get(state, 'userInfo', {})

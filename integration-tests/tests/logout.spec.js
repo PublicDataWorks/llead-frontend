@@ -1,7 +1,5 @@
 describe('Logout', () => {
-  it('should log out successfully', () => {
-    cy.login()
-
+  beforeEach(() => {
     cy.interceptExact(
       {
         method: 'POST',
@@ -12,9 +10,26 @@ describe('Logout', () => {
       }
     )
 
-    cy.visit('/')
-    cy.get('.logout-btn').click()
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/user/',
+      },
+      {
+        email: 'user@mail.com',
+      }
+    )
+  })
 
+  it('should log out successfully', () => {
+    cy.login()
+
+    cy.visit('/')
+    cy.get('.panel-toggle').click()
+
+    cy.get('.user-email').should('text', 'user@mail.com')
+
+    cy.get('.logout-button').click()
     cy.location('pathname').should('eq', '/login/')
   })
 })

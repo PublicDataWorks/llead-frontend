@@ -109,10 +109,10 @@ describe('FrontPage component', () => {
     ).toEqual('Front page')
 
     expect(baseElement.textContent).toContain('4 departments')
-    expect(baseElement.textContent).toContain('+1 in the past 30 days')
+    expect(baseElement.textContent).toContain('+1 in the past\u00A030 days')
     expect(baseElement.textContent).toContain('5 officers')
-    expect(baseElement.textContent).toContain('+2 in the past 30 days')
+    expect(baseElement.textContent).toContain('+2 in the past\u00A030 days')
     expect(baseElement.textContent).toContain('60,000 documents')
-    expect(baseElement.textContent).toContain('+3 in the past 30 days')
+    expect(baseElement.textContent).toContain('+3 in the past\u00A030 days')
   })
 })
