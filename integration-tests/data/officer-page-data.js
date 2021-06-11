@@ -14,8 +14,6 @@ export const officerDetailsData = {
   documents_count: 3,
   complaints_count: 0,
   data_period: ['2012', '2013', '2014', '2017-2019'],
-  documents_data_period: ['2012', '2017'],
-  complaints_data_period: [],
 }
 
 export const officerDocumentsData = [

@@ -40,8 +40,6 @@ describe('#officerSelector', () => {
         complaintsCount: 2,
         dataPeriod: ['2012', '2018-2020'],
         extraField: 'should not be included',
-        documentsDataPeriod: ['2015-2016'],
-        complaintsDataPeriod: ['2012', '2014', '2016-2018'],
       }
       const state = {
         officerPage: {
@@ -59,8 +57,6 @@ describe('#officerSelector', () => {
         documentsCount: 1,
         complaintsCount: 2,
         dataPeriod: '2012 and 2018-2020',
-        documentsDataPeriod: '2015-2016',
-        complaintsDataPeriod: '2012, 2014 and 2016-2018',
         salary: '$54,267.79/year',
         description: `${age}-year-old race gender`,
         department: {
@@ -209,8 +205,6 @@ describe('#officerSelector', () => {
         complaintsCount: 2,
         dataPeriod: [],
         extraField: 'should not be included',
-        documentsDataPeriod: [],
-        complaintsDataPeriod: [],
       }
       const state = {
         officerPage: {
@@ -233,8 +227,6 @@ describe('#officerSelector', () => {
           name: 'Department Name',
         },
         dataPeriod: undefined,
-        documentsDataPeriod: undefined,
-        complaintsDataPeriod: undefined,
       })
     })
   })
