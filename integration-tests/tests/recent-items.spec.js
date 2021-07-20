@@ -12,6 +12,7 @@ import {
   officer1DocumentsData,
   recentItemsData,
   officerTimelineData,
+  userInfoData,
 } from '../data/recent-items-data'
 
 describe('FrontPage recent items', () => {
@@ -25,6 +26,14 @@ describe('FrontPage recent items', () => {
         url: 'http://localhost:8000/api/app-config/',
       },
       appConfigData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/user/',
+      },
+      userInfoData
     )
 
     cy.interceptExact(
@@ -159,7 +168,10 @@ describe('FrontPage recent items', () => {
       .eq(0)
       .find('.officer-name')
       .contains('Mark Carlson')
-    cy.get('@visibleSlides').eq(0).find('.officer-badges').contains('12435, 612')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.officer-badges')
+      .contains('12435, 612')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.officer-department-name')
@@ -331,14 +343,6 @@ describe('FrontPage recent items', () => {
       },
       recentItemsData
     )
-    cy.setReduxLocalStorage({
-      recentItems: [
-        { type: 'OFFICER', id: 1 },
-        { type: 'DEPARTMENT', id: 'baton-rouge-pd' },
-        { type: 'DOCUMENT', id: 4 },
-        { type: 'DEPARTMENT', id: 12 },
-      ],
-    })
 
     cy.visit('/')
 

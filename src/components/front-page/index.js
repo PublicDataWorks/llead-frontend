@@ -15,7 +15,6 @@ const FrontPage = (props) => {
   const {
     cms,
     fetchAnalyticSummary,
-    fetchRecentItems,
     fetchDepartments,
     fetchOfficers,
     fetchDocuments,
@@ -24,14 +23,10 @@ const FrontPage = (props) => {
     officers,
     documents,
     saveRecentItem,
-    recentItemIds,
     recentItems,
   } = props
 
   useEffect(() => {
-    if (!isEmpty(recentItemIds)) {
-      fetchRecentItems(recentItemIds)
-    }
     fetchAnalyticSummary()
     fetchDepartments()
     fetchOfficers()
@@ -40,7 +35,7 @@ const FrontPage = (props) => {
 
   return (
     <div className='front-page'>
-      <ReactMarkdown className="summary">{cms.summary}</ReactMarkdown>
+      <ReactMarkdown className='summary'>{cms.summary}</ReactMarkdown>
       <AnalyticSummary analyticSummary={analyticSummary} />
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
@@ -80,10 +75,8 @@ FrontPage.propTypes = {
   departments: PropTypes.array,
   officers: PropTypes.array,
   documents: PropTypes.array,
-  recentItemIds: PropTypes.object,
   recentItems: PropTypes.array,
   fetchAnalyticSummary: PropTypes.func,
-  fetchRecentItems: PropTypes.func,
   fetchDepartments: PropTypes.func,
   fetchOfficers: PropTypes.func,
   fetchDocuments: PropTypes.func,
@@ -96,10 +89,8 @@ FrontPage.defaultProps = {
   departments: [],
   officers: [],
   documents: [],
-  recentItemIds: {},
   recentItems: [],
   fetchAnalyticSummary: noop,
-  fetchRecentItems: noop,
   fetchDepartments: noop,
   fetchOfficers: noop,
   fetchDocuments: noop,

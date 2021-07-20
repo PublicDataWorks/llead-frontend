@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 
 import App from 'components/app'
 import { fetchAppConfig } from 'actions/common/app-config'
+import { fetchRecentItems } from 'actions/common/recent-items'
 import {
   isLoggedInSelector,
   isAppConfigFetchedSelector,
@@ -18,6 +19,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchAppConfig,
+  fetchRecentItems,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

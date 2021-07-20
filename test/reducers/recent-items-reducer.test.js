@@ -1,7 +1,7 @@
 import recentItemsReducer from 'reducers/recent-items-reducer'
 
-import { SAVE_RECENT_ITEM } from 'action-types/common/recent-items'
-import { RECENT_ITEMS_FETCH_SUCCESS } from 'action-types/front-page'
+import { SAVE_RECENT_ITEM_START } from 'action-types/common/recent-items'
+import { RECENT_ITEMS_FETCH_SUCCESS } from 'action-types/common/recent-items'
 
 jest.mock('constants/common', () => ({
   ...jest.requireActual('constants/common'),
@@ -13,14 +13,16 @@ describe('#recentItemsReducer', () => {
     expect(recentItemsReducer(undefined, {})).toStrictEqual([])
   })
 
-  describe('handle SAVE_RECENT_ITEM', () => {
+  describe('handle SAVE_RECENT_ITEM_START', () => {
     it('should add new item to top of recentItems', () => {
       const recentItem = { type: 'OFFICER', id: 1 }
       const newRecentItem = { type: 'DEPARTMENT', id: 2 }
 
       const result = recentItemsReducer([recentItem], {
-        type: SAVE_RECENT_ITEM,
-        payload: newRecentItem,
+        type: SAVE_RECENT_ITEM_START,
+        request: {
+          data: newRecentItem,
+        },
       })
 
       expect(result).toStrictEqual([newRecentItem, recentItem])
@@ -34,8 +36,10 @@ describe('#recentItemsReducer', () => {
       const result = recentItemsReducer(
         [recentItem1, recentItem2, recentItem3],
         {
-          type: SAVE_RECENT_ITEM,
-          payload: recentItem2,
+          type: SAVE_RECENT_ITEM_START,
+          request: {
+            data: recentItem2,
+          },
         }
       )
 
@@ -52,8 +56,10 @@ describe('#recentItemsReducer', () => {
       const result = recentItemsReducer(
         [recentItem1, recentItem2, recentItem3, recentItem4],
         {
-          type: SAVE_RECENT_ITEM,
-          payload: newRecentItem,
+          type: SAVE_RECENT_ITEM_START,
+          request: {
+            data: newRecentItem,
+          },
         }
       )
 
@@ -67,41 +73,43 @@ describe('#recentItemsReducer', () => {
   })
 
   describe('handle RECENT_ITEMS_FETCH_SUCCESS', () => {
-    it('should add data to recentItems', () => {
+    it('should update recentItems data', () => {
       const recentItem1 = { type: 'OFFICER', id: 1 }
       const recentItem2 = { type: 'DEPARTMENT', id: 2 }
       const recentItem3 = { type: 'DOCUMENT', id: 3 }
       const recentItem4 = { type: 'DEPARTMENT', id: 1 }
-      const recentItem5 = { type: 'OFFICER', id: 4 }
 
       const department_1 = {
-        id: 1,
+        ...recentItem4,
         name: 'department1 name',
       }
       const department_2 = {
-        id: 2,
+        ...recentItem2,
         name: 'department2 name',
       }
       const officer_1 = {
-        id: 1,
+        ...recentItem1,
         name: 'officer1 name',
       }
       const document_3 = {
-        id: 3,
+        ...recentItem3,
         name: 'officer1 name',
       }
 
-      const result = recentItemsReducer(
-        [recentItem1, recentItem2, recentItem3, recentItem4, recentItem5],
+      const oldRecentItems = [
         {
-          type: RECENT_ITEMS_FETCH_SUCCESS,
-          payload: {
-            officer: [officer_1],
-            department: [department_1, department_2],
-            document: [document_3],
-          },
-        }
-      )
+          id: 4,
+          type: 'DEPARTMENT',
+          name: 'department4 name',
+        },
+      ]
+
+      const newRecentItems = [officer_1, department_2, document_3, department_1]
+
+      const result = recentItemsReducer(oldRecentItems, {
+        type: RECENT_ITEMS_FETCH_SUCCESS,
+        payload: newRecentItems,
+      })
 
       expect(result).toStrictEqual([
         {
@@ -119,10 +127,6 @@ describe('#recentItemsReducer', () => {
         {
           ...recentItem4,
           data: department_1,
-        },
-        {
-          ...recentItem5,
-          data: undefined,
         },
       ])
     })

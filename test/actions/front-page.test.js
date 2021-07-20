@@ -2,7 +2,6 @@ import sinon from 'sinon'
 
 import {
   fetchAnalyticSummary,
-  fetchRecentItems,
   fetchDepartments,
   fetchOfficers,
   fetchDocuments,
@@ -11,7 +10,6 @@ import * as actionTypes from 'action-types/front-page'
 import * as ServiceApi from 'utils/api'
 import {
   ANALYTIC_SUMMARY_API_URL,
-  RECENT_ITEMS_API_URL,
   DEPARTMENTS_API_URL,
   OFFICERS_API_URL,
   DOCUMENTS_API_URL,
@@ -32,26 +30,6 @@ describe('#fetchAnalyticSummary', () => {
         actionTypes.ANALYTIC_SUMMARY_FETCH_FAILURE,
       ],
       ANALYTIC_SUMMARY_API_URL
-    )
-    expect(getFunc).toHaveBeenCalled()
-  })
-})
-
-describe('#fetchRecentItems', () => {
-  it('calls get Api', () => {
-    const getStub = sinon.stub(ServiceApi, 'get')
-    const getFunc = sinon.stub()
-    getStub.returns(getFunc)
-
-    fetchRecentItems()
-
-    expect(getStub).toHaveBeenCalledWith(
-      [
-        actionTypes.RECENT_ITEMS_FETCH_START,
-        actionTypes.RECENT_ITEMS_FETCH_SUCCESS,
-        actionTypes.RECENT_ITEMS_FETCH_FAILURE,
-      ],
-      RECENT_ITEMS_API_URL
     )
     expect(getFunc).toHaveBeenCalled()
   })

@@ -3,7 +3,6 @@ import { get } from 'utils/api'
 
 import {
   ANALYTIC_SUMMARY_API_URL,
-  RECENT_ITEMS_API_URL,
   DEPARTMENTS_API_URL,
   OFFICERS_API_URL,
   DOCUMENTS_API_URL,
@@ -18,16 +17,6 @@ export const fetchAnalyticSummary = () =>
     ],
     ANALYTIC_SUMMARY_API_URL
   )()
-
-export const fetchRecentItems = (params) =>
-  get(
-    [
-      actionTypes.RECENT_ITEMS_FETCH_START,
-      actionTypes.RECENT_ITEMS_FETCH_SUCCESS,
-      actionTypes.RECENT_ITEMS_FETCH_FAILURE,
-    ],
-    RECENT_ITEMS_API_URL
-  )(params)
 
 export const fetchDepartments = () =>
   get(
