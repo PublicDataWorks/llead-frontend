@@ -1,10 +1,15 @@
 import sinon from 'sinon'
 import { CancelToken } from 'axios'
 
-import { search, changeSearchQuery, saveSearchQuery } from 'actions/search-page'
+import {
+  search,
+  changeSearchQuery,
+  saveSearchQuery,
+  fetchSearchQueries,
+} from 'actions/search-page'
 import * as actionTypes from 'action-types/search-page'
 import * as ServiceApi from 'utils/api'
-import { SEARCH_API_URL } from 'constants/api'
+import { SEARCH_API_URL, RECENT_QUERIES_API_URL } from 'constants/api'
 
 describe('#search', () => {
   let cancel
@@ -54,12 +59,45 @@ describe('#changeSearchQuery', () => {
 })
 
 describe('#saveSearchQuery', () => {
-  it('returns the right action', () => {
-    const query = 'query'
+  it('calls post Api', () => {
+    const postStub = sinon.stub(ServiceApi, 'post')
+    const postFuncStub = sinon.stub()
+    postStub.returns(postFuncStub)
 
-    expect(saveSearchQuery(query)).toEqual({
-      type: actionTypes.SAVE_SEARCH_QUERY,
-      payload: query,
-    })
+    const query = {
+      q: 'DOCUMENT',
+    }
+
+    saveSearchQuery('DOCUMENT')
+    expect(postStub).toHaveBeenCalledWith(
+      [
+        actionTypes.SAVE_SEARCH_QUERY_START,
+        actionTypes.SAVE_SEARCH_QUERY_SUCCESS,
+        actionTypes.SAVE_SEARCH_QUERY_FAILURE,
+      ],
+      RECENT_QUERIES_API_URL
+    )
+
+    expect(postFuncStub).toHaveBeenCalledWith(query)
+  })
+})
+
+describe('#fetchSearchQueries', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchSearchQueries()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.SEARCH_QUERIES_FETCH_START,
+        actionTypes.SEARCH_QUERIES_FETCH_SUCCESS,
+        actionTypes.SEARCH_QUERIES_FETCH_FAILURE,
+      ],
+      RECENT_QUERIES_API_URL
+    )
+    expect(getFunc).toHaveBeenCalled()
   })
 })
