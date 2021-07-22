@@ -33,6 +33,9 @@ describe('Login component', () => {
 
     expect(emailContainer.className).not.toContain('error')
     expect(passwordContainer.className).not.toContain('error')
+    expect(baseElement.textContent).toContain(
+      "Forgot your password? Click\u00A0here to reset your password"
+    )
 
     const credentials = {
       email: 'email@email.com',

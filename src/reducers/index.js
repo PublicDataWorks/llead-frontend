@@ -1,23 +1,25 @@
 import { combineReducers } from 'redux'
 
-import loginPageReducer from 'reducers/login-page'
-import departmentPageReducer from 'reducers/department-page'
-import officerPageReducer from 'reducers/officer-page'
-import tokenReducer from 'reducers/token-reducer'
 import appConfigReducer from 'reducers/app-config-reducer'
+import departmentPageReducer from 'reducers/department-page'
+import forgotPasswordPageReducer from 'reducers/forgot-password-page'
 import frontPageReducer from 'reducers/front-page'
-import searchPageReducer from 'reducers/search-page'
+import loginPageReducer from 'reducers/login-page'
+import officerPageReducer from 'reducers/officer-page'
 import recentItemsReducer from 'reducers/recent-items-reducer'
+import searchPageReducer from 'reducers/search-page'
+import tokenReducer from 'reducers/token-reducer'
 import userInfoReducer from './user-info-reducer'
 
 export default combineReducers({
+  appConfig: appConfigReducer,
+  departmentPage: departmentPageReducer,
+  forgotPasswordPage: forgotPasswordPageReducer,
+  frontPage: frontPageReducer,
+  loginPage: loginPageReducer,
+  officerPage: officerPageReducer,
+  recentItems: recentItemsReducer,
+  searchPage: searchPageReducer,
   token: tokenReducer,
   userInfo: userInfoReducer,
-  appConfig: appConfigReducer,
-  loginPage: loginPageReducer,
-  departmentPage: departmentPageReducer,
-  officerPage: officerPageReducer,
-  frontPage: frontPageReducer,
-  searchPage: searchPageReducer,
-  recentItems: recentItemsReducer,
 })

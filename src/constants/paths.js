@@ -1,5 +1,6 @@
 export const FRONT_PAGE_PATH = '/'
 export const LOGIN_PATH = '/login/'
+export const FORGOT_PASSWORD_PATH = '/forgot-password/'
 export const SEARCH_PATH = '/search/'
 export const DEPARTMENTS_PATH = '/dept/'
 export const OFFICERS_PATH = '/officers/'
