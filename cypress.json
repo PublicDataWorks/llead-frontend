@@ -1,5 +1,8 @@
 {
   "baseUrl": "http://localhost:9090",
   "integrationFolder": "integration-tests/tests",
-  "supportFile": "integration-tests/support/index.js"
+  "supportFile": "integration-tests/support/index.js",
+  "retries": {
+    "runMode": 1
+  }
 }
