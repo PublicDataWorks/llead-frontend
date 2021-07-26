@@ -16,6 +16,10 @@
     box-sizing: border-box;
     padding: $v-small-margin $h-side-frame $v-margin $h-side-frame;
   }
+
+  .section-anchor {
+    height: 0px;
+  }
 }
 
 @media only screen and (min-width: $mobile-breakpoint) {

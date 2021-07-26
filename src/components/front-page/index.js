@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import noop from 'lodash/noop'
@@ -28,6 +28,10 @@ const FrontPage = (props) => {
     recentItems,
   } = props
 
+  const departmentRef = useRef(null)
+  const officerRef = useRef(null)
+  const documentRef = useRef(null)
+
   useEffect(() => {
     if (!isEmpty(recentItemIds)) {
       fetchRecentItems(recentItemIds)
@@ -40,8 +44,13 @@ const FrontPage = (props) => {
 
   return (
     <div className='front-page'>
-      <ReactMarkdown className="summary">{cms.summary}</ReactMarkdown>
-      <AnalyticSummary analyticSummary={analyticSummary} />
+      <ReactMarkdown className='summary'>{cms.summary}</ReactMarkdown>
+      <AnalyticSummary
+        analyticSummary={analyticSummary}
+        departmentRef={departmentRef}
+        officerRef={officerRef}
+        documentRef={documentRef}
+      />
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
           items={recentItems}
@@ -49,26 +58,35 @@ const FrontPage = (props) => {
         />
       )}
       {!isEmpty(departments) && (
-        <DepartmentsCarousel
-          items={departments}
-          sortedField='size'
-          className='front-page-carousel'
-        />
+        <>
+          <div className='section-anchor' ref={departmentRef} />
+          <DepartmentsCarousel
+            items={departments}
+            sortedField='size'
+            className='front-page-carousel'
+          />
+        </>
       )}
       {!isEmpty(officers) && (
-        <OfficersCarousel
-          items={officers}
-          sortedField='complaints'
-          className='front-page-carousel'
-        />
+        <>
+          <div className='section-anchor' ref={officerRef} />
+          <OfficersCarousel
+            items={officers}
+            sortedField='complaints'
+            className='front-page-carousel'
+          />
+        </>
       )}
       {!isEmpty(documents) && (
-        <DocumentsCarousel
-          items={documents}
-          saveRecentItem={saveRecentItem}
-          sortedField='most recently added'
-          className='front-page-carousel'
-        />
+        <>
+          <div className='section-anchor' ref={documentRef} />
+          <DocumentsCarousel
+            items={documents}
+            saveRecentItem={saveRecentItem}
+            sortedField='most recently added'
+            className='front-page-carousel'
+          />
+        </>
       )}
     </div>
   )
