@@ -3,7 +3,7 @@ describe('Forgot Password Page', () => {
     cy.interceptExact(
       {
         method: 'POST',
-        url: 'http://localhost:8000/api/password_reset/',
+        url: 'http://localhost:8000/api/password-reset/',
       },
       {
         detail: 'OK',
@@ -25,7 +25,7 @@ describe('Forgot Password Page', () => {
     cy.interceptExact(
       {
         method: 'POST',
-        url: 'http://localhost:8000/api/password_reset/',
+        url: 'http://localhost:8000/api/password-reset/',
       },
       {
         statusCode: 400,
