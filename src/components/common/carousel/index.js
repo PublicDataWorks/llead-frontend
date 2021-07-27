@@ -17,6 +17,9 @@ const Carousel = (props) => {
       nextEl: '.carousel-next',
       prevEl: '.carousel-prev',
     },
+    mousewheel: {
+      forceToAxis: true,
+    },
   }
 
   return (
