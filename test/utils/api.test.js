@@ -22,7 +22,7 @@ describe('#get', () => {
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )(params)
 
       await getFunc(dispatch)
@@ -48,7 +48,7 @@ describe('#get', () => {
           request: {
             url,
             params,
-          }
+          },
         },
       ])
     })
@@ -69,7 +69,7 @@ describe('#get', () => {
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )()
 
       await getFunc(dispatch)
@@ -80,7 +80,7 @@ describe('#get', () => {
           request: {
             url,
             params: {},
-          }
+          },
         },
       ])
 
@@ -95,7 +95,7 @@ describe('#get', () => {
           request: {
             url,
             params: {},
-          }
+          },
         },
       ])
     })
@@ -125,7 +125,7 @@ describe('#post', () => {
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )(data, params)
 
       await postFunc(dispatch)
@@ -137,7 +137,7 @@ describe('#post', () => {
             url,
             data,
             params,
-          }
+          },
         },
       ])
 
@@ -153,7 +153,7 @@ describe('#post', () => {
             url,
             data,
             params,
-          }
+          },
         },
       ])
     })
@@ -179,7 +179,7 @@ describe('#post', () => {
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )(data)
 
       await postFunc(dispatch)

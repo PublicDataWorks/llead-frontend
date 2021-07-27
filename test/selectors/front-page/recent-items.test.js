@@ -1,33 +1,5 @@
-import {
-  recentItemIdsSelector,
-  recentItemsSelector,
-} from 'selectors/front-page/recent-items'
+import { recentItemsSelector } from 'selectors/front-page/recent-items'
 import { RECENT_ITEM_TYPES } from 'constants/common'
-
-describe('#recentItemIdsSelector', () => {
-  it('returns correct data', () => {
-    const recentItems = [
-      { type: RECENT_ITEM_TYPES.OFFICER, id: 1 },
-      { type: RECENT_ITEM_TYPES.DEPARTMENT, id: 7 },
-      { type: RECENT_ITEM_TYPES.DEPARTMENT, id: 8 },
-      { type: RECENT_ITEM_TYPES.OFFICER, id: 3 },
-      { type: RECENT_ITEM_TYPES.DOCUMENT, id: 12 },
-      { type: RECENT_ITEM_TYPES.DOCUMENT, id: 14 },
-    ]
-
-    const expectedRecentItemIds = {
-      officer_ids: [1, 3],
-      department_ids: [7, 8],
-      document_ids: [12, 14],
-    }
-
-    const state = { recentItems }
-
-    const recentItemIds = recentItemIdsSelector(state)
-
-    expect(recentItemIds).toStrictEqual(expectedRecentItemIds)
-  })
-})
 
 describe('#recentItemsSelector', () => {
   it('returns correct data', () => {

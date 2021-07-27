@@ -1,3 +1,7 @@
+export const userInfoData = {
+  email: 'email@example.com'
+}
+
 export const departmentBatonRougePdDetailsData = {
   id: 'baton-rouge-pd',
   name: 'Baton Rouge PD',
@@ -89,42 +93,39 @@ export const officer1DocumentsData = [
   },
 ]
 
-export const recentItemsData = {
-  department: [
-    {
+export const recentItemsData = [
+  {
+    type: 'OFFICER',
+    id: 1,
+    name: 'Mark Carlson',
+    badges: ['12435', '612'],
+    department: {
       id: 'baton-rouge-pd',
       name: 'Baton Rouge PD',
-      city: 'Baton Rouge',
-      parish: 'East Baton Rouge',
-      location_map_url: 'https://i.imgur.com/nHTFohI.png',
     },
-  ],
-  officer: [
-    {
-      id: 1,
-      name: 'Mark Carlson',
-      badges: ['12435', '612'],
-      department: {
-        id: 'baton-rouge-pd',
-        name: 'Baton Rouge PD',
+  },
+  {
+    type: 'DEPARTMENT',
+    id: 'baton-rouge-pd',
+    name: 'Baton Rouge PD',
+    city: 'Baton Rouge',
+    parish: 'East Baton Rouge',
+    location_map_url: 'https://i.imgur.com/nHTFohI.png',
+  },
+  {
+    type: 'DOCUMENT',
+    id: 4,
+    document_type: 'mp3',
+    title: 'Face growth poor wait follow option better.',
+    url: 'http://documents.com/from/few.pdf',
+    preview_image_url: 'http://image.com/would/popular.jpg',
+    incident_date: '2020-01-06',
+    pages_count: 5,
+    departments: [
+      {
+        id: 23,
+        name: 'City Department',
       },
-    },
-  ],
-  document: [
-    {
-      id: 4,
-      document_type: 'mp3',
-      title: 'Face growth poor wait follow option better.',
-      url: 'http://documents.com/from/few.pdf',
-      preview_image_url: 'http://image.com/would/popular.jpg',
-      incident_date: '2020-01-06',
-      pages_count: 5,
-      departments: [
-        {
-          id: 23,
-          name: 'City Department',
-        },
-      ],
-    },
-  ],
-}
+    ],
+  },
+]

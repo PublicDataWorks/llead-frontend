@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import map from 'lodash/map'
-import groupBy from 'lodash/groupBy'
-import transform from 'lodash/transform'
 import compact from 'lodash/compact'
 
 import { RECENT_ITEM_TYPES } from 'constants/common'
@@ -19,18 +17,6 @@ const RECENT_FORMATTERS_MAPPING = {
 }
 
 const getRecentItems = (state) => get(state, 'recentItems')
-
-export const recentItemIdsSelector = createSelector(
-  getRecentItems,
-  (recentItems) => {
-    const recentItemsGroup = groupBy(recentItems, (recentItem) =>
-      get(recentItem, 'type')
-    )
-    return transform(recentItemsGroup, (result, items, itemType) => {
-      result[`${itemType.toLowerCase()}_ids`] = map(items, 'id')
-    })
-  }
-)
 
 export const recentItemsSelector = createSelector(
   getRecentItems,
