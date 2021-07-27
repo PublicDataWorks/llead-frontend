@@ -10,6 +10,7 @@
     color: $white-color;
     padding: $v-margin $h-card-margin;
     flex-wrap: wrap;
+    cursor: pointer;
 
     .analytic-summary-content {
       @include callout-text;
