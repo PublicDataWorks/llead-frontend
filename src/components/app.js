@@ -11,7 +11,12 @@ import ScrollToTop from 'components/common/higher-order/scroll-to-top'
 import './app.scss'
 
 const App = (props) => {
-  const { fetchAppConfig, isAppConfigFetched, isLoggedIn } = props
+  const {
+    fetchAppConfig,
+    isAppConfigFetched,
+    isLoggedIn,
+    fetchRecentItems,
+  } = props
   const [footerHeight, setFooterHeight] = useState(0)
 
   useEffect(() => {
@@ -19,6 +24,12 @@ const App = (props) => {
       fetchAppConfig()
     }
   }, [isAppConfigFetched])
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchRecentItems()
+    }
+  }, [isLoggedIn])
 
   return (
     <Router>
@@ -40,12 +51,14 @@ App.propTypes = {
   fetchAppConfig: PropTypes.func,
   isAppConfigFetched: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  fetchRecentItems: PropTypes.func,
 }
 
 App.defaultProps = {
   fetchAppConfig: noop,
   isAppConfigFetched: false,
   isLoggedIn: false,
+  fetchRecentItems: noop,
 }
 
 export default App

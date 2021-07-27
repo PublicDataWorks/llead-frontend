@@ -35,49 +35,7 @@ describe('FrontPage component', () => {
     expect(fetchDocumentsSpy).toHaveBeenCalled()
   })
 
-  describe('recent items', () => {
-    it('should fetch recent items', () => {
-      const fetchRecentItemsSpy = sinon.spy()
-      const recentItemIds = {
-        officer_ids: [1, 2, 3],
-        department_ids: [3, 7],
-        document_ids: [1, 8],
-      }
-
-      render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['/']}>
-            <Route path='/'>
-              <FrontPage
-                recentItemIds={recentItemIds}
-                fetchRecentItems={fetchRecentItemsSpy}
-              />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      expect(fetchRecentItemsSpy).toHaveBeenCalledWith(recentItemIds)
-    })
-
-    it('should not fetch recent items when there is no recent items', () => {
-      const fetchRecentItemsSpy = sinon.spy()
-
-      render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['/']}>
-            <Route path='/'>
-              <FrontPage fetchRecentItems={fetchRecentItemsSpy} />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      expect(fetchRecentItemsSpy).not.toHaveBeenCalled()
-    })
-  })
-
-  it('should render cms correctly', () => {
+  it('should render correctly', () => {
     const cmsData = {
       summary: '**Front page** summary.',
     }

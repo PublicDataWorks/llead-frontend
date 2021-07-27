@@ -13,7 +13,12 @@ import SearchSVG from 'assets/icons/search.svg'
 import CloseSVG from 'assets/icons/close.svg'
 
 const SearchInput = (props) => {
-  const { changeSearchQuery, searchQuery, searchQuerySuggestions } = props
+  const {
+    changeSearchQuery,
+    searchQuery,
+    searchQuerySuggestions,
+    fetchSearchQueries,
+  } = props
   const history = useHistory()
   const location = useLocation()
 
@@ -58,6 +63,8 @@ const SearchInput = (props) => {
       const { q } = search
       changeSearchQuery(q || '')
     }
+
+    fetchSearchQueries()
   }, [])
 
   return (
@@ -118,11 +125,13 @@ SearchInput.propTypes = {
   searchQuery: PropTypes.string,
   searchQuerySuggestions: PropTypes.array,
   changeSearchQuery: PropTypes.func,
+  fetchSearchQueries: PropTypes.func,
 }
 
 SearchInput.defaultProps = {
   searchQuerySuggestions: [],
   changeSearchQuery: noop,
+  fetchSearchQueries: noop,
 }
 
 export default SearchInput

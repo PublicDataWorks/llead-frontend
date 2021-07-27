@@ -22,7 +22,7 @@ describe('#get', () => {
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )(params)
 
       await getFunc(dispatch)
@@ -48,7 +48,7 @@ describe('#get', () => {
           request: {
             url,
             params,
-          }
+          },
         },
       ])
     })
@@ -62,14 +62,20 @@ describe('#get', () => {
       const dispatch = sinon.spy()
 
       const url = `${DEPARTMENTS_API_URL}1`
-      sinon
-        .stub(axiosClient, 'get')
-        .resolves(Promise.reject({ message: 'error' }))
+      sinon.stub(axiosClient, 'get').resolves(
+        Promise.reject({
+          response: {
+            data: {
+              message: 'error',
+            },
+          },
+        })
+      )
 
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )()
 
       await getFunc(dispatch)
@@ -80,7 +86,7 @@ describe('#get', () => {
           request: {
             url,
             params: {},
-          }
+          },
         },
       ])
 
@@ -91,11 +97,11 @@ describe('#get', () => {
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_FAILURE,
-          payload: { error: 'error' },
+          payload: { message: 'error' },
           request: {
             url,
             params: {},
-          }
+          },
         },
       ])
     })
@@ -125,7 +131,7 @@ describe('#post', () => {
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )(data, params)
 
       await postFunc(dispatch)
@@ -137,7 +143,7 @@ describe('#post', () => {
             url,
             data,
             params,
-          }
+          },
         },
       ])
 
@@ -153,7 +159,7 @@ describe('#post', () => {
             url,
             data,
             params,
-          }
+          },
         },
       ])
     })
@@ -171,15 +177,21 @@ describe('#post', () => {
         password: 'password',
       }
 
-      sinon
-        .stub(axiosClient, 'post')
-        .resolves(Promise.reject({ message: 'error' }))
+      sinon.stub(axiosClient, 'post').resolves(
+        Promise.reject({
+          response: {
+            data: {
+              message: 'error',
+            },
+          },
+        })
+      )
       const url = TOKEN_API_URL
 
       const postFunc = post(
         [LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE],
         url,
-        'cancelToken',
+        'cancelToken'
       )(data)
 
       await postFunc(dispatch)
@@ -202,7 +214,7 @@ describe('#post', () => {
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_FAILURE,
-          payload: { error: 'error' },
+          payload: { message: 'error' },
           request: {
             url,
             data,

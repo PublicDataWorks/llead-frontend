@@ -8,14 +8,10 @@ import {
   officersSelector,
   documentsSelector,
 } from 'selectors/front-page'
-import {
-  recentItemsSelector,
-  recentItemIdsSelector,
-} from 'selectors/front-page/recent-items'
+import { recentItemsSelector } from 'selectors/front-page/recent-items'
 import { CMS_SECTIONS } from 'constants/common'
 import {
   fetchAnalyticSummary,
-  fetchRecentItems,
   fetchDepartments,
   fetchOfficers,
   fetchDocuments,
@@ -28,13 +24,11 @@ const mapStateToProps = (state) => ({
   departments: departmentsSelector(state),
   officers: officersSelector(state),
   documents: documentsSelector(state),
-  recentItemIds: recentItemIdsSelector(state),
   recentItems: recentItemsSelector(state),
 })
 
 const mapDispatchToProps = {
   fetchAnalyticSummary,
-  fetchRecentItems,
   fetchDepartments,
   fetchOfficers,
   fetchDocuments,

@@ -8,6 +8,8 @@ import DepartmentPageContainer from 'containers/department-page'
 import OfficerPageContainer from 'containers/officer-page'
 import FrontPageContainer from 'containers/front-page'
 import LoginPageContainer from 'containers/login-page'
+import ForgotPasswordPageContainer from 'containers/forgot-password-page'
+import ForgotPasswordConfirmPageContainer from 'containers/forgot-password-confirm-page'
 import SearchPageContainer from 'containers/search-page'
 import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
@@ -32,7 +34,17 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
 
   return (
     <Switch>
-      <Route path={paths.LOGIN_PATH} component={LoginPageContainer} />
+      <Route path={paths.LOGIN_PATH} component={LoginPageContainer} exact />
+      <Route
+        path={paths.FORGOT_PASSWORD_PATH}
+        component={ForgotPasswordPageContainer}
+        exact
+      />
+      <Route
+        path={paths.FORGOT_PASSWORD_CONFIRM_PATH}
+        component={ForgotPasswordConfirmPageContainer}
+        exacts
+      />
       <PrivateRoute
         {...privateRouteAttributes}
         path={paths.FRONT_PAGE_PATH}

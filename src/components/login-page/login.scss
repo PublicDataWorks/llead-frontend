@@ -22,5 +22,11 @@
       margin-top: $v-mid-margin;
       background: url('assets/icons/warning.svg') no-repeat 15px center;
     }
+
+    .forgot-password-message {
+      @include body-text;
+      color: $boulder-color;
+      margin-top: $v-mid-margin;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import noop from 'lodash/noop'
@@ -15,7 +15,6 @@ const FrontPage = (props) => {
   const {
     cms,
     fetchAnalyticSummary,
-    fetchRecentItems,
     fetchDepartments,
     fetchOfficers,
     fetchDocuments,
@@ -24,7 +23,6 @@ const FrontPage = (props) => {
     officers,
     documents,
     saveRecentItem,
-    recentItemIds,
     recentItems,
   } = props
 
@@ -33,9 +31,6 @@ const FrontPage = (props) => {
   const documentRef = useRef(null)
 
   useEffect(() => {
-    if (!isEmpty(recentItemIds)) {
-      fetchRecentItems(recentItemIds)
-    }
     fetchAnalyticSummary()
     fetchDepartments()
     fetchOfficers()
@@ -98,10 +93,8 @@ FrontPage.propTypes = {
   departments: PropTypes.array,
   officers: PropTypes.array,
   documents: PropTypes.array,
-  recentItemIds: PropTypes.object,
   recentItems: PropTypes.array,
   fetchAnalyticSummary: PropTypes.func,
-  fetchRecentItems: PropTypes.func,
   fetchDepartments: PropTypes.func,
   fetchOfficers: PropTypes.func,
   fetchDocuments: PropTypes.func,
@@ -114,10 +107,8 @@ FrontPage.defaultProps = {
   departments: [],
   officers: [],
   documents: [],
-  recentItemIds: {},
   recentItems: [],
   fetchAnalyticSummary: noop,
-  fetchRecentItems: noop,
   fetchDepartments: noop,
   fetchOfficers: noop,
   fetchDocuments: noop,

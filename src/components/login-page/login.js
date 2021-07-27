@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import { useForm } from 'react-hook-form'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import cx from 'classnames'
 
 import Input from 'components/common/inputs/input'
@@ -10,7 +10,7 @@ import Button from 'components/common/buttons/button'
 import EmailSVG from 'assets/icons/email.svg'
 import LockSVG from 'assets/icons/lock.svg'
 import './login.scss'
-import { FRONT_PAGE_PATH } from 'constants/paths'
+import { FORGOT_PASSWORD_PATH, FRONT_PAGE_PATH } from 'constants/paths'
 
 const Login = ({
   isLoggedIn,
@@ -47,7 +47,13 @@ const Login = ({
           ref={register}
           className={cx('password-input', { error: isLoginFailed })}
         />
-        <Button className='submit-btn' type='submit'>Sign in</Button>
+        <Button className='submit-btn' type='submit'>
+          Sign in
+        </Button>
+        <div className='forgot-password-message'>
+          Forgot your password? Click&nbsp;
+          <Link to={FORGOT_PASSWORD_PATH}>here</Link> to reset your password
+        </div>
         {isLoginFailed && (
           <div className='error-message'>
             Password/email combination aren’t recognized

@@ -25,36 +25,46 @@ beforeEach(() => {
 
 describe('SearchInput component', () => {
   describe('dispatch changeSearchQuery', () => {
-    it('does nothing on not search pathname', () => {
+    it('does nothing on not search pathname but still fetches search queries', () => {
       const changeSearchQueryStub = sinon.stub()
+      const fetchSearchQueriesStub = sinon.stub()
       const query = qs.stringify({ q: 'query' }, { addQueryPrefix: true })
       render(
         <MemoryRouter
           initialEntries={[{ pathname: FRONT_PAGE_PATH, search: query }]}
         >
           <Route path={FRONT_PAGE_PATH}>
-            <SearchInput changeSearchQuery={changeSearchQueryStub} />
+            <SearchInput
+              changeSearchQuery={changeSearchQueryStub}
+              fetchSearchQueries={fetchSearchQueriesStub}
+            />
           </Route>
         </MemoryRouter>
       )
 
       expect(changeSearchQueryStub).not.toHaveBeenCalled()
+      expect(fetchSearchQueriesStub).toHaveBeenCalled()
     })
 
-    it('calls change search query on search pathname', () => {
+    it('calls change search query on search pathname and fetches search queries', () => {
       const changeSearchQueryStub = sinon.stub()
+      const fetchSearchQueriesStub = sinon.stub()
       const query = qs.stringify({ q: 'query' }, { addQueryPrefix: true })
       render(
         <MemoryRouter
           initialEntries={[{ pathname: SEARCH_PATH, search: query }]}
         >
           <Route path={SEARCH_PATH}>
-            <SearchInput changeSearchQuery={changeSearchQueryStub} />
+            <SearchInput
+              changeSearchQuery={changeSearchQueryStub}
+              fetchSearchQueries={fetchSearchQueriesStub}
+            />
           </Route>
         </MemoryRouter>
       )
 
       expect(changeSearchQueryStub).toHaveBeenCalled()
+      expect(fetchSearchQueriesStub).toHaveBeenCalled()
     })
   })
 
