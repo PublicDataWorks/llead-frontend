@@ -6,9 +6,9 @@ import { Redirect, Link } from 'react-router-dom'
 import cx from 'classnames'
 
 import Input from 'components/common/inputs/input'
+import PasswordInput from 'components/common/inputs/password-input'
 import Button from 'components/common/buttons/button'
 import EmailSVG from 'assets/icons/email.svg'
-import LockSVG from 'assets/icons/lock.svg'
 import './login.scss'
 import { FORGOT_PASSWORD_PATH, FRONT_PAGE_PATH } from 'constants/paths'
 
@@ -39,8 +39,7 @@ const Login = ({
           ref={register}
           className={cx('email-input', { error: isLoginFailed })}
         />
-        <Input
-          iconSrc={LockSVG}
+        <PasswordInput
           placeholder='password'
           type='password'
           name='password'

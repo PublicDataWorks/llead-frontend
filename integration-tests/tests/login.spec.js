@@ -58,7 +58,9 @@ describe('Login Page', () => {
     cy.get('input[name="password"]').type('password')
     cy.get('.btn').click()
 
-    cy.waitUntil(() => cy.location('pathname').should('eq', '/dept/harmonbury-department/'))
+    cy.waitUntil(() =>
+      cy.location('pathname').should('eq', '/dept/harmonbury-department/')
+    )
   })
 
   it('should show error when loging in unsuccessfully', () => {
@@ -81,5 +83,15 @@ describe('Login Page', () => {
     cy.get('.btn').click()
 
     cy.contains('Password/email combination aren’t recognized')
+  })
+
+  it('toggles show hide password', () => {
+    cy.visit('/login')
+
+    cy.get('input[name="password"]').type('password')
+    cy.get('input[name="password"]').should('have.attr', 'type', 'password')
+
+    cy.get('.eye-icon').click()
+    cy.get('input[name="password"]').should('have.attr', 'type', 'text')
   })
 })
