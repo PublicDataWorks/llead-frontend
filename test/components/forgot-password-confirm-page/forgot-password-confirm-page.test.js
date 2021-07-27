@@ -4,7 +4,10 @@ import { Route, MemoryRouter } from 'react-router-dom'
 import qs from 'qs'
 
 import ForgotPasswordConfirm from 'components/forgot-password-confirm-page'
-import { FORGOT_PASSWORD_CONFIRM_NOT_MATCH_MESSAGE } from 'constants/messages'
+import {
+  FORGOT_PASSWORD_CONFIRM_NOT_MATCH_MESSAGE,
+  FORGOT_PASSWORD_CONFIRM_SUCCESS_MESSAGE,
+} from 'constants/messages'
 
 describe('ForgotPassword component', () => {
   it('Performs changing password', async () => {
@@ -22,6 +25,9 @@ describe('ForgotPassword component', () => {
         <Route path='/forgot-password/confirm'>
           <ForgotPasswordConfirm
             performForgotPasswordConfirm={mockPerformForgotPasswordConfirm}
+            forgotPasswordConfirmStatus={
+              FORGOT_PASSWORD_CONFIRM_SUCCESS_MESSAGE
+            }
           />
         </Route>
       </MemoryRouter>
@@ -49,6 +55,12 @@ describe('ForgotPassword component', () => {
       token: token,
       password: newPassword,
     })
+
+    const successMessageElement = getByText(
+      FORGOT_PASSWORD_CONFIRM_SUCCESS_MESSAGE
+    )
+
+    expect(successMessageElement.className).toContain('success')
   })
 
   it('Shows unmatched password', async () => {
@@ -144,9 +156,7 @@ describe('ForgotPassword component', () => {
 
     expect(mockPerformForgotPasswordConfirm).toHaveBeenCalled()
 
-    const errorMessageElement = baseElement.getElementsByClassName(
-      'error-message'
-    )[0]
+    const errorMessageElement = baseElement.getElementsByClassName('message')[0]
     expect(errorMessageElement.textContent).toEqual(forgotPasswordConfirmStatus)
   })
 })

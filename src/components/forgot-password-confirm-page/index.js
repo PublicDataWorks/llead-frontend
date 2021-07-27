@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import cx from 'classnames'
 import qs from 'qs'
-import isEmpty from 'lodash/isEmpty'
 import noop from 'lodash/noop'
 
 import Input from 'components/common/inputs/input'
@@ -36,6 +35,16 @@ const ForgotPasswordConfirm = (props) => {
     }
   }
 
+  const hasErrorMessage =
+    isValid &&
+    forgotPasswordConfirmStatus !== FORGOT_PASSWORD_CONFIRM_SUCCESS_MESSAGE
+
+  const hasSuccessMessage =
+    isValid &&
+    forgotPasswordConfirmStatus === FORGOT_PASSWORD_CONFIRM_SUCCESS_MESSAGE
+
+  const highlightInputError = forgotPasswordConfirmStatus && hasErrorMessage
+
   return (
     <div className='forgot-password-confirm-page unauthorized'>
       <form
@@ -47,39 +56,34 @@ const ForgotPasswordConfirm = (props) => {
           placeholder='Password'
           type='password'
           name='password'
-          ref={register}
+          ref={register({ required: true })}
           className={cx('password-input', {
-            error:
-              forgotPasswordConfirmStatus &&
-              forgotPasswordConfirmStatus !==
-                FORGOT_PASSWORD_CONFIRM_SUCCESS_MESSAGE,
+            error: highlightInputError,
           })}
         />
-
         <Input
           iconSrc={LockSVG}
           placeholder='Confirm password'
           type='password'
           name='confirmPassword'
-          ref={register}
+          ref={register({ required: true })}
           className={cx('password-input', {
-            error:
-              forgotPasswordConfirmStatus &&
-              forgotPasswordConfirmStatus !==
-                FORGOT_PASSWORD_CONFIRM_SUCCESS_MESSAGE,
+            error: highlightInputError,
           })}
         />
         <Button className='submit-btn' type='submit'>
           Change Password
         </Button>
         {!isValid && (
-          <div className='error-message'>
+          <div className='message'>
             {FORGOT_PASSWORD_CONFIRM_NOT_MATCH_MESSAGE}
           </div>
         )}
-        {isValid && !isEmpty(forgotPasswordConfirmStatus) && (
-          <div className='error-message'>{forgotPasswordConfirmStatus}</div>
-        )}
+        <div
+          className={cx('message', { 'success-message': hasSuccessMessage })}
+        >
+          {forgotPasswordConfirmStatus}
+        </div>
       </form>
     </div>
   )
