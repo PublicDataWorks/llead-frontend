@@ -15,9 +15,7 @@ export const get = (actionTypes, url, cancelToken) => {
   const actionFailure = (request, error) => ({
     type: actionTypes[2],
     request,
-    payload: {
-      error,
-    },
+    payload: error,
   })
 
   return (params = {}) => {
@@ -34,7 +32,7 @@ export const get = (actionTypes, url, cancelToken) => {
           dispatch(actionSuccess(requestData, res.data))
         })
         .catch((err) => {
-          dispatch(actionFailure(requestData, err.message))
+          dispatch(actionFailure(requestData, err.response.data))
         })
     }
   }
@@ -55,9 +53,7 @@ export const post = (actionTypes, url, cancelToken) => {
   const actionFailure = (request, error) => ({
     type: actionTypes[2],
     request,
-    payload: {
-      error,
-    },
+    payload: error,
   })
 
   return (data = {}, params = {}) => {
@@ -75,7 +71,7 @@ export const post = (actionTypes, url, cancelToken) => {
           dispatch(actionSuccess(requestData, res.data))
         })
         .catch((err) => {
-          dispatch(actionFailure(requestData, err.message))
+          dispatch(actionFailure(requestData, err.response.data))
         })
     }
   }

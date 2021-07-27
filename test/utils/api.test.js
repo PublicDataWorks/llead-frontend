@@ -62,9 +62,15 @@ describe('#get', () => {
       const dispatch = sinon.spy()
 
       const url = `${DEPARTMENTS_API_URL}1`
-      sinon
-        .stub(axiosClient, 'get')
-        .resolves(Promise.reject({ message: 'error' }))
+      sinon.stub(axiosClient, 'get').resolves(
+        Promise.reject({
+          response: {
+            data: {
+              message: 'error',
+            },
+          },
+        })
+      )
 
       const getFunc = get(
         [FETCH_START, FETCH_SUCCESS, FETCH_FAILURE],
@@ -91,7 +97,7 @@ describe('#get', () => {
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: FETCH_FAILURE,
-          payload: { error: 'error' },
+          payload: { message: 'error' },
           request: {
             url,
             params: {},
@@ -171,9 +177,15 @@ describe('#post', () => {
         password: 'password',
       }
 
-      sinon
-        .stub(axiosClient, 'post')
-        .resolves(Promise.reject({ message: 'error' }))
+      sinon.stub(axiosClient, 'post').resolves(
+        Promise.reject({
+          response: {
+            data: {
+              message: 'error',
+            },
+          },
+        })
+      )
       const url = TOKEN_API_URL
 
       const postFunc = post(
@@ -202,7 +214,7 @@ describe('#post', () => {
       expect(dispatch.getCall(1).args).toStrictEqual([
         {
           type: LOGIN_FAILURE,
-          payload: { error: 'error' },
+          payload: { message: 'error' },
           request: {
             url,
             data,
