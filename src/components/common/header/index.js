@@ -14,6 +14,7 @@ const Header = (props) => {
     changeSearchQuery,
     searchQuery,
     searchQuerySuggestions,
+    fetchSearchQueries,
   } = props
 
   return (
@@ -27,6 +28,7 @@ const Header = (props) => {
             searchQuerySuggestions={searchQuerySuggestions}
             changeSearchQuery={changeSearchQuery}
             searchQuery={searchQuery}
+            fetchSearchQueries={fetchSearchQueries}
           />
           <UserPanel />
         </>
@@ -40,12 +42,14 @@ Header.propTypes = {
   searchQuery: PropTypes.string,
   searchQuerySuggestions: PropTypes.array,
   changeSearchQuery: PropTypes.func,
+  fetchSearchQueries: PropTypes.func,
 }
 
 Header.defaultProps = {
   isLoggedIn: false,
   searchQuerySuggestions: [],
   changeSearchQuery: noop,
+  fetchSearchQueries: noop,
 }
 
 export default Header

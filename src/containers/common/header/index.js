@@ -6,7 +6,7 @@ import {
   getSearchQuery,
   searchQuerySuggestionsSelector,
 } from 'selectors/search-page'
-import { changeSearchQuery } from 'actions/search-page'
+import { changeSearchQuery, fetchSearchQueries } from 'actions/search-page'
 
 const mapStateToProps = (state) => ({
   isLoggedIn: isLoggedInSelector(state),
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   changeSearchQuery,
+  fetchSearchQueries,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)
