@@ -30,6 +30,7 @@
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "smoothscroll-polyfill": "^0.4.4",
     "style-loader": "^2.0.0",
     "swiper": "^5.2.0"
   },
