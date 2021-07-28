@@ -1,75 +1,10 @@
-@import 'styles/colors';
-@import 'styles/mixins';
-@import 'styles/variables';
-
-$icon-width: calc(2 * #{$h-side-frame} + 16px);
+@import './base';
 
 .input-container {
   position: relative;
   width: 100%;
 
-  .svg-icon {
-    position: absolute;
-    width: 16px;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .input-field {
-    @include body-text;
-    box-sizing: border-box;
-    border-radius: 2px;
-    width: 100%;
-    padding: 0 $h-side-frame;
-    line-height: 46px;
-    border: 1px solid $alto-color;
-    background-color: $wild-sand-color;
-    color: $thunder-color;
-    outline: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &::-webkit-input-placeholder {
-      /* Edge */
-      color: $boulder-color;
-    }
-
-    &:-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
-      color: $boulder-color;
-    }
-
-    &::placeholder {
-      color: $boulder-color;
-    }
-
-    &:focus {
-      border: 3px solid $blue-ribbon-50-color;
-      padding: 0 calc(#{$h-side-frame} - 2px);
-      line-height: 42px;
-    }
-
-    &.has-icon {
-      padding-left: $icon-width;
-
-      &:focus {
-        padding-left: calc(#{$icon-width} - 2px);
-      }
-    }
-  }
-
-  &.error {
-    .input-field {
-      border: 3px solid $thunder-color;
-      padding: 0 calc(#{$h-side-frame} - 2px);
-      line-height: 42px;
-
-      &.has-icon {
-        padding-left: calc(#{$icon-width} - 2px);
-      }
-    }
-  }
+  @include base-input;
 }
 
 @media only screen and (min-width: $mobile-breakpoint) {
