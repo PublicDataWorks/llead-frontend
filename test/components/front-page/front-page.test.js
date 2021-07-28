@@ -39,21 +39,12 @@ describe('FrontPage component', () => {
     const cmsData = {
       summary: '**Front page** summary.',
     }
-    const analyticSummary = {
-      departmentsCount: 4,
-      officersCount: 5,
-      documentsCount: 60000,
-      recentDepartmentsCount: 1,
-      recentOfficersCount: 2,
-      recentDocumentsCount: 3,
-      recentDays: 30,
-    }
 
     const container = render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
-            <FrontPage cms={cmsData} analyticSummary={analyticSummary} />
+            <FrontPage cms={cmsData} />
           </Route>
         </MemoryRouter>
       </Provider>
@@ -65,12 +56,5 @@ describe('FrontPage component', () => {
     expect(
       summarySection.getElementsByTagName('strong')[0].textContent
     ).toEqual('Front page')
-
-    expect(baseElement.textContent).toContain('4 departments')
-    expect(baseElement.textContent).toContain('+1 in the past\u00A030 days')
-    expect(baseElement.textContent).toContain('5 officers')
-    expect(baseElement.textContent).toContain('+2 in the past\u00A030 days')
-    expect(baseElement.textContent).toContain('60,000 documents')
-    expect(baseElement.textContent).toContain('+3 in the past\u00A030 days')
   })
 })

@@ -5,7 +5,8 @@ import isEmpty from 'lodash/isEmpty'
 import './analytic-summary.scss'
 import { formatNumber, stringifyTotalItems } from 'utils/formatter'
 
-const AnalyticSummary = ({ analyticSummary }) => {
+const AnalyticSummary = (props) => {
+  const { analyticSummary, departmentRef, officerRef, documentRef } = props
   if (isEmpty(analyticSummary)) {
     return null
   }
@@ -20,9 +21,31 @@ const AnalyticSummary = ({ analyticSummary }) => {
     recentDays,
   } = analyticSummary
 
+  const scrollToSection = (ref) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      })
+    }
+  }
+
+  const scrollToDepartmentSection = () => {
+    scrollToSection(departmentRef)
+  }
+
+  const scrollToOfficerSection = () => {
+    scrollToSection(officerRef)
+  }
+
+  const scrollToDocumentSection = () => {
+    scrollToSection(documentRef)
+  }
+
   return (
     <div className='analytic-summary'>
-      <div className='analytic-summary-item'>
+      <div className='analytic-summary-item' onClick={scrollToDocumentSection}>
         <div className='analytic-summary-content'>
           {stringifyTotalItems(documentsCount, 'documents')}
         </div>
@@ -31,7 +54,7 @@ const AnalyticSummary = ({ analyticSummary }) => {
           {stringifyTotalItems(recentDays, 'days')}
         </div>
       </div>
-      <div className='analytic-summary-item'>
+      <div className='analytic-summary-item' onClick={scrollToOfficerSection}>
         <div className='analytic-summary-content'>
           {stringifyTotalItems(officersCount, 'officers')}
         </div>
@@ -40,7 +63,10 @@ const AnalyticSummary = ({ analyticSummary }) => {
           {stringifyTotalItems(recentDays, 'days')}
         </div>
       </div>
-      <div className='analytic-summary-item'>
+      <div
+        className='analytic-summary-item'
+        onClick={scrollToDepartmentSection}
+      >
         <div className='analytic-summary-content'>
           {stringifyTotalItems(departmentsCount, 'departments')}
         </div>
@@ -55,6 +81,9 @@ const AnalyticSummary = ({ analyticSummary }) => {
 
 AnalyticSummary.propTypes = {
   analyticSummary: PropTypes.object,
+  departmentRef: PropTypes.object,
+  officerRef: PropTypes.object,
+  documentRef: PropTypes.object,
 }
 
 AnalyticSummary.defaultProps = {
