@@ -14,7 +14,7 @@
   .department-info {
     box-sizing: border-box;
     padding: $v-margin $h-card-margin 0 $h-card-margin;
-    height: 222px;
+    height: 231px;
 
     .department-type {
       @include small-text;
@@ -31,7 +31,6 @@
   .department-card-footer {
     box-sizing: border-box;
     background-color: $wild-sand-color;
-    height: 89px;
     padding: $v-frame-margin $h-side-frame $v-frame-margin $h-card-margin;
 
     .department-map {
