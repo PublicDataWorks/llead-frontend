@@ -1,6 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
+const Dotenv = require('dotenv-webpack')
 const srcPath = path.join(__dirname, '../src')
 const rootPath = path.join(__dirname, '../')
 
@@ -69,5 +70,6 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       APP_ENV: 'dev',
     }),
+    new Dotenv(),
   ],
 }
