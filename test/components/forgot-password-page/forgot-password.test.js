@@ -46,10 +46,11 @@ describe('ForgotPassword component', () => {
     )
     const { baseElement } = container
     const emailContainer = baseElement.getElementsByClassName('email-input')[0]
+    const errorMessage = baseElement.getElementsByClassName('message')[0]
 
     expect(emailContainer.className).toContain('error')
 
-    expect(baseElement.textContent).toContain(FORGOT_PASSWORD_FAILURE_MESSAGE)
+    expect(errorMessage.textContent).toContain(FORGOT_PASSWORD_FAILURE_MESSAGE)
   })
 
   it('should render success if request change password successfully', async () => {
@@ -58,9 +59,14 @@ describe('ForgotPassword component', () => {
     )
     const { baseElement } = container
     const emailContainer = baseElement.getElementsByClassName('email-input')[0]
+    const successMessage = baseElement.getElementsByClassName(
+      'success-message'
+    )[0]
 
     expect(emailContainer.className).not.toContain('error')
 
-    expect(baseElement.textContent).toContain(FORGOT_PASSWORD_SUCCESS_MESSAGE)
+    expect(successMessage.textContent).toContain(
+      FORGOT_PASSWORD_SUCCESS_MESSAGE
+    )
   })
 })

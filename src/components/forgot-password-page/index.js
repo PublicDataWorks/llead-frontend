@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import { useForm } from 'react-hook-form'
 import cx from 'classnames'
-import isEmpty from 'lodash/isEmpty'
 
 import Input from 'components/common/inputs/input'
 import Button from 'components/common/buttons/button'
@@ -18,6 +17,9 @@ const ForgotPassword = ({ forgotPasswordStatus, performForgotPassword }) => {
     performForgotPassword(data)
   }
 
+  const isErrorMessage =
+    forgotPasswordStatus === FORGOT_PASSWORD_FAILURE_MESSAGE
+
   return (
     <div className='forgot-password-page unauthorized'>
       <form className='forgot-password-form' onSubmit={handleSubmit(onSubmit)}>
@@ -26,17 +28,17 @@ const ForgotPassword = ({ forgotPasswordStatus, performForgotPassword }) => {
           placeholder='email'
           type='text'
           name='email'
-          ref={register}
+          ref={register({ required: true })}
           className={cx('email-input', {
-            error: forgotPasswordStatus === FORGOT_PASSWORD_FAILURE_MESSAGE,
+            error: isErrorMessage,
           })}
         />
         <Button className='submit-btn' type='submit'>
           Reset Password
         </Button>
-        {!isEmpty(forgotPasswordStatus) && (
-          <div className='error-message'>{forgotPasswordStatus}</div>
-        )}
+        <div className={cx('message', { 'success-message': !isErrorMessage })}>
+          {forgotPasswordStatus}
+        </div>
       </form>
     </div>
   )
