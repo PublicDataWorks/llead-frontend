@@ -62,6 +62,7 @@ module.exports = {
   },
   devtool: false,
   plugins: [
+    new Dotenv(),
     new HtmlWebPackPlugin({
       template: path.resolve(srcPath, 'index.html'),
       filename: 'index.html',
@@ -69,7 +70,7 @@ module.exports = {
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.EnvironmentPlugin({
       APP_ENV: 'dev',
+      GA_MEASUREMENT_ID: null,
     }),
-    new Dotenv(),
   ],
 }
