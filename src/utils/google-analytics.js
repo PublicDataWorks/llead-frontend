@@ -1,18 +1,27 @@
 import config from 'config'
-import noop from 'lodash/noop'
-
-let gtag = noop
 
 const { gaMeasurementId } = config
 
-if (gaMeasurementId) {
-  gtag = window.gtag
-} else {
-  gtag = (type, eventName, params) => {
-    console.log(`MEASUREMENT TYPE: ${type}`)
-    console.log(`MEASUREMENT EVENT NAME: ${eventName}`)
-    console.log(`MEASUREMENT PARAMS:`)
-    console.log(params)
+const getGtag = () => {
+  /* istanbul ignore else  */
+  if (gaMeasurementId) {
+    return window.gtag
+  } else {
+    const localGtag = (type, eventName, params) => {
+      console.log(`MEASUREMENT TYPE: ${type}`)
+      console.log(`MEASUREMENT EVENT NAME: ${eventName}`)
+      console.log(`MEASUREMENT PARAMS:`)
+      console.log(params)
+    }
+    return localGtag
   }
 }
 
+export const analyzeExpandEventCard = (eventCard) => {
+  const gtag = getGtag()
+
+  gtag('event', 'card_expand', {
+    category: eventCard.type,
+    [eventCard.type]: eventCard.id,
+  })
+}

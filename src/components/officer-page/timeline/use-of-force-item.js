@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import AnimateHeight from 'react-animate-height'
-import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
 
 import './use-of-force-item.scss'
 import { uofItemUrl } from 'utils/urls'
-import { ANIMATION_DURATION, QUICK_ANIMATION_DURATION } from 'constants/common'
+import { ANIMATION_DURATION, EXPAND_TRACK_ITEMS, QUICK_ANIMATION_DURATION } from 'constants/common'
+import { analyzeExpandEventCard } from 'utils/google-analytics'
 
 const UseOfForceItem = (props) => {
   const {
@@ -95,13 +95,23 @@ const UseOfForceItem = (props) => {
     },
   ]
 
+  const handleUseOfForceExpand = () => {
+    if (!expanded) {
+      analyzeExpandEventCard({
+        type: EXPAND_TRACK_ITEMS.UOF,
+        id,
+      })
+    }
+    setExpanded(!expanded)
+  }
+
   return (
     <div
       className={cx('timeline-uof-item', className, {
         'timeline-uof-highlight': highlighting,
       })}
     >
-      <div className='uof-item-header' onClick={() => setExpanded(!expanded)}>
+      <div className='uof-item-header' onClick={handleUseOfForceExpand}>
         <div className='uof-item-title'>
           Used <span>force</span>
         </div>
@@ -179,7 +189,7 @@ UseOfForceItem.propTypes = {
 }
 
 UseOfForceItem.defaultProps = {
-  showEventDetails: noop,
+  showEventDetails: false,
 }
 
 export default UseOfForceItem

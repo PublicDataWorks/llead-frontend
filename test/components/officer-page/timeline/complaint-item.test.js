@@ -4,9 +4,18 @@ import sinon from 'sinon'
 
 import ComplaintItem from 'components/officer-page/timeline/complaint-item.js'
 import { complaintItemUrl } from 'utils/urls'
-import { ANIMATION_DURATION, QUICK_ANIMATION_DURATION } from 'constants/common'
+import {
+  ANIMATION_DURATION,
+  EXPAND_TRACK_ITEMS,
+  QUICK_ANIMATION_DURATION,
+} from 'constants/common'
+import * as googleAnalytics from 'utils/google-analytics'
 
 describe('ComplaintItem component', () => {
+  beforeEach(() => {
+    sinon.stub(googleAnalytics, 'analyzeExpandEventCard')
+  })
+
   it('renders complaint component', () => {
     const clock = sinon.useFakeTimers()
 
@@ -232,5 +241,41 @@ describe('ComplaintItem component', () => {
     )[0]
 
     expect(complaintItemContent).toBeTruthy()
+  })
+
+  it('analyzes expand complaint card event', () => {
+    const clock = sinon.useFakeTimers()
+
+    const complaintId = 1
+
+    const complaintData = {
+      id: complaintId,
+      ruleViolation: 'Rule Vialation',
+      paragraphViolation: 'Paragraph Violation',
+      disposition: 'Disposition',
+      action: 'Action',
+      trackingNumber: '123-456',
+      highlight: false,
+    }
+
+    const container = render(<ComplaintItem {...complaintData} />)
+
+    const { baseElement } = container
+
+    const complaintItemHeader = baseElement.getElementsByClassName(
+      'complaint-item-header'
+    )[0]
+
+    fireEvent.click(complaintItemHeader)
+    clock.tick(QUICK_ANIMATION_DURATION)
+
+    expect(googleAnalytics.analyzeExpandEventCard).toHaveBeenCalledWith({
+      type: EXPAND_TRACK_ITEMS.COMPLAINT,
+      id: complaintId,
+    })
+
+    googleAnalytics.analyzeExpandEventCard.resetHistory()
+    fireEvent.click(complaintItemHeader)
+    expect(googleAnalytics.analyzeExpandEventCard).not.toHaveBeenCalled()
   })
 })

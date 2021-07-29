@@ -76,3 +76,8 @@ export const TIMELINE_FILTERS = {
 
 export const QUICK_ANIMATION_DURATION = 400
 export const ANIMATION_DURATION = 1500
+
+export const EXPAND_TRACK_ITEMS = {
+  COMPLAINT: 'complaint',
+  UOF: 'use of force',
+}
