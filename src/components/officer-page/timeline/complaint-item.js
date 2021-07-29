@@ -10,10 +10,13 @@ import './complaint-item.scss'
 import { complaintItemUrl } from 'utils/urls'
 import {
   ANIMATION_DURATION,
-  EXPAND_TRACK_ITEMS,
+  TRACK_ITEM_TYPES,
   QUICK_ANIMATION_DURATION,
 } from 'constants/common'
-import { analyzeExpandEventCard } from 'utils/google-analytics'
+import {
+  analyzeCopyCardLink,
+  analyzeExpandEventCard,
+} from 'utils/google-analytics'
 
 const ComplaintItem = (props) => {
   const {
@@ -59,6 +62,10 @@ const ComplaintItem = (props) => {
   }, [highlight])
 
   const handleOnCopied = () => {
+    analyzeCopyCardLink({
+      type: TRACK_ITEM_TYPES.COMPLAINT,
+      id,
+    })
     const timeoutId = setTimeout(
       () => setCopyTimeoutId(null),
       ANIMATION_DURATION
@@ -92,7 +99,7 @@ const ComplaintItem = (props) => {
   const handleComplaintExpand = () => {
     if (!expanded) {
       analyzeExpandEventCard({
-        type: EXPAND_TRACK_ITEMS.COMPLAINT,
+        type: TRACK_ITEM_TYPES.COMPLAINT,
         id,
       })
     }

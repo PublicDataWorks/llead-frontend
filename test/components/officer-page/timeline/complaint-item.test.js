@@ -6,7 +6,7 @@ import ComplaintItem from 'components/officer-page/timeline/complaint-item.js'
 import { complaintItemUrl } from 'utils/urls'
 import {
   ANIMATION_DURATION,
-  EXPAND_TRACK_ITEMS,
+  TRACK_ITEM_TYPES,
   QUICK_ANIMATION_DURATION,
 } from 'constants/common'
 import * as googleAnalytics from 'utils/google-analytics'
@@ -14,6 +14,7 @@ import * as googleAnalytics from 'utils/google-analytics'
 describe('ComplaintItem component', () => {
   beforeEach(() => {
     sinon.stub(googleAnalytics, 'analyzeExpandEventCard')
+    sinon.stub(googleAnalytics, 'analyzeCopyCardLink')
   })
 
   it('renders complaint component', () => {
@@ -270,12 +271,51 @@ describe('ComplaintItem component', () => {
     clock.tick(QUICK_ANIMATION_DURATION)
 
     expect(googleAnalytics.analyzeExpandEventCard).toHaveBeenCalledWith({
-      type: EXPAND_TRACK_ITEMS.COMPLAINT,
+      type: TRACK_ITEM_TYPES.COMPLAINT,
       id: complaintId,
     })
 
     googleAnalytics.analyzeExpandEventCard.resetHistory()
     fireEvent.click(complaintItemHeader)
     expect(googleAnalytics.analyzeExpandEventCard).not.toHaveBeenCalled()
+  })
+
+  it('analyzes copy complaint card link', () => {
+    const clock = sinon.useFakeTimers()
+
+    const complaintId = 1
+
+    const complaintData = {
+      id: complaintId,
+      ruleViolation: 'Rule Vialation',
+      paragraphViolation: 'Paragraph Violation',
+      disposition: 'Disposition',
+      action: 'Action',
+      trackingNumber: '123-456',
+      highlight: false,
+    }
+
+    const container = render(<ComplaintItem {...complaintData} />)
+
+    const { baseElement } = container
+
+    const complaintItemHeader = baseElement.getElementsByClassName(
+      'complaint-item-header'
+    )[0]
+
+    fireEvent.click(complaintItemHeader)
+    clock.tick(QUICK_ANIMATION_DURATION)
+
+    const complaintCopyLink = baseElement.getElementsByClassName(
+      'complaint-item-copy-link'
+    )[0]
+
+    fireEvent.click(complaintCopyLink)
+    clock.tick(QUICK_ANIMATION_DURATION)
+
+    expect(googleAnalytics.analyzeCopyCardLink).toHaveBeenCalledWith({
+      type: TRACK_ITEM_TYPES.COMPLAINT,
+      id: complaintId,
+    })
   })
 })

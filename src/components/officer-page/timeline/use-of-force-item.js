@@ -7,8 +7,15 @@ import isEmpty from 'lodash/isEmpty'
 
 import './use-of-force-item.scss'
 import { uofItemUrl } from 'utils/urls'
-import { ANIMATION_DURATION, EXPAND_TRACK_ITEMS, QUICK_ANIMATION_DURATION } from 'constants/common'
-import { analyzeExpandEventCard } from 'utils/google-analytics'
+import {
+  ANIMATION_DURATION,
+  TRACK_ITEM_TYPES,
+  QUICK_ANIMATION_DURATION,
+} from 'constants/common'
+import {
+  analyzeCopyCardLink,
+  analyzeExpandEventCard,
+} from 'utils/google-analytics'
 
 const UseOfForceItem = (props) => {
   const {
@@ -57,6 +64,10 @@ const UseOfForceItem = (props) => {
   }, [highlight])
 
   const handleOnCopied = () => {
+    analyzeCopyCardLink({
+      type: TRACK_ITEM_TYPES.UOF,
+      id,
+    })
     const timeoutId = setTimeout(
       () => setCopyTimeoutId(null),
       ANIMATION_DURATION
@@ -98,7 +109,7 @@ const UseOfForceItem = (props) => {
   const handleUseOfForceExpand = () => {
     if (!expanded) {
       analyzeExpandEventCard({
-        type: EXPAND_TRACK_ITEMS.UOF,
+        type: TRACK_ITEM_TYPES.UOF,
         id,
       })
     }

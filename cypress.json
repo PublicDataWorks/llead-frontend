@@ -4,5 +4,7 @@
   "supportFile": "integration-tests/support/index.js",
   "retries": {
     "runMode": 1
-  }
+  },
+  "video": false,
+  "screenshotOnRunFailure": false
 }

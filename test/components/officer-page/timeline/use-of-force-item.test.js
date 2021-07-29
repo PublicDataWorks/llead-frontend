@@ -6,7 +6,7 @@ import UseOfForceItem from 'components/officer-page/timeline/use-of-force-item'
 import { uofItemUrl } from 'utils/urls'
 import {
   ANIMATION_DURATION,
-  EXPAND_TRACK_ITEMS,
+  TRACK_ITEM_TYPES,
   QUICK_ANIMATION_DURATION,
 } from 'constants/common'
 import * as googleAnalytics from 'utils/google-analytics'
@@ -14,6 +14,7 @@ import * as googleAnalytics from 'utils/google-analytics'
 describe('UseOfForceItem component', () => {
   beforeEach(() => {
     sinon.stub(googleAnalytics, 'analyzeExpandEventCard')
+    sinon.stub(googleAnalytics, 'analyzeCopyCardLink')
   })
 
   it('renders use of force component', () => {
@@ -318,12 +319,51 @@ describe('UseOfForceItem component', () => {
     clock.tick(QUICK_ANIMATION_DURATION)
 
     expect(googleAnalytics.analyzeExpandEventCard).toHaveBeenCalledWith({
-      type: EXPAND_TRACK_ITEMS.UOF,
+      type: TRACK_ITEM_TYPES.UOF,
       id: uofId,
     })
 
     googleAnalytics.analyzeExpandEventCard.resetHistory()
     fireEvent.click(uofItemHeader)
     expect(googleAnalytics.analyzeExpandEventCard).not.toHaveBeenCalled()
+  })
+
+  it('analyzes copy use of force card link', () => {
+    const clock = sinon.useFakeTimers()
+
+    const uofId = 1
+
+    const uofData = {
+      id: uofId,
+      forceType: 'Takedown (w/injury)',
+      uofTrackingNumber: 'uof tracking number',
+      highlight: false,
+    }
+
+    const container = render(<UseOfForceItem {...uofData} />)
+    const { baseElement } = container
+
+    const uofItemHeader = baseElement.getElementsByClassName(
+      'uof-item-header'
+    )[0]
+
+    fireEvent.click(uofItemHeader)
+    clock.tick(QUICK_ANIMATION_DURATION)
+
+    const uofItemCopyLink = baseElement.getElementsByClassName(
+      'uof-item-copy-link'
+    )[0]
+
+    fireEvent.click(uofItemCopyLink)
+    clock.tick(QUICK_ANIMATION_DURATION)
+
+    expect(googleAnalytics.analyzeCopyCardLink).toHaveBeenCalledWith({
+      type: TRACK_ITEM_TYPES.UOF,
+      id: uofId,
+    })
+
+    googleAnalytics.analyzeCopyCardLink.resetHistory()
+    fireEvent.click(uofItemHeader)
+    expect(googleAnalytics.analyzeCopyCardLink).not.toHaveBeenCalled()
   })
 })

@@ -25,3 +25,12 @@ export const analyzeExpandEventCard = (eventCard) => {
     [eventCard.type]: eventCard.id,
   })
 }
+
+export const analyzeCopyCardLink = (eventCard) => {
+  const gtag = getGtag()
+
+  gtag('event', 'copy_card_link', {
+    category: eventCard.type,
+    [eventCard.type]: eventCard.id,
+  })
+}
