@@ -12,6 +12,15 @@ defaults:
   - &set-gcloud-service-key
     command: |
       echo 'export GCLOUD_SERVICE_KEY=$(echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -d)' >> $BASH_ENV
+  - &set-deploy-env
+    name: Set deployment env
+    command: |
+      if [ $CIRCLE_BRANCH == "main" ]
+      then
+        echo 'export NAMESPACE_ENV=default' >> $BASH_ENV
+      else
+        echo 'export NAMESPACE_ENV=ipno-staging' >> $BASH_ENV
+      fi
 
 version: 2.1
 jobs:
@@ -70,7 +79,7 @@ jobs:
       - run:
           name: Build assets
           command: |
-            if [ $CIRCLE_BRANCH == "master" ]
+            if [ $CIRCLE_BRANCH == "main" ]
             then
               yarn build
             else
@@ -116,6 +125,7 @@ jobs:
     environment: *gcloud-env
     steps:
       - run: *set-gcloud-service-key
+      - run: *set-deploy-env
       - checkout
       - attach_workspace:
           at: /tmp/workspace
@@ -127,7 +137,7 @@ jobs:
           name: Deploy
           command: |
             export FRONTEND_IMAGE_TAG=$(cat /tmp/workspace/buildnum)
-            cat kubernetes/frontend.yml | envsubst | kubectl apply -f -
+            cat kubernetes/frontend.yml | envsubst | kubectl apply -n $NAMESPACE_ENV -f -
 
 workflows:
   version: 2
@@ -143,12 +153,14 @@ workflows:
           requires:
             - test
 
-  deploy_frontend_staging:
+  deploy_frontend:
     jobs:
       - test:
           filters:
             branches:
-              only: staging
+              only:
+                - main
+                - staging
       - build:
           requires:
             - test
