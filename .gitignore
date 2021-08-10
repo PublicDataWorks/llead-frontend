@@ -21,3 +21,4 @@ cypress/screenshots
 .history
 
 .idea
+.env
