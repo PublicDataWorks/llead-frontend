@@ -1,4 +1,4 @@
 export default {
-  serverUrl: 'https://api.llead.co',
-  host: 'https://llead.co',
+  serverUrl: 'https://api-staging.llead.co',
+  host: 'https://staging.llead.co',
 }
