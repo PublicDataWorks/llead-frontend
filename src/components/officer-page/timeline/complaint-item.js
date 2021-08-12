@@ -3,13 +3,20 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import AnimateHeight from 'react-animate-height'
-import noop from 'lodash/noop'
 import join from 'lodash/join'
 import compact from 'lodash/compact'
 
 import './complaint-item.scss'
 import { complaintItemUrl } from 'utils/urls'
-import { ANIMATION_DURATION, QUICK_ANIMATION_DURATION } from 'constants/common'
+import {
+  ANIMATION_DURATION,
+  TRACK_ITEM_TYPES,
+  QUICK_ANIMATION_DURATION,
+} from 'constants/common'
+import {
+  analyzeCopyCardLink,
+  analyzeExpandEventCard,
+} from 'utils/google-analytics'
 
 const ComplaintItem = (props) => {
   const {
@@ -55,6 +62,10 @@ const ComplaintItem = (props) => {
   }, [highlight])
 
   const handleOnCopied = () => {
+    analyzeCopyCardLink({
+      type: TRACK_ITEM_TYPES.COMPLAINT,
+      id,
+    })
     const timeoutId = setTimeout(
       () => setCopyTimeoutId(null),
       ANIMATION_DURATION
@@ -85,16 +96,23 @@ const ComplaintItem = (props) => {
     },
   ]
 
+  const handleComplaintExpand = () => {
+    if (!expanded) {
+      analyzeExpandEventCard({
+        type: TRACK_ITEM_TYPES.COMPLAINT,
+        id,
+      })
+    }
+    setExpanded(!expanded)
+  }
+
   return (
     <div
       className={cx('timeline-complaint-item', className, {
         'timeline-complaint-highlight': highlighting,
       })}
     >
-      <div
-        className='complaint-item-header'
-        onClick={() => setExpanded(!expanded)}
-      >
+      <div className='complaint-item-header' onClick={handleComplaintExpand}>
         <div className='complaint-item-title'>
           Accused of <span>misconduct</span>
         </div>
@@ -160,7 +178,7 @@ ComplaintItem.propTypes = {
 }
 
 ComplaintItem.defaultProps = {
-  showEventDetails: noop,
+  showEventDetails: false,
 }
 
 export default ComplaintItem

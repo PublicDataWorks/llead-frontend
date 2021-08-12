@@ -1,6 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
+const Dotenv = require('dotenv-webpack')
 const srcPath = path.join(__dirname, '../src')
 const rootPath = path.join(__dirname, '../')
 
@@ -61,6 +62,7 @@ module.exports = {
   },
   devtool: false,
   plugins: [
+    new Dotenv(),
     new HtmlWebPackPlugin({
       template: path.resolve(srcPath, 'index.html'),
       filename: 'index.html',
@@ -68,6 +70,7 @@ module.exports = {
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.EnvironmentPlugin({
       APP_ENV: 'dev',
+      GA_MEASUREMENT_ID: null,
     }),
   ],
 }
