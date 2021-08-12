@@ -27,6 +27,12 @@ spec:
               memory: 256Mi
           ports:
             - containerPort: 80
+          env:
+            - name: GA_MEASUREMENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ga
+                  key: measurement-id
 ---
 apiVersion: v1
 kind: Service
