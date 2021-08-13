@@ -10,10 +10,10 @@ import startCase from 'lodash/startCase'
 import './officer-page.scss'
 import CustomLink from 'components/common/links/custom-link'
 import OfficerBadges from 'components/common/items/officer-badges'
-import { departmentPath } from 'utils/paths'
-import { stringifyTotalItems } from 'utils/formatter'
-import { RECENT_ITEM_TYPES } from 'constants/common'
 import TimelineContainer from 'containers/officer-page/timeline'
+import { RECENT_ITEM_TYPES } from 'constants/common'
+import { stringifyTotalItems } from 'utils/formatter'
+import { departmentPath } from 'utils/paths'
 
 const Officer = (props) => {
   const {
@@ -23,7 +23,10 @@ const Officer = (props) => {
     isRequesting,
     saveRecentItem,
     recentData,
+    clearDocumentHead,
+    setDocumentHead,
   } = props
+
   const { id } = useParams()
 
   const officerId = toNumber(id)
@@ -54,6 +57,16 @@ const Officer = (props) => {
       })
     }
   }, [officerId, isRequesting])
+
+  useEffect(() => {
+    if (!isEmpty(name)) {
+      setDocumentHead({
+        title: name,
+      })
+    }
+
+    return () => clearDocumentHead()
+  }, [name, setDocumentHead])
 
   const displaySummaryInfo = () => {
     if (complaintsCount > 0) {
@@ -119,6 +132,8 @@ Officer.propTypes = {
   recentData: PropTypes.object,
   fetchOfficer: PropTypes.func,
   saveRecentItem: PropTypes.func,
+  clearDocumentHead: PropTypes.func,
+  setDocumentHead: PropTypes.func,
   isRequesting: PropTypes.bool,
 }
 
@@ -128,6 +143,8 @@ Officer.defaultProps = {
   timelineFilterGroups: {},
   fetchOfficer: noop,
   saveRecentItem: noop,
+  clearDocumentHead: noop,
+  setDocumentHead: noop,
   isRequesting: false,
 }
 

@@ -7,6 +7,7 @@ import noop from 'lodash/noop'
 import AppRoutes from 'routes'
 import HeaderContainer from 'containers/common/header'
 import Footer from 'containers/common/footer'
+import DocumentHead from 'containers/common/document-head'
 import ScrollToTop from 'components/common/higher-order/scroll-to-top'
 import './app.scss'
 
@@ -34,6 +35,7 @@ const App = (props) => {
   return (
     <Router>
       <ScrollToTop />
+      <DocumentHead />
 
       <div
         className={cx('main-container', { unauthorized: !isLoggedIn })}

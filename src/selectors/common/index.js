@@ -65,3 +65,5 @@ export const cmsSelector = (state, section) =>
   })(state)
 
 export const getUserInfo = (state) => get(state, 'userInfo', {})
+
+export const getDocumentHead = (state) => get(state, 'documentHead')

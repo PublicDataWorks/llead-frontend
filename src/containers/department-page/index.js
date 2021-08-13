@@ -10,6 +10,10 @@ import {
 } from 'selectors/department-page'
 import { fetchDepartment, fetchDocuments } from 'actions/department-page'
 import { saveRecentItem } from 'actions/common/recent-items'
+import {
+  clearDocumentHead,
+  setDocumentHead,
+} from 'actions/common/document-head'
 
 const mapStateToProps = (state) => ({
   department: departmentSelector(state),
@@ -23,6 +27,8 @@ const mapDispatchToProps = {
   fetchDepartment,
   fetchDocuments,
   saveRecentItem,
+  setDocumentHead,
+  clearDocumentHead,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Department)

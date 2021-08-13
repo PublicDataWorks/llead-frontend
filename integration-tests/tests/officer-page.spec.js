@@ -75,6 +75,19 @@ describe('Officer Page', () => {
         .should('text', 'Corliss Conway is named in\u00A03 documents.')
     })
 
+    it('changes title on officer clicked', () => {
+      cy.visit('/')
+      cy.title().should('eq', 'LLEAD')
+
+      cy.visit('/officers/1')
+
+      cy.title().should('eq', 'Corliss Conway')
+
+      cy.visit('/')
+
+      cy.title().should('eq', 'LLEAD')
+    })
+
     describe('officer timeline', () => {
       it('renders officer timeline', () => {
         cy.visit('/officers/1')
