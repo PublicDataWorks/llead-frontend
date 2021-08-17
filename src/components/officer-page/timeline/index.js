@@ -57,6 +57,7 @@ const Timeline = (props) => {
   const [highlightItemId, setHighlightItemId] = useState()
   const [highlightItemKind, setHighlightItemKind] = useState()
   const [showActionsPanel, setShowActionsPanel] = useState(false)
+  const [showDownloadPanel, setShowDownloadPanel] = useState(false)
   const [showEventDetails, setShowEventDetails] = useState(false)
 
   const location = useLocation()
@@ -133,6 +134,10 @@ const Timeline = (props) => {
     hideActionsPanel()
   }
 
+  const handleDownloadFile = () => {
+    setShowDownloadPanel(!showDownloadPanel)
+  }
+
   const hideActionsPanel = () => {
     setShowActionsPanel(false)
   }
@@ -150,6 +155,10 @@ const Timeline = (props) => {
               <div
                 className='timeline-header-actions-btn'
                 onClick={() => setShowActionsPanel(!showActionsPanel)}
+              />
+              <div
+                className='timeline-header-download-btn'
+                onClick={() => setShowDownloadPanel(!showDownloadPanel)}
               />
               {showActionsPanel && (
                 <div className='timeline-header-actions'>
@@ -172,6 +181,16 @@ const Timeline = (props) => {
                       hideActionsPanel={hideActionsPanel}
                     />
                   </MobileView>
+                </div>
+              )}
+              {showDownloadPanel && (
+                <div className='timeline-header-download'>
+                  <div
+                    className='show-download-file'
+                    onClick={handleDownloadFile}
+                  >
+                    <strong>Download</strong> officer timeline (.xlsx)
+                  </div>
                 </div>
               )}
             </div>

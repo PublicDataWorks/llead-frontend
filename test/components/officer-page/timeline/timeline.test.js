@@ -449,6 +449,53 @@ describe('Timeline component', () => {
       const secondComplaintItemProps = ComplaintItem.mock.calls[2][0]
       expect(secondComplaintItemProps.showEventDetails).toBeTruthy()
     })
+
+    it('toggles showDownloadFile on click', () => {
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 123,
+              kind: 'COMPLAINT',
+              trackingNumber: '10-03',
+              ruleViolation: 'Officer rule violation 2019-03-10',
+              paragraphViolation: 'Officer paragraph violation 2019-03-10',
+              disposition: 'Officer dispostion 2019-03-10',
+              action: 'Officer action 2019-03-10',
+            },
+          ],
+        },
+      ]
+      const container = render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline timeline={timelineData} hasEventDetails />
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { queryByText, baseElement } = container
+
+      const timelineHeaderDownloadButton = baseElement.getElementsByClassName(
+        'timeline-header-download-btn'
+      )[0]
+      fireEvent.click(timelineHeaderDownloadButton)
+
+      expect(
+        baseElement.getElementsByClassName('timeline-header-download')[0]
+      ).toBeTruthy()
+
+      const showDownloadFileButton = baseElement.getElementsByClassName(
+        'show-download-file'
+      )[0]
+      fireEvent.click(showDownloadFileButton)
+
+      expect(
+        baseElement.getElementsByClassName('timeline-header-download')[0]
+      ).toBeFalsy()
+    })
   })
 
   describe('Complaint item', () => {
