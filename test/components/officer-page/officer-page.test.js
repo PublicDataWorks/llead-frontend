@@ -350,4 +350,37 @@ describe('Officer component', () => {
       officerId: 1,
     })
   })
+
+  it('changes page title on name loaded and cleans up when unmout', () => {
+    const officerData = {
+      name: 'officer name',
+    }
+
+    const clearDocumentHeadStub = jest.fn()
+    const setDocumentHeadstub = jest.fn()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer
+              officer={officerData}
+              clearDocumentHead={clearDocumentHeadStub}
+              setDocumentHead={setDocumentHeadstub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { unmount } = container
+
+    expect(setDocumentHeadstub).toHaveBeenCalledWith({
+      title: 'officer name',
+    })
+    expect(clearDocumentHeadStub).not.toHaveBeenCalled()
+
+    unmount()
+    expect(clearDocumentHeadStub).toHaveBeenCalled()
+  })
 })

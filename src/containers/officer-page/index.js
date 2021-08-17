@@ -9,6 +9,10 @@ import {
 import { fetchOfficer } from 'actions/officer-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 import { timelinePeriodSelector } from 'selectors/officer-page/timeline'
+import {
+  clearDocumentHead,
+  setDocumentHead,
+} from 'actions/common/document-head'
 
 const mapStateToProps = (state) => ({
   officer: officerSelector(state),
@@ -20,6 +24,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   fetchOfficer,
   saveRecentItem,
+  clearDocumentHead,
+  setDocumentHead,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Officer)

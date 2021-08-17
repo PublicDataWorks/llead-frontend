@@ -11,10 +11,10 @@ import filter from 'lodash/filter'
 import concat from 'lodash/concat'
 
 import './department-page.scss'
-import WRGLFile from './wrgl-file'
 import DepartmentDocumentsContainer from 'containers/department-page/department-documents-container'
-import { formatDataPeriods, stringifyTotalItems } from 'utils/formatter'
+import WRGLFile from './wrgl-file'
 import { RECENT_ITEM_TYPES } from 'constants/common'
+import { formatDataPeriods, stringifyTotalItems } from 'utils/formatter'
 
 const Department = (props) => {
   const {
@@ -23,6 +23,8 @@ const Department = (props) => {
     isRequesting,
     saveRecentItem,
     recentData,
+    clearDocumentHead,
+    setDocumentHead,
   } = props
   const { id: departmentId } = useParams()
 
@@ -87,6 +89,16 @@ const Department = (props) => {
       setExpandedCsvFiles(csv)
     }
   }, [wrglFiles])
+
+  useEffect(() => {
+    if (!isEmpty(name)) {
+      setDocumentHead({
+        title: name,
+      })
+    }
+
+    return () => clearDocumentHead()
+  }, [name, setDocumentHead])
 
   const updateExpandedCsvFiles = (slug, isExpanded) => {
     const parsedSearch = qs.parse(location.search, {
@@ -167,19 +179,23 @@ const Department = (props) => {
 }
 
 Department.propTypes = {
+  clearDocumentHead: PropTypes.func,
   department: PropTypes.object,
-  recentData: PropTypes.object,
   fetchDepartment: PropTypes.func,
-  saveRecentItem: PropTypes.func,
   isRequesting: PropTypes.bool,
+  recentData: PropTypes.object,
+  saveRecentItem: PropTypes.func,
+  setDocumentHead: PropTypes.func,
 }
 
 Department.defaultProps = {
+  clearDocumentHead: noop,
   department: {},
-  recentData: {},
   fetchDepartment: noop,
-  saveRecentItem: noop,
   isRequesting: false,
+  recentData: {},
+  saveRecentItem: noop,
+  setDocumentHead: noop,
 }
 
 export default Department

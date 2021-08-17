@@ -1,10 +1,11 @@
 import {
-  getAccessToken,
-  getRefreshToken,
-  isLoggedInSelector,
-  isAppConfigFetchedSelector,
   cmsSelector,
+  getAccessToken,
+  getDocumentHead,
+  getRefreshToken,
   getUserInfo,
+  isAppConfigFetchedSelector,
+  isLoggedInSelector,
 } from 'selectors/common'
 import { CMS_SECTIONS } from 'constants/common'
 
@@ -123,5 +124,20 @@ describe('#getUserInfo', () => {
     const userInfo = getUserInfo({})
 
     expect(userInfo).toEqual({})
+  })
+})
+
+describe('#getDocumentHead', () => {
+  it('returns document head', () => {
+    const documentHeadData = {
+      title: 'page title',
+    }
+    const state = {
+      documentHead: documentHeadData,
+    }
+
+    const documentHead = getDocumentHead(state)
+
+    expect(documentHead).toEqual(documentHeadData)
   })
 })

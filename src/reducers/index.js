@@ -11,6 +11,7 @@ import recentItemsReducer from 'reducers/recent-items-reducer'
 import searchPageReducer from 'reducers/search-page'
 import tokenReducer from 'reducers/token-reducer'
 import userInfoReducer from './user-info-reducer'
+import documentHeadReducer from './document-head-reducer'
 
 export default combineReducers({
   appConfig: appConfigReducer,
@@ -24,4 +25,5 @@ export default combineReducers({
   searchPage: searchPageReducer,
   token: tokenReducer,
   userInfo: userInfoReducer,
+  documentHead: documentHeadReducer,
 })

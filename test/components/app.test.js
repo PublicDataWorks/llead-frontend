@@ -6,11 +6,15 @@ import MockStore from 'redux-mock-store'
 
 import App from 'components/app'
 import * as ScrollToTop from 'components/common/higher-order/scroll-to-top'
+import * as DocumentHead from 'containers/common/document-head'
 
 describe('App component', () => {
   beforeEach(() => {
     const mockScrollToTopComponent = () => <>ScrollToTop</>
     sinon.stub(ScrollToTop, 'default').get(() => mockScrollToTopComponent)
+
+    const mockDocumentHeadComponent = () => <>Document Head</>
+    sinon.stub(DocumentHead, 'default').get(() => mockDocumentHeadComponent)
   })
 
   describe('fetch app config', () => {
@@ -99,5 +103,16 @@ describe('App component', () => {
 
     const { baseElement } = container
     expect(baseElement.textContent).toContain('ScrollToTop')
+  })
+
+  it('renders DocumentHead component', () => {
+    const container = render(
+      <Provider store={MockStore()()}>
+        <App isAppConfigFetched={true} />
+      </Provider>
+    )
+
+    const { baseElement } = container
+    expect(baseElement.textContent).toContain('Document Head')
   })
 })
