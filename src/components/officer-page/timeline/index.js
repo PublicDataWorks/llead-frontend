@@ -159,12 +159,6 @@ const Timeline = (props) => {
                 className='timeline-header-actions-btn'
                 onClick={() => setShowActionsPanel(!showActionsPanel)}
               />
-              <div
-                className={cx('timeline-download-btn', {
-                  'timeline-download-btn-disable': isDownloadingFile,
-                })}
-                onClick={() => setShowDownloadPanel(!showDownloadPanel)}
-              />
               {showActionsPanel && (
                 <div className='timeline-header-actions'>
                   {hasEventDetails && (
@@ -188,21 +182,29 @@ const Timeline = (props) => {
                   </MobileView>
                 </div>
               )}
-              {showDownloadPanel && (
-                <div className='timeline-header-download'>
-                  <div
-                    className='show-download-file'
-                    onClick={handleDownloadFile}
-                  >
-                    <div className='download-button'>
-                      <span className='bold-text'>Download</span> officer
-                      timeline (.xlsx)
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           )}
+          <div className='timeline-header-download-container'>
+            <div
+              className={cx('timeline-download-btn', {
+                'timeline-download-btn-disable': isDownloadingFile,
+              })}
+              onClick={() => setShowDownloadPanel(!showDownloadPanel)}
+            />
+            {showDownloadPanel && (
+              <div className='timeline-header-download'>
+                <div
+                  className='show-download-file'
+                  onClick={handleDownloadFile}
+                >
+                  <div className='download-button'>
+                    <span className='bold-text'>Download</span> officer timeline
+                    (.xlsx)
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <BrowserView>
           <TimelineFilters
