@@ -36,7 +36,7 @@ $first-connection-line-height: 156px;
         display: inline-block;
       }
 
-      .timeline-header-download-btn {
+      .timeline-download-btn {
         margin-left: $v-small-margin;
         width: 48px;
         height: 48px;
@@ -45,6 +45,12 @@ $first-connection-line-height: 156px;
         background: url('assets/icons/download-file.svg') no-repeat center;
         cursor: pointer;
         display: inline-block;
+      }
+
+      .timeline-download-btn-disable {
+        cursor: not-allowed;
+        opacity: 0.4;
+        pointer-events: none;
       }
 
       .timeline-header-actions {
@@ -93,6 +99,14 @@ $first-connection-line-height: 156px;
         background-color: $white-color;
         border-radius: 8px;
         filter: drop-shadow(0px 2px 2px $black-15-color);
+
+        .bold-text {
+          font-weight: 600;
+        }
+
+        .download-button {
+          display: inline-block;
+        }
 
         .show-download-file {
           margin: 0;

@@ -1,7 +1,8 @@
 import sinon from 'sinon'
 import axiosClient from 'utils/axios-client'
+import FileSaver from 'file-saver'
 
-import { get, post } from 'utils/api'
+import { download, get, post } from 'utils/api'
 import { DEPARTMENTS_API_URL, TOKEN_API_URL } from 'constants/api'
 
 describe('#get', () => {
@@ -223,5 +224,127 @@ describe('#post', () => {
         },
       ])
     })
+  })
+})
+
+describe('#download', () => {
+  const blobStub = sinon.createStubInstance(Blob)
+
+  beforeEach(() => {
+    sinon.stub(window, 'Blob').returns(blobStub)
+  })
+
+  it('downloads  successfully and saves the file', async () => {
+    const DOWNLOAD_START = 'DOWNLOAD_START'
+    const DOWNLOAD_SUCCESS = 'DOWNLOAD_SUCCESS'
+    const DOWNLOAD_FAILURE = 'DOWNLOAD_FAILURE'
+
+    const fileName = 'download-file-name'
+    const fileType = 'download-file-type'
+    const requestParams = { field: 'value' }
+    const fileParams = { fileName, fileType }
+    const params = { ...requestParams, ...fileParams }
+    const dispatch = sinon.spy()
+
+    const dataBlob = 'file-data'
+    sinon.stub(axiosClient, 'get').resolves(Promise.resolve({ data: dataBlob }))
+    sinon.stub(FileSaver, 'saveAs')
+
+    const url = `${DEPARTMENTS_API_URL}1`
+
+    const downloadFunc = download(
+      [DOWNLOAD_START, DOWNLOAD_SUCCESS, DOWNLOAD_FAILURE],
+      url,
+      'cancelToken'
+    )(params)
+
+    await downloadFunc(dispatch)
+    expect(dispatch).toHaveBeenCalledTwice()
+    expect(dispatch.getCall(0).args).toStrictEqual([
+      {
+        type: DOWNLOAD_START,
+        request: {
+          url,
+          params,
+        },
+      },
+    ])
+
+    expect(axiosClient.get).toHaveBeenCalledWith(url, {
+      responseType: 'blob',
+      params: requestParams,
+      cancelToken: 'cancelToken',
+    })
+    expect(dispatch.getCall(1).args).toStrictEqual([
+      {
+        type: DOWNLOAD_SUCCESS,
+        request: {
+          url,
+          params,
+        },
+      },
+    ])
+
+    expect(window.Blob).toHaveBeenCalledWith([dataBlob], { type: fileType })
+    expect(FileSaver.saveAs).toHaveBeenCalledWith(blobStub, fileName)
+  })
+
+  it('downloads error then dispatches error message', async () => {
+    const DOWNLOAD_START = 'DOWNLOAD_START'
+    const DOWNLOAD_SUCCESS = 'DOWNLOAD_SUCCESS'
+    const DOWNLOAD_FAILURE = 'DOWNLOAD_FAILURE'
+
+    const fileName = 'download-file-name'
+    const fileType = 'download-file-type'
+    const requestParams = { field: 'value' }
+    const fileParams = { fileName, fileType }
+    const params = { ...requestParams, ...fileParams }
+    const dispatch = sinon.spy()
+
+    const url = `${DEPARTMENTS_API_URL}1`
+
+    sinon.stub(axiosClient, 'get').resolves(
+      Promise.reject({
+        response: {
+          data: {
+            message: 'error',
+          },
+        },
+      })
+    )
+
+    const downloadFunc = download(
+      [DOWNLOAD_START, DOWNLOAD_SUCCESS, DOWNLOAD_FAILURE],
+      url,
+      'cancelToken'
+    )(params)
+
+    await downloadFunc(dispatch)
+    expect(dispatch).toHaveBeenCalledTwice()
+    expect(dispatch.getCall(0).args).toStrictEqual([
+      {
+        type: DOWNLOAD_START,
+        request: {
+          url,
+          params,
+        },
+      },
+    ])
+
+    expect(axiosClient.get).toHaveBeenCalledWith(url, {
+      responseType: 'blob',
+      params: requestParams,
+      cancelToken: 'cancelToken',
+    })
+    expect(dispatch.getCall(1).args).toStrictEqual([
+      {
+        type: DOWNLOAD_FAILURE,
+        payload: { message: 'error' },
+        request: {
+          url,
+          params,
+        },
+      },
+    ])
   })
 })

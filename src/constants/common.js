@@ -85,3 +85,8 @@ export const TRACK_ITEM_TYPES = {
 export const DEFAULT_DOCUMENT_HEAD = {
   title: 'LLEAD',
 }
+
+export const CONTENT_TYPES = {
+  JSON: 'application/json',
+  SHEET: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+}

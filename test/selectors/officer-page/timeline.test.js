@@ -3,6 +3,7 @@ import {
   timelineFilterGroupsSelector,
   hasEventDetailsSelector,
   timelinePeriodSelector,
+  isDownloadingFileSelector,
 } from 'selectors/officer-page/timeline'
 
 describe('#timelineSelector', () => {
@@ -1002,5 +1003,29 @@ describe('#timelinePeriodSelector', () => {
     const timelinePeriod = timelinePeriodSelector(timelineData)
 
     expect(timelinePeriod).toBeFalsy()
+  })
+})
+
+describe('#isDownloadingFileSelector', () => {
+  it('returns download file status', () => {
+    const timelineData = {
+      officerPage: {
+        isDownloading: true,
+      },
+    }
+
+    const isDownloadingFile = isDownloadingFileSelector(timelineData)
+
+    expect(isDownloadingFile).toEqual(true)
+  })
+
+  it('returns false on undefined data', () => {
+    const timelineData = {
+      officerPage: {},
+    }
+
+    const isDownloadingFile = isDownloadingFileSelector(timelineData)
+
+    expect(isDownloadingFile).toEqual(false)
   })
 })

@@ -91,3 +91,35 @@ describe('axios-client request interceptors', () => {
     })
   })
 })
+
+describe('axios-client response interceptors', () => {
+  it('transforms response data if return type is json', () => {
+    const camelCasedData = {
+      'camel-case': 'value',
+    }
+    const responseConfig = axiosClient.interceptors.response.handlers[0].fulfilled(
+      { headers: { 'content-type': 'application/json' }, data: camelCasedData }
+    )
+
+    expect(responseConfig).toStrictEqual({
+      headers: { 'content-type': 'application/json' },
+      data: {
+        camelCase: 'value',
+      },
+    })
+  })
+
+  it('keeps response data if return type is not json', () => {
+    const camelCasedData = {
+      'camel-case': 'value',
+    }
+    const responseConfig = axiosClient.interceptors.response.handlers[0].fulfilled(
+      { headers: { 'content-type': 'other' }, data: camelCasedData }
+    )
+
+    expect(responseConfig).toStrictEqual({
+      headers: { 'content-type': 'other' },
+      data: camelCasedData,
+    })
+  })
+})

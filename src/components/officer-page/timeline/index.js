@@ -51,7 +51,9 @@ const Timeline = (props) => {
     changeFilterGroupKey,
     filterGroupKey,
     fetchOfficerTimeline,
+    downloadOfficerTimeline,
     hasEventDetails,
+    isDownloadingFile,
   } = props
 
   const [highlightItemId, setHighlightItemId] = useState()
@@ -136,6 +138,7 @@ const Timeline = (props) => {
 
   const handleDownloadFile = () => {
     setShowDownloadPanel(!showDownloadPanel)
+    downloadOfficerTimeline(officerId, `officer-${officerId}.xlsx`)
   }
 
   const hideActionsPanel = () => {
@@ -157,7 +160,9 @@ const Timeline = (props) => {
                 onClick={() => setShowActionsPanel(!showActionsPanel)}
               />
               <div
-                className='timeline-header-download-btn'
+                className={cx('timeline-download-btn', {
+                  'timeline-download-btn-disable': isDownloadingFile,
+                })}
                 onClick={() => setShowDownloadPanel(!showDownloadPanel)}
               />
               {showActionsPanel && (
@@ -189,7 +194,10 @@ const Timeline = (props) => {
                     className='show-download-file'
                     onClick={handleDownloadFile}
                   >
-                    <strong>Download</strong> officer timeline (.xlsx)
+                    <div className='download-button'>
+                      <span className='bold-text'>Download</span> officer
+                      timeline (.xlsx)
+                    </div>
                   </div>
                 </div>
               )}
@@ -235,12 +243,15 @@ Timeline.propTypes = {
   saveRecentItem: PropTypes.func,
   changeFilterGroupKey: PropTypes.func,
   fetchOfficerTimeline: PropTypes.func,
+  downloadOfficerTimeline: PropTypes.func,
+  isDownloadingFile: PropTypes.bool,
 }
 
 Timeline.defaultProps = {
   saveRecentItem: noop,
   changeFilterGroupKey: noop,
   fetchOfficerTimeline: noop,
+  downloadOfficerTimeline: noop,
 }
 
 export default Timeline

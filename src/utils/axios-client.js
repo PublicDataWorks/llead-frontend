@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode'
 import get from 'lodash/get'
 
 import { REFRESH_TOKEN_API_URL } from 'constants/api'
-import { HTTP_STATUS_CODES } from 'constants/common'
+import { CONTENT_TYPES, HTTP_STATUS_CODES } from 'constants/common'
 import store from 'store'
 import { getAccessToken, getRefreshToken } from 'selectors/common'
 import { updateToken, removeToken } from 'actions/authentication'
@@ -62,9 +62,13 @@ client.interceptors.request.use(function (config) {
   return config
 })
 
-client.interceptors.response.use((response) => ({
-  ...response,
-  data: snakeToCamel(response.data),
-}))
+client.interceptors.response.use(({ data, ...response }) => {
+  const contentType = get(response, 'headers.content-type')
+
+  return {
+    ...response,
+    data: contentType === CONTENT_TYPES.JSON ? snakeToCamel(data) : data,
+  }
+})
 
 export default client

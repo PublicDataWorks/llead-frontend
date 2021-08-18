@@ -450,7 +450,7 @@ describe('Timeline component', () => {
       expect(secondComplaintItemProps.showEventDetails).toBeTruthy()
     })
 
-    it('toggles showDownloadFile on click', () => {
+    it('handles download file on click', async () => {
       const timelineData = [
         {
           groupName: 'Mar 10, 2019',
@@ -468,18 +468,24 @@ describe('Timeline component', () => {
           ],
         },
       ]
+      const downloadOfficerTimelineStub = jest.fn()
+
       const container = render(
         <MemoryRouter initialEntries={['officers/1']}>
           <Route path='officers/:id'>
-            <Timeline timeline={timelineData} hasEventDetails />
+            <Timeline
+              timeline={timelineData}
+              hasEventDetails
+              downloadOfficerTimeline={downloadOfficerTimelineStub}
+            />
           </Route>
         </MemoryRouter>
       )
 
-      const { queryByText, baseElement } = container
+      const { baseElement } = container
 
       const timelineHeaderDownloadButton = baseElement.getElementsByClassName(
-        'timeline-header-download-btn'
+        'timeline-download-btn'
       )[0]
       fireEvent.click(timelineHeaderDownloadButton)
 
@@ -490,8 +496,14 @@ describe('Timeline component', () => {
       const showDownloadFileButton = baseElement.getElementsByClassName(
         'show-download-file'
       )[0]
-      fireEvent.click(showDownloadFileButton)
+      await act(async () => {
+        fireEvent.click(showDownloadFileButton)
+      })
 
+      expect(downloadOfficerTimelineStub).toHaveBeenCalledWith(
+        '1',
+        `officer-${1}.xlsx`
+      )
       expect(
         baseElement.getElementsByClassName('timeline-header-download')[0]
       ).toBeFalsy()
