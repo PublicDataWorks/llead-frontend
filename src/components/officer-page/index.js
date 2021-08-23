@@ -120,7 +120,7 @@ const Officer = (props) => {
           {displaySummaryInfo()}
         </div>
 
-        <TimelineContainer officerId={officerId} />
+        <TimelineContainer officerId={officerId} officerName={name} />
       </div>
     )
   )

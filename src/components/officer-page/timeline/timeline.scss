@@ -19,116 +19,117 @@ $first-connection-line-height: 156px;
       text-align: center;
     }
 
-    .timeline-header-actions-container {
+    .timeline-action-buttons-container {
       position: absolute;
-      right: calc(#{$v-small-margin} + 48px);
       top: 0;
+      right: 0;
       transform: translateY(-25%);
-      z-index: 10;
+      z-index: 100;
 
-      .timeline-header-actions-btn {
-        width: 48px;
-        height: 48px;
-        border: 2px solid $alto-color;
-        border-radius: 8px;
-        background: url('assets/icons/filter.svg') no-repeat center;
-        cursor: pointer;
+      .timeline-header-actions-container {
+        position: relative;
         display: inline-block;
-      }
 
-      .timeline-header-actions {
-        position: absolute;
-        right: 0;
-        top: 32px;
-        width: 288px;
-        box-sizing: border-box;
-        background-color: $white-color;
-        border-radius: 8px;
-        filter: drop-shadow(0px 2px 2px $black-15-color);
-        z-index: 100;
-
-        .show-event-details {
-          margin: $v-margin $h-card-margin $v-mid-margin $h-card-margin;
-          padding: 14px 16px 13px 15px;
-          box-sizing: border-box;
-          border: 1px solid $alto-color;
+        .timeline-header-actions-btn {
+          width: 48px;
+          height: 48px;
+          border: 2px solid $alto-color;
           border-radius: 8px;
-          display: inline-block;
+          background: url('assets/icons/filter.svg') no-repeat center;
           cursor: pointer;
-          color: $boulder-color;
+          display: inline-block;
         }
 
-        .filters-panel {
-          padding: $v-mid-margin $h-card-margin $v-margin $h-card-margin;
-          background-color: $wild-sand-color;
+        .timeline-header-actions {
+          position: absolute;
+          right: 0;
+          top: 32px;
+          width: 288px;
+          box-sizing: border-box;
+          background-color: $white-color;
           border-radius: 8px;
+          filter: drop-shadow(0px 2px 2px $black-15-color);
 
-          .filters-panel-title {
-            margin-bottom: 2 * $v-small-margin;
+          .show-event-details {
+            margin: $v-margin $h-card-margin $v-mid-margin $h-card-margin;
+            padding: 14px 16px 13px 15px;
+            box-sizing: border-box;
+            border: 1px solid $alto-color;
+            border-radius: 8px;
+            display: inline-block;
+            cursor: pointer;
+            color: $boulder-color;
+          }
+
+          .filters-panel {
+            padding: $v-mid-margin $h-card-margin $v-margin $h-card-margin;
+            background-color: $wild-sand-color;
+            border-radius: 8px;
+
+            .filters-panel-title {
+              margin-bottom: 2 * $v-small-margin;
+            }
+          }
+
+          .show-event-details + .filters-panel {
+            border-radius: 0 0 8px 8px;
           }
         }
-
-        .show-event-details + .filters-panel {
-          border-radius: 0 0 8px 8px;
-        }
       }
-    }
 
-    .timeline-header-download-container {
-      position: absolute;
-      right: 0;
-      top: 0;
-      transform: translateY(-25%);
-      z-index: 10;
-
-      .timeline-download-btn {
+      .timeline-header-download-container {
+        position: relative;
         margin-left: $v-small-margin;
-        width: 48px;
-        height: 48px;
-        border: 2px solid $alto-color;
-        border-radius: 8px;
-        background: url('assets/icons/download-file.svg') no-repeat center;
-        cursor: pointer;
         display: inline-block;
-      }
 
-      .timeline-download-btn-disable {
-        cursor: not-allowed;
-        opacity: 0.4;
-        pointer-events: none;
-      }
-
-      .timeline-header-download {
-        position: absolute;
-        right: 0;
-        top: 32px;
-        width: 288px;
-        box-sizing: border-box;
-        background-color: $white-color;
-        border-radius: 8px;
-        filter: drop-shadow(0px 2px 2px $black-15-color);
-
-        .bold-text {
-          font-weight: 600;
-        }
-
-        .download-button {
+        .timeline-download-btn {
+          width: 48px;
+          height: 48px;
+          border: 2px solid $alto-color;
+          border-radius: 8px;
+          background: url('assets/icons/download-file.svg') no-repeat center;
+          cursor: pointer;
           display: inline-block;
         }
 
-        .show-download-file {
-          margin: 0;
-          padding: 14px 16px 13px 15px;
-          box-sizing: border-box;
-          border: 1px solid $alto-color;
-          border-radius: 8px;
-          display: block;
-          cursor: pointer;
-          color: $boulder-color;
+        .timeline-download-btn-disable {
+          cursor: not-allowed;
+          opacity: 0.4;
+          pointer-events: none;
         }
 
-        .show-download-file + .filters-panel {
-          border-radius: 0 0 8px 8px;
+        .timeline-header-download {
+          position: absolute;
+          right: 0;
+          top: 32px;
+          width: 288px;
+          box-sizing: border-box;
+          background-color: $white-color;
+          border-radius: 8px;
+          filter: drop-shadow(0px 2px 2px $black-15-color);
+
+          .bold-text {
+            font-weight: 600;
+          }
+
+          .download-button {
+            display: inline-block;
+          }
+
+          .show-download-file {
+            margin: 0;
+            padding: 14px 16px 13px 15px;
+            box-sizing: border-box;
+            border: 1px solid $alto-color;
+            border-radius: 8px;
+            display: block;
+            cursor: pointer;
+            color: $boulder-color;
+          }
+
+          .show-download-file + .filters-panel {
+            border-radius: 0 0 8px 8px;
+          }
         }
       }
     }
@@ -233,20 +234,19 @@ $first-connection-line-height: 156px;
 @media only screen and (min-width: $mobile-breakpoint) {
   .officer-timeline {
     .timeline-header {
-      .timeline-header-actions-container {
-        .timeline-header-actions {
-          .show-event-details {
-            border: none;
-            padding: 13px $v-margin 14px $v-margin;
-            margin: 0;
-            display: block;
-          }
+      .timeline-action-buttons-container {
+        .timeline-header-actions-container {
+          .timeline-header-actions {
+            .show-event-details {
+              border: none;
+              padding: 13px $v-margin 14px $v-margin;
+              margin: 0;
+              display: block;
+            }
 
-          .show-download-file {
-            border: none;
-            padding: 13px $v-margin 14px $v-margin;
-            margin: 0;
-            display: block;
+            .show-download-file {
+              display: none;
+            }
           }
         }
       }

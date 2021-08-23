@@ -469,6 +469,7 @@ describe('Timeline component', () => {
         },
       ]
       const downloadOfficerTimelineStub = jest.fn()
+      const officerName = 'Officer Name'
 
       const container = render(
         <MemoryRouter initialEntries={['officers/1']}>
@@ -477,6 +478,7 @@ describe('Timeline component', () => {
               timeline={timelineData}
               hasEventDetails
               downloadOfficerTimeline={downloadOfficerTimelineStub}
+              officerName={officerName}
             />
           </Route>
         </MemoryRouter>
@@ -502,7 +504,7 @@ describe('Timeline component', () => {
 
       expect(downloadOfficerTimelineStub).toHaveBeenCalledWith(
         '1',
-        `officer-${1}.xlsx`
+        `Officer_Name.xlsx`
       )
       expect(
         baseElement.getElementsByClassName('timeline-header-download')[0]

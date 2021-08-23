@@ -316,6 +316,7 @@ describe('Officer component', () => {
     const officerData = {
       officer: {
         id: 1,
+        name: 'officer name',
       },
       timeline: [
         {
@@ -348,6 +349,7 @@ describe('Officer component', () => {
 
     expect(TimelineContainer.mock.calls[0][0]).toStrictEqual({
       officerId: 1,
+      officerName: 'officer name',
     })
   })
 

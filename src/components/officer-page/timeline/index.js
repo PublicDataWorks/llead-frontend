@@ -45,6 +45,7 @@ const TIMELINE_COMPONENTS_MAPPING = {
 
 const Timeline = (props) => {
   const {
+    officerName,
     timeline,
     saveRecentItem,
     timelineFilterGroups,
@@ -137,8 +138,9 @@ const Timeline = (props) => {
   }
 
   const handleDownloadFile = () => {
+    const fileName = `${officerName.replace(' ', '_')}.xlsx`
     setShowDownloadPanel(!showDownloadPanel)
-    downloadOfficerTimeline(officerId, `officer-${officerId}.xlsx`)
+    downloadOfficerTimeline(officerId, fileName)
   }
 
   const hideActionsPanel = () => {
@@ -153,57 +155,59 @@ const Timeline = (props) => {
       <div className='officer-timeline'>
         <div className='timeline-header'>
           <div className='timeline-header-text'>Timeline</div>
-          {showHeaderActionsButton && (
-            <div className='timeline-header-actions-container'>
-              <div
-                className='timeline-header-actions-btn'
-                onClick={() => setShowActionsPanel(!showActionsPanel)}
-              />
-              {showActionsPanel && (
-                <div className='timeline-header-actions'>
-                  {hasEventDetails && (
-                    <div
-                      className='show-event-details'
-                      onClick={handleShowEventDetails}
-                    >
-                      {showEventDetails ? 'Hide' : 'Show'} event details
-                    </div>
-                  )}
-                  <MobileView className='filters-panel'>
-                    <div className='filters-panel-title'>
-                      Filter by event type
-                    </div>
-                    <TimelineFilters
-                      timelineFilterGroups={timelineFilterGroups}
-                      changeFilterGroupKey={changeFilterGroupKey}
-                      filterGroupKey={filterGroupKey}
-                      hideActionsPanel={hideActionsPanel}
-                    />
-                  </MobileView>
-                </div>
-              )}
-            </div>
-          )}
-          <div className='timeline-header-download-container'>
-            <div
-              className={cx('timeline-download-btn', {
-                'timeline-download-btn-disable': isDownloadingFile,
-              })}
-              onClick={() => setShowDownloadPanel(!showDownloadPanel)}
-            />
-            {showDownloadPanel && (
-              <div className='timeline-header-download'>
+          <div className='timeline-action-buttons-container'>
+            {showHeaderActionsButton && (
+              <div className='timeline-header-actions-container'>
                 <div
-                  className='show-download-file'
-                  onClick={handleDownloadFile}
-                >
-                  <div className='download-button'>
-                    <span className='bold-text'>Download</span> officer timeline
-                    (.xlsx)
+                  className='timeline-header-actions-btn'
+                  onClick={() => setShowActionsPanel(!showActionsPanel)}
+                />
+                {showActionsPanel && (
+                  <div className='timeline-header-actions'>
+                    {hasEventDetails && (
+                      <div
+                        className='show-event-details'
+                        onClick={handleShowEventDetails}
+                      >
+                        {showEventDetails ? 'Hide' : 'Show'} event details
+                      </div>
+                    )}
+                    <MobileView className='filters-panel'>
+                      <div className='filters-panel-title'>
+                        Filter by event type
+                      </div>
+                      <TimelineFilters
+                        timelineFilterGroups={timelineFilterGroups}
+                        changeFilterGroupKey={changeFilterGroupKey}
+                        filterGroupKey={filterGroupKey}
+                        hideActionsPanel={hideActionsPanel}
+                      />
+                    </MobileView>
                   </div>
-                </div>
+                )}
               </div>
             )}
+            <BrowserView className='timeline-header-download-container'>
+              <div
+                className={cx('timeline-download-btn', {
+                  'timeline-download-btn-disable': isDownloadingFile,
+                })}
+                onClick={() => setShowDownloadPanel(!showDownloadPanel)}
+              />
+              {showDownloadPanel && (
+                <div className='timeline-header-download'>
+                  <div
+                    className='show-download-file'
+                    onClick={handleDownloadFile}
+                  >
+                    <div className='download-button'>
+                      <span className='bold-text'>Download</span> officer
+                      timeline (.xlsx)
+                    </div>
+                  </div>
+                </div>
+              )}
+            </BrowserView>
           </div>
         </div>
         <BrowserView>
@@ -238,6 +242,7 @@ const Timeline = (props) => {
 }
 
 Timeline.propTypes = {
+  officerName: PropTypes.string,
   timeline: PropTypes.array,
   hasEventDetails: PropTypes.bool,
   timelineFilterGroups: PropTypes.array,
@@ -250,6 +255,7 @@ Timeline.propTypes = {
 }
 
 Timeline.defaultProps = {
+  officerName: 'officer',
   saveRecentItem: noop,
   changeFilterGroupKey: noop,
   fetchOfficerTimeline: noop,
