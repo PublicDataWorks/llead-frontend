@@ -5,6 +5,7 @@ import {
   fetchOfficerTimeline,
   downloadOfficerTimeline,
   changeFilterGroupKey,
+  clearOfficer,
 } from 'actions/officer-page'
 import * as actionTypes from 'action-types/officer-page'
 import * as ServiceApi from 'utils/api'
@@ -81,6 +82,14 @@ describe('#changeFilterGroupKey', () => {
     expect(changeFilterGroupKey(filterGroupKey)).toEqual({
       type: actionTypes.CHANGE_FILTER_GROUP_KEY,
       payload: filterGroupKey,
+    })
+  })
+})
+
+describe('#clearOfficer', () => {
+  it('returns the right action', () => {
+    expect(clearOfficer()).toEqual({
+      type: actionTypes.CLEAR_OFFICER,
     })
   })
 })

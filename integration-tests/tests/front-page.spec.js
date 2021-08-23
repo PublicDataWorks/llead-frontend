@@ -261,7 +261,7 @@ describe('FrontPage', () => {
         cy.waitUntil(() => cy.get('.officers-carousel').should('exist'))
         cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
 
-        cy.location('pathname').should('eq', `/officers/${officersData[0].id}/`)
+        cy.location('pathname').should('eq', `/officers/${officersData[0].id}/mark-carlson`)
       })
     })
 

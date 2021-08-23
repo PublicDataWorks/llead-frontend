@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams, Redirect } from 'react-router-dom'
+import { Redirect, useParams, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
@@ -13,7 +13,7 @@ import OfficerBadges from 'components/common/items/officer-badges'
 import TimelineContainer from 'containers/officer-page/timeline'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 import { stringifyTotalItems } from 'utils/formatter'
-import { departmentPath } from 'utils/paths'
+import { departmentPath, generateOfficerSlug } from 'utils/paths'
 
 const Officer = (props) => {
   const {
@@ -25,9 +25,11 @@ const Officer = (props) => {
     recentData,
     clearDocumentHead,
     setDocumentHead,
+    clearOfficer,
   } = props
 
-  const { id } = useParams()
+  const { id, officerName } = useParams()
+  const history = useHistory()
 
   const officerId = toNumber(id)
   if (isNaN(officerId)) {
@@ -45,8 +47,25 @@ const Officer = (props) => {
   } = officer
 
   useEffect(() => {
+    return () => {
+      clearOfficer()
+    }
+  }, [])
+
+  useEffect(() => {
     fetchOfficer(officerId)
   }, [officerId])
+
+  useEffect(() => {
+    const officerSlug = generateOfficerSlug(name)
+
+    if (officerSlug && officerSlug != officerName) {
+      const newLocation = {
+        pathname: `/officers/${id}/${officerSlug}`,
+      }
+      history.replace(newLocation)
+    }
+  }, [name])
 
   useEffect(() => {
     if (!isRequesting && !isEmpty(officer) && officerId == officer.id) {
@@ -134,6 +153,7 @@ Officer.propTypes = {
   saveRecentItem: PropTypes.func,
   clearDocumentHead: PropTypes.func,
   setDocumentHead: PropTypes.func,
+  clearOfficer: PropTypes.func,
   isRequesting: PropTypes.bool,
 }
 
@@ -145,6 +165,7 @@ Officer.defaultProps = {
   saveRecentItem: noop,
   clearDocumentHead: noop,
   setDocumentHead: noop,
+  clearOfficer: noop,
   isRequesting: false,
 }
 

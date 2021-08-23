@@ -152,7 +152,7 @@ describe('FrontPage recent items', () => {
     const officerId = officersData[0].id
 
     cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
-    cy.location('pathname').should('eq', `/officers/${officerId}/`)
+    cy.location('pathname').should('eq', `/officers/${officerId}/mark-carlson`)
     cy.get('.officer-basic-info')
       .find('.officer-name')
       .should('text', 'Mark Carlson')
@@ -297,7 +297,7 @@ describe('FrontPage recent items', () => {
     cy.get('.documents-carousel').find('.swiper-slide').eq(0).click()
 
     cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
-    cy.location('pathname').should('eq', `/officers/1/`)
+    cy.location('pathname').should('eq', `/officers/1/mark-carlson`)
     cy.contains('Mark Carlson')
     cy.get('.logo').click()
 

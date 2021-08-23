@@ -3,6 +3,7 @@ import officerReducer from 'reducers/officer-page/officer-reducer'
 import {
   OFFICER_FETCH_START,
   OFFICER_FETCH_SUCCESS,
+  CLEAR_OFFICER,
 } from 'action-types/officer-page'
 
 describe('#officerReducer', () => {
@@ -11,9 +12,12 @@ describe('#officerReducer', () => {
   })
 
   it('should handle OFFICER_FETCH_START', () => {
-    const result = officerReducer({ id: 1 }, {
-      type: OFFICER_FETCH_START,
-    })
+    const result = officerReducer(
+      { id: 1 },
+      {
+        type: OFFICER_FETCH_START,
+      }
+    )
 
     expect(result).toStrictEqual({})
   })
@@ -30,5 +34,16 @@ describe('#officerReducer', () => {
     )
 
     expect(result).toStrictEqual(officerData)
+  })
+
+  it('should handle CLEAR_OFFICER', () => {
+    const result = officerReducer(
+      { id: 1 },
+      {
+        type: CLEAR_OFFICER,
+      }
+    )
+
+    expect(result).toStrictEqual({})
   })
 })

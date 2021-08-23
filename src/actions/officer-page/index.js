@@ -5,6 +5,8 @@ import { download, get } from 'utils/api'
 import { OFFICERS_API_URL } from 'constants/api'
 import { CONTENT_TYPES } from 'constants/common'
 
+export const clearOfficer = createAction(actionTypes.CLEAR_OFFICER)
+
 export const fetchOfficer = (id) =>
   get(
     [

@@ -16,7 +16,7 @@ const OfficerCard = (props) => {
   return (
     <CustomLink
       className={cx('officer-card', className)}
-      to={officerPath(id)}
+      to={officerPath(id, name)}
       onClick={onItemClick}
     >
       <div className='officer-info'>
