@@ -71,7 +71,10 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
         />
         <PrivateRoute
           {...privateRouteAttributes}
-          path={`${paths.OFFICERS_PATH}:id/`}
+          path={[
+            `${paths.OFFICERS_PATH}:id/`,
+            `${paths.OFFICERS_PATH}:id/:officerName`,
+          ]}
           component={OfficerPageContainer}
           exact
         />

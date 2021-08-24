@@ -6,7 +6,7 @@ import {
   getIsOfficerRequesting,
   officerRecentDataSelector,
 } from 'selectors/officer-page'
-import { fetchOfficer } from 'actions/officer-page'
+import { fetchOfficer, clearOfficer } from 'actions/officer-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 import { timelinePeriodSelector } from 'selectors/officer-page/timeline'
 import {
@@ -26,6 +26,7 @@ const mapDispatchToProps = {
   saveRecentItem,
   clearDocumentHead,
   setDocumentHead,
+  clearOfficer,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Officer)
