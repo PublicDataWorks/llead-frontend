@@ -9,8 +9,9 @@ import './document-card.scss'
 import OuterLink from 'components/common/links/outer-link'
 import CustomLink from 'components/common/links/custom-link'
 import { departmentPath } from 'utils/paths'
-import { RECENT_ITEM_TYPES } from 'constants/common'
+import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 import DocumentPreview from 'components/common/items/document-preview'
+import { analyzeAction } from 'utils/google-analytics'
 
 const DocumentCard = (props) => {
   const {
@@ -42,6 +43,10 @@ const DocumentCard = (props) => {
   )
 
   const handleClick = () => {
+    analyzeAction({
+      type: EVENT_TYPES.OPEN_DOCUMENT,
+      data: { document_id: id },
+    })
     saveRecentItem({
       type: RECENT_ITEM_TYPES.DOCUMENT,
       id: id,
