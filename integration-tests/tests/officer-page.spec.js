@@ -44,6 +44,19 @@ describe('Officer Page', () => {
         },
         officerTimelineData
       )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/officers/1/download-xlsx/',
+        },
+        {
+          body: new Blob([]),
+          headers: {
+            contentType:
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          },
+        }
+      )
       cy.login()
     })
 
@@ -73,6 +86,19 @@ describe('Officer Page', () => {
       cy.get('.officer-basic-info')
         .find('.officer-summary-info')
         .should('text', 'Corliss Conway is named in\u00A03 documents.')
+    })
+
+    it('changes title on officer clicked', () => {
+      cy.visit('/')
+      cy.title().should('eq', 'LLEAD')
+
+      cy.visit('/officers/1')
+
+      cy.title().should('eq', 'Corliss Conway')
+
+      cy.visit('/')
+
+      cy.title().should('eq', 'LLEAD')
     })
 
     describe('officer timeline', () => {
@@ -521,6 +547,25 @@ describe('Officer Page', () => {
         cy.get('@useOfForceItem')
           .find('.uof-item-content')
           .should('not.visible')
+      })
+
+      it('download officer detail', () => {
+        cy.visit('/officers/1')
+
+        cy.get('.officer-timeline')
+          .find('.timeline-header-download')
+          .should('not.exist')
+        cy.get('.officer-timeline').find('.timeline-download-btn').click()
+        cy.get('.officer-timeline')
+          .find('.timeline-header-download')
+          .should('be.visible')
+        cy.get('.officer-timeline')
+          .find('.show-download-file')
+          .should('have.text', 'Download officer timeline (.xlsx)')
+          .click()
+        cy.get('.officer-timeline')
+          .find('.timeline-header-download')
+          .should('not.exist')
       })
     })
   })

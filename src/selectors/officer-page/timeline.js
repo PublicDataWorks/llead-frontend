@@ -245,3 +245,6 @@ export const timelinePeriodSelector = createSelector(
   getTimelinePeriod,
   formatDataPeriods
 )
+
+export const isDownloadingFileSelector = (state) =>
+  get(state, 'officerPage.isDownloading', false)

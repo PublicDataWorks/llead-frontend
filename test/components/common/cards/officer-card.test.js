@@ -1,11 +1,24 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 
 import OfficerCard from 'components/common/cards/officer-card'
 
+const mockHistoryPush = jest.fn()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}))
+
 describe('Officer card component', () => {
+  beforeEach(() => {
+    mockHistoryPush.mockClear()
+  })
+
   it('should render correctly', () => {
+    const onItemClickStub = jest.fn()
     const props = {
       id: 1,
       name: 'mark carlson',
@@ -15,7 +28,9 @@ describe('Officer card component', () => {
         name: 'Baton Rouge PD',
       },
       className: 'custom-class-name',
+      onItemClick: onItemClickStub,
     }
+
     const container = render(
       <MemoryRouter initialEntries={['/']}>
         <Route path='/'>
@@ -31,5 +46,9 @@ describe('Officer card component', () => {
     expect(officerCard.textContent.includes(props.badges[0])).toBe(true)
     expect(officerCard.textContent.includes(props.badges[1])).toBe(true)
     expect(officerCard.textContent.includes(props.department.name)).toBe(true)
+
+    fireEvent.click(officerCard)
+    expect(onItemClickStub).toHaveBeenCalled()
+    expect(mockHistoryPush).toHaveBeenCalledWith('/officers/1/mark-carlson')
   })
 })

@@ -19,10 +19,12 @@ jest.mock('containers/officer-page/timeline', () => ({
 }))
 
 const mockHistoryPush = jest.fn()
+const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
     push: mockHistoryPush,
+    replace: mockHistoryReplace,
   }),
 }))
 
@@ -32,6 +34,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   mockHistoryPush.mockClear()
+  mockHistoryReplace.mockClear()
   TimelineContainer.mockClear()
 })
 
@@ -316,6 +319,7 @@ describe('Officer component', () => {
     const officerData = {
       officer: {
         id: 1,
+        name: 'officer name',
       },
       timeline: [
         {
@@ -348,6 +352,128 @@ describe('Officer component', () => {
 
     expect(TimelineContainer.mock.calls[0][0]).toStrictEqual({
       officerId: 1,
+      officerName: 'officer name',
+    })
+  })
+
+  it('changes page title on name loaded and cleans up when unmout', () => {
+    const officerData = {
+      name: 'officer name',
+    }
+
+    const clearDocumentHeadStub = jest.fn()
+    const setDocumentHeadstub = jest.fn()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer
+              officer={officerData}
+              clearDocumentHead={clearDocumentHeadStub}
+              setDocumentHead={setDocumentHeadstub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { unmount } = container
+
+    expect(setDocumentHeadstub).toHaveBeenCalledWith({
+      title: 'officer name',
+    })
+    expect(clearDocumentHeadStub).not.toHaveBeenCalled()
+
+    unmount()
+    expect(clearDocumentHeadStub).toHaveBeenCalled()
+  })
+
+  it('clears offcier data on exitting page', () => {
+    const officerData = {
+      name: 'officer name',
+    }
+
+    const clearofficerStub = jest.fn()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} clearOfficer={clearofficerStub} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { unmount } = container
+
+    expect(clearofficerStub).not.toHaveBeenCalled()
+
+    unmount()
+
+    expect(clearofficerStub).toHaveBeenCalled()
+  })
+
+  describe('handle officer location path', () => {
+    it('changes pathname if officerSlug exists and is not equals to officerName path', () => {
+      const officerData = {
+        name: 'officer name',
+      }
+
+      const clearofficerStub = jest.fn()
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1/any']}>
+            <Route path='officers/:id/:officerName'>
+              <Officer officer={officerData} clearOfficer={clearofficerStub} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(mockHistoryReplace).toHaveBeenCalledWith({
+        pathname: '/officers/1/officer-name',
+      })
+    })
+
+    it('does not change pathname if officerSlug does not exist', () => {
+      const officerData = {}
+
+      const clearofficerStub = jest.fn()
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1/any']}>
+            <Route path='officers/:id/:officerName'>
+              <Officer officer={officerData} clearOfficer={clearofficerStub} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(mockHistoryReplace).not.toHaveBeenCalled()
+    })
+
+    it('does not change pathname if officerSlug is equal to officer path', () => {
+      const officerData = {
+        name: 'officer name',
+      }
+
+      const clearofficerStub = jest.fn()
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1/officer-name']}>
+            <Route path='officers/:id/:officerName'>
+              <Officer officer={officerData} clearOfficer={clearofficerStub} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(mockHistoryReplace).not.toHaveBeenCalled()
     })
   })
 })

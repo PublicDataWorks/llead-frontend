@@ -1,5 +1,7 @@
 import axiosClient from 'utils/axios-client'
 
+import { saveAs } from 'file-saver'
+
 export const get = (actionTypes, url, cancelToken) => {
   const actionStarted = (request) => ({
     type: actionTypes[0],
@@ -73,6 +75,47 @@ export const post = (actionTypes, url, cancelToken) => {
         .catch((err) => {
           dispatch(actionFailure(requestData, err.response.data))
         })
+    }
+  }
+}
+
+export const download = (actionTypes, url, cancelToken) => {
+  const actionStarted = (request) => ({
+    type: actionTypes[0],
+    request,
+  })
+
+  const actionSuccess = (request) => ({
+    type: actionTypes[1],
+    request,
+  })
+
+  const actionFailure = (request, error) => ({
+    type: actionTypes[2],
+    request,
+    payload: error,
+  })
+
+  return (params = {}) => {
+    const { fileName, fileType, ...requestParams } = params
+    const requestData = {
+      url,
+      params,
+    }
+    return async (dispatch) => {
+      dispatch(actionStarted(requestData))
+
+      return axiosClient
+        .get(url, { responseType: 'blob', params: requestParams, cancelToken })
+        .then((res) => {
+          const blob = new Blob([res.data], {
+            type: fileType,
+          })
+          saveAs(blob, fileName)
+
+          dispatch(actionSuccess(requestData))
+        })
+        .catch((err) => dispatch(actionFailure(requestData, err.response.data)))
     }
   }
 }

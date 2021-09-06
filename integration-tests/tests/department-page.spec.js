@@ -35,7 +35,8 @@ describe('Department Page', () => {
       cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
           noQuery: true,
         },
         departmentDocumentData
@@ -43,7 +44,8 @@ describe('Department Page', () => {
       cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
           query: { limit: '2', offset: '2', q: 'this' },
         },
         departmentDocumentsSearchNextData
@@ -51,7 +53,8 @@ describe('Department Page', () => {
       cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
           query: { q: 'this' },
         },
         departmentDocumentsSearchData
@@ -59,7 +62,8 @@ describe('Department Page', () => {
       cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
           query: { limit: '5', offset: '5' },
         },
         departmentNextDocumentsData
@@ -205,6 +209,19 @@ describe('Department Page', () => {
 
       cy.get('.department-documents-loadmore').should('not.exist')
     })
+
+    it('changes title on department clicked', () => {
+      cy.visit('/')
+      cy.title().should('eq', 'LLEAD')
+
+      cy.visit('/dept/harmonbury-department')
+
+      cy.title().should('eq', 'Harmonbury Department')
+
+      cy.visit('/')
+
+      cy.title().should('eq', 'LLEAD')
+    })
   })
 
   describe('render data period info', () => {
@@ -220,7 +237,8 @@ describe('Department Page', () => {
       cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
           query: { limit: '5', offset: '5' },
         },
         departmentNextDocumentsData
@@ -228,7 +246,8 @@ describe('Department Page', () => {
       cy.interceptExact(
         {
           method: 'GET',
-          url: 'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
         },
         departmentDocumentData
       )

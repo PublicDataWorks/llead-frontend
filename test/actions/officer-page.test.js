@@ -3,11 +3,14 @@ import sinon from 'sinon'
 import {
   fetchOfficer,
   fetchOfficerTimeline,
+  downloadOfficerTimeline,
   changeFilterGroupKey,
+  clearOfficer,
 } from 'actions/officer-page'
 import * as actionTypes from 'action-types/officer-page'
 import * as ServiceApi from 'utils/api'
 import { OFFICERS_API_URL } from 'constants/api'
+import { CONTENT_TYPES } from 'constants/common'
 
 describe('#fetchOfficer', () => {
   it('calls get Api', () => {
@@ -49,6 +52,29 @@ describe('#fetchOfficerTimeline', () => {
   })
 })
 
+describe('#downloadOfficerTimeline', () => {
+  it('calls download Api', () => {
+    const downloadStub = sinon.stub(ServiceApi, 'download')
+    const downloadFunc = sinon.stub()
+    downloadStub.returns(downloadFunc)
+
+    downloadOfficerTimeline(1, 'officer-1.xlsx')
+
+    expect(downloadStub).toHaveBeenCalledWith(
+      [
+        actionTypes.OFFICER_TIMELINE_DOWNLOAD_START,
+        actionTypes.OFFICER_TIMELINE_DOWNLOAD_SUCCESS,
+        actionTypes.OFFICER_TIMELINE_DOWNLOAD_FAILURE,
+      ],
+      `${OFFICERS_API_URL}1/download-xlsx/`
+    )
+    expect(downloadFunc).toHaveBeenCalled({
+      fileName: 'officer-1.xlsx',
+      fileType: CONTENT_TYPES.SHEET,
+    })
+  })
+})
+
 describe('#changeFilterGroupKey', () => {
   it('returns the right action', () => {
     const filterGroupKey = 'group keuy'
@@ -56,6 +82,14 @@ describe('#changeFilterGroupKey', () => {
     expect(changeFilterGroupKey(filterGroupKey)).toEqual({
       type: actionTypes.CHANGE_FILTER_GROUP_KEY,
       payload: filterGroupKey,
+    })
+  })
+})
+
+describe('#clearOfficer', () => {
+  it('returns the right action', () => {
+    expect(clearOfficer()).toEqual({
+      type: actionTypes.CLEAR_OFFICER,
     })
   })
 })

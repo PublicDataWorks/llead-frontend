@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import noop from 'lodash/noop'
 
-import DepartmentPageContainer from 'containers/department-page'
-import OfficerPageContainer from 'containers/officer-page'
-import FrontPageContainer from 'containers/front-page'
-import LoginPageContainer from 'containers/login-page'
-import ForgotPasswordPageContainer from 'containers/forgot-password-page'
-import ForgotPasswordConfirmPageContainer from 'containers/forgot-password-confirm-page'
-import SearchPageContainer from 'containers/search-page'
+const DepartmentPageContainer = lazy(() => import('containers/department-page'))
+const OfficerPageContainer = lazy(() => import('containers/officer-page'))
+const FrontPageContainer = lazy(() => import('containers/front-page'))
+const LoginPageContainer = lazy(() => import('containers/login-page'))
+const ForgotPasswordPageContainer = lazy(() =>
+  import('containers/forgot-password-page')
+)
+const ForgotPasswordConfirmPageContainer = lazy(() =>
+  import('containers/forgot-password-confirm-page')
+)
+const SearchPageContainer = lazy(() => import('containers/search-page'))
+
 import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
 import PrivateRoute from 'components/common/higher-order/private-route'
@@ -33,43 +38,48 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
   }
 
   return (
-    <Switch>
-      <Route path={paths.LOGIN_PATH} component={LoginPageContainer} exact />
-      <Route
-        path={paths.FORGOT_PASSWORD_PATH}
-        component={ForgotPasswordPageContainer}
-        exact
-      />
-      <Route
-        path={paths.FORGOT_PASSWORD_CONFIRM_PATH}
-        component={ForgotPasswordConfirmPageContainer}
-        exacts
-      />
-      <PrivateRoute
-        {...privateRouteAttributes}
-        path={paths.FRONT_PAGE_PATH}
-        exact
-        component={FrontPageContainer}
-      />
-      <PrivateRoute
-        {...privateRouteAttributes}
-        path={paths.SEARCH_PATH}
-        exact
-        component={SearchPageContainer}
-      />
-      <PrivateRoute
-        {...privateRouteAttributes}
-        path={`${paths.DEPARTMENTS_PATH}:id/`}
-        component={DepartmentPageContainer}
-        exact
-      />
-      <PrivateRoute
-        {...privateRouteAttributes}
-        path={`${paths.OFFICERS_PATH}:id/`}
-        component={OfficerPageContainer}
-        exact
-      />
-    </Switch>
+    <Suspense fallback={<div />}>
+      <Switch>
+        <Route path={paths.LOGIN_PATH} component={LoginPageContainer} exact />
+        <Route
+          path={paths.FORGOT_PASSWORD_PATH}
+          component={ForgotPasswordPageContainer}
+          exact
+        />
+        <Route
+          path={paths.FORGOT_PASSWORD_CONFIRM_PATH}
+          component={ForgotPasswordConfirmPageContainer}
+          exacts
+        />
+        <PrivateRoute
+          {...privateRouteAttributes}
+          path={paths.FRONT_PAGE_PATH}
+          exact
+          component={FrontPageContainer}
+        />
+        <PrivateRoute
+          {...privateRouteAttributes}
+          path={paths.SEARCH_PATH}
+          exact
+          component={SearchPageContainer}
+        />
+        <PrivateRoute
+          {...privateRouteAttributes}
+          path={`${paths.DEPARTMENTS_PATH}:id/`}
+          component={DepartmentPageContainer}
+          exact
+        />
+        <PrivateRoute
+          {...privateRouteAttributes}
+          path={[
+            `${paths.OFFICERS_PATH}:id/`,
+            `${paths.OFFICERS_PATH}:id/:officerName`,
+          ]}
+          component={OfficerPageContainer}
+          exact
+        />
+      </Switch>
+    </Suspense>
   )
 }
 

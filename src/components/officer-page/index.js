@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams, Redirect } from 'react-router-dom'
+import { Redirect, useParams, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
@@ -10,10 +10,10 @@ import startCase from 'lodash/startCase'
 import './officer-page.scss'
 import CustomLink from 'components/common/links/custom-link'
 import OfficerBadges from 'components/common/items/officer-badges'
-import { departmentPath } from 'utils/paths'
-import { stringifyTotalItems } from 'utils/formatter'
-import { RECENT_ITEM_TYPES } from 'constants/common'
 import TimelineContainer from 'containers/officer-page/timeline'
+import { RECENT_ITEM_TYPES } from 'constants/common'
+import { stringifyTotalItems } from 'utils/formatter'
+import { departmentPath, generateOfficerSlug } from 'utils/paths'
 
 const Officer = (props) => {
   const {
@@ -23,8 +23,13 @@ const Officer = (props) => {
     isRequesting,
     saveRecentItem,
     recentData,
+    clearDocumentHead,
+    setDocumentHead,
+    clearOfficer,
   } = props
-  const { id } = useParams()
+
+  const { id, officerName } = useParams()
+  const history = useHistory()
 
   const officerId = toNumber(id)
   if (isNaN(officerId)) {
@@ -42,8 +47,25 @@ const Officer = (props) => {
   } = officer
 
   useEffect(() => {
+    return () => {
+      clearOfficer()
+    }
+  }, [])
+
+  useEffect(() => {
     fetchOfficer(officerId)
   }, [officerId])
+
+  useEffect(() => {
+    const officerSlug = generateOfficerSlug(name)
+
+    if (officerSlug && officerSlug != officerName) {
+      const newLocation = {
+        pathname: `/officers/${id}/${officerSlug}`,
+      }
+      history.replace(newLocation)
+    }
+  }, [name])
 
   useEffect(() => {
     if (!isRequesting && !isEmpty(officer) && officerId == officer.id) {
@@ -54,6 +76,16 @@ const Officer = (props) => {
       })
     }
   }, [officerId, isRequesting])
+
+  useEffect(() => {
+    if (!isEmpty(name)) {
+      setDocumentHead({
+        title: name,
+      })
+    }
+
+    return () => clearDocumentHead()
+  }, [name, setDocumentHead])
 
   const displaySummaryInfo = () => {
     if (complaintsCount > 0) {
@@ -107,7 +139,7 @@ const Officer = (props) => {
           {displaySummaryInfo()}
         </div>
 
-        <TimelineContainer officerId={officerId} />
+        <TimelineContainer officerId={officerId} officerName={name} />
       </div>
     )
   )
@@ -119,6 +151,9 @@ Officer.propTypes = {
   recentData: PropTypes.object,
   fetchOfficer: PropTypes.func,
   saveRecentItem: PropTypes.func,
+  clearDocumentHead: PropTypes.func,
+  setDocumentHead: PropTypes.func,
+  clearOfficer: PropTypes.func,
   isRequesting: PropTypes.bool,
 }
 
@@ -128,6 +163,9 @@ Officer.defaultProps = {
   timelineFilterGroups: {},
   fetchOfficer: noop,
   saveRecentItem: noop,
+  clearDocumentHead: noop,
+  setDocumentHead: noop,
+  clearOfficer: noop,
   isRequesting: false,
 }
 

@@ -17,8 +17,9 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
-jest.mock('containers/department-page/department-documents-container', () => () =>
-  'DepartmentDocumentsContainer'
+jest.mock(
+  'containers/department-page/department-documents-container',
+  () => () => 'DepartmentDocumentsContainer'
 )
 
 beforeEach(() => {
@@ -663,5 +664,39 @@ describe('Department component', () => {
         baseElement.getElementsByClassName('department-period')[0]
       ).toBeFalsy()
     })
+  })
+
+  it('changes page title on name loaded and cleans up when unmout', () => {
+    const departmentData = {
+      id: 1,
+      name: 'department name',
+    }
+
+    const clearDocumentHeadStub = jest.fn()
+    const setDocumentHeadstub = jest.fn()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
+            <Department
+              department={departmentData}
+              clearDocumentHead={clearDocumentHeadStub}
+              setDocumentHead={setDocumentHeadstub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { unmount } = container
+
+    expect(setDocumentHeadstub).toHaveBeenCalledWith({
+      title: 'department name',
+    })
+    expect(clearDocumentHeadStub).not.toHaveBeenCalled()
+
+    unmount()
+    expect(clearDocumentHeadStub).toHaveBeenCalled()
   })
 })
