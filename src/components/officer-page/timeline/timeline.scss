@@ -176,14 +176,10 @@ $first-connection-line-height: 156px;
             border-radius: 16px;
             background-color: $gallery-color;
           }
-        }
-      }
 
-      &.inline-item {
-        display: inline-block;
-
-        .timeline-connected-line-container {
-          display: none;
+          &.white-dot:after {
+            background-color: $white-color;
+          }
         }
       }
     }
