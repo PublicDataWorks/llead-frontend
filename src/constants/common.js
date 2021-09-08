@@ -99,3 +99,7 @@ export const CONTENT_TYPES = {
   JSON: 'application/json',
   SHEET: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 }
+
+export const CARD_TYPES = {
+  DOCUMENT: 'document',
+}
