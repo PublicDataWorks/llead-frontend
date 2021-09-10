@@ -10,6 +10,15 @@ describe('#timelineSelector', () => {
   it('returns all timeline data on empty filter group key', () => {
     const timelineData = [
       {
+        id: 22,
+        year: 2019,
+        date: '2019-06-13',
+        kind: 'NEWS_ARTICLE',
+        sourceName: 'The Lens NOLA',
+        title: 'News Article 2019-06-13',
+        url: 'url',
+      },
+      {
         id: '123',
         kind: 'COMPLAINT',
         date: '2019-06-13',
@@ -284,6 +293,13 @@ describe('#timelineSelector', () => {
                 },
               ],
             },
+          },
+          {
+            id: 22,
+            title: 'News Article 2019-06-13',
+            url: 'url',
+            kind: 'NEWS_ARTICLE',
+            sourceName: 'The Lens NOLA',
           },
         ],
       },
@@ -672,6 +688,15 @@ describe('#timelineFilterGroupsSelector', () => {
   it('returns timeline filter grouped data', () => {
     const timelineData = [
       {
+        year: 2019,
+        date: '2019-06-13',
+        kind: 'NEWS_ARTICLE',
+        id: 22,
+        sourceName: 'The Lens NOLA',
+        title: 'News Article 2019-06-13',
+        url: 'url',
+      },
+      {
         id: '123',
         kind: 'COMPLAINT',
         date: '2019-06-13',
@@ -849,6 +874,11 @@ describe('#timelineFilterGroupsSelector', () => {
         filterGroupKey: 'DOCUMENTS',
         title: 'Documents',
         count: 2,
+      },
+      {
+        filterGroupKey: 'NEWS_ARTICLES',
+        title: 'News Articles',
+        count: 1,
       },
       {
         filterGroupKey: 'RANKS_AND_UNITS',

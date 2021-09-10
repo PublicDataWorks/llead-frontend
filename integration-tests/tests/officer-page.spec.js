@@ -162,7 +162,7 @@ describe('Officer Page', () => {
           .should('text', 'Mar 10, 2019')
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
-          .should('have.length', 9)
+          .should('have.length', 10)
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(0)
@@ -229,6 +229,16 @@ describe('Officer Page', () => {
           .eq(8)
           .find('.document-subtitle')
           .should('text', '24 pages')
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .eq(9)
+          .find('.news-article-title')
+          .should('text', 'News Article 2019-03-10')
+        cy.get('@thirdTimelineGroup')
+          .find('.timeline-item')
+          .eq(9)
+          .find('.news-article-subtitle')
+          .should('text', 'The Lens NOLA')
 
         cy.get('.officer-timeline')
           .find('.timeline-group')
@@ -421,7 +431,7 @@ describe('Officer Page', () => {
 
         cy.get('.timeline-filters')
           .find('.filter-item')
-          .should('have.length', 5)
+          .should('have.length', 6)
 
         cy.get('.officer-timeline')
           .find('.timeline-group')
@@ -445,11 +455,16 @@ describe('Officer Page', () => {
         cy.get('.timeline-filters')
           .find('.filter-item')
           .eq(3)
-          .should('have.text', 'Rank/unit (3)')
+          .should('have.text', 'News Articles (1)')
 
         cy.get('.timeline-filters')
           .find('.filter-item')
           .eq(4)
+          .should('have.text', 'Rank/unit (3)')
+
+        cy.get('.timeline-filters')
+          .find('.filter-item')
+          .eq(5)
           .should('have.text', 'Use of force (1)')
 
         cy.get('.officer-timeline')

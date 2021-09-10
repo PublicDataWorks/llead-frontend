@@ -3,6 +3,7 @@ import qs from 'qs'
 import { act, fireEvent, render } from '@testing-library/react'
 import sinon from 'sinon'
 import * as rdd from 'react-device-detect'
+import noop from 'lodash/noop'
 
 import Timeline from 'components/officer-page/timeline'
 import ComplaintItem from 'components/officer-page/timeline/complaint-item'
@@ -12,6 +13,7 @@ import SalaryChangeItem from 'components/officer-page/timeline/salary-change-ite
 import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
 import TimelineFilters from 'components/officer-page/timeline/filters'
 import UseOfForceItem from 'components/officer-page/timeline/use-of-force-item'
+import NewsArticleCard from 'components/officer-page/timeline/news-article-card'
 import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
 import { ANIMATION_DURATION } from 'constants/common'
@@ -61,6 +63,15 @@ jest.mock('components/officer-page/timeline/document-card', () => ({
   default: jest.fn(),
 }))
 
+const MockNewsArticleCardComponent = () => {
+  return <div>News Article Item</div>
+}
+jest.mock('components/officer-page/timeline/news-article-card', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
 const MockSalaryChangeItemComponent = () => {
   return <div>Salary Change Item</div>
 }
@@ -87,6 +98,7 @@ beforeAll(() => {
   RankChangeItem.mockImplementation(MockRankChangeItemComponent)
   TimelineFilters.mockImplementation(MockFiltersComponent)
   UseOfForceItem.mockImplementation(MockUOFItemComponent)
+  NewsArticleCard.mockImplementation(MockNewsArticleCardComponent)
 })
 
 beforeEach(() => {
@@ -97,6 +109,7 @@ beforeEach(() => {
   RankChangeItem.mockClear()
   TimelineFilters.mockClear()
   UseOfForceItem.mockClear()
+  NewsArticleCard.mockClear()
 })
 
 describe('Timeline component', () => {
@@ -922,6 +935,48 @@ describe('Timeline component', () => {
       kind: 'JOINED',
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
+      showEventDetails: false,
+    })
+  })
+
+  it('renders timeline with news article item', () => {
+    const newsArticleData = {
+      id: 1,
+      kind: 'NEWS_ARTICLE',
+      sourceName: 'The Lens NOLA',
+      title: 'News Article 2019-06-13',
+      url: 'url',
+    }
+    const timelineData = [
+      {
+        groupName: 'Apr 1, 2018',
+        isDateEvent: true,
+        items: [
+          {
+            ...newsArticleData,
+          },
+        ],
+      },
+    ]
+
+    render(
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline timeline={timelineData} />
+        </Route>
+      </MemoryRouter>
+    )
+
+    expect(NewsArticleCard.mock.calls[0][0]).toStrictEqual({
+      id: 1,
+      kind: 'NEWS_ARTICLE',
+      sourceName: 'The Lens NOLA',
+      title: 'News Article 2019-06-13',
+      url: 'url',
+      className: 'has-connected-line left-item',
+      saveRecentItem: noop,
       highlight: false,
       officerId: '1',
       showEventDetails: false,

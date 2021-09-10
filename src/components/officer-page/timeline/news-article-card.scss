@@ -2,24 +2,31 @@
 @import 'styles/variables';
 @import 'styles/mixins';
 
-.timeline-document-card {
+.timeline-news-article-card {
   box-sizing: border-box;
   background-color: $white-color;
   border-radius: 8px;
 
-  .document-timeline-preview {
+  .news-article-timeline-preview {
     background-color: $wild-sand-color;
     border-radius: 8px 8px 0 0;
     padding-left: $h-card-margin;
     height: $v-card-preview-height;
     display: flex;
     align-items: center;
+
+    .news-article-preview {
+      width: $h-article-preview;
+      height: $v-card-preview-height;
+      background: url('assets/icons/news-article-thumbnail.svg') no-repeat
+        center;
+    }
   }
 
-  .document-timeline-content {
+  .news-article-timeline-content {
     padding: $v-small-margin $h-side-frame $v-small-margin $h-card-margin;
 
-    .document-title {
+    .news-article-title {
       @include small-text;
       height: $h-card-content;
       margin-top: $v-tiny-margin;
@@ -31,7 +38,7 @@
       -webkit-box-orient: vertical;
     }
 
-    .document-subtitle {
+    .news-article-subtitle {
       @include small-text;
       color: $boulder-color;
       margin: $v-tiny-margin 0;
@@ -39,24 +46,24 @@
   }
 
   &.has-connected-line {
-    .document-timeline-preview {
+    .news-article-timeline-preview {
       padding-left: $h-card-timeline;
     }
 
-    .document-timeline-content {
+    .news-article-timeline-content {
       padding-left: $h-card-timeline;
     }
   }
 }
 
 @media only screen and (min-width: $mobile-breakpoint) {
-  .timeline-document-card {
+  .timeline-news-article-card {
     &.has-connected-line.left-item {
-      .document-timeline-preview {
+      .news-article-timeline-preview {
         padding: 0 $h-card-timeline 0 $h-card-margin;
       }
 
-      .document-timeline-content {
+      .news-article-timeline-content {
         padding: $v-small-margin $h-card-timeline $v-small-margin $h-card-margin;
       }
     }

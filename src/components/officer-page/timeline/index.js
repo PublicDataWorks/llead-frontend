@@ -18,6 +18,7 @@ import RankChangeItem from './rank-change-item'
 import UnitChangeItem from './unit-change-item'
 import TimelineFilters from './filters'
 import { ANIMATION_DURATION, TIMELINE_KINDS } from 'constants/common'
+import NewsArticleCard from './news-article-card'
 
 const TIMELINE_COMPONENTS_MAPPING = {
   [TIMELINE_KINDS.JOINED]: { component: MainItem },
@@ -40,6 +41,10 @@ const TIMELINE_COMPONENTS_MAPPING = {
   },
   [TIMELINE_KINDS.UNIT_CHANGE]: {
     component: UnitChangeItem,
+  },
+  [TIMELINE_KINDS.NEWS_ARTICLE]: {
+    component: NewsArticleCard,
+    customLine: 'white-dot',
   },
 }
 
