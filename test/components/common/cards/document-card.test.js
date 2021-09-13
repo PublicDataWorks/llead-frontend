@@ -86,6 +86,7 @@ describe('Document card component', () => {
   })
 
   it('should analyze click on document card', () => {
+    sinon.stub(window, 'open')
     const saveRecentItemSpy = sinon.spy()
     const documentData = {
       id: 1,
