@@ -18,7 +18,7 @@ import upperFirst from 'lodash/upperFirst'
 import values from 'lodash/values'
 
 import { formatTimelineDate } from 'utils/formatter'
-import { documentFormatter } from 'selectors/common'
+import { documentFormatter, newsArticleFormatter } from 'selectors/common'
 import { formatDataPeriods, formatSalary } from 'utils/formatter'
 import {
   TIMELINE_FILTERS,
@@ -101,6 +101,14 @@ const documentTimelineItemFormatter = (document) => {
   }
 }
 
+const newsArticleTimelineItemFormatter = (news_article) => {
+  const formattedNewsArticle = newsArticleFormatter(news_article)
+  return {
+    ...baseTimelineItemFormatter(news_article),
+    ...formattedNewsArticle,
+  }
+}
+
 const salaryChangeTimelineItemFormatter = (salaryChange) => {
   const attributes = ['kind']
 
@@ -148,6 +156,7 @@ const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.SALARY_CHANGE]: salaryChangeTimelineItemFormatter,
   [TIMELINE_KINDS.RANK_CHANGE]: rankChangeTimelineItemFormatter,
   [TIMELINE_KINDS.UNIT_CHANGE]: unitChangeTimelineItemFormatter,
+  [TIMELINE_KINDS.NEWS_ARTICLE]: newsArticleTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {

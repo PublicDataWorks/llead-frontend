@@ -3,6 +3,7 @@ import {
   departmentsSelector,
   documentsSelector,
   officersSelector,
+  newsArticlesSelector,
 } from 'selectors/front-page'
 
 describe('#analyticSummarySelector', () => {
@@ -230,5 +231,55 @@ describe('#documentsSelector', () => {
     const documents = documentsSelector(state)
 
     expect(documents).toStrictEqual(expectedDocuments)
+  })
+})
+
+describe('#newsArticlesSelector', () => {
+  it('returns news articles data', () => {
+    const rawNewsArticles = [
+      {
+        id: 1,
+        sourceName: 'The lens',
+        url: 'https://i.imgur.com/news-article1.pdf',
+        title: 'news-article-1',
+        date: 'Nov 9, 2020',
+        redundantField: 'data',
+      },
+      {
+        id: 2,
+        sourceName: 'The advocate',
+        url: 'https://i.imgur.com/news-article2.pdf',
+        title: 'news-article-2',
+        date: 'Nov 10, 2020',
+        redundantField: 'data',
+      },
+    ]
+
+    const expectedNewsArticles = [
+      {
+        id: 1,
+        sourceName: 'The lens',
+        url: 'https://i.imgur.com/news-article1.pdf',
+        title: 'news-article-1',
+        publishedDate: 'Nov 9, 2020',
+      },
+      {
+        id: 2,
+        sourceName: 'The advocate',
+        url: 'https://i.imgur.com/news-article2.pdf',
+        title: 'news-article-2',
+        publishedDate: 'Nov 10, 2020',
+      },
+    ]
+
+    const state = {
+      frontPage: {
+        newsArticles: rawNewsArticles,
+      },
+    }
+
+    const newsArticles = newsArticlesSelector(state)
+
+    expect(newsArticles).toStrictEqual(expectedNewsArticles)
   })
 })

@@ -4,6 +4,7 @@ import {
   departmentsData,
   officersData,
   documentsData,
+  newsArticleData
 } from '../data/front-page-data'
 import {
   departmentBatonRougePdDetailsData,
@@ -64,6 +65,13 @@ describe('FrontPage recent items', () => {
         url: 'http://localhost:8000/api/documents/',
       },
       documentsData
+    )
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/news-articles/',
+      },
+      newsArticleData
     )
 
     cy.interceptExact(
