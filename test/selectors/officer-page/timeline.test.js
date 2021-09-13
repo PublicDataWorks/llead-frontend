@@ -299,6 +299,7 @@ describe('#timelineSelector', () => {
             title: 'News Article 2019-06-13',
             url: 'url',
             kind: 'NEWS_ARTICLE',
+            publishedDate: 'Jun 13, 2019',
             sourceName: 'The Lens NOLA',
           },
         ],

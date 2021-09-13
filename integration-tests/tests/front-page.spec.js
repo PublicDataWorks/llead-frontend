@@ -4,6 +4,7 @@ import {
   departmentsData,
   officersData,
   documentsData,
+  newsArticlesData,
 } from '../data/front-page-data'
 
 const CAROUSEL_LEFT_MARGIN = 16
@@ -11,6 +12,7 @@ const CAROUSEL_CARD_MARGIN = 8
 const DERPARTMENT_CARD_WIDTH = 312
 const OFFICER_CARD_WIDTH = 248
 const DOCUMENT_CARD_WIDTH = 248
+const NEWS_ARTICLE_CARD_WIDTH = 248
 
 const calculateScreenWidth = (itemSize, number) => {
   return (
@@ -66,6 +68,13 @@ describe('FrontPage', () => {
           url: 'http://localhost:8000/api/documents/',
         },
         documentsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/news-articles/',
+        },
+        newsArticlesData
       )
     })
 
@@ -158,10 +167,7 @@ describe('FrontPage', () => {
 
         cy.get('.departments-carousel').find('.swiper-slide').eq(0).click()
 
-        cy.location('pathname').should(
-          'eq',
-          `/dept/${departmentsData[0].id}/`
-        )
+        cy.location('pathname').should('eq', `/dept/${departmentsData[0].id}/`)
       })
     })
 
@@ -261,7 +267,10 @@ describe('FrontPage', () => {
         cy.waitUntil(() => cy.get('.officers-carousel').should('exist'))
         cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
 
-        cy.location('pathname').should('eq', `/officers/${officersData[0].id}/mark-carlson`)
+        cy.location('pathname').should(
+          'eq',
+          `/officers/${officersData[0].id}/mark-carlson`
+        )
       })
     })
 
@@ -372,6 +381,100 @@ describe('FrontPage', () => {
         cy.location('pathname').should(
           'eq',
           `/dept/${documentsData[0].departments[0].id}/`
+        )
+      })
+    })
+
+    describe('news articles carousel', () => {
+      it('render correctly', () => {
+        const NEWS_ARTICLE_VISIBLE_COUNTS = 3
+        const screenWidth = calculateScreenWidth(
+          NEWS_ARTICLE_CARD_WIDTH,
+          NEWS_ARTICLE_VISIBLE_COUNTS
+        )
+        cy.viewport(screenWidth, 1200)
+        cy.visit('/')
+
+        cy.get('.news-articles-carousel')
+          .find('.carousel-title')
+          .should('text', 'News')
+        cy.get('.news-articles-carousel')
+          .find('.sorted-by')
+          .should('text', 'most recently added')
+        cy.get('.news-articles-carousel')
+          .find('.swiper-slide')
+          .should('length', 6)
+        cy.get('.news-articles-carousel')
+          .find('.swiper-slide:visible')
+          .as('visibleSlides')
+          .should('length', NEWS_ARTICLE_VISIBLE_COUNTS)
+
+        cy.get('@visibleSlides').eq(0).contains('Her hard step sea.')
+        cy.get('@visibleSlides')
+          .eq(1)
+          .contains('Yourself say language meeting ok.')
+        cy.get('@visibleSlides')
+          .eq(2)
+          .contains('Be decade those someone tough year sing.')
+
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.news-article-type')
+          .contains('news article')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.news-article-title')
+          .contains('Her hard step sea.')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.news-article-subtitle')
+          .first()
+          .contains('The lens')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.news-article-subtitle')
+          .last()
+          .contains('Jan 6, 2020')
+
+        cy.get('.news-articles-carousel').find('.carousel-next').click()
+        cy.get('.news-articles-carousel').find('.carousel-next').click()
+        cy.get('.news-articles-carousel').find('.carousel-next').click()
+        cy.get('.news-articles-carousel').find('.carousel-next').click()
+
+        cy.get('.news-articles-carousel').find(
+          '.carousel-next.swiper-button-disabled',
+          {
+            timeout: 1000,
+          }
+        )
+
+        cy.get('.news-articles-carousel')
+          .find('.swiper-slide:visible')
+          .as('visibleSlides')
+          .should('length', NEWS_ARTICLE_VISIBLE_COUNTS)
+
+        cy.get('@visibleSlides')
+          .eq(0)
+          .contains('Face growth poor wait follow option better.')
+        cy.get('@visibleSlides').eq(1).contains('Performance past from.')
+        cy.get('@visibleSlides')
+          .eq(2)
+          .contains('Mouth trip too finally society smile man.')
+      })
+
+      it('opens news article url in new tab when click on news article card', () => {
+        cy.visit('/')
+        cy.window().then((win) => {
+          cy.stub(win, 'open').as('open')
+        })
+
+        cy.get('.news-articles-carousel').find('.swiper-slide').eq(0).click()
+
+        cy.get('@open').should(
+          'to.be.calledWith',
+          documentsData[0].url,
+          '_blank',
+          'noopener noreferrer'
         )
       })
     })
