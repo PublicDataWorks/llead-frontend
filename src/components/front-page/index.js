@@ -53,6 +53,7 @@ const FrontPage = (props) => {
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
           items={recentItems}
+          saveRecentItem={saveRecentItem}
           className='front-page-carousel'
         />
       )}
@@ -81,6 +82,7 @@ const FrontPage = (props) => {
           <div className='section-anchor' />
           <NewsArticlesCarousel
             items={newsArticles.slice(0).reverse()}
+            saveRecentItem={saveRecentItem}
             sortedField='most recently added'
             className='front-page-carousel'
           />

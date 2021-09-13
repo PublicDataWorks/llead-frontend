@@ -8,12 +8,14 @@ import {
   departmentFormatter,
   officerFormatter,
   documentFormatter,
+  newsArticleFormatter,
 } from 'selectors/common'
 
 const RECENT_FORMATTERS_MAPPING = {
   [RECENT_ITEM_TYPES.DEPARTMENT]: departmentFormatter,
   [RECENT_ITEM_TYPES.OFFICER]: officerFormatter,
   [RECENT_ITEM_TYPES.DOCUMENT]: documentFormatter,
+  [RECENT_ITEM_TYPES.NEWS_ARTICLE]: newsArticleFormatter,
 }
 
 const getRecentItems = (state) => get(state, 'recentItems')

@@ -29,6 +29,7 @@ export const RECENT_ITEM_TYPES = {
   DEPARTMENT: 'DEPARTMENT',
   OFFICER: 'OFFICER',
   DOCUMENT: 'DOCUMENT',
+  NEWS_ARTICLE: 'NEWS_ARTICLE',
 }
 
 export const REQUEST_CANCEL_MESSAGE = 'Cancel old request'

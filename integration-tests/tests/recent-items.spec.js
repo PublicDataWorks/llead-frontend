@@ -4,7 +4,7 @@ import {
   departmentsData,
   officersData,
   documentsData,
-  newsArticleData
+  newsArticlesData,
 } from '../data/front-page-data'
 import {
   departmentBatonRougePdDetailsData,
@@ -71,7 +71,7 @@ describe('FrontPage recent items', () => {
         method: 'GET',
         url: 'http://localhost:8000/api/news-articles/',
       },
-      newsArticleData
+      newsArticlesData
     )
 
     cy.interceptExact(
@@ -223,6 +223,40 @@ describe('FrontPage recent items', () => {
       )
   })
 
+  it('adds news article to recent items when click news article card', () => {
+    cy.visit('/')
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('open')
+    })
+
+    cy.get('.recent-items-carousel').should('not.exist')
+    cy.get('.news-articles-carousel').find('.swiper-slide').eq(0).click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 1)
+
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-type')
+      .contains('news article')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-title')
+      .contains('Her hard step sea.')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .first()
+      .contains('The lens')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .last()
+      .contains('Jan 6, 2020')
+  })
+
   it('adds document to recent items when click document row in department page', () => {
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
@@ -295,6 +329,46 @@ describe('FrontPage recent items', () => {
       )
   })
 
+  it('adds news article to recent items when click news article card in officer timeline', () => {
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('open')
+    })
+    cy.visit('/officers/1/')
+    cy.get('.officer-timeline')
+      .find('.timeline-news-article-card')
+      .eq(0)
+      .click()
+    cy.get('.logo').click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 2)
+
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-type')
+      .contains('news article')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-type')
+      .contains('news article')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-title')
+      .contains('Her hard step sea.')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .first()
+      .contains('The lens')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .last()
+      .contains('Jan 6, 2020')
+  })
+
   it('adds multiple recent items', () => {
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
@@ -357,7 +431,7 @@ describe('FrontPage recent items', () => {
     cy.get('.recent-items-carousel')
       .find('.swiper-slide:visible')
       .as('visibleSlides')
-      .should('length', 3)
+      .should('length', 4)
 
     cy.get('@visibleSlides').eq(0).contains('Mark Carlson')
     cy.get('@visibleSlides').eq(1).contains('Baton Rouge PD')

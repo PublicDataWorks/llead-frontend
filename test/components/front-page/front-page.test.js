@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
 
 import FrontPage from 'components/front-page'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('FrontPage component', () => {
   it('should fetch data', () => {
@@ -74,6 +75,12 @@ describe('FrontPage component', () => {
         publishedDate: 'Nov 9, 2020',
       },
     ]
+    const recentItemsData = [
+      {
+        ...newsArticlesData[0],
+        type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      },
+    ]
     const documentsData = [
       {
         id: 36,
@@ -122,6 +129,7 @@ describe('FrontPage component', () => {
               officers={officersData}
               newsArticles={newsArticlesData}
               documents={documentsData}
+              recentItems={recentItemsData}
             />
           </Route>
         </MemoryRouter>
@@ -135,6 +143,9 @@ describe('FrontPage component', () => {
       summarySection.getElementsByTagName('strong')[0].textContent
     ).toEqual('Front page')
 
+    const recentItemSection = baseElement.getElementsByClassName(
+      'recent-items-carousel'
+    )[0]
     const departmentSection = baseElement.getElementsByClassName(
       'departments-carousel'
     )[0]
@@ -148,6 +159,7 @@ describe('FrontPage component', () => {
       'officers-carousel'
     )[0]
 
+    expect(recentItemSection.textContent).toContain('Recent activity')
     expect(departmentSection.textContent).toContain('Departments')
     expect(newsActicleSection.textContent).toContain('News')
     expect(documentSection.textContent).toContain('Documents')

@@ -40,6 +40,14 @@ describe('Recent Items carousel', () => {
           name: 'Baton Rouge PD',
         },
       },
+      {
+        id: 1,
+        type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+        sourceName: 'The lens',
+        url: 'https://i.imgur.com/news-article1.pdf',
+        title: 'news-article-1',
+        date: '2020-09-09',
+      },
     ]
     const container = render(
       <MemoryRouter initialEntries={['/']}>
@@ -55,5 +63,6 @@ describe('Recent Items carousel', () => {
     expect(carouselItems[0].textContent.includes('document-1')).toBe(true)
     expect(carouselItems[1].textContent.includes('Department name')).toBe(true)
     expect(carouselItems[2].textContent.includes('Mark Carlson')).toBe(true)
+    expect(carouselItems[3].textContent.includes('news-article-1')).toBe(true)
   })
 })
