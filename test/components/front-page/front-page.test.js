@@ -15,6 +15,7 @@ describe('FrontPage component', () => {
     const fetchOfficersSpy = sinon.spy()
     const fetchDocumentsSpy = sinon.spy()
     const fetchNewsArticlesSpy = sinon.spy()
+    const fetchFrontPageOrdersSpy = sinon.spy()
 
     render(
       <Provider store={MockStore()()}>
@@ -26,6 +27,7 @@ describe('FrontPage component', () => {
               fetchOfficers={fetchOfficersSpy}
               fetchDocuments={fetchDocumentsSpy}
               fetchNewsArticles={fetchNewsArticlesSpy}
+              fetchFrontPageOrders={fetchFrontPageOrdersSpy}
             />
           </Route>
         </MemoryRouter>
@@ -37,6 +39,7 @@ describe('FrontPage component', () => {
     expect(fetchOfficersSpy).toHaveBeenCalled()
     expect(fetchDocumentsSpy).toHaveBeenCalled()
     expect(fetchNewsArticlesSpy).toHaveBeenCalled()
+    expect(fetchFrontPageOrdersSpy).toHaveBeenCalled()
   })
 
   it('should render correctly', () => {
@@ -118,6 +121,12 @@ describe('FrontPage component', () => {
         locationMapUrl: 'http://mapurl.com/department1',
       },
     ]
+    const ordersData = {
+      DEPARTMENT: 3,
+      OFFICER: 2,
+      NEWS_ARTICLE: 1,
+      DOCUMENT: 4,
+    }
 
     const container = render(
       <Provider store={MockStore()()}>
@@ -130,6 +139,7 @@ describe('FrontPage component', () => {
               newsArticles={newsArticlesData}
               documents={documentsData}
               recentItems={recentItemsData}
+              frontPageOrders={ordersData}
             />
           </Route>
         </MemoryRouter>
@@ -159,10 +169,35 @@ describe('FrontPage component', () => {
       'officers-carousel'
     )[0]
 
+    const firstSection = baseElement.getElementsByClassName(
+      'front-order-101'
+    )[0]
+    const secondSection = baseElement.getElementsByClassName(
+      'front-order-102'
+    )[0]
+    const thirdSection = baseElement.getElementsByClassName(
+      'front-order-103'
+    )[0]
+    const fourthSection = baseElement.getElementsByClassName(
+      'front-order-104'
+    )[0]
+
     expect(recentItemSection.textContent).toContain('Recent activity')
     expect(departmentSection.textContent).toContain('Departments')
     expect(newsActicleSection.textContent).toContain('News')
     expect(documentSection.textContent).toContain('Documents')
     expect(officerSection.textContent).toContain('Officers')
+    expect(firstSection.children[1].classList.value).toContain(
+      'news-articles-carousel'
+    )
+    expect(secondSection.children[1].classList.value).toContain(
+      'officers-carousel'
+    )
+    expect(thirdSection.children[1].classList.value).toContain(
+      'departments-carousel'
+    )
+    expect(fourthSection.children[1].classList.value).toContain(
+      'documents-carousel'
+    )
   })
 })

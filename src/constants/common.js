@@ -110,3 +110,10 @@ export const CONTENT_TYPES = {
 export const CARD_TYPES = {
   DOCUMENT: 'document',
 }
+
+export const FRONT_PAGE_SECTIONS = {
+  DEPARTMENT: 'DEPARTMENT',
+  OFFICER: 'OFFICER',
+  DOCUMENT: 'DOCUMENT',
+  NEWS_ARTICLE: 'NEWS_ARTICLE',
+}

@@ -4,6 +4,7 @@ import {
   documentsSelector,
   officersSelector,
   newsArticlesSelector,
+  frontPageOrdersSelector,
 } from 'selectors/front-page'
 
 describe('#analyticSummarySelector', () => {
@@ -281,5 +282,35 @@ describe('#newsArticlesSelector', () => {
     const newsArticles = newsArticlesSelector(state)
 
     expect(newsArticles).toStrictEqual(expectedNewsArticles)
+  })
+})
+
+describe('#frontPageOrdersSelector', () => {
+  it('returns front page orders data', () => {
+    const rawOrdersData = [
+      {
+        section: 'DEPARTMENT',
+        order: 1,
+      },
+      {
+        section: 'OFFICER',
+        order: 2,
+      },
+    ]
+
+    const expectedOrdersData = {
+      DEPARTMENT: 1,
+      OFFICER: 2,
+    }
+
+    const state = {
+      frontPage: {
+        frontPageOrders: rawOrdersData,
+      },
+    }
+
+    const ordersData = frontPageOrdersSelector(state)
+
+    expect(ordersData).toStrictEqual(expectedOrdersData)
   })
 })

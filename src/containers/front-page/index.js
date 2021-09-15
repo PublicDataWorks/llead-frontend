@@ -8,6 +8,7 @@ import {
   officersSelector,
   documentsSelector,
   newsArticlesSelector,
+  frontPageOrdersSelector,
 } from 'selectors/front-page'
 import { recentItemsSelector } from 'selectors/front-page/recent-items'
 import { CMS_SECTIONS } from 'constants/common'
@@ -17,6 +18,7 @@ import {
   fetchOfficers,
   fetchDocuments,
   fetchNewsArticles,
+  fetchFrontPageOrders,
 } from 'actions/front-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 
@@ -28,6 +30,7 @@ const mapStateToProps = (state) => ({
   documents: documentsSelector(state),
   newsArticles: newsArticlesSelector(state),
   recentItems: recentItemsSelector(state),
+  frontPageOrders: frontPageOrdersSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -36,6 +39,7 @@ const mapDispatchToProps = {
   fetchOfficers,
   fetchDocuments,
   fetchNewsArticles,
+  fetchFrontPageOrders,
   saveRecentItem,
 }
 
