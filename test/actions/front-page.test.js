@@ -6,6 +6,7 @@ import {
   fetchOfficers,
   fetchDocuments,
   fetchNewsArticles,
+  fetchFrontPageOrders,
 } from 'actions/front-page'
 import * as actionTypes from 'action-types/front-page'
 import * as ServiceApi from 'utils/api'
@@ -15,6 +16,7 @@ import {
   OFFICERS_API_URL,
   DOCUMENTS_API_URL,
   NEWS_ARTICLES_API_URL,
+  FRONT_PAGE_ORDERS_API_URL,
 } from 'constants/api'
 
 describe('#fetchAnalyticSummary', () => {
@@ -112,6 +114,26 @@ describe('#fetchNewsArticles', () => {
         actionTypes.NEWS_ARTICLES_FETCH_FAILURE,
       ],
       NEWS_ARTICLES_API_URL
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchFrontPageOrders', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchFrontPageOrders()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.FRONT_PAGE_ORDERS_FETCH_START,
+        actionTypes.FRONT_PAGE_ORDERS_FETCH_SUCCESS,
+        actionTypes.FRONT_PAGE_ORDERS_FETCH_FAILURE,
+      ],
+      FRONT_PAGE_ORDERS_API_URL
     )
     expect(getFunc).toHaveBeenCalled()
   })

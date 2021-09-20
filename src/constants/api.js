@@ -16,3 +16,4 @@ export const OFFICERS_API_URL = `${API_URL}officers/`
 export const DOCUMENTS_API_URL = `${API_URL}documents/`
 export const NEWS_ARTICLES_API_URL = `${API_URL}news-articles/`
 export const SEARCH_API_URL = `${API_URL}search/`
+export const FRONT_PAGE_ORDERS_API_URL = `${API_URL}front-page-orders/`

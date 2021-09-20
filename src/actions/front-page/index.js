@@ -7,6 +7,7 @@ import {
   OFFICERS_API_URL,
   DOCUMENTS_API_URL,
   NEWS_ARTICLES_API_URL,
+  FRONT_PAGE_ORDERS_API_URL,
 } from 'constants/api'
 
 export const fetchAnalyticSummary = () =>
@@ -57,4 +58,14 @@ export const fetchNewsArticles = () =>
       actionTypes.NEWS_ARTICLES_FETCH_FAILURE,
     ],
     NEWS_ARTICLES_API_URL
+  )()
+
+export const fetchFrontPageOrders = () =>
+  get(
+    [
+      actionTypes.FRONT_PAGE_ORDERS_FETCH_START,
+      actionTypes.FRONT_PAGE_ORDERS_FETCH_SUCCESS,
+      actionTypes.FRONT_PAGE_ORDERS_FETCH_FAILURE,
+    ],
+    FRONT_PAGE_ORDERS_API_URL
   )()

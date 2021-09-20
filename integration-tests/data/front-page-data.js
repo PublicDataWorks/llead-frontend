@@ -222,3 +222,22 @@ export const newsArticlesData = [
     date: '2020-01-06',
   },
 ]
+
+export const frontPageOrdersData = [
+  {
+    section: 'DEPARTMENT',
+    order: 3,
+  },
+  {
+    section: 'OFFICER',
+    order: 2,
+  },
+  {
+    section: 'NEWS_ARTICLE',
+    order: 1,
+  },
+  {
+    section: 'DOCUMENT',
+    order: 4,
+  },
+]

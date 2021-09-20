@@ -5,7 +5,9 @@ import {
   officersData,
   documentsData,
   newsArticlesData,
+  frontPageOrdersData,
 } from '../data/front-page-data'
+import { recentItemsData } from '../data/recent-items-data'
 
 const CAROUSEL_LEFT_MARGIN = 16
 const CAROUSEL_CARD_MARGIN = 8
@@ -75,6 +77,13 @@ describe('FrontPage', () => {
           url: 'http://localhost:8000/api/news-articles/',
         },
         newsArticlesData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/front-page-orders/',
+        },
+        frontPageOrdersData
       )
     })
 
@@ -480,6 +489,34 @@ describe('FrontPage', () => {
           'noopener noreferrer'
         )
       })
+    })
+
+    it.only('renders order correctly', () => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: `http://localhost:8000/api/historical-data/recent-items/`,
+        },
+        recentItemsData
+      )
+      cy.visit('/')
+
+      cy.get('.summary').should('have.css', 'order', '1')
+      cy.get('.analytic-summary').should('have.css', 'order', '1')
+      cy.get('.recent-items-carousel').should('have.css', 'order', '1')
+
+      cy.get('.front-order-101')
+        .should('have.css', 'order', '101')
+        .contains('News')
+      cy.get('.front-order-102')
+        .should('have.css', 'order', '102')
+        .contains('Officers')
+      cy.get('.front-order-103')
+        .should('have.css', 'order', '103')
+        .contains('Departments')
+      cy.get('.front-order-104')
+        .should('have.css', 'order', '104')
+        .contains('Documents')
     })
   })
 })
