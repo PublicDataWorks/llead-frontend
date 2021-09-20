@@ -106,6 +106,10 @@ const newsArticleTimelineItemFormatter = (news_article) => {
   return {
     ...baseTimelineItemFormatter(news_article),
     ...formattedNewsArticle,
+    recentData: {
+      ...formattedNewsArticle,
+      date: formattedNewsArticle.publishedDate,
+    },
   }
 }
 

@@ -1,5 +1,5 @@
 export const userInfoData = {
-  email: 'email@example.com'
+  email: 'email@example.com',
 }
 
 export const departmentBatonRougePdDetailsData = {
@@ -31,8 +31,17 @@ export const officerTimelineData = {
       date: '2019-03-10',
       year: 2019,
     },
+    {
+      id: 1,
+      source_name: 'The lens',
+      title: 'Her hard step sea.',
+      url: 'http://documents.com/century/five.pdf',
+      kind: 'NEWS_ARTICLE',
+      date: '2020-01-06',
+      year: 2020,
+    },
   ],
-  timeline_period: ['2019'],
+  timeline_period: ['2019', '2020'],
 }
 
 export const department9DocumentsData = {
@@ -127,5 +136,13 @@ export const recentItemsData = [
         name: 'City Department',
       },
     ],
+  },
+  {
+    type: 'NEWS_ARTICLE',
+    id: 1,
+    source_name: 'The lens',
+    title: 'Her hard step sea.',
+    url: 'http://documents.com/century/five.pdf',
+    date: '2020-01-06',
   },
 ]

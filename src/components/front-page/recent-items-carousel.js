@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import cx from 'classnames'
+import noop from 'lodash/noop'
 
 import Carousel from 'components/common/carousel'
 import DepartmentCard from 'components/common/cards/department-card'
@@ -9,21 +10,30 @@ import OfficerCard from 'components/common/cards/officer-card'
 import DocumentCard from 'components/common/cards/document-card'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 import './recent-items-carousel.scss'
+import NewsArticleCard from 'components/common/cards/news-article-card'
 
 const RECENT_COMPONENTS_MAPPING = {
   [RECENT_ITEM_TYPES.DEPARTMENT]: DepartmentCard,
   [RECENT_ITEM_TYPES.OFFICER]: OfficerCard,
   [RECENT_ITEM_TYPES.DOCUMENT]: DocumentCard,
+  [RECENT_ITEM_TYPES.NEWS_ARTICLE]: NewsArticleCard,
 }
 
 const RecentItemsCarousel = (props) => {
-  const { items, className } = props
+  const { items, saveRecentItem, className } = props
 
   const cards = map(items, (item) => {
     const ItemComponent = RECENT_COMPONENTS_MAPPING[item.type]
+
     return (
       ItemComponent && (
-        <ItemComponent key={`${item.type}-${item.id}`} className='swiper-slide' {...item} />
+        <ItemComponent
+          key={`${item.type}-${item.id}`}
+          className='swiper-slide'
+          saveRecentItem={saveRecentItem}
+          recentData={{ ...item, date: item.publishedDate }}
+          {...item}
+        />
       )
     )
   })
@@ -39,11 +49,13 @@ const RecentItemsCarousel = (props) => {
 
 RecentItemsCarousel.propTypes = {
   items: PropTypes.array,
+  saveRecentItem: PropTypes.func,
   className: PropTypes.string,
 }
 
 RecentItemsCarousel.defaultProps = {
   items: [],
+  saveRecentItem: noop,
   className: '',
 }
 
