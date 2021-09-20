@@ -4,7 +4,7 @@ import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
 
 import DocumentCard from 'components/common/cards/document-card'
-import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
+import { CARD_TYPES, EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 import * as googleAnalytics from 'utils/google-analytics'
 
 describe('Document card component', () => {
@@ -40,7 +40,7 @@ describe('Document card component', () => {
     const documentCard = baseElement.getElementsByClassName('document-card')[0]
 
     expect(documentCard.classList.value).toContain('custom-class-name')
-    expect(documentCard.textContent.includes(props.documentType)).toBe(true)
+    expect(documentCard.textContent.includes(CARD_TYPES.DOCUMENT)).toBe(true)
     expect(documentCard.textContent.includes(props.title)).toBe(true)
     expect(documentCard.textContent.includes(props.incidentDate)).toBe(true)
     expect(documentCard.textContent.includes(props.departments[0].name)).toBe(
