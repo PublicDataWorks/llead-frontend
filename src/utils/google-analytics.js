@@ -1,4 +1,5 @@
 import config from 'config'
+import { EVENT_TYPES } from 'constants/common'
 
 const { gaMeasurementId } = config
 
@@ -20,7 +21,7 @@ const getGtag = () => {
 export const analyzeExpandEventCard = (eventCard) => {
   const gtag = getGtag()
 
-  gtag('event', 'card_expand', {
+  gtag('event', EVENT_TYPES.CARD_EXPAND, {
     category: eventCard.type,
     [eventCard.type]: eventCard.id,
   })
@@ -29,8 +30,14 @@ export const analyzeExpandEventCard = (eventCard) => {
 export const analyzeCopyCardLink = (eventCard) => {
   const gtag = getGtag()
 
-  gtag('event', 'copy_card_link', {
+  gtag('event', EVENT_TYPES.COPY_CARD_LINK, {
     category: eventCard.type,
     [eventCard.type]: eventCard.id,
   })
+}
+
+export const analyzeAction = (event) => {
+  const gtag = getGtag()
+
+  gtag('event', event.type, event.data)
 }
