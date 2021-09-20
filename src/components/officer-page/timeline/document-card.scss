@@ -4,35 +4,61 @@
 
 .timeline-document-card {
   box-sizing: border-box;
-  width: 140px;
-  height: 178px;
-  padding-bottom: $v-small-margin;
   background-color: $white-color;
   border-radius: 8px;
-  margin-right: $h-margin;
 
   .document-timeline-preview {
     background-color: $wild-sand-color;
     border-radius: 8px 8px 0 0;
+    padding-left: $h-card-margin;
     height: 70px;
     display: flex;
-    justify-content: center;
     align-items: center;
   }
 
-  .document-title {
-    @include small-text;
-    margin-top: $v-small-margin;
-    padding: 0 $h-side-frame;
-    color: $thunder-color;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  .document-timeline-content {
+    padding: $v-small-margin $h-side-frame $v-small-margin $h-card-margin;
+
+    .document-title {
+      @include small-text;
+      height: $h-card-content;
+      margin-top: $v-tiny-margin;
+      color: $thunder-color;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .document-subtitle {
+      @include small-text;
+      color: $boulder-color;
+      margin: $v-tiny-margin 0;
+    }
   }
 
-  .document-subtitle {
-    @include small-text;
-    color: $boulder-color;
-    padding: 0 $h-side-frame;
+  &.has-connected-line {
+    .document-timeline-preview {
+      padding-left: $h-card-timeline;
+    }
+
+    .document-timeline-content {
+      padding-left: $h-card-timeline;
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .timeline-document-card {
+    &.has-connected-line.left-item {
+      .document-timeline-preview {
+        padding: 0 $h-card-timeline 0 $h-card-margin;
+      }
+
+      .document-timeline-content {
+        padding: $v-small-margin $h-card-timeline $v-small-margin $h-card-margin;
+      }
+    }
   }
 }

@@ -35,7 +35,7 @@ const TIMELINE_COMPONENTS_MAPPING = {
   },
   [TIMELINE_KINDS.DOCUMENT]: {
     component: DocumentCard,
-    className: 'inline-item',
+    customLine: 'white-dot',
   },
   [TIMELINE_KINDS.SALARY_CHANGE]: {
     component: SalaryChangeItem,
@@ -96,7 +96,7 @@ const Timeline = (props) => {
   }, [officerId])
 
   const renderTimelineItem = (item, index, { group, leftGroup }) => {
-    const { component: Component, className } = get(
+    const { component: Component, customLine } = get(
       TIMELINE_COMPONENTS_MAPPING,
       item.kind,
       {}
@@ -105,14 +105,14 @@ const Timeline = (props) => {
     return (
       Component && (
         <div
-          className={cx('timeline-item', className, {
+          className={cx('timeline-item', {
             'first-timeline-item': index === 0,
           })}
           key={index}
         >
           {group.isDateEvent && (
             <div className='timeline-connected-line-container'>
-              <div className='timeline-connected-line'>
+              <div className={cx('timeline-connected-line', customLine)}>
                 <div className='line' />
               </div>
             </div>

@@ -228,7 +228,7 @@ describe('Officer Page', () => {
           .find('.timeline-item')
           .eq(8)
           .find('.document-subtitle')
-          .should('text', 'pdf')
+          .should('text', '24 pages')
 
         cy.get('.officer-timeline')
           .find('.timeline-group')
