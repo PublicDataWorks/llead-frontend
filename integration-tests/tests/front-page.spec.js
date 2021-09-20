@@ -304,7 +304,10 @@ describe('FrontPage', () => {
           .eq(2)
           .contains('Be decade those someone tough year sing.')
 
-        cy.get('@visibleSlides').eq(0).find('.document-type').contains('csv')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.document-type')
+          .contains('document')
         cy.get('@visibleSlides')
           .eq(0)
           .find('.document-title')

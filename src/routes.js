@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense, lazy, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
@@ -20,6 +20,9 @@ import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
 import PrivateRoute from 'components/common/higher-order/private-route'
 import { setPreviousLocation } from 'actions/common/private-route'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import { analyzeAction } from 'utils/google-analytics'
+import { EVENT_TYPES } from 'constants/common'
 
 const mapStateToProps = (state) => {
   return {
@@ -36,6 +39,15 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
     isLoggedIn,
     setPreviousLocation,
   }
+
+  const location = useLocation()
+
+  useEffect(() => {
+    analyzeAction({
+      type: EVENT_TYPES.ACCESS_PAGE,
+      data: { page: location.pathname },
+    })
+  }, [location.pathname])
 
   return (
     <Suspense fallback={<div />}>

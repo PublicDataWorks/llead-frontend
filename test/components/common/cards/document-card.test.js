@@ -4,9 +4,14 @@ import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
 
 import DocumentCard from 'components/common/cards/document-card'
-import { RECENT_ITEM_TYPES } from 'constants/common'
+import { CARD_TYPES, EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
+import * as googleAnalytics from 'utils/google-analytics'
 
 describe('Document card component', () => {
+  beforeEach(() => {
+    sinon.stub(googleAnalytics, 'analyzeAction')
+  })
+
   it('should render correctly', () => {
     const props = {
       id: 1,
@@ -35,7 +40,7 @@ describe('Document card component', () => {
     const documentCard = baseElement.getElementsByClassName('document-card')[0]
 
     expect(documentCard.classList.value).toContain('custom-class-name')
-    expect(documentCard.textContent.includes(props.documentType)).toBe(true)
+    expect(documentCard.textContent.includes(CARD_TYPES.DOCUMENT)).toBe(true)
     expect(documentCard.textContent.includes(props.title)).toBe(true)
     expect(documentCard.textContent.includes(props.incidentDate)).toBe(true)
     expect(documentCard.textContent.includes(props.departments[0].name)).toBe(
@@ -77,6 +82,37 @@ describe('Document card component', () => {
       type: RECENT_ITEM_TYPES.DOCUMENT,
       id: 1,
       data: documentData,
+    })
+  })
+
+  it('should analyze click on document card', () => {
+    sinon.stub(window, 'open')
+    const saveRecentItemSpy = sinon.spy()
+    const documentData = {
+      id: 1,
+      url: 'https://i.imgur.com/nHTFohI.csv',
+    }
+    const props = {
+      ...documentData,
+      saveRecentItem: saveRecentItemSpy,
+      recentData: documentData,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    const documentCard = baseElement.getElementsByClassName('document-card')[0]
+    fireEvent.click(documentCard)
+
+    expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
+      type: EVENT_TYPES.OPEN_DOCUMENT,
+      data: { document_id: 1 },
     })
   })
 

@@ -200,7 +200,7 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 1)
 
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('csv')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')
@@ -236,7 +236,7 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 2)
 
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('json')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')
@@ -272,7 +272,7 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 2)
 
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('pdf')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')

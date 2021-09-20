@@ -88,6 +88,15 @@ export const TRACK_ITEM_TYPES = {
   UOF: 'use of force',
 }
 
+export const EVENT_TYPES = {
+  CARD_EXPAND: 'card_expand',
+  COPY_CARD_LINK: 'copy_card_link',
+  DOWNLOAD_SPREADSHEET: 'download_spreadsheet',
+  OPEN_DOCUMENT: 'open_document',
+  SEARCH: 'search',
+  ACCESS_PAGE: 'access_page',
+}
+
 export const DEFAULT_DOCUMENT_HEAD = {
   title: 'LLEAD',
 }
@@ -95,4 +104,8 @@ export const DEFAULT_DOCUMENT_HEAD = {
 export const CONTENT_TYPES = {
   JSON: 'application/json',
   SHEET: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+}
+
+export const CARD_TYPES = {
+  DOCUMENT: 'document',
 }

@@ -16,7 +16,8 @@ import UseOfForceItem from 'components/officer-page/timeline/use-of-force-item'
 import NewsArticleCard from 'components/officer-page/timeline/news-article-card'
 import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
-import { ANIMATION_DURATION } from 'constants/common'
+import { ANIMATION_DURATION, EVENT_TYPES } from 'constants/common'
+import * as googleAnalytics from 'utils/google-analytics'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -110,6 +111,7 @@ beforeEach(() => {
   TimelineFilters.mockClear()
   UseOfForceItem.mockClear()
   NewsArticleCard.mockClear()
+  sinon.stub(googleAnalytics, 'analyzeAction')
 })
 
 describe('Timeline component', () => {
@@ -523,6 +525,67 @@ describe('Timeline component', () => {
         baseElement.getElementsByClassName('timeline-header-download')[0]
       ).toBeFalsy()
     })
+  })
+
+  it('handles analyze download file on click', async () => {
+    const timelineData = [
+      {
+        groupName: 'Mar 10, 2019',
+        isDateEvent: true,
+        items: [
+          {
+            id: 123,
+            kind: 'COMPLAINT',
+            trackingNumber: '10-03',
+            ruleViolation: 'Officer rule violation 2019-03-10',
+            paragraphViolation: 'Officer paragraph violation 2019-03-10',
+            disposition: 'Officer dispostion 2019-03-10',
+            action: 'Officer action 2019-03-10',
+          },
+        ],
+      },
+    ]
+    const downloadOfficerTimelineStub = jest.fn()
+    const officerName = 'Officer Name'
+
+    const container = render(
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            hasEventDetails
+            downloadOfficerTimeline={downloadOfficerTimelineStub}
+            officerName={officerName}
+          />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { baseElement } = container
+
+    const timelineHeaderDownloadButton = baseElement.getElementsByClassName(
+      'timeline-download-btn'
+    )[0]
+    fireEvent.click(timelineHeaderDownloadButton)
+
+    expect(
+      baseElement.getElementsByClassName('timeline-header-download')[0]
+    ).toBeTruthy()
+
+    const showDownloadFileButton = baseElement.getElementsByClassName(
+      'show-download-file'
+    )[0]
+    await act(async () => {
+      fireEvent.click(showDownloadFileButton)
+    })
+
+    expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
+      type: EVENT_TYPES.DOWNLOAD_SPREADSHEET,
+      data: { officer_id: '1' },
+    })
+    expect(
+      baseElement.getElementsByClassName('timeline-header-download')[0]
+    ).toBeFalsy()
   })
 
   describe('Complaint item', () => {
