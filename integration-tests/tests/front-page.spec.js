@@ -158,10 +158,7 @@ describe('FrontPage', () => {
 
         cy.get('.departments-carousel').find('.swiper-slide').eq(0).click()
 
-        cy.location('pathname').should(
-          'eq',
-          `/dept/${departmentsData[0].id}/`
-        )
+        cy.location('pathname').should('eq', `/dept/${departmentsData[0].id}/`)
       })
     })
 
@@ -261,7 +258,10 @@ describe('FrontPage', () => {
         cy.waitUntil(() => cy.get('.officers-carousel').should('exist'))
         cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
 
-        cy.location('pathname').should('eq', `/officers/${officersData[0].id}/mark-carlson`)
+        cy.location('pathname').should(
+          'eq',
+          `/officers/${officersData[0].id}/mark-carlson`
+        )
       })
     })
 
@@ -295,7 +295,10 @@ describe('FrontPage', () => {
           .eq(2)
           .contains('Be decade those someone tough year sing.')
 
-        cy.get('@visibleSlides').eq(0).find('.document-type').contains('csv')
+        cy.get('@visibleSlides')
+          .eq(0)
+          .find('.document-type')
+          .contains('document')
         cy.get('@visibleSlides')
           .eq(0)
           .find('.document-title')

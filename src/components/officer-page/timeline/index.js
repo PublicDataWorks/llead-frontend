@@ -17,7 +17,12 @@ import SalaryChangeItem from './salary-change-item'
 import RankChangeItem from './rank-change-item'
 import UnitChangeItem from './unit-change-item'
 import TimelineFilters from './filters'
-import { ANIMATION_DURATION, TIMELINE_KINDS } from 'constants/common'
+import {
+  ANIMATION_DURATION,
+  EVENT_TYPES,
+  TIMELINE_KINDS,
+} from 'constants/common'
+import { analyzeAction } from 'utils/google-analytics'
 import NewsArticleCard from './news-article-card'
 
 const TIMELINE_COMPONENTS_MAPPING = {
@@ -146,6 +151,10 @@ const Timeline = (props) => {
     const fileName = `${officerName.replace(' ', '_')}.xlsx`
     setShowDownloadPanel(!showDownloadPanel)
     downloadOfficerTimeline(officerId, fileName)
+    analyzeAction({
+      type: EVENT_TYPES.DOWNLOAD_SPREADSHEET,
+      data: { officer_id: officerId },
+    })
   }
 
   const hideActionsPanel = () => {

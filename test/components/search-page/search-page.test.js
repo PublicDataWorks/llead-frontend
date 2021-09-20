@@ -6,8 +6,14 @@ import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
 
 import SearchPage from 'components/search-page'
+import * as googleAnalytics from 'utils/google-analytics'
+import { EVENT_TYPES } from 'constants/common'
 
 describe('SearchPage component', () => {
+  beforeEach(() => {
+    sinon.stub(googleAnalytics, 'analyzeAction')
+  })
+
   it('should render correctly', () => {
     const searchStub = sinon.stub()
 
@@ -168,5 +174,53 @@ describe('SearchPage component', () => {
     await waitFor(() =>
       expect(saveSearchQuerySpy).toHaveBeenCalledWith(searchQuery)
     )
+  })
+
+  it('should analyze search result item click', async () => {
+    const searchStub = sinon.stub()
+    const saveSearchQuerySpy = sinon.spy()
+
+    const searchResults = {
+      departments: [
+        {
+          id: 'petersonmouth-department',
+          name: 'Petersonmouth Department',
+          city: 'Baton Rouge',
+          parish: 'East Baton Rouge',
+          locationMapUrl: null,
+        },
+      ],
+    }
+
+    const searchQuery = 'searchQuery'
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/search']}>
+          <Route path='/search'>
+            <SearchPage
+              searchResults={searchResults}
+              search={searchStub}
+              searchQuery={searchQuery}
+              saveSearchQuery={saveSearchQuerySpy}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    const searchResultItem = baseElement.getElementsByClassName(
+      'department-card'
+    )[0]
+    fireEvent.click(searchResultItem)
+    await waitFor(() =>
+      expect(saveSearchQuerySpy).toHaveBeenCalledWith(searchQuery)
+    )
+
+    expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
+      type: EVENT_TYPES.SEARCH,
+      data: { search_query: searchQuery },
+    })
   })
 })

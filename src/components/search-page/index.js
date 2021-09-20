@@ -9,7 +9,8 @@ import './search-page.scss'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
 import DocumentsList from 'components/search-page/search-results/documents-list'
-import { SEARCH_THROTTLE_TIME_OUT } from 'constants/common'
+import { EVENT_TYPES, SEARCH_THROTTLE_TIME_OUT } from 'constants/common'
+import { analyzeAction } from 'utils/google-analytics'
 
 const SearchPage = (props) => {
   const {
@@ -41,6 +42,10 @@ const SearchPage = (props) => {
   }, [searchQuery])
 
   const handleItemClick = () => {
+    analyzeAction({
+      type: EVENT_TYPES.SEARCH,
+      data: { search_query: searchQuery },
+    })
     saveSearchQuery(searchQuery)
   }
 
