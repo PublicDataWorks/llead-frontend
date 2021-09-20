@@ -2,8 +2,8 @@
 @import 'styles/colors';
 
 .front-page {
-  .front-page-carousel {
-    & + .front-page-carousel {
+  .section-anchor {
+    & ~ .section-anchor {
       border-top: 1px solid $thunder-color;
     }
   }

@@ -6,6 +6,7 @@ import {
   departmentFormatter,
   officerFormatter,
   documentFormatter,
+  newsArticleFormatter,
 } from 'selectors/common'
 
 const getAnalyticSummary = (state) =>
@@ -14,6 +15,7 @@ const getAnalyticSummary = (state) =>
 const getDepartments = (state) => get(state.frontPage, 'departments', [])
 const getOfficers = (state) => get(state.frontPage, 'officers', [])
 const getDocuments = (state) => get(state.frontPage, 'documents', [])
+const getNewsArticles = (state) => get(state.frontPage, 'newsArticles', [])
 
 export const analyticSummarySelector = (state) => {
   const rawAnalyticSummary = getAnalyticSummary(state)
@@ -39,4 +41,8 @@ export const officersSelector = (state) =>
 
 export const documentsSelector = (state) => {
   return map(getDocuments(state), documentFormatter)
+}
+
+export const newsArticlesSelector = (state) => {
+  return map(getNewsArticles(state), newsArticleFormatter)
 }

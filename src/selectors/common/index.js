@@ -51,7 +51,10 @@ export const documentFormatter = (document) => {
 export const newsArticleFormatter = (news_article) => {
   const news_articleAttributes = ['id', 'title', 'url', 'sourceName']
 
-  return pick(news_article, news_articleAttributes)
+  return {
+    ...pick(news_article, news_articleAttributes),
+    publishedDate: formatDate(news_article.date),
+  }
 }
 
 const getAppConfig = (state) => get(state, 'appConfig')
