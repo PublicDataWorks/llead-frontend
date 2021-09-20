@@ -141,6 +141,15 @@ export const officerTimelineData = {
       year: 2019,
     },
     {
+      id: 22,
+      year: 2019,
+      date: '2019-03-10',
+      kind: 'NEWS_ARTICLE',
+      sourceName: 'The Lens NOLA',
+      title: 'News Article 2019-03-10',
+      url: 'url',
+    },
+    {
       kind: 'JOINED',
       date: '2019-03-10',
       year: 2019,

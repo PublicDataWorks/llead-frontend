@@ -48,6 +48,12 @@ export const documentFormatter = (document) => {
   }
 }
 
+export const newsArticleFormatter = (news_article) => {
+  const news_articleAttributes = ['id', 'title', 'url', 'sourceName']
+
+  return pick(news_article, news_articleAttributes)
+}
+
 const getAppConfig = (state) => get(state, 'appConfig')
 const getCMS = (state) => get(state, 'appConfig.cms', {})
 export const getAccessToken = (state) => get(state, 'token.access')

@@ -42,6 +42,7 @@ export const TIMELINE_KIND_ORDERS = {
   COMPLAINT: 6,
   UOF: 7,
   DOCUMENT: 8,
+  NEWS_ARTICLE: 9,
 }
 
 export const TIMELINE_KINDS = {
@@ -53,6 +54,7 @@ export const TIMELINE_KINDS = {
   SALARY_CHANGE: 'SALARY_CHANGE',
   RANK_CHANGE: 'RANK_CHANGE',
   UNIT_CHANGE: 'UNIT_CHANGE',
+  NEWS_ARTICLE: 'NEWS_ARTICLE',
 }
 
 export const TIMELINE_FILTERS = {
@@ -63,6 +65,10 @@ export const TIMELINE_FILTERS = {
   DOCUMENTS: {
     title: 'Documents',
     kinds: [TIMELINE_KINDS.DOCUMENT],
+  },
+  NEWS_ARTICLES: {
+    title: 'News Articles',
+    kinds: [TIMELINE_KINDS.NEWS_ARTICLE],
   },
   RANKS_AND_UNITS: {
     title: 'Rank/unit',
