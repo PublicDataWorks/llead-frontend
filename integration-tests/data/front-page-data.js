@@ -180,31 +180,10 @@ export const documentsData = [
 
 export const newsArticlesData = [
   {
-    id: 6,
+    id: 1,
     source_name: 'The lens',
-    title: 'Mouth trip too finally society smile man.',
-    url: 'http://documents.com/and/hit.pdf',
-    date: '2020-01-06',
-  },
-  {
-    id: 5,
-    source_name: 'The lens',
-    title: 'Performance past from.',
-    url: 'http://documents.com/cup/body.pdf',
-    date: '2020-01-06',
-  },
-  {
-    id: 4,
-    source_name: 'NOLA',
-    title: 'Face growth poor wait follow option better.',
-    url: 'http://documents.com/from/few.pdf',
-    date: '2020-01-06',
-  },
-  {
-    id: 3,
-    source_name: 'NOLA',
-    title: 'Be decade those someone tough year sing.',
-    url: 'http://documents.com/may/rest.pdf',
+    title: 'Her hard step sea.',
+    url: 'http://documents.com/century/five.pdf',
     date: '2020-01-06',
   },
   {
@@ -215,10 +194,31 @@ export const newsArticlesData = [
     date: '2020-01-06',
   },
   {
-    id: 1,
+    id: 3,
+    source_name: 'NOLA',
+    title: 'Be decade those someone tough year sing.',
+    url: 'http://documents.com/may/rest.pdf',
+    date: '2020-01-06',
+  },
+  {
+    id: 4,
+    source_name: 'NOLA',
+    title: 'Face growth poor wait follow option better.',
+    url: 'http://documents.com/from/few.pdf',
+    date: '2020-01-06',
+  },
+  {
+    id: 5,
     source_name: 'The lens',
-    title: 'Her hard step sea.',
-    url: 'http://documents.com/century/five.pdf',
+    title: 'Performance past from.',
+    url: 'http://documents.com/cup/body.pdf',
+    date: '2020-01-06',
+  },
+  {
+    id: 6,
+    source_name: 'The lens',
+    title: 'Mouth trip too finally society smile man.',
+    url: 'http://documents.com/and/hit.pdf',
     date: '2020-01-06',
   },
 ]

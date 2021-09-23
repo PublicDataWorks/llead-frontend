@@ -95,7 +95,7 @@ const FrontPage = (props) => {
         >
           <div className='section-anchor' />
           <NewsArticlesCarousel
-            items={newsArticles.slice(0).reverse()}
+            items={newsArticles}
             saveRecentItem={saveRecentItem}
             sortedField='most recently added'
             className='front-page-carousel'
