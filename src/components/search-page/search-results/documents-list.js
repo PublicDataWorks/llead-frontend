@@ -39,6 +39,7 @@ const DocumentsList = (props) => {
       key={document.id}
       {...document}
       highlighting={highlighting}
+      recentData={document}
       saveRecentItem={saveRecentItem}
       onItemClick={onItemClick}
     />

@@ -21,6 +21,8 @@ export const documentFormatter = (document) => {
     'departments',
     'textContent',
     'textContentHighlight',
+    'previewImageUrl',
+    'pagesCount',
   ]
   const rawDepartments = get(document, 'departments')
   const departments = map(rawDepartments, (department) =>
