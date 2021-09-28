@@ -1,10 +1,11 @@
 @import 'styles/colors';
+@import 'styles/variables';
 
 .document-preview-container {
   .document-preview {
     display: inline-block;
-    width: 61px;
-    height: 79px;
+    width: $h-small-thumbnail;
+    height: $v-small-thumbnail;
     border: 1px solid $alto-color;
     box-sizing: border-box;
     background-color: $white-color;
@@ -14,8 +15,8 @@
 
   .document-preview-page {
     display: inline-block;
-    width: 13px;
-    height: 79px;
+    width: $h-small-thumbnail-back;
+    height: $v-small-thumbnail;
     border: solid $alto-color;
     border-width: 1px 1px 1px 0;
     box-sizing: border-box;
