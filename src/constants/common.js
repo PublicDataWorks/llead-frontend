@@ -117,3 +117,9 @@ export const FRONT_PAGE_SECTIONS = {
   DOCUMENT: 'DOCUMENT',
   NEWS_ARTICLE: 'NEWS_ARTICLE',
 }
+
+export const QUERY_DOCTYPE_MAPPING = {
+  document: 'documents',
+}
+
+export const DOCUMENTS_SHOW_MORE_LIMIT = 5

@@ -4,6 +4,7 @@ import {
   getSearchQuery,
   searchResultsSelector,
   searchQuerySuggestionsSelector,
+  searchQuerySelector,
 } from 'selectors/search-page'
 import * as commonConstants from 'constants/common'
 
@@ -22,7 +23,8 @@ describe('#getSearchQuery', () => {
 describe('#searchResultsSelector', () => {
   it('returns search results', () => {
     const rawResults = {
-      departments: [
+      departments: {
+        results: [
         {
           id: 22,
           name: 'Petersonmouth Department',
@@ -31,8 +33,13 @@ describe('#searchResultsSelector', () => {
           locationMapUrl: null,
           otherFields: 'other fields',
         },
-      ],
-      officers: [
+        ],
+        previous: null,
+        next: 'http://ipno.com/pagination/?offset=1&limit=1&q=key',
+        count: 2,
+      },
+      officers: {
+        results: [
         {
           id: 9,
           name: 'Robert Craig',
@@ -43,8 +50,13 @@ describe('#searchResultsSelector', () => {
           },
           otherFields: 'other fields',
         },
-      ],
-      documents: [
+        ],
+        previous: null,
+        next: null,
+        count: 1,
+      },
+      documents: {
+        results: [
         {
           id: 22,
           documentType: 'css',
@@ -60,7 +72,11 @@ describe('#searchResultsSelector', () => {
           textContent: 'Text content',
           textContentHighlight: 'Text content <em>highlight</em>',
         },
-      ],
+        ],
+        previous: null,
+        next: 'http://ipno.com/pagination/?offset=1&limit=1&q=key',
+        count: 2,
+      },
     }
     const state = {
       searchPage: {
@@ -71,7 +87,8 @@ describe('#searchResultsSelector', () => {
     const results = searchResultsSelector(state)
 
     const expectedResults = {
-      departments: [
+      departments: {
+        results: [
         {
           id: 22,
           name: 'Petersonmouth Department',
@@ -79,8 +96,15 @@ describe('#searchResultsSelector', () => {
           parish: 'East Baton Rouge',
           locationMapUrl: null,
         },
-      ],
-      officers: [
+        ],
+        previous: null,
+        count: 2,
+        limit: 1,
+        offset: 1,
+        q: 'key',
+      },
+      officers: {
+        results: [
         {
           id: 9,
           name: 'Robert Craig',
@@ -90,8 +114,12 @@ describe('#searchResultsSelector', () => {
             name: 'Petersonmouth Department',
           },
         },
-      ],
-      documents: [
+        ],
+        previous: null,
+        count: 1,
+      },
+      documents: {
+        results: [
         {
           id: 22,
           documentType: 'css',
@@ -107,7 +135,13 @@ describe('#searchResultsSelector', () => {
           textContent: 'Text content',
           textContentHighlight: 'Text content <em>highlight</em>',
         },
-      ],
+        ],
+        previous: null,
+        count: 2,
+        limit: 1,
+        offset: 1,
+        q: 'key',
+      },
     }
 
     expect(results).toStrictEqual(expectedResults)
@@ -189,5 +223,49 @@ describe('#searchQuerySuggestionsSelector', () => {
     const expectedResults = ['query_1', 'query_2', 'other_query']
 
     expect(results).toStrictEqual(expectedResults)
+  })
+})
+
+describe('#searchQuerySelector', () => {
+  it('returns parsed docType and search query', () => {
+    const state = {
+      searchPage: {
+        searchQuery: 'docType: keyword',
+      },
+    }
+    const expected_result = {
+      docType: 'docType',
+      searchString: 'keyword',
+    }
+    const parsed_item = searchQuerySelector(state)
+    expect(parsed_item).toStrictEqual(expected_result)
+  })
+
+  it('parse searchQuery without docType', () => {
+    const state = {
+      searchPage: {
+        searchQuery: 'keyword',
+      },
+    }
+    const expected_result = {
+      docType: '',
+      searchString: 'keyword',
+    }
+    const parsed_item = searchQuerySelector(state)
+    expect(parsed_item).toStrictEqual(expected_result)
+  })
+
+  it('parse searchQuery with multi colons', () => {
+    const state = {
+      searchPage: {
+        searchQuery: 'docType: docType: keyword',
+      },
+    }
+    const expected_result = {
+      docType: 'docType',
+      searchString: 'docType: keyword',
+    }
+    const parsed_item = searchQuerySelector(state)
+    expect(parsed_item).toStrictEqual(expected_result)
   })
 })

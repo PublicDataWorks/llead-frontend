@@ -3,12 +3,19 @@
 @import 'styles/variables';
 
 .documents-list {
-  padding: $v-header-margin 0;
+  padding: $v-header-margin $h-side-frame;
 
   .documents-list-title {
     @include h1;
     color: $thunder-color;
     margin: 0 $h-side-frame $v-frame-margin $h-side-frame;
     flex-grow: 1;
+  }
+
+  .documents-search-more {
+    @include small-text;
+    width: 100%;
+    margin-top: $v-frame-margin;
+    background-color: $wild-sand-color;
   }
 }

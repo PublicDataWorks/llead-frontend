@@ -1,5 +1,5 @@
 import { appConfigData } from '../data/common-data'
-import { firstSearchData, secondSearchData } from '../data/search-page-data'
+import { firstSearchData, secondSearchData, thirdSearchData, thirdSearchDataExtend } from '../data/search-page-data'
 
 describe('Search Page', () => {
   it('redirect to login when not logged in', () => {
@@ -17,6 +17,24 @@ describe('Search Page', () => {
           url: 'http://localhost:8000/api/app-config/',
         },
         appConfigData
+      )
+
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/search/',
+          query: { q: 'ba', limit: '3', offset: '1' , doc_type: 'documents'},
+        },
+        thirdSearchDataExtend
+      )
+      
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/search/',
+          query: { q: 'ba', doc_type: 'documents'},
+        },
+        thirdSearchData
       )
       cy.interceptExact(
         {
@@ -231,7 +249,7 @@ describe('Search Page', () => {
 
         cy.location('pathname').should(
           'eq',
-          `/dept/${firstSearchData['departments'][0].id}/`
+          `/dept/${firstSearchData['departments'].results[0].id}/`
         )
       })
 
@@ -257,10 +275,98 @@ describe('Search Page', () => {
 
         cy.get('@open').should(
           'to.be.calledWith',
-          firstSearchData['documents'][0].url,
+          firstSearchData['documents'].results[0].url,
           '_blank',
           'noopener noreferrer'
         )
+      })
+
+      it('renders document inifnite UI on click show more', () => {
+        cy.visit('/search/?q=ba')
+
+        cy.location('pathname').should('eq', '/search/')
+        cy.get('.search-input-container')
+          .find('.input-field')
+          .should('value', 'ba')
+
+        cy.get('.departments-carousel')
+          .find('.swiper-slide')
+          .as('departmentSlides')
+          .should('length', 3)
+        cy.get('@departmentSlides').eq(0).contains('Baton Rouge PD')
+        cy.get('@departmentSlides').eq(1).contains('New Orleans PD')
+        cy.get('@departmentSlides').eq(2).contains('Baton Rouge Sheriff')
+
+        cy.get('.officers-carousel')
+          .find('.swiper-slide')
+          .as('officersSlides')
+          .should('length', 4)
+        cy.get('@officersSlides').eq(0).contains('Mark Carlson')
+        cy.get('@officersSlides').eq(1).contains('Eric Patel')
+        cy.get('@officersSlides').eq(2).contains('Lee Allen')
+        cy.get('@officersSlides').eq(3).contains('Tina Holder')
+
+        cy.get('.documents-list')
+          .find('.document-item')
+          .as('documentItems')
+          .should('length', 3)
+        cy.get('@documentItems').eq(0).contains('Her hard step sea.')
+        cy.get('@documentItems')
+          .eq(1)
+          .contains('Yourself say language meeting ok.')
+        cy.get('@documentItems')
+          .eq(2)
+          .contains('Be decade those someone tough year sing.')
+
+        cy.get('.btn.documents-search-more')
+          .eq(0)
+          .click()
+
+        cy.url().should('eq', Cypress.config().baseUrl +`/search/?q=document%3A%20ba`)
+
+        cy.get('.departments-carousel')
+          .should('not.exist')
+
+        cy.get('.officers-carousel')
+          .should('not.exist')
+
+        cy.get('.documents-list')
+          .find('.document-item')
+          .as('documentItems')
+          .should('length', 3)
+        cy.get('@documentItems').eq(0).contains('Her hard step sea.')
+        cy.get('@documentItems')
+          .eq(1)
+          .contains('Yourself say language meeting ok.')
+        cy.get('@documentItems')
+          .eq(2)
+          .contains('Be decade those someone tough year sing.')
+
+        cy.scrollTo('bottom')
+
+        cy.get('.departments-carousel')
+          .should('not.exist')
+
+        cy.get('.officers-carousel')
+          .should('not.exist')
+
+        cy.get('.documents-list')
+          .find('.document-item')
+          .as('documentItems')
+          .should('length', 6)
+
+        cy.scrollTo('bottom')
+
+        cy.get('.departments-carousel')
+          .should('not.exist')
+
+        cy.get('.officers-carousel')
+          .should('not.exist')
+
+        cy.get('.documents-list')
+          .find('.document-item')
+          .as('documentItems')
+          .should('length', 6)
       })
     })
 

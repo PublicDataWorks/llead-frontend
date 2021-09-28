@@ -1,3 +1,4 @@
+import qs from 'qs'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
@@ -35,7 +36,22 @@ export const documentFormatter = (document) => {
 
 const getSearchResults = (state) => get(state, 'searchPage.searchResults')
 
-export const getSearchQuery = (state) => get(state, 'searchPage.searchQuery')
+export const getSearchQuery = (state) =>
+  get(state, 'searchPage.searchQuery', '')
+
+export const searchQuerySelector = createSelector(
+  getSearchQuery,
+  (searchQuery) => {
+    const firstColonPos = searchQuery.indexOf(':')
+    const docType = searchQuery.substr(0, firstColonPos)
+    const searchString = searchQuery.substr(firstColonPos + 1).trim()
+
+    return {
+      docType,
+      searchString,
+    }
+  }
+)
 
 export const getSearchQueries = (state) =>
   get(state, 'searchPage.searchQueries')
@@ -55,12 +71,46 @@ export const searchQuerySuggestionsSelector = createSelector(
   }
 )
 
+const parseNextResult = (next) => {
+  if (isEmpty(next)) {
+    return {}
+  }
+
+  const searchParams = new URL(next).search
+  const { limit: parsedLimit, offset: parsedOffset, q } = qs.parse(
+    searchParams,
+    {
+      ignoreQueryPrefix: true,
+    }
+  )
+  return {
+    limit: parseInt(parsedLimit),
+    offset: parseInt(parsedOffset),
+    q,
+  }
+}
+
 export const searchResultsSelector = (state) => {
   const searchResults = getSearchResults(state)
 
+  const { departments, officers, documents } = searchResults
+  const paginationAttrs = ['previous', 'count']
+
   return {
-    departments: map(get(searchResults, 'departments'), departmentFormatter),
-    officers: map(get(searchResults, 'officers'), officerFormatter),
-    documents: map(get(searchResults, 'documents'), documentFormatter),
+    departments: {
+      ...pick(departments, paginationAttrs),
+      ...parseNextResult(get(departments, 'next')),
+      results: map(get(departments, 'results'), departmentFormatter),
+    },
+    officers: {
+      ...pick(officers, paginationAttrs),
+      ...parseNextResult(get(officers, 'next')),
+      results: map(get(officers, 'results'), officerFormatter),
+    },
+    documents: {
+      ...pick(documents, paginationAttrs),
+      ...parseNextResult(get(documents, 'next')),
+      results: map(get(documents, 'results'), documentFormatter),
+    },
   }
 }
