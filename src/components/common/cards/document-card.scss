@@ -24,15 +24,19 @@
 
     .document-title {
       @include small-text;
+      height: 2 * $v-margin;
       margin-top: $v-small-margin;
-      white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
 
     .document-subtitle {
       @include small-text;
       margin-top: $v-tiny-margin;
+      color: $boulder-color;
     }
   }
 
@@ -42,7 +46,7 @@
     overflow: auto;
     position: absolute;
     bottom: $v-frame-margin;
-    max-height: 71px;
+    max-height: 71px - $v-frame-margin;
 
     .document-department-name {
       display: block;
