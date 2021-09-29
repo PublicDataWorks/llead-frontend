@@ -18,7 +18,8 @@ describe('SearchPage component', () => {
     const searchStub = sinon.stub()
 
     const searchResults = {
-      departments: [
+      departments: {
+        results: [
         {
           id: 'petersonmouth-department',
           name: 'Petersonmouth Department',
@@ -26,8 +27,10 @@ describe('SearchPage component', () => {
           parish: 'East Baton Rouge',
           locationMapUrl: null,
         },
-      ],
-      officers: [
+        ],
+      },
+      officers: {
+        results: [
         {
           id: 9,
           name: 'Robert Craig',
@@ -37,8 +40,10 @@ describe('SearchPage component', () => {
             name: 'Petersonmouth Department',
           },
         },
-      ],
-      documents: [
+        ],
+      },
+      documents: {
+      results: [
         {
           id: 22,
           documentType: 'css',
@@ -53,7 +58,8 @@ describe('SearchPage component', () => {
           ],
           textContent: 'Text content',
         },
-      ],
+        ],
+      },
     }
 
     const container = render(
@@ -110,11 +116,14 @@ describe('SearchPage component', () => {
     const searchStub = sinon.stub()
 
     const searchResults = {
-      departments: [],
-      officers: [],
+      departments: {
+        results: []},
+      officers: {results: []},
+      documents: {results: []},
     }
 
     const searchQuery = 'searchQuery'
+    const searchParams = { docType: 'document', searchString: 'searchString' }
 
     render(
       <Provider store={MockStore()()}>
@@ -124,13 +133,16 @@ describe('SearchPage component', () => {
               searchResults={searchResults}
               search={searchStub}
               searchQuery={searchQuery}
+              searchParams={searchParams}
             />
           </Route>
         </MemoryRouter>
       </Provider>
     )
 
-    await waitFor(() => expect(searchStub).toHaveBeenCalledWith(searchQuery))
+    await waitFor(() => {
+      expect(searchStub).toHaveBeenCalledWith({query: 'searchString', docType: 'documents'})
+    })
   })
 
   it('should handle search result item click', async () => {
@@ -138,7 +150,8 @@ describe('SearchPage component', () => {
     const saveSearchQuerySpy = sinon.spy()
 
     const searchResults = {
-      departments: [
+      departments: {
+        results: [
         {
           id: 'petersonmouth-department',
           name: 'Petersonmouth Department',
@@ -146,7 +159,39 @@ describe('SearchPage component', () => {
           parish: 'East Baton Rouge',
           locationMapUrl: null,
         },
-      ],
+        ],
+      },
+      officers: {
+        results: [
+        {
+          id: 9,
+          name: 'Robert Craig',
+          badges: ['12345'],
+          department: {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        },
+        ],
+      },
+      documents: {
+        results: [
+        {
+          id: 22,
+          documentType: 'css',
+          title: 'Especially sense available best.',
+          url: 'http://documents.com/hundred/work.pdf',
+          incidentDate: '2020-01-06',
+          departments: [
+            {
+              id: 'petersonmouth-department',
+              name: 'Petersonmouth Department',
+            },
+          ],
+          textContent: 'Text content',
+        },
+        ],
+      },
     }
 
     const searchQuery = 'searchQuery'
@@ -181,7 +226,8 @@ describe('SearchPage component', () => {
     const saveSearchQuerySpy = sinon.spy()
 
     const searchResults = {
-      departments: [
+      departments: {
+        results: [
         {
           id: 'petersonmouth-department',
           name: 'Petersonmouth Department',
@@ -189,7 +235,39 @@ describe('SearchPage component', () => {
           parish: 'East Baton Rouge',
           locationMapUrl: null,
         },
-      ],
+        ],
+      },
+      officers: {
+        results: [
+        {
+          id: 9,
+          name: 'Robert Craig',
+          badges: ['12345'],
+          department: {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        },
+        ],
+      },
+      documents: {
+        results: [
+        {
+          id: 22,
+          documentType: 'css',
+          title: 'Especially sense available best.',
+          url: 'http://documents.com/hundred/work.pdf',
+          incidentDate: '2020-01-06',
+          departments: [
+            {
+              id: 'petersonmouth-department',
+              name: 'Petersonmouth Department',
+            },
+          ],
+          textContent: 'Text content',
+        },
+        ],
+      },
     }
 
     const searchQuery = 'searchQuery'

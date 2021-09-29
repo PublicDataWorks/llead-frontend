@@ -16,7 +16,7 @@ const cancelOldRequest = (newRequest) => (...args) => {
   return newRequest(...args)
 }
 
-export const search = cancelOldRequest((query) =>
+export const search = cancelOldRequest(({ query, docType, limit, offset }) =>
   get(
     [
       actionTypes.SEARCH_START,
@@ -25,7 +25,7 @@ export const search = cancelOldRequest((query) =>
     ],
     SEARCH_API_URL,
     cancelTokenSource.token
-  )({ q: query })
+  )({ q: query, limit, offset, doc_type: docType })
 )
 
 export const changeSearchQuery = createAction(actionTypes.CHANGE_SEARCH_QUERY)

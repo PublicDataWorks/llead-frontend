@@ -180,13 +180,61 @@ const documentsData2 = [
 ]
 
 export const firstSearchData = {
-  departments: departmentsData1,
-  officers: officersData1,
-  documents: documentsData1,
+  departments: {
+    results: departmentsData1,
+    count: 3,
+    next: null,
+    previous: null,
+  },
+  officers: {
+    results: officersData1,
+    count: 4,
+    next: null,
+    previous: null,
+  },
+  documents: {
+    results:documentsData1,
+    count: 6,
+    next: 'http://testserver/api/search/?doc_type=documents&limit=3&offset=1&q=ba',
+    previous: null,
+  }
 }
 
 export const secondSearchData = {
-  departments: departmentsData2,
-  officers: officersData2,
-  documents: documentsData2,
+  departments: {
+    results: departmentsData2,
+    count: 2,
+    next: null,
+    previous: null,
+  },
+  officers: {
+    results: officersData2,
+    count: 1,
+    next: null,
+    previous: null,
+  },
+  documents: {
+    results: documentsData2,
+    count: 3,
+    next: null,
+    previous: null,
+  }
+}
+
+export const thirdSearchData = {
+  documents: {
+    results:documentsData1,
+    count: 6,
+    next: 'http://testserver/api/search/?doc_type=documents&limit=3&offset=1&q=ba',
+    previous: null,
+  }
+}
+
+export const thirdSearchDataExtend = {
+  documents: {
+    results:documentsData2,
+    count: 6,
+    next: null,
+    previous: null,
+  }
 }

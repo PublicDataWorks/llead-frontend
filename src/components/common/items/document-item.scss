@@ -4,7 +4,8 @@
 
 .document-item {
   @include small-text;
-  padding: $v-small-margin $h-side-frame;
+  padding: $v-small-margin 0;
+  margin: 0 $h-side-frame;
 
   & + .document-item {
     border-top: 1px solid $alto-color;

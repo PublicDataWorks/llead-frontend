@@ -15,6 +15,7 @@ import {
   officerTimelineData,
   userInfoData,
 } from '../data/recent-items-data'
+import { firstSearchData } from '../data/search-page-data'
 
 describe('FrontPage recent items', () => {
   beforeEach(() => {
@@ -111,6 +112,15 @@ describe('FrontPage recent items', () => {
         url: 'http://localhost:8000/api/officers/1/timeline/',
       },
       officerTimelineData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/search/',
+        query: { q: 'ba' },
+      },
+      firstSearchData
     )
   })
 
@@ -438,5 +448,54 @@ describe('FrontPage recent items', () => {
     cy.get('@visibleSlides')
       .eq(2)
       .contains('Face growth poor wait follow option better.')
+  })
+
+  it('adds documents to recent items when click on a document in search results', () => {
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('open')
+    })
+
+    cy.visit('/search/?q=ba')
+
+    cy.location('pathname').should('eq', '/search/')
+    cy.get('.search-input-container')
+      .find('.input-field')
+      .should('value', 'ba')
+
+    cy.get('.documents-list')
+      .find('.document-item')
+      .as('documentItems')
+      .should('length', 3)
+
+    cy.get('@documentItems').eq(1).contains('Yourself say language meeting ok.')
+    cy.get('@documentItems').eq(1).click()
+    cy.get('.logo').click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 1)
+
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-type')
+      .contains('document')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-title')
+      .contains('Yourself say language meeting ok.')
+      cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-subtitle')
+      .contains('Jan 6, 2020')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-preview')
+      .should(
+        'have.css',
+        'background-image',
+        'url("http://image.com/production/activity.jpg")'
+      )
+
   })
 })
