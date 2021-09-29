@@ -6,13 +6,20 @@ import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
 
 import SearchPage from 'components/search-page'
+import * as googleAnalytics from 'utils/google-analytics'
+import { EVENT_TYPES } from 'constants/common'
 
 describe('SearchPage component', () => {
+  beforeEach(() => {
+    sinon.stub(googleAnalytics, 'analyzeAction')
+  })
+
   it('should render correctly', () => {
     const searchStub = sinon.stub()
 
     const searchResults = {
-      departments: [
+      departments: {
+        results: [
         {
           id: 'petersonmouth-department',
           name: 'Petersonmouth Department',
@@ -20,8 +27,10 @@ describe('SearchPage component', () => {
           parish: 'East Baton Rouge',
           locationMapUrl: null,
         },
-      ],
-      officers: [
+        ],
+      },
+      officers: {
+        results: [
         {
           id: 9,
           name: 'Robert Craig',
@@ -31,8 +40,10 @@ describe('SearchPage component', () => {
             name: 'Petersonmouth Department',
           },
         },
-      ],
-      documents: [
+        ],
+      },
+      documents: {
+      results: [
         {
           id: 22,
           documentType: 'css',
@@ -47,7 +58,8 @@ describe('SearchPage component', () => {
           ],
           textContent: 'Text content',
         },
-      ],
+        ],
+      },
     }
 
     const container = render(
@@ -104,11 +116,14 @@ describe('SearchPage component', () => {
     const searchStub = sinon.stub()
 
     const searchResults = {
-      departments: [],
-      officers: [],
+      departments: {
+        results: []},
+      officers: {results: []},
+      documents: {results: []},
     }
 
     const searchQuery = 'searchQuery'
+    const searchParams = { docType: 'document', searchString: 'searchString' }
 
     render(
       <Provider store={MockStore()()}>
@@ -118,13 +133,16 @@ describe('SearchPage component', () => {
               searchResults={searchResults}
               search={searchStub}
               searchQuery={searchQuery}
+              searchParams={searchParams}
             />
           </Route>
         </MemoryRouter>
       </Provider>
     )
 
-    await waitFor(() => expect(searchStub).toHaveBeenCalledWith(searchQuery))
+    await waitFor(() => {
+      expect(searchStub).toHaveBeenCalledWith({query: 'searchString', docType: 'documents'})
+    })
   })
 
   it('should handle search result item click', async () => {
@@ -132,7 +150,8 @@ describe('SearchPage component', () => {
     const saveSearchQuerySpy = sinon.spy()
 
     const searchResults = {
-      departments: [
+      departments: {
+        results: [
         {
           id: 'petersonmouth-department',
           name: 'Petersonmouth Department',
@@ -140,7 +159,39 @@ describe('SearchPage component', () => {
           parish: 'East Baton Rouge',
           locationMapUrl: null,
         },
-      ],
+        ],
+      },
+      officers: {
+        results: [
+        {
+          id: 9,
+          name: 'Robert Craig',
+          badges: ['12345'],
+          department: {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        },
+        ],
+      },
+      documents: {
+        results: [
+        {
+          id: 22,
+          documentType: 'css',
+          title: 'Especially sense available best.',
+          url: 'http://documents.com/hundred/work.pdf',
+          incidentDate: '2020-01-06',
+          departments: [
+            {
+              id: 'petersonmouth-department',
+              name: 'Petersonmouth Department',
+            },
+          ],
+          textContent: 'Text content',
+        },
+        ],
+      },
     }
 
     const searchQuery = 'searchQuery'
@@ -168,5 +219,86 @@ describe('SearchPage component', () => {
     await waitFor(() =>
       expect(saveSearchQuerySpy).toHaveBeenCalledWith(searchQuery)
     )
+  })
+
+  it('should analyze search result item click', async () => {
+    const searchStub = sinon.stub()
+    const saveSearchQuerySpy = sinon.spy()
+
+    const searchResults = {
+      departments: {
+        results: [
+        {
+          id: 'petersonmouth-department',
+          name: 'Petersonmouth Department',
+          city: 'Baton Rouge',
+          parish: 'East Baton Rouge',
+          locationMapUrl: null,
+        },
+        ],
+      },
+      officers: {
+        results: [
+        {
+          id: 9,
+          name: 'Robert Craig',
+          badges: ['12345'],
+          department: {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        },
+        ],
+      },
+      documents: {
+        results: [
+        {
+          id: 22,
+          documentType: 'css',
+          title: 'Especially sense available best.',
+          url: 'http://documents.com/hundred/work.pdf',
+          incidentDate: '2020-01-06',
+          departments: [
+            {
+              id: 'petersonmouth-department',
+              name: 'Petersonmouth Department',
+            },
+          ],
+          textContent: 'Text content',
+        },
+        ],
+      },
+    }
+
+    const searchQuery = 'searchQuery'
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/search']}>
+          <Route path='/search'>
+            <SearchPage
+              searchResults={searchResults}
+              search={searchStub}
+              searchQuery={searchQuery}
+              saveSearchQuery={saveSearchQuerySpy}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    const searchResultItem = baseElement.getElementsByClassName(
+      'department-card'
+    )[0]
+    fireEvent.click(searchResultItem)
+    await waitFor(() =>
+      expect(saveSearchQuerySpy).toHaveBeenCalledWith(searchQuery)
+    )
+
+    expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
+      type: EVENT_TYPES.SEARCH,
+      data: { search_query: searchQuery },
+    })
   })
 })

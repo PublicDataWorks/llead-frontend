@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
 
 import FrontPage from 'components/front-page'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('FrontPage component', () => {
   it('should fetch data', () => {
@@ -13,6 +14,8 @@ describe('FrontPage component', () => {
     const fetchDepartmentsSpy = sinon.spy()
     const fetchOfficersSpy = sinon.spy()
     const fetchDocumentsSpy = sinon.spy()
+    const fetchNewsArticlesSpy = sinon.spy()
+    const fetchFrontPageOrdersSpy = sinon.spy()
 
     render(
       <Provider store={MockStore()()}>
@@ -23,6 +26,8 @@ describe('FrontPage component', () => {
               fetchDepartments={fetchDepartmentsSpy}
               fetchOfficers={fetchOfficersSpy}
               fetchDocuments={fetchDocumentsSpy}
+              fetchNewsArticles={fetchNewsArticlesSpy}
+              fetchFrontPageOrders={fetchFrontPageOrdersSpy}
             />
           </Route>
         </MemoryRouter>
@@ -33,6 +38,8 @@ describe('FrontPage component', () => {
     expect(fetchDepartmentsSpy).toHaveBeenCalled()
     expect(fetchOfficersSpy).toHaveBeenCalled()
     expect(fetchDocumentsSpy).toHaveBeenCalled()
+    expect(fetchNewsArticlesSpy).toHaveBeenCalled()
+    expect(fetchFrontPageOrdersSpy).toHaveBeenCalled()
   })
 
   it('should render correctly', () => {
@@ -56,5 +63,141 @@ describe('FrontPage component', () => {
     expect(
       summarySection.getElementsByTagName('strong')[0].textContent
     ).toEqual('Front page')
+  })
+
+  it('should render multi data correctly', () => {
+    const cmsData = {
+      summary: '**Front page** summary.',
+    }
+    const newsArticlesData = [
+      {
+        id: 1,
+        sourceName: 'The lens',
+        url: 'https://i.imgur.com/news-article1.pdf',
+        title: 'news-article-1',
+        publishedDate: 'Nov 9, 2020',
+      },
+    ]
+    const recentItemsData = [
+      {
+        ...newsArticlesData[0],
+        type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      },
+    ]
+    const documentsData = [
+      {
+        id: 36,
+        documentType: 'csv',
+        title: 'Her hard step sea.',
+        url: 'http://documents.com/century/five.pdf',
+        previewImageUrl: '/cell/least.jpg',
+        incidentDate: 'Jan 6, 2020',
+        pagesCount: 5,
+        departments: [
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+    ]
+    const officersData = [
+      {
+        id: 23,
+        name: 'Mark Carlson',
+        badges: ['12345', '567'],
+        department: {
+          id: 'north-paulaberg-department',
+          name: 'North Paulaberg Department',
+        },
+      },
+    ]
+    const departmentsData = [
+      {
+        id: '1',
+        name: 'Baton Rouge Department',
+        city: 'Baton Rouge',
+        parish: 'East Baton Rouge',
+        locationMapUrl: 'http://mapurl.com/department1',
+      },
+    ]
+    const ordersData = {
+      DEPARTMENT: 3,
+      OFFICER: 2,
+      NEWS_ARTICLE: 1,
+      DOCUMENT: 4,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <FrontPage
+              cms={cmsData}
+              departments={departmentsData}
+              officers={officersData}
+              newsArticles={newsArticlesData}
+              documents={documentsData}
+              recentItems={recentItemsData}
+              frontPageOrders={ordersData}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    const summarySection = baseElement.getElementsByClassName('summary')[0]
+    expect(summarySection.textContent).toEqual('Front page summary.')
+    expect(
+      summarySection.getElementsByTagName('strong')[0].textContent
+    ).toEqual('Front page')
+
+    const recentItemSection = baseElement.getElementsByClassName(
+      'recent-items-carousel'
+    )[0]
+    const departmentSection = baseElement.getElementsByClassName(
+      'departments-carousel'
+    )[0]
+    const newsActicleSection = baseElement.getElementsByClassName(
+      'news-articles-carousel'
+    )[0]
+    const documentSection = baseElement.getElementsByClassName(
+      'documents-carousel'
+    )[0]
+    const officerSection = baseElement.getElementsByClassName(
+      'officers-carousel'
+    )[0]
+
+    const firstSection = baseElement.getElementsByClassName(
+      'front-order-101'
+    )[0]
+    const secondSection = baseElement.getElementsByClassName(
+      'front-order-102'
+    )[0]
+    const thirdSection = baseElement.getElementsByClassName(
+      'front-order-103'
+    )[0]
+    const fourthSection = baseElement.getElementsByClassName(
+      'front-order-104'
+    )[0]
+
+    expect(recentItemSection.textContent).toContain('Recent activity')
+    expect(departmentSection.textContent).toContain('Departments')
+    expect(newsActicleSection.textContent).toContain('News')
+    expect(documentSection.textContent).toContain('Documents')
+    expect(officerSection.textContent).toContain('Officers')
+    expect(firstSection.children[1].classList.value).toContain(
+      'news-articles-carousel'
+    )
+    expect(secondSection.children[1].classList.value).toContain(
+      'officers-carousel'
+    )
+    expect(thirdSection.children[1].classList.value).toContain(
+      'departments-carousel'
+    )
+    expect(fourthSection.children[1].classList.value).toContain(
+      'documents-carousel'
+    )
   })
 })

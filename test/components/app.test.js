@@ -7,6 +7,8 @@ import MockStore from 'redux-mock-store'
 import App from 'components/app'
 import * as ScrollToTop from 'components/common/higher-order/scroll-to-top'
 import * as DocumentHead from 'containers/common/document-head'
+import * as googleAnalytics from 'utils/google-analytics'
+import { EVENT_TYPES } from 'constants/common'
 
 describe('App component', () => {
   beforeEach(() => {
@@ -15,6 +17,8 @@ describe('App component', () => {
 
     const mockDocumentHeadComponent = () => <>Document Head</>
     sinon.stub(DocumentHead, 'default').get(() => mockDocumentHeadComponent)
+
+    sinon.stub(googleAnalytics, 'analyzeAction')
   })
 
   describe('fetch app config', () => {
@@ -28,6 +32,21 @@ describe('App component', () => {
       )
 
       expect(fetchAppConfig).toHaveBeenCalled()
+    })
+
+    it('should analyze accessed page on accessing app', () => {
+      const fetchAppConfig = sinon.spy()
+
+      render(
+        <Provider store={MockStore()()}>
+          <App fetchAppConfig={fetchAppConfig} isAppConfigFetched={false} />
+        </Provider>
+      )
+
+      expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
+        type: EVENT_TYPES.ACCESS_PAGE,
+        data: { page: '/login/' },
+      })
     })
 
     it('should not fetch app config if already fetched', () => {

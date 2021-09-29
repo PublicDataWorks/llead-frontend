@@ -3,6 +3,7 @@ import qs from 'qs'
 import { act, fireEvent, render } from '@testing-library/react'
 import sinon from 'sinon'
 import * as rdd from 'react-device-detect'
+import noop from 'lodash/noop'
 
 import Timeline from 'components/officer-page/timeline'
 import ComplaintItem from 'components/officer-page/timeline/complaint-item'
@@ -12,9 +13,11 @@ import SalaryChangeItem from 'components/officer-page/timeline/salary-change-ite
 import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
 import TimelineFilters from 'components/officer-page/timeline/filters'
 import UseOfForceItem from 'components/officer-page/timeline/use-of-force-item'
+import NewsArticleCard from 'components/officer-page/timeline/news-article-card'
 import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
-import { ANIMATION_DURATION } from 'constants/common'
+import { ANIMATION_DURATION, EVENT_TYPES } from 'constants/common'
+import * as googleAnalytics from 'utils/google-analytics'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -61,6 +64,15 @@ jest.mock('components/officer-page/timeline/document-card', () => ({
   default: jest.fn(),
 }))
 
+const MockNewsArticleCardComponent = () => {
+  return <div>News Article Item</div>
+}
+jest.mock('components/officer-page/timeline/news-article-card', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
 const MockSalaryChangeItemComponent = () => {
   return <div>Salary Change Item</div>
 }
@@ -87,6 +99,7 @@ beforeAll(() => {
   RankChangeItem.mockImplementation(MockRankChangeItemComponent)
   TimelineFilters.mockImplementation(MockFiltersComponent)
   UseOfForceItem.mockImplementation(MockUOFItemComponent)
+  NewsArticleCard.mockImplementation(MockNewsArticleCardComponent)
 })
 
 beforeEach(() => {
@@ -97,6 +110,8 @@ beforeEach(() => {
   RankChangeItem.mockClear()
   TimelineFilters.mockClear()
   UseOfForceItem.mockClear()
+  NewsArticleCard.mockClear()
+  sinon.stub(googleAnalytics, 'analyzeAction')
 })
 
 describe('Timeline component', () => {
@@ -512,6 +527,67 @@ describe('Timeline component', () => {
     })
   })
 
+  it('handles analyze download file on click', async () => {
+    const timelineData = [
+      {
+        groupName: 'Mar 10, 2019',
+        isDateEvent: true,
+        items: [
+          {
+            id: 123,
+            kind: 'COMPLAINT',
+            trackingNumber: '10-03',
+            ruleViolation: 'Officer rule violation 2019-03-10',
+            paragraphViolation: 'Officer paragraph violation 2019-03-10',
+            disposition: 'Officer dispostion 2019-03-10',
+            action: 'Officer action 2019-03-10',
+          },
+        ],
+      },
+    ]
+    const downloadOfficerTimelineStub = jest.fn()
+    const officerName = 'Officer Name'
+
+    const container = render(
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline
+            timeline={timelineData}
+            hasEventDetails
+            downloadOfficerTimeline={downloadOfficerTimelineStub}
+            officerName={officerName}
+          />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { baseElement } = container
+
+    const timelineHeaderDownloadButton = baseElement.getElementsByClassName(
+      'timeline-download-btn'
+    )[0]
+    fireEvent.click(timelineHeaderDownloadButton)
+
+    expect(
+      baseElement.getElementsByClassName('timeline-header-download')[0]
+    ).toBeTruthy()
+
+    const showDownloadFileButton = baseElement.getElementsByClassName(
+      'show-download-file'
+    )[0]
+    await act(async () => {
+      fireEvent.click(showDownloadFileButton)
+    })
+
+    expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
+      type: EVENT_TYPES.DOWNLOAD_SPREADSHEET,
+      data: { officer_id: '1' },
+    })
+    expect(
+      baseElement.getElementsByClassName('timeline-header-download')[0]
+    ).toBeFalsy()
+  })
+
   describe('Complaint item', () => {
     it('renders timeline with not highlight complaint item', () => {
       const timelineData = [
@@ -922,6 +998,48 @@ describe('Timeline component', () => {
       kind: 'JOINED',
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,
+      highlight: false,
+      officerId: '1',
+      showEventDetails: false,
+    })
+  })
+
+  it('renders timeline with news article item', () => {
+    const newsArticleData = {
+      id: 1,
+      kind: 'NEWS_ARTICLE',
+      sourceName: 'The Lens NOLA',
+      title: 'News Article 2019-06-13',
+      url: 'url',
+    }
+    const timelineData = [
+      {
+        groupName: 'Apr 1, 2018',
+        isDateEvent: true,
+        items: [
+          {
+            ...newsArticleData,
+          },
+        ],
+      },
+    ]
+
+    render(
+      <MemoryRouter initialEntries={['officers/1']}>
+        <Route path='officers/:id'>
+          <Timeline timeline={timelineData} />
+        </Route>
+      </MemoryRouter>
+    )
+
+    expect(NewsArticleCard.mock.calls[0][0]).toStrictEqual({
+      id: 1,
+      kind: 'NEWS_ARTICLE',
+      sourceName: 'The Lens NOLA',
+      title: 'News Article 2019-06-13',
+      url: 'url',
+      className: 'has-connected-line left-item',
+      saveRecentItem: noop,
       highlight: false,
       officerId: '1',
       showEventDetails: false,

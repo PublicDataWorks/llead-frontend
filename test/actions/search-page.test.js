@@ -27,7 +27,7 @@ describe('#search', () => {
     const getFunc = sinon.stub()
     getStub.returns(getFunc)
 
-    search('keyword')
+    search({query: 'keyword', docType: 'docType', limit: 1, offset: 1})
 
     expect(getStub).toHaveBeenCalledWith(
       [
@@ -37,12 +37,12 @@ describe('#search', () => {
       ],
       SEARCH_API_URL
     )
-    expect(getFunc).toHaveBeenCalledWith({ q: 'keyword' })
+    expect(getFunc).toHaveBeenCalledWith({ q: 'keyword', limit: 1, offset: 1, doc_type: 'docType' })
   })
 
   it('cancels old request if new request is called', () => {
-    search('keyword')
-    search('keywords')
+    search({query: 'keyword', docType: 'docType', limit: 1, offset: 1})
+    search({query: 'keywords', docType: 'docType', limit: 1, offset: 0})
     expect(cancel).toHaveBeenCalled()
   })
 })

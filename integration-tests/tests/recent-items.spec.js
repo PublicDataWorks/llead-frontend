@@ -4,6 +4,7 @@ import {
   departmentsData,
   officersData,
   documentsData,
+  newsArticlesData,
 } from '../data/front-page-data'
 import {
   departmentBatonRougePdDetailsData,
@@ -14,6 +15,7 @@ import {
   officerTimelineData,
   userInfoData,
 } from '../data/recent-items-data'
+import { firstSearchData } from '../data/search-page-data'
 
 describe('FrontPage recent items', () => {
   beforeEach(() => {
@@ -65,6 +67,13 @@ describe('FrontPage recent items', () => {
       },
       documentsData
     )
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/news-articles/',
+      },
+      newsArticlesData
+    )
 
     cy.interceptExact(
       {
@@ -103,6 +112,15 @@ describe('FrontPage recent items', () => {
         url: 'http://localhost:8000/api/officers/1/timeline/',
       },
       officerTimelineData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: 'http://localhost:8000/api/search/',
+        query: { q: 'ba' },
+      },
+      firstSearchData
     )
   })
 
@@ -192,7 +210,7 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 1)
 
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('csv')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')
@@ -215,6 +233,40 @@ describe('FrontPage recent items', () => {
       )
   })
 
+  it('adds news article to recent items when click news article card', () => {
+    cy.visit('/')
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('open')
+    })
+
+    cy.get('.recent-items-carousel').should('not.exist')
+    cy.get('.news-articles-carousel').find('.swiper-slide').eq(0).click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 1)
+
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-type')
+      .contains('news article')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-title')
+      .contains('Her hard step sea.')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .first()
+      .contains('The lens')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .last()
+      .contains('Jan 6, 2020')
+  })
+
   it('adds document to recent items when click document row in department page', () => {
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
@@ -228,7 +280,7 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 2)
 
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('json')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')
@@ -264,7 +316,7 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 2)
 
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('pdf')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')
@@ -285,6 +337,46 @@ describe('FrontPage recent items', () => {
         'background-image',
         'url("http://image.com/image/our-preview.jpg")'
       )
+  })
+
+  it('adds news article to recent items when click news article card in officer timeline', () => {
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('open')
+    })
+    cy.visit('/officers/1/')
+    cy.get('.officer-timeline')
+      .find('.timeline-news-article-card')
+      .eq(0)
+      .click()
+    cy.get('.logo').click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 2)
+
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-type')
+      .contains('news article')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-type')
+      .contains('news article')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-title')
+      .contains('Her hard step sea.')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .first()
+      .contains('The lens')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.news-article-subtitle')
+      .last()
+      .contains('Jan 6, 2020')
   })
 
   it('adds multiple recent items', () => {
@@ -349,12 +441,61 @@ describe('FrontPage recent items', () => {
     cy.get('.recent-items-carousel')
       .find('.swiper-slide:visible')
       .as('visibleSlides')
-      .should('length', 3)
+      .should('length', 4)
 
     cy.get('@visibleSlides').eq(0).contains('Mark Carlson')
     cy.get('@visibleSlides').eq(1).contains('Baton Rouge PD')
     cy.get('@visibleSlides')
       .eq(2)
       .contains('Face growth poor wait follow option better.')
+  })
+
+  it('adds documents to recent items when click on a document in search results', () => {
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('open')
+    })
+
+    cy.visit('/search/?q=ba')
+
+    cy.location('pathname').should('eq', '/search/')
+    cy.get('.search-input-container')
+      .find('.input-field')
+      .should('value', 'ba')
+
+    cy.get('.documents-list')
+      .find('.document-item')
+      .as('documentItems')
+      .should('length', 3)
+
+    cy.get('@documentItems').eq(1).contains('Yourself say language meeting ok.')
+    cy.get('@documentItems').eq(1).click()
+    cy.get('.logo').click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .as('visibleSlides')
+      .should('length', 1)
+
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-type')
+      .contains('document')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-title')
+      .contains('Yourself say language meeting ok.')
+      cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-subtitle')
+      .contains('Jan 6, 2020')
+    cy.get('@visibleSlides')
+      .eq(0)
+      .find('.document-preview')
+      .should(
+        'have.css',
+        'background-image',
+        'url("http://image.com/production/activity.jpg")'
+      )
+
   })
 })

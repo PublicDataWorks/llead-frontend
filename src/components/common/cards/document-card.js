@@ -9,13 +9,13 @@ import './document-card.scss'
 import OuterLink from 'components/common/links/outer-link'
 import CustomLink from 'components/common/links/custom-link'
 import { departmentPath } from 'utils/paths'
-import { RECENT_ITEM_TYPES } from 'constants/common'
+import { CARD_TYPES, EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 import DocumentPreview from 'components/common/items/document-preview'
+import { analyzeAction } from 'utils/google-analytics'
 
 const DocumentCard = (props) => {
   const {
     id,
-    documentType,
     departments,
     previewImageUrl,
     title,
@@ -42,6 +42,10 @@ const DocumentCard = (props) => {
   )
 
   const handleClick = () => {
+    analyzeAction({
+      type: EVENT_TYPES.OPEN_DOCUMENT,
+      data: { document_id: id },
+    })
     saveRecentItem({
       type: RECENT_ITEM_TYPES.DOCUMENT,
       id: id,
@@ -56,7 +60,7 @@ const DocumentCard = (props) => {
       onClick={handleClick}
     >
       <div className='document-info'>
-        <div className='document-type'>{documentType}</div>
+        <div className='document-type'>{CARD_TYPES.DOCUMENT}</div>
         <DocumentPreview
           previewImageUrl={previewImageUrl}
           pagesCount={pagesCount}
@@ -73,7 +77,6 @@ const DocumentCard = (props) => {
 
 DocumentCard.propTypes = {
   id: PropTypes.number.isRequired,
-  documentType: PropTypes.string,
   url: PropTypes.string.isRequired,
   title: PropTypes.string,
   incidentDate: PropTypes.string,

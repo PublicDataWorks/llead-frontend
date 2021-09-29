@@ -2,10 +2,24 @@
 @import 'styles/colors';
 
 .front-page {
-  .front-page-carousel {
-    & + .front-page-carousel {
-      border-top: 1px solid $thunder-color;
-    }
+  display: flex;
+  flex-flow: column nowrap;
+
+  > * {
+    order: 1;
+  }
+
+  .front-order-101 {
+    order: 101;
+  }
+  .front-order-102 {
+    order: 102;
+  }
+  .front-order-103 {
+    order: 103;
+  }
+  .front-order-104 {
+    order: 104;
   }
 
   .summary {
@@ -19,6 +33,12 @@
 
   .section-anchor {
     height: 0px;
+  }
+
+  :not(.front-order-101) {
+    .section-anchor {
+      border-top: 1px solid $thunder-color;
+    }
   }
 }
 

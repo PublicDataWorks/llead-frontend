@@ -29,6 +29,7 @@ export const RECENT_ITEM_TYPES = {
   DEPARTMENT: 'DEPARTMENT',
   OFFICER: 'OFFICER',
   DOCUMENT: 'DOCUMENT',
+  NEWS_ARTICLE: 'NEWS_ARTICLE',
 }
 
 export const REQUEST_CANCEL_MESSAGE = 'Cancel old request'
@@ -42,6 +43,7 @@ export const TIMELINE_KIND_ORDERS = {
   COMPLAINT: 6,
   UOF: 7,
   DOCUMENT: 8,
+  NEWS_ARTICLE: 9,
 }
 
 export const TIMELINE_KINDS = {
@@ -53,6 +55,7 @@ export const TIMELINE_KINDS = {
   SALARY_CHANGE: 'SALARY_CHANGE',
   RANK_CHANGE: 'RANK_CHANGE',
   UNIT_CHANGE: 'UNIT_CHANGE',
+  NEWS_ARTICLE: 'NEWS_ARTICLE',
 }
 
 export const TIMELINE_FILTERS = {
@@ -63,6 +66,10 @@ export const TIMELINE_FILTERS = {
   DOCUMENTS: {
     title: 'Documents',
     kinds: [TIMELINE_KINDS.DOCUMENT],
+  },
+  NEWS_ARTICLES: {
+    title: 'News Articles',
+    kinds: [TIMELINE_KINDS.NEWS_ARTICLE],
   },
   RANKS_AND_UNITS: {
     title: 'Rank/unit',
@@ -82,6 +89,15 @@ export const TRACK_ITEM_TYPES = {
   UOF: 'use of force',
 }
 
+export const EVENT_TYPES = {
+  CARD_EXPAND: 'card_expand',
+  COPY_CARD_LINK: 'copy_card_link',
+  DOWNLOAD_SPREADSHEET: 'download_spreadsheet',
+  OPEN_DOCUMENT: 'open_document',
+  SEARCH: 'search',
+  ACCESS_PAGE: 'access_page',
+}
+
 export const DEFAULT_DOCUMENT_HEAD = {
   title: 'LLEAD',
 }
@@ -90,3 +106,20 @@ export const CONTENT_TYPES = {
   JSON: 'application/json',
   SHEET: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 }
+
+export const CARD_TYPES = {
+  DOCUMENT: 'document',
+}
+
+export const FRONT_PAGE_SECTIONS = {
+  DEPARTMENT: 'DEPARTMENT',
+  OFFICER: 'OFFICER',
+  DOCUMENT: 'DOCUMENT',
+  NEWS_ARTICLE: 'NEWS_ARTICLE',
+}
+
+export const QUERY_DOCTYPE_MAPPING = {
+  document: 'documents',
+}
+
+export const DOCUMENTS_SHOW_MORE_LIMIT = 5

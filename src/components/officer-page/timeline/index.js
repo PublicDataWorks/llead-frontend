@@ -17,7 +17,13 @@ import SalaryChangeItem from './salary-change-item'
 import RankChangeItem from './rank-change-item'
 import UnitChangeItem from './unit-change-item'
 import TimelineFilters from './filters'
-import { ANIMATION_DURATION, TIMELINE_KINDS } from 'constants/common'
+import {
+  ANIMATION_DURATION,
+  EVENT_TYPES,
+  TIMELINE_KINDS,
+} from 'constants/common'
+import { analyzeAction } from 'utils/google-analytics'
+import NewsArticleCard from './news-article-card'
 
 const TIMELINE_COMPONENTS_MAPPING = {
   [TIMELINE_KINDS.JOINED]: { component: MainItem },
@@ -30,7 +36,7 @@ const TIMELINE_COMPONENTS_MAPPING = {
   },
   [TIMELINE_KINDS.DOCUMENT]: {
     component: DocumentCard,
-    className: 'inline-item',
+    customLine: 'white-dot',
   },
   [TIMELINE_KINDS.SALARY_CHANGE]: {
     component: SalaryChangeItem,
@@ -40,6 +46,10 @@ const TIMELINE_COMPONENTS_MAPPING = {
   },
   [TIMELINE_KINDS.UNIT_CHANGE]: {
     component: UnitChangeItem,
+  },
+  [TIMELINE_KINDS.NEWS_ARTICLE]: {
+    component: NewsArticleCard,
+    customLine: 'white-dot',
   },
 }
 
@@ -91,7 +101,7 @@ const Timeline = (props) => {
   }, [officerId])
 
   const renderTimelineItem = (item, index, { group, leftGroup }) => {
-    const { component: Component, className } = get(
+    const { component: Component, customLine } = get(
       TIMELINE_COMPONENTS_MAPPING,
       item.kind,
       {}
@@ -100,14 +110,14 @@ const Timeline = (props) => {
     return (
       Component && (
         <div
-          className={cx('timeline-item', className, {
+          className={cx('timeline-item', {
             'first-timeline-item': index === 0,
           })}
           key={index}
         >
           {group.isDateEvent && (
             <div className='timeline-connected-line-container'>
-              <div className='timeline-connected-line'>
+              <div className={cx('timeline-connected-line', customLine)}>
                 <div className='line' />
               </div>
             </div>
@@ -141,6 +151,10 @@ const Timeline = (props) => {
     const fileName = `${officerName.replace(' ', '_')}.xlsx`
     setShowDownloadPanel(!showDownloadPanel)
     downloadOfficerTimeline(officerId, fileName)
+    analyzeAction({
+      type: EVENT_TYPES.DOWNLOAD_SPREADSHEET,
+      data: { officer_id: officerId },
+    })
   }
 
   const hideActionsPanel = () => {

@@ -7,6 +7,7 @@ import './document-card.scss'
 import OuterLink from 'components/common/links/outer-link'
 import DocumentPreview from 'components/common/items/document-preview'
 import { RECENT_ITEM_TYPES } from 'constants/common'
+import { stringifyTotalItems } from 'utils/formatter'
 
 const DocumentCard = (props) => {
   const {
@@ -14,7 +15,6 @@ const DocumentCard = (props) => {
     previewImageUrl,
     title,
     url,
-    documentType,
     pagesCount,
     saveRecentItem,
     className,
@@ -42,15 +42,20 @@ const DocumentCard = (props) => {
           small
         />
       </div>
-      <div className='document-title'>{title}</div>
-      <div className='document-subtitle'>{documentType}</div>
+      <div className='document-timeline-content'>
+        <div className='document-title'>{title}</div>
+        {pagesCount && (
+          <div className='document-subtitle'>
+            {stringifyTotalItems(pagesCount, 'page')}
+          </div>
+        )}
+      </div>
     </OuterLink>
   )
 }
 
 DocumentCard.propTypes = {
   id: PropTypes.number.isRequired,
-  documentType: PropTypes.string,
   url: PropTypes.string.isRequired,
   title: PropTypes.string,
   previewImageUrl: PropTypes.string,
