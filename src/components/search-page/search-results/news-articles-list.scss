@@ -1,0 +1,21 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.news-articles-list {
+  padding: $v-header-margin $h-side-frame;
+
+  .news-articles-list-title {
+    @include h1;
+    color: $thunder-color;
+    margin: 0 $h-side-frame $v-frame-margin $h-side-frame;
+    flex-grow: 1;
+  }
+
+  .news-articles-search-more {
+    @include small-text;
+    width: 100%;
+    margin-top: $v-frame-margin;
+    background-color: $wild-sand-color;
+  }
+}

@@ -120,6 +120,10 @@ export const FRONT_PAGE_SECTIONS = {
 
 export const QUERY_DOCTYPE_MAPPING = {
   document: 'documents',
+  article: 'articles',
 }
 
 export const DOCUMENTS_SHOW_MORE_LIMIT = 5
+export const NEWS_ARTICLES_SHOW_MORE_LIMIT = 5
+
+export const NEWS_TYPE = 'news'

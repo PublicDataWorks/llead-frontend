@@ -10,6 +10,7 @@ import './search-page.scss'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
 import DocumentsListContainer from 'containers/search-page/documents-list'
+import NewsArticlesListContainer from 'containers/search-page/news-articles-list'
 import {
   EVENT_TYPES,
   QUERY_DOCTYPE_MAPPING,
@@ -26,7 +27,7 @@ const SearchPage = (props) => {
     saveSearchQuery,
     searchParams,
   } = props
-  const { departments, officers, documents } = searchResults
+  const { departments, officers, documents, articles } = searchResults
   const { docType, searchString } = searchParams
 
   const searchResultsComponents = [
@@ -44,6 +45,17 @@ const SearchPage = (props) => {
         limit: documents.limit,
         offset: documents.offset,
         count: documents.count,
+        q: searchString,
+      },
+    },
+    {
+      key: 'articles',
+      items: articles.results,
+      component: NewsArticlesListContainer,
+      params: {
+        limit: articles.limit,
+        offset: articles.offset,
+        count: articles.count,
         q: searchString,
       },
     },
