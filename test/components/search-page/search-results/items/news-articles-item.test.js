@@ -1,11 +1,16 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import sinon from 'sinon'
+import * as googleAnalytics from 'utils/google-analytics'
 
 import NewsArticleItem from 'components/common/items/news-article-item'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('News Articles Item', () => {
+  beforeEach(() => {
+    sinon.stub(googleAnalytics, 'analyzeAction')
+  })
+
   it('should render correctly with normal content', () => {
     const newsArticle = {
       id: 25,

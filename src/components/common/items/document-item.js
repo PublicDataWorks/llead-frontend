@@ -7,7 +7,8 @@ import noop from 'lodash/noop'
 import './document-item.scss'
 import ArrayWithSeparator from 'components/common/array-with-separator'
 import OuterLink from 'components/common/links/outer-link'
-import { RECENT_ITEM_TYPES } from 'constants/common'
+import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
+import { analyzeAction } from 'utils/google-analytics'
 
 const DocumentItem = (props) => {
   const {
@@ -39,6 +40,10 @@ const DocumentItem = (props) => {
       type: RECENT_ITEM_TYPES.DOCUMENT,
       id: id,
       data: recentData,
+    })
+    analyzeAction({
+      type: EVENT_TYPES.OPEN_DOCUMENT,
+      data: { document_id: id },
     })
   }
 

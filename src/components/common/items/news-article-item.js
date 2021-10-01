@@ -6,7 +6,8 @@ import noop from 'lodash/noop'
 
 import './news-article-item.scss'
 import OuterLink from 'components/common/links/outer-link'
-import { NEWS_TYPE, RECENT_ITEM_TYPES } from 'constants/common'
+import { EVENT_TYPES, NEWS_TYPE, RECENT_ITEM_TYPES } from 'constants/common'
+import { analyzeAction } from 'utils/google-analytics'
 
 const NewsArticleItem = (props) => {
   const {
@@ -37,6 +38,10 @@ const NewsArticleItem = (props) => {
       type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
       id: id,
       data: { ...recentData, date: publishedDate },
+    })
+    analyzeAction({
+      type: EVENT_TYPES.OPEN_ARTICLE,
+      data: { article_id: id },
     })
   }
 
