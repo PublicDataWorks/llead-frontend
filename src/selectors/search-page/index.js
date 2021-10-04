@@ -36,6 +36,24 @@ export const documentFormatter = (document) => {
   }
 }
 
+export const articleFormatter = (article) => {
+  const articleAttributes = [
+    'id',
+    'title',
+    'url',
+    'sourceName',
+    'author',
+    'authorHighlight',
+    'content',
+    'contentHighlight',
+  ]
+
+  return {
+    ...pick(article, articleAttributes),
+    publishedDate: formatDate(article.date),
+  }
+}
+
 const getSearchResults = (state) => get(state, 'searchPage.searchResults')
 
 export const getSearchQuery = (state) =>
@@ -95,7 +113,7 @@ const parseNextResult = (next) => {
 export const searchResultsSelector = (state) => {
   const searchResults = getSearchResults(state)
 
-  const { departments, officers, documents } = searchResults
+  const { departments, officers, documents, articles } = searchResults
   const paginationAttrs = ['previous', 'count']
 
   return {
@@ -113,6 +131,11 @@ export const searchResultsSelector = (state) => {
       ...pick(documents, paginationAttrs),
       ...parseNextResult(get(documents, 'next')),
       results: map(get(documents, 'results'), documentFormatter),
+    },
+    articles: {
+      ...pick(articles, paginationAttrs),
+      ...parseNextResult(get(articles, 'next')),
+      results: map(get(articles, 'results'), articleFormatter),
     },
   }
 }
