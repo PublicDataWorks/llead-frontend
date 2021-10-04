@@ -25,14 +25,14 @@ describe('#searchResultsSelector', () => {
     const rawResults = {
       departments: {
         results: [
-        {
-          id: 22,
-          name: 'Petersonmouth Department',
-          city: 'Baton Rouge',
-          parish: 'East Baton Rouge',
-          locationMapUrl: null,
-          otherFields: 'other fields',
-        },
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+            city: 'Baton Rouge',
+            parish: 'East Baton Rouge',
+            locationMapUrl: null,
+            otherFields: 'other fields',
+          },
         ],
         previous: null,
         next: 'http://ipno.com/pagination/?offset=1&limit=1&q=key',
@@ -40,16 +40,16 @@ describe('#searchResultsSelector', () => {
       },
       officers: {
         results: [
-        {
-          id: 9,
-          name: 'Robert Craig',
-          badges: ['12345'],
-          department: {
-            id: 'petersonmouth-department',
-            name: 'Petersonmouth Department',
+          {
+            id: 9,
+            name: 'Robert Craig',
+            badges: ['12345'],
+            department: {
+              id: 'petersonmouth-department',
+              name: 'Petersonmouth Department',
+            },
+            otherFields: 'other fields',
           },
-          otherFields: 'other fields',
-        },
         ],
         previous: null,
         next: null,
@@ -57,23 +57,41 @@ describe('#searchResultsSelector', () => {
       },
       documents: {
         results: [
-        {
-          id: 22,
-          documentType: 'css',
-          title: 'Especially sense available best.',
-          url: 'http://documents.com/hundred/work.pdf',
-          incidentDate: '2020-01-06',
-          departments: [
-            {
-              id: 'petersonmouth-department',
-              name: 'Petersonmouth Department',
-            },
-          ],
-          textContent: 'Text content',
-          textContentHighlight: 'Text content <em>highlight</em>',
-          previewImageUrl: 'http://documents.com/preview',
-          pagesCount: 5,
-        },
+          {
+            id: 22,
+            documentType: 'css',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.pdf',
+            incidentDate: '2020-01-06',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+        ],
+        previous: null,
+        next: 'http://ipno.com/pagination/?offset=1&limit=1&q=key',
+        count: 2,
+      },
+      articles: {
+        results: [
+          {
+            id: 25,
+            sourceName: 'Source',
+            title: 'This is title',
+            url: 'http://documents.com/hundred/work.pdf',
+            date: '2021-01-10',
+            author: 'Staff Writer',
+            content: 'Text content key',
+            contentHighlight: 'Text content <em>key</em>',
+            authorHighlight: null,
+          },
         ],
         previous: null,
         next: 'http://ipno.com/pagination/?offset=1&limit=1&q=key',
@@ -91,13 +109,13 @@ describe('#searchResultsSelector', () => {
     const expectedResults = {
       departments: {
         results: [
-        {
-          id: 22,
-          name: 'Petersonmouth Department',
-          city: 'Baton Rouge',
-          parish: 'East Baton Rouge',
-          locationMapUrl: null,
-        },
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+            city: 'Baton Rouge',
+            parish: 'East Baton Rouge',
+            locationMapUrl: null,
+          },
         ],
         previous: null,
         count: 2,
@@ -107,38 +125,58 @@ describe('#searchResultsSelector', () => {
       },
       officers: {
         results: [
-        {
-          id: 9,
-          name: 'Robert Craig',
-          badges: ['12345'],
-          department: {
-            id: 'petersonmouth-department',
-            name: 'Petersonmouth Department',
+          {
+            id: 9,
+            name: 'Robert Craig',
+            badges: ['12345'],
+            department: {
+              id: 'petersonmouth-department',
+              name: 'Petersonmouth Department',
+            },
           },
-        },
         ],
         previous: null,
         count: 1,
       },
       documents: {
         results: [
-        {
-          id: 22,
-          documentType: 'css',
-          title: 'Especially sense available best.',
-          url: 'http://documents.com/hundred/work.pdf',
-          incidentDate: 'Jan 6, 2020',
-          departments: [
-            {
-              id: 'petersonmouth-department',
-              name: 'Petersonmouth Department',
-            },
-          ],
-          textContent: 'Text content',
-          textContentHighlight: 'Text content <em>highlight</em>',
-          previewImageUrl: 'http://documents.com/preview',
-          pagesCount: 5,
-        },
+          {
+            id: 22,
+            documentType: 'css',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.pdf',
+            incidentDate: 'Jan 6, 2020',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+        ],
+        previous: null,
+        count: 2,
+        limit: 1,
+        offset: 1,
+        q: 'key',
+      },
+      articles: {
+        results: [
+          {
+            id: 25,
+            sourceName: 'Source',
+            title: 'This is title',
+            url: 'http://documents.com/hundred/work.pdf',
+            publishedDate: 'Jan 10, 2021',
+            author: 'Staff Writer',
+            content: 'Text content key',
+            contentHighlight: 'Text content <em>key</em>',
+            authorHighlight: null,
+          },
         ],
         previous: null,
         count: 2,
