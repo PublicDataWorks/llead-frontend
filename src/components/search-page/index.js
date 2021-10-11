@@ -25,6 +25,7 @@ const SearchPage = (props) => {
     search,
     saveRecentItem,
     saveSearchQuery,
+    clearSearchResults,
     searchParams,
   } = props
   const { departments, officers, documents, articles } = searchResults
@@ -62,6 +63,10 @@ const SearchPage = (props) => {
   ]
 
   const docTypeMapping = get(QUERY_DOCTYPE_MAPPING, docType)
+
+  useEffect(() => {
+    clearSearchResults()
+  }, [])
 
   const performSearch = useCallback(
     throttle((query) => {
@@ -117,6 +122,7 @@ SearchPage.propTypes = {
   search: PropTypes.func,
   saveRecentItem: PropTypes.func,
   saveSearchQuery: PropTypes.func,
+  clearSearchResults: PropTypes.func,
 }
 
 SearchPage.defaultProps = {
@@ -125,6 +131,7 @@ SearchPage.defaultProps = {
   search: noop,
   saveRecentItem: noop,
   saveSearchQuery: noop,
+  clearSearchResults: noop,
 }
 
 export default SearchPage

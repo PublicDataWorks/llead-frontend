@@ -132,6 +132,90 @@ describe('SearchPage component', () => {
     ).toBe(true)
   })
 
+  it('call clears old search result on init', () => {
+    const mockClearSearchResults = sinon.stub()
+
+    const searchResults = {
+      departments: {
+        results: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+            city: 'Baton Rouge',
+            parish: 'East Baton Rouge',
+            locationMapUrl: null,
+          },
+        ],
+      },
+      officers: {
+        results: [
+          {
+            id: 9,
+            name: 'Robert Craig',
+            badges: ['12345'],
+            department: {
+              id: 'petersonmouth-department',
+              name: 'Petersonmouth Department',
+            },
+          },
+        ],
+      },
+      documents: {
+        results: [
+          {
+            id: 22,
+            documentType: 'css',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.pdf',
+            incidentDate: '2020-01-06',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+          },
+        ],
+      },
+      articles: {
+        results: [
+          {
+            id: 25,
+            sourceName: 'Source',
+            title: 'This is title',
+            url: 'http://documents.com/hundred/work.pdf',
+            publishedDate: 'Jan 10, 2021',
+            author: 'Staff Writer',
+            content: 'Text content key',
+            contentHighlight: 'Text content <em>key</em>',
+            authorHighlight: null,
+          },
+        ],
+        previous: null,
+        count: 2,
+        limit: 1,
+        offset: 1,
+        q: 'key',
+      },
+    }
+
+    render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/search']}>
+          <Route path='/search'>
+            <SearchPage
+              clearSearchResults={mockClearSearchResults}
+              searchResults={searchResults}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(mockClearSearchResults).toHaveBeenCalled()
+  })
+
   it('should perform search', async () => {
     const searchStub = sinon.stub()
 
