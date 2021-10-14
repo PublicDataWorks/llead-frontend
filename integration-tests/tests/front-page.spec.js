@@ -491,7 +491,7 @@ describe('FrontPage', () => {
       })
     })
 
-    it.only('renders order correctly', () => {
+    it('renders order correctly', () => {
       cy.interceptExact(
         {
           method: 'GET',
