@@ -2,9 +2,12 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const srcPath = path.join(__dirname, '../src')
 const rootPath = path.join(__dirname, '../')
+
+const isProductionMode = ['production', 'staging'].includes(process.env.APP_ENV)
 
 module.exports = {
   context: rootPath,
@@ -28,11 +31,18 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(png|j?g|svg|gif)$/,
