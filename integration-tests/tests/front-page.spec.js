@@ -256,7 +256,7 @@ describe('FrontPage', () => {
         cy.get('@visibleSlides').eq(3).contains('Kelly Hunt')
       })
 
-      it('redirects to department page when click on departments section', () => {
+      it('redirects to officer page when click on departments section', () => {
         cy.visit('/')
 
         cy.get('.officers-carousel')
@@ -267,7 +267,7 @@ describe('FrontPage', () => {
 
         cy.location('pathname').should(
           'eq',
-          `/dept/${officersData[0].department.id}/`
+          `/officers/${officersData[0].id}/mark-carlson`
         )
       })
 

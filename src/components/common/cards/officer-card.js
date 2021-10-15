@@ -7,7 +7,7 @@ import noop from 'lodash/noop'
 
 import './officer-card.scss'
 import OfficerBadges from 'components/common/items/officer-badges'
-import { departmentPath, officerPath } from 'utils/paths'
+import { officerPath } from 'utils/paths'
 import CustomLink from '../links/custom-link'
 
 const OfficerCard = (props) => {
@@ -26,12 +26,7 @@ const OfficerCard = (props) => {
       </div>
       <div className='officer-card-footer'>
         {!isEmpty(department) && (
-          <CustomLink
-            to={departmentPath(department.id)}
-            className='officer-department-name'
-          >
-            {department.name}
-          </CustomLink>
+          <div className='officer-department-name'>{department.name}</div>
         )}
       </div>
     </CustomLink>
