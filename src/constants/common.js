@@ -94,6 +94,7 @@ export const EVENT_TYPES = {
   COPY_CARD_LINK: 'copy_card_link',
   DOWNLOAD_SPREADSHEET: 'download_spreadsheet',
   OPEN_DOCUMENT: 'open_document',
+  OPEN_ARTICLE: 'open_article',
   SEARCH: 'search',
   ACCESS_PAGE: 'access_page',
 }
