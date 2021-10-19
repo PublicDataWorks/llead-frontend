@@ -30,6 +30,8 @@ export const search = cancelOldRequest(({ query, docType, limit, offset }) =>
 
 export const changeSearchQuery = createAction(actionTypes.CHANGE_SEARCH_QUERY)
 
+export const clearSearchResults = createAction(actionTypes.CLEAR_SEARCH_RESULTS)
+
 export const saveSearchQuery = (query) =>
   post(
     [

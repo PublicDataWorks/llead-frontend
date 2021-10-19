@@ -9,9 +9,9 @@ describe('#searchResultsReducer', () => {
 
   it('should handle SEARCH_SUCCESS', () => {
     const searchResults = {
-      departments: {results: [{ id: 123, name: 'department 1' }]},
-      officers: {results: [{ id: 456, name: 'officer 1' }]},
-      documents: {results: [{ id: 789, name: 'document 1' }]},
+      departments: { results: [{ id: 123, name: 'department 1' }] },
+      officers: { results: [{ id: 456, name: 'officer 1' }] },
+      documents: { results: [{ id: 789, name: 'document 1' }] },
     }
 
     const result = searchResultsReducer(
@@ -62,28 +62,28 @@ describe('#searchResultsReducer', () => {
         count: 1,
       },
       documents: {
-        results: [{ id: 777, name: 'document 0' },{ id: 789, name: 'document 1' }],
+        results: [
+          { id: 777, name: 'document 0' },
+          { id: 789, name: 'document 1' },
+        ],
         next: null,
         count: 2,
       },
     }
 
-    const result = searchResultsReducer(
-      previousState,
-      {
-        type: SEARCH_SUCCESS,
-        payload: searchResults,
-      }
-    )
+    const result = searchResultsReducer(previousState, {
+      type: SEARCH_SUCCESS,
+      payload: searchResults,
+    })
 
     expect(result).toStrictEqual(expected_result)
   })
 
   it('should handle CHANGE_SEARCH_QUERY on empty', () => {
     const currentState = {
-      departments: {results: [{ id: 123, name: 'department 1' }]},
-      officers: {results: [{ id: 456, name: 'officer 1' }]},
-      documents: {results: [{ id: 789, name: 'document 1' }]},
+      departments: { results: [{ id: 123, name: 'department 1' }] },
+      officers: { results: [{ id: 456, name: 'officer 1' }] },
+      documents: { results: [{ id: 789, name: 'document 1' }] },
     }
 
     const result = searchResultsReducer(currentState, {
@@ -94,14 +94,28 @@ describe('#searchResultsReducer', () => {
   })
   it('should handle CHANGE_SEARCH_QUERY on query existed', () => {
     const currentState = {
-      departments: {results: [{ id: 123, name: 'department 1' }]},
-      officers: {results: [{ id: 456, name: 'officer 1' }]},
-      documents: {results: [{ id: 789, name: 'document 1' }]},
+      departments: { results: [{ id: 123, name: 'department 1' }] },
+      officers: { results: [{ id: 456, name: 'officer 1' }] },
+      documents: { results: [{ id: 789, name: 'document 1' }] },
     }
 
     const result = searchResultsReducer(currentState, {
       type: CHANGE_SEARCH_QUERY,
       payload: 'query',
+    })
+
+    expect(result).toStrictEqual({})
+  })
+
+  it('handles CLEAR_SEARCH_RESULTS', () => {
+    const currentState = {
+      departments: { results: [{ id: 123, name: 'department 1' }] },
+      officers: { results: [{ id: 456, name: 'officer 1' }] },
+      documents: { results: [{ id: 789, name: 'document 1' }] },
+    }
+
+    const result = searchResultsReducer(currentState, {
+      type: CHANGE_SEARCH_QUERY,
     })
 
     expect(result).toStrictEqual({})

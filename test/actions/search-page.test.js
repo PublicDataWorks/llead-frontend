@@ -6,6 +6,7 @@ import {
   changeSearchQuery,
   saveSearchQuery,
   fetchSearchQueries,
+  clearSearchResults,
 } from 'actions/search-page'
 import * as actionTypes from 'action-types/search-page'
 import * as ServiceApi from 'utils/api'
@@ -27,7 +28,7 @@ describe('#search', () => {
     const getFunc = sinon.stub()
     getStub.returns(getFunc)
 
-    search({query: 'keyword', docType: 'docType', limit: 1, offset: 1})
+    search({ query: 'keyword', docType: 'docType', limit: 1, offset: 1 })
 
     expect(getStub).toHaveBeenCalledWith(
       [
@@ -37,12 +38,17 @@ describe('#search', () => {
       ],
       SEARCH_API_URL
     )
-    expect(getFunc).toHaveBeenCalledWith({ q: 'keyword', limit: 1, offset: 1, doc_type: 'docType' })
+    expect(getFunc).toHaveBeenCalledWith({
+      q: 'keyword',
+      limit: 1,
+      offset: 1,
+      doc_type: 'docType',
+    })
   })
 
   it('cancels old request if new request is called', () => {
-    search({query: 'keyword', docType: 'docType', limit: 1, offset: 1})
-    search({query: 'keywords', docType: 'docType', limit: 1, offset: 0})
+    search({ query: 'keyword', docType: 'docType', limit: 1, offset: 1 })
+    search({ query: 'keywords', docType: 'docType', limit: 1, offset: 0 })
     expect(cancel).toHaveBeenCalled()
   })
 })
@@ -54,6 +60,14 @@ describe('#changeSearchQuery', () => {
     expect(changeSearchQuery(query)).toEqual({
       type: actionTypes.CHANGE_SEARCH_QUERY,
       payload: query,
+    })
+  })
+})
+
+describe('#clearSearchResults', () => {
+  it('returns the clear search results action', () => {
+    expect(clearSearchResults()).toEqual({
+      type: actionTypes.CLEAR_SEARCH_RESULTS,
     })
   })
 })
