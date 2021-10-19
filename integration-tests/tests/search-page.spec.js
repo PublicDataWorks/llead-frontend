@@ -480,7 +480,7 @@ describe('Search Page', () => {
           .should('length', 6)
       })
 
-      it.only('renders news article inifnite UI on click show more', () => {
+      it('renders news article inifnite UI on click show more', () => {
         cy.visit('/search/?q=ba')
 
         cy.location('pathname').should('eq', '/search/')

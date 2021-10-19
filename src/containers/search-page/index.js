@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import SearchPage from 'components/search-page'
-import { search, saveSearchQuery } from 'actions/search-page'
+import { search, saveSearchQuery, clearSearchResults } from 'actions/search-page'
 import {
   searchResultsSelector,
   getSearchQuery,
@@ -19,6 +19,7 @@ const mapDispatchToProps = {
   search,
   saveRecentItem,
   saveSearchQuery,
+  clearSearchResults,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

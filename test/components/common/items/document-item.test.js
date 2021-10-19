@@ -2,11 +2,16 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
+import * as googleAnalytics from 'utils/google-analytics'
 
 import DocumentItem from 'components/common/items/document-item'
-import { RECENT_ITEM_TYPES } from 'constants/common'
+import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('Document item component', () => {
+  beforeEach(() => {
+    sinon.stub(googleAnalytics, 'analyzeAction')
+  })
+
   it('should render correctly', () => {
     const props = {
       id: 1,
@@ -80,5 +85,39 @@ describe('Document item component', () => {
       data: documentData,
     })
     expect(onItemClickSpy).toHaveBeenCalled()
+  })
+
+  it('should analyze click on document item', () => {
+    sinon.stub(window, 'open')
+    const saveRecentItemSpy = sinon.spy()
+    const onItemClickSpy = sinon.spy()
+
+    const documentData = {
+      id: 1,
+      url: 'https://i.imgur.com/nHTFohI.csv',
+    }
+    const props = {
+      ...documentData,
+      saveRecentItem: saveRecentItemSpy,
+      onItemClick: onItemClickSpy,
+      recentData: documentData,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentItem {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    const documentItem = baseElement.getElementsByClassName('document-item')[0]
+    fireEvent.click(documentItem)
+
+    expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
+      type: EVENT_TYPES.OPEN_DOCUMENT,
+      data: { document_id: 1 },
+    })
   })
 })
