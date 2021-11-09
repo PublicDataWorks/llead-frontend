@@ -1,6 +1,7 @@
-import axiosClient from 'utils/axios-client'
-
 import { saveAs } from 'file-saver'
+import lodashGet from 'lodash/get'
+
+import axiosClient from 'utils/axios-client'
 
 export const get = (actionTypes, url, cancelToken) => {
   const actionStarted = (request) => ({
@@ -34,7 +35,7 @@ export const get = (actionTypes, url, cancelToken) => {
           dispatch(actionSuccess(requestData, res.data))
         })
         .catch((err) => {
-          dispatch(actionFailure(requestData, err.response.data))
+          dispatch(actionFailure(requestData, lodashGet(err, 'response.data')))
         })
     }
   }
@@ -73,7 +74,7 @@ export const post = (actionTypes, url, cancelToken) => {
           dispatch(actionSuccess(requestData, res.data))
         })
         .catch((err) => {
-          dispatch(actionFailure(requestData, err.response.data))
+          dispatch(actionFailure(requestData, lodashGet(err, 'response.data')))
         })
     }
   }
@@ -115,7 +116,9 @@ export const download = (actionTypes, url, cancelToken) => {
 
           dispatch(actionSuccess(requestData))
         })
-        .catch((err) => dispatch(actionFailure(requestData, err.response.data)))
+        .catch((err) =>
+          dispatch(actionFailure(requestData, lodashGet(err, 'response.data')))
+        )
     }
   }
 }
