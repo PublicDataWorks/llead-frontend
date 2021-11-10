@@ -120,4 +120,55 @@ describe('#searchResultsReducer', () => {
 
     expect(result).toStrictEqual({})
   })
+
+  it('handles SEARCH_SUCCESS on existed state with duplicate', () => {
+    const searchResults = {
+      departments: {
+        results: [{ id: 123, name: 'department 1' }],
+        next: null,
+        count: 1,
+      },
+      officers: {
+        results: [{ id: 456, name: 'officer 1' }],
+        next: null,
+        count: 1,
+      },
+      documents: {
+        results: [{ id: 789, name: 'document 1' }],
+        next: null,
+        count: 1,
+      },
+    }
+    const previousState = {
+      documents: {
+        results: [{ id: 789, name: 'document 1' }],
+        next: null,
+        count: 1,
+      },
+    }
+    const expected_result = {
+      departments: {
+        results: [{ id: 123, name: 'department 1' }],
+        next: null,
+        count: 1,
+      },
+      officers: {
+        results: [{ id: 456, name: 'officer 1' }],
+        next: null,
+        count: 1,
+      },
+      documents: {
+        results: [{ id: 789, name: 'document 1' }],
+        next: null,
+        count: 1,
+      },
+    }
+
+    const result = searchResultsReducer(previousState, {
+      type: SEARCH_SUCCESS,
+      payload: searchResults,
+    })
+
+    expect(result).toStrictEqual(expected_result)
+  })
 })
