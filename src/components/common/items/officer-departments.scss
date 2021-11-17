@@ -1,0 +1,13 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.officer-departments {
+  @include small-text;
+  color: $thunder-color;
+  margin: $v-small-margin $h-card-margin;
+
+  .officer-department {
+    display: inline-block;
+  }
+}

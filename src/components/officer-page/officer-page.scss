@@ -43,12 +43,6 @@
       padding: $v-small-margin $h-card-margin;
     }
 
-    .officer-department {
-      @include small-text;
-      color: $thunder-color;
-      margin: $v-small-margin $h-card-margin;
-    }
-
     .officer-summary-info {
       @include body-text;
       margin: $v-small-margin $h-card-margin 0 $h-card-margin;

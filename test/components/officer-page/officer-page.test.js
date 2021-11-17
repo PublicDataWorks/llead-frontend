@@ -148,10 +148,12 @@ describe('Officer component', () => {
       salary: '$57,123,72/year',
       badges: ['123', '456'],
       complaintsCount: 0,
-      department: {
-        id: 'baton-rouge-pd',
-        name: 'Baton Rouge PD',
-      },
+      departments: [
+        {
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
+        },
+      ],
       description: 'age-year-old race gender',
       documentsCount: 1,
       name: 'officer name',
@@ -194,6 +196,73 @@ describe('Officer component', () => {
     expect(
       baseElement.getElementsByClassName('officer-department')[0].textContent
     ).toEqual('Baton Rouge PD')
+
+    expect(
+      baseElement.getElementsByClassName('officer-summary-info')[0].textContent
+    ).toEqual('Officer Name is named in\u00A01 document.')
+  })
+
+  it('renders multi departments correctly', () => {
+    const officerData = {
+      salary: '$57,123,72/year',
+      badges: ['123', '456'],
+      complaintsCount: 0,
+      departments: [
+        {
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
+        },
+        {
+          id: 'department-name',
+          name: 'Department Name',
+        },
+      ],
+      description: 'age-year-old race gender',
+      documentsCount: 1,
+      name: 'officer name',
+    }
+    const timelinePeriod = '2012 and 2018-2020'
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} timelinePeriod={timelinePeriod} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('officer-period')[0].textContent
+    ).toEqual(
+      'Data for this officer is limited to the years\u00A02012 and 2018-2020'
+    )
+
+    expect(
+      baseElement.getElementsByClassName('officer-title')[0].textContent
+    ).toEqual('Police Officer')
+    expect(
+      baseElement.getElementsByClassName('officer-name')[0].textContent
+    ).toEqual('Officer Name')
+
+    const officerBasicInfoRows = baseElement.getElementsByClassName(
+      'officer-basic-info-row'
+    )
+    expect(officerBasicInfoRows[0].textContent).toEqual('123, 456')
+    expect(officerBasicInfoRows[1].textContent).toEqual(
+      'age-year-old race gender'
+    )
+    expect(officerBasicInfoRows[2].textContent).toEqual('$57,123,72/year')
+
+    expect(
+      baseElement.getElementsByClassName('officer-department')[0].textContent
+    ).toEqual('Baton Rouge PD')
+
+    expect(
+      baseElement.getElementsByClassName('officer-department')[1].textContent
+    ).toEqual('Department Name')
 
     expect(
       baseElement.getElementsByClassName('officer-summary-info')[0].textContent
