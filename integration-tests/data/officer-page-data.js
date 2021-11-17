@@ -116,11 +116,13 @@ export const officerTimelineData = {
       kind: 'JOINED',
       date: null,
       year: null,
+      department: 'Mandeville PD',
     },
     {
       kind: 'LEFT',
       date: '2020-03-10',
       year: 2020,
+      department: 'Slidell PD',
     },
     {
       id: 39,
@@ -153,11 +155,13 @@ export const officerTimelineData = {
       kind: 'JOINED',
       date: '2019-03-10',
       year: 2019,
+      department: 'Slidell PD',
     },
     {
       kind: 'LEFT',
       date: '2019-03-10',
       year: 2019,
+      department: 'Mandeville PD',
     },
     {
       kind: 'SALARY_CHANGE',

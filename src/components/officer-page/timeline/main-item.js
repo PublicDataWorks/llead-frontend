@@ -7,7 +7,7 @@ import lowerCase from 'lodash/lowerCase'
 import './main-item.scss'
 
 const MainEventItem = (props) => {
-  const { kind, className } = props
+  const { kind, className, department } = props
 
   return (
     <div
@@ -17,7 +17,7 @@ const MainEventItem = (props) => {
         `timeline-${lowerCase(kind)}-item`
       )}
     >
-      {capitalize(kind)} department
+      {capitalize(kind)} department {department}
     </div>
   )
 }
@@ -25,8 +25,9 @@ const MainEventItem = (props) => {
 MainEventItem.propTypes = {
   kind: PropTypes.string,
   className: PropTypes.string,
+  department: PropTypes.string,
 }
 
 MainEventItem.defaultProps = {}
 
-export default React.memo(MainEventItem)
+export default MainEventItem
