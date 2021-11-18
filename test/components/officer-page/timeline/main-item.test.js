@@ -17,7 +17,7 @@ describe('MainItem component', () => {
       'timeline-main-item'
     )[0]
 
-    expect(baseElement.textContent).toEqual('Joined department Mandeville PD')
+    expect(baseElement.textContent).toEqual('Joined Mandeville PD')
     expect(joinedComponent.classList).toContain('timeline-joined-item')
   })
 
@@ -33,7 +33,7 @@ describe('MainItem component', () => {
       'timeline-main-item'
     )[0]
 
-    expect(baseElement.textContent).toEqual('Left department Mandeville PD')
+    expect(baseElement.textContent).toEqual('Left Mandeville PD')
     expect(leftComponent.classList).toContain('timeline-left-item')
   })
 })

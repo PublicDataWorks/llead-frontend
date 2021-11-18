@@ -17,7 +17,7 @@ const MainEventItem = (props) => {
         `timeline-${lowerCase(kind)}-item`
       )}
     >
-      {capitalize(kind)} department {department}
+      {capitalize(kind)} {department}
     </div>
   )
 }
