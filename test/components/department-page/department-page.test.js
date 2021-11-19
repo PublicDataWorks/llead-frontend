@@ -201,7 +201,7 @@ describe('Department component', () => {
     ).toBe(0)
   })
 
-  it('should not render if department is empty', () => {
+  it('does not render if department is empty', () => {
     const container = render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
@@ -698,5 +698,33 @@ describe('Department component', () => {
 
     unmount()
     expect(clearDocumentHeadStub).toHaveBeenCalled()
+  })
+
+  describe('change search department', () => {
+    it('should change search department', () => {
+      const changeSearchDepartment = sinon.spy()
+
+      const departmentData = {
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                changeSearchDepartment={changeSearchDepartment}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(changeSearchDepartment).toHaveBeenCalledWith('baton-rouge-pd')
+    })
   })
 })

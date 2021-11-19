@@ -459,7 +459,7 @@ describe('FrontPage recent items', () => {
 
     cy.location('pathname').should('eq', '/search/')
     cy.get('.search-input-container')
-      .find('.input-field')
+      .find('.transparent-input')
       .should('value', 'ba')
 
     cy.get('.documents-list')
@@ -476,15 +476,12 @@ describe('FrontPage recent items', () => {
       .as('visibleSlides')
       .should('length', 1)
 
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-type')
-      .contains('document')
+    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
     cy.get('@visibleSlides')
       .eq(0)
       .find('.document-title')
       .contains('Yourself say language meeting ok.')
-      cy.get('@visibleSlides')
+    cy.get('@visibleSlides')
       .eq(0)
       .find('.document-subtitle')
       .contains('Jan 6, 2020')
@@ -496,6 +493,5 @@ describe('FrontPage recent items', () => {
         'background-image',
         'url("http://image.com/production/activity.jpg")'
       )
-
   })
 })

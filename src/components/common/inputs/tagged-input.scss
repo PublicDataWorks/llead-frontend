@@ -1,0 +1,63 @@
+@import './base';
+
+.tagged-input-container {
+  position: relative;
+  width: 100%;
+
+  @include base-input;
+
+  .input-field {
+    .search-form-wrapper {
+      width: 100%;
+      overflow: auto;
+
+      .search-tag,
+      .shorten-search-tag {
+        float: left;
+        padding-left: $v-small-margin;
+        padding-right: $v-small-margin;
+        border: 1px solid $alto-color;
+        line-height: $v-margin;
+        border-radius: $v-frame-margin;
+        margin: 0;
+        margin-right: $h-tiny-margin;
+        -ms-transform: translateY(15%);
+        transform: translateY(15%);
+      }
+
+      .search-tag {
+        display: none;
+      }
+
+      .stretch-input {
+        float: none;
+        overflow: hidden;
+        .transparent-input {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.transparent-input {
+  @include body-text;
+  background: transparent;
+  border: none;
+  outline: none;
+  display: inline-block;
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .tagged-input-container {
+    width: $input-width;
+
+    .input-field {
+      .search-form-wrapper {
+        .search-tag {
+          display: block;
+        }
+      }
+    }
+  }
+}

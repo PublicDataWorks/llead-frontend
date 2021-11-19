@@ -22,6 +22,7 @@ const SearchPage = (props) => {
   const {
     searchResults,
     searchQuery,
+    searchDepartment,
     search,
     saveRecentItem,
     saveSearchQuery,
@@ -80,9 +81,10 @@ const SearchPage = (props) => {
       performSearch({
         query: searchString,
         docType: docTypeMapping,
+        department: searchDepartment,
       })
     }
-  }, [searchQuery])
+  }, [searchQuery, searchDepartment])
 
   const handleItemClick = () => {
     analyzeAction({
@@ -119,6 +121,7 @@ SearchPage.propTypes = {
   searchResults: PropTypes.object,
   searchParams: PropTypes.object,
   searchQuery: PropTypes.string,
+  searchDepartment: PropTypes.string,
   search: PropTypes.func,
   saveRecentItem: PropTypes.func,
   saveSearchQuery: PropTypes.func,

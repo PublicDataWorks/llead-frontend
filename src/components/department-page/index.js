@@ -25,6 +25,7 @@ const Department = (props) => {
     recentData,
     clearDocumentHead,
     setDocumentHead,
+    changeSearchDepartment,
   } = props
   const { id: departmentId } = useParams()
 
@@ -54,6 +55,10 @@ const Department = (props) => {
 
   useEffect(() => {
     fetchDepartment(departmentId)
+
+    if (departmentId) {
+      changeSearchDepartment(departmentId)
+    }
   }, [departmentId])
 
   useEffect(() => {
@@ -186,6 +191,7 @@ Department.propTypes = {
   recentData: PropTypes.object,
   saveRecentItem: PropTypes.func,
   setDocumentHead: PropTypes.func,
+  changeSearchDepartment: PropTypes.func,
 }
 
 Department.defaultProps = {
@@ -196,6 +202,7 @@ Department.defaultProps = {
   recentData: {},
   saveRecentItem: noop,
   setDocumentHead: noop,
+  changeSearchDepartment: noop,
 }
 
 export default Department

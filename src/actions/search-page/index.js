@@ -16,16 +16,17 @@ const cancelOldRequest = (newRequest) => (...args) => {
   return newRequest(...args)
 }
 
-export const search = cancelOldRequest(({ query, docType, limit, offset }) =>
-  get(
-    [
-      actionTypes.SEARCH_START,
-      actionTypes.SEARCH_SUCCESS,
-      actionTypes.SEARCH_FAILURE,
-    ],
-    SEARCH_API_URL,
-    cancelTokenSource.token
-  )({ q: query, limit, offset, doc_type: docType })
+export const search = cancelOldRequest(
+  ({ query, docType, limit, offset, department }) =>
+    get(
+      [
+        actionTypes.SEARCH_START,
+        actionTypes.SEARCH_SUCCESS,
+        actionTypes.SEARCH_FAILURE,
+      ],
+      SEARCH_API_URL,
+      cancelTokenSource.token
+    )({ q: query, limit, offset, doc_type: docType, department })
 )
 
 export const changeSearchQuery = createAction(actionTypes.CHANGE_SEARCH_QUERY)
@@ -52,3 +53,7 @@ export const fetchSearchQueries = () =>
     ],
     RECENT_QUERIES_API_URL
   )()
+
+export const changeSearchDepartment = createAction(
+  actionTypes.CHANGE_SEARCH_DEPARTMENT
+)

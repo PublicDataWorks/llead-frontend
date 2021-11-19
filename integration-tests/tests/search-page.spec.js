@@ -6,6 +6,7 @@ import {
   thirdSearchDataExtend,
   fourthSearchDataExtend,
   fourthSearchData,
+  fifthSearchData,
 } from '../data/search-page-data'
 
 describe('Search Page', () => {
@@ -79,6 +80,15 @@ describe('Search Page', () => {
         },
         secondSearchData
       )
+
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/search/',
+          query: { q: 'Hunt', department: 'harmonbury-department' },
+        },
+        fifthSearchData
+      )
     })
 
     describe('No historical recent queries', () => {
@@ -108,7 +118,7 @@ describe('Search Page', () => {
 
         cy.location('pathname').should('eq', '/search/')
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .should('value', 'ba')
 
         cy.get('.departments-carousel')
@@ -153,17 +163,72 @@ describe('Search Page', () => {
           .contains('Be decade those someone tough year sing.')
       })
 
+      it('render search page with query and department from url', () => {
+        cy.visit('/search/?q=Hunt&department=harmonbury-department')
+
+        cy.location('pathname').should('eq', '/search/')
+        cy.get('.search-input-container')
+          .find('.search-tag')
+          .should('text', 'harmonbury-department')
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', 'Hunt')
+
+        cy.get('.officers-carousel')
+          .find('.swiper-slide')
+          .as('officersSlides')
+          .should('length', 1)
+        cy.get('@officersSlides').eq(0).contains('Kelly N Hunt')
+      })
+
+      it('backs to front page if click on close button and press backspace', () => {
+        cy.visit('/search/?q=Hunt&department=harmonbury-department')
+
+        cy.location('pathname').should('eq', '/search/')
+        cy.get('.search-input-container')
+          .find('.search-tag')
+          .should('text', 'harmonbury-department')
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', 'Hunt')
+
+        cy.get('.officers-carousel')
+          .find('.swiper-slide')
+          .as('officersSlides')
+          .should('length', 1)
+        cy.get('@officersSlides').eq(0).contains('Kelly N Hunt')
+
+        cy.get('.search-input-container').find('.close-btn').click()
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', '')
+        cy.get('.search-input-container')
+          .find('.search-tag')
+          .should('text', 'harmonbury-department')
+
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .type('{backspace}')
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', '')
+        cy.get('.search-input-container')
+          .find('.search-tag')
+          .should('not.exist')
+        cy.location('pathname').should('eq', '/')
+      })
+
       it('backs to front page if click on close button', () => {
         cy.visit('/search')
         cy.location('pathname').should('eq', '/search')
 
         cy.get('.search-input-container').find('.input-field').type('f')
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .should('value', 'f')
         cy.get('.search-input-container').find('.close-btn').click()
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .should('value', '')
         cy.location('pathname').should('eq', '/')
       })
@@ -173,7 +238,7 @@ describe('Search Page', () => {
         cy.visit('/search')
 
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .as('searchBox')
           .should('exist')
 
@@ -388,7 +453,7 @@ describe('Search Page', () => {
 
         cy.location('pathname').should('eq', '/search/')
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .should('value', 'ba')
 
         cy.get('.departments-carousel')
@@ -485,7 +550,7 @@ describe('Search Page', () => {
 
         cy.location('pathname').should('eq', '/search/')
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .should('value', 'ba')
 
         cy.get('.departments-carousel')
@@ -595,7 +660,7 @@ describe('Search Page', () => {
         cy.visit('/search/?q=ba')
 
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .should('value', 'ba')
         cy.get('.search-query-suggestions').should('not.be.visible')
         cy.get('.search-input-container').find('.input-field').click()
@@ -618,7 +683,7 @@ describe('Search Page', () => {
           .eq(1)
           .click()
         cy.get('.search-input-container')
-          .find('.input-field')
+          .find('.transparent-input')
           .should('value', 'baton')
         cy.get('.search-query-suggestions').should('not.be.visible')
       })

@@ -104,6 +104,27 @@ describe('Department Page', () => {
         .should('text', '1 document')
     })
 
+    it('render department search tag and redirect on search', () => {
+      cy.visit('/dept/harmonbury-department')
+
+      cy.location('pathname').should('eq', '/dept/harmonbury-department')
+      cy.contains('Police Department')
+      cy.get('.department-period').should(
+        'text',
+        'Data for this department is limited to the years\u00A02013, 2015, 2017 and 2020'
+      )
+      cy.get('.search-input-container')
+        .find('.search-tag')
+        .should('text', 'harmonbury-department')
+      cy.get('.search-input-container').find('.transparent-input').type('Hunt')
+
+      cy.url().should(
+        'eq',
+        Cypress.config().baseUrl +
+          `/search/?q=Hunt&department=harmonbury-department`
+      )
+    })
+
     it('render department wrgl files', () => {
       cy.visit('/dept/harmonbury-department')
 

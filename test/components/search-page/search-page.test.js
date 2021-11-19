@@ -250,6 +250,7 @@ describe('SearchPage component', () => {
       expect(searchStub).toHaveBeenCalledWith({
         query: 'searchString',
         docType: 'documents',
+        department: undefined,
       })
     })
   })
