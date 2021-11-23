@@ -7,22 +7,26 @@
   @include base-input;
 
   .input-field {
+    padding: 0;
+
+    &.has-tag {
+      padding-left: $icon-width;
+    }
+
     .search-form-wrapper {
       width: 100%;
       overflow: auto;
 
-      .search-tag,
-      .shorten-search-tag {
+      .search-tag {
         float: left;
         padding-left: $v-small-margin;
         padding-right: $v-small-margin;
         border: 1px solid $alto-color;
-        line-height: $v-margin;
-        border-radius: $v-frame-margin;
-        margin: 0;
-        margin-right: $h-tiny-margin;
-        -ms-transform: translateY(15%);
-        transform: translateY(15%);
+        line-height: $search-tag-height;
+        border-radius: $v-sub-tiny-margin;
+        margin: $h-tiny-margin;
+        margin-right: $h-side-tag;
+        background: $white-color;
       }
 
       .search-tag {
@@ -30,29 +34,36 @@
       }
 
       .stretch-input {
+        font-family: 'PlexSerif';
+        font-weight: 400;
         float: none;
         overflow: hidden;
         .transparent-input {
           width: 100%;
+          background: transparent;
+          border: none;
+          outline: none;
+          display: inline-block;
+          @include body-text;
         }
       }
     }
   }
 }
 
-.transparent-input {
-  @include body-text;
-  background: transparent;
-  border: none;
-  outline: none;
-  display: inline-block;
-}
-
 @media only screen and (min-width: $mobile-breakpoint) {
   .tagged-input-container {
     width: $input-width;
 
+    .svg-icon.has-tag {
+      display: none;
+    }
+
     .input-field {
+      &.has-tag {
+        padding-left: 0;
+      }
+
       .search-form-wrapper {
         .search-tag {
           display: block;

@@ -9,9 +9,21 @@ const TaggedInput = forwardRef(
   ({ iconSrc, className, searchTag, ...rest }, ref) => {
     return (
       <div className={cx('tagged-input-container', className)}>
-        {iconSrc && <img className='svg-icon' src={iconSrc} />}
+        {iconSrc && (
+          <img
+            className={cx('svg-icon', {
+              'has-tag': !isEmpty(searchTag),
+            })}
+            src={iconSrc}
+          />
+        )}
 
-        <div className={cx('input-field', { 'has-icon': !isEmpty(iconSrc) })}>
+        <div
+          className={cx('input-field', {
+            'has-icon': !isEmpty(iconSrc),
+            'has-tag': !isEmpty(searchTag),
+          })}
+        >
           <div className={'search-form-wrapper'}>
             <div className={searchTag && 'search-tag'}>{searchTag}</div>
             <div className='stretch-input'>
