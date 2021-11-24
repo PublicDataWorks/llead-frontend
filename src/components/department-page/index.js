@@ -55,11 +55,13 @@ const Department = (props) => {
 
   useEffect(() => {
     fetchDepartment(departmentId)
-
-    if (departmentId) {
-      changeSearchDepartment(departmentId)
-    }
   }, [departmentId])
+
+  useEffect(() => {
+    if (name) {
+      changeSearchDepartment({ name, id: departmentId })
+    }
+  }, [name])
 
   useEffect(() => {
     if (

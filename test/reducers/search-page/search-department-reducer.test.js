@@ -4,7 +4,7 @@ import { CHANGE_SEARCH_DEPARTMENT } from 'action-types/search-page'
 
 describe('#searchDepartmentReducer', () => {
   it('returns initial state', () => {
-    expect(searchDepartmentReducer(undefined, {})).toStrictEqual('')
+    expect(searchDepartmentReducer(undefined, {})).toStrictEqual({})
   })
 
   it('changes search department', () => {

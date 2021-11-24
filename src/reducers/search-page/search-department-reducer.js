@@ -6,5 +6,5 @@ export default handleActions(
   {
     [CHANGE_SEARCH_DEPARTMENT]: (state, action) => action.payload,
   },
-  ''
+  {}
 )

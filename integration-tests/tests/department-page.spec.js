@@ -115,7 +115,7 @@ describe('Department Page', () => {
       )
       cy.get('.search-input-container')
         .find('.search-tag')
-        .should('text', 'harmonbury-department')
+        .should('text', 'Harmonbury Department')
       cy.get('.search-input-container').find('.transparent-input').type('Hunt')
 
       cy.url().should(

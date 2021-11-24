@@ -60,7 +60,7 @@ export const getSearchQuery = (state) =>
   get(state, 'searchPage.searchQuery', '')
 
 export const getSearchDepartment = (state) =>
-  get(state, 'searchPage.searchDepartment', '')
+  get(state, 'searchPage.searchDepartment', {})
 
 export const searchQuerySelector = createSelector(
   getSearchQuery,

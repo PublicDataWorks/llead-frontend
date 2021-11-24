@@ -81,7 +81,7 @@ const SearchPage = (props) => {
       performSearch({
         query: searchString,
         docType: docTypeMapping,
-        department: searchDepartment,
+        department: get(searchDepartment, 'id', ''),
       })
     }
   }, [searchQuery, searchDepartment])
@@ -121,7 +121,7 @@ SearchPage.propTypes = {
   searchResults: PropTypes.object,
   searchParams: PropTypes.object,
   searchQuery: PropTypes.string,
-  searchDepartment: PropTypes.string,
+  searchDepartment: PropTypes.object,
   search: PropTypes.func,
   saveRecentItem: PropTypes.func,
   saveSearchQuery: PropTypes.func,

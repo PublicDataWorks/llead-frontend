@@ -305,7 +305,7 @@ describe('SearchInput component', () => {
       expect(fetchSearchQueriesStub).toHaveBeenCalled()
     })
 
-    it('calls change search query and department on search pathname and fetches search queries', () => {
+    it('calls change search query and department on search pathname and fetches search queries with invalid department slug', () => {
       const changeSearchQueryStub = sinon.stub()
       const fetchSearchQueriesStub = sinon.stub()
       const changeSearchDepartment = sinon.stub()
@@ -328,7 +328,7 @@ describe('SearchInput component', () => {
       )
 
       expect(changeSearchQueryStub).toHaveBeenCalledWith('query')
-      expect(changeSearchDepartment).toHaveBeenCalledWith('department')
+      expect(changeSearchDepartment).toHaveBeenCalledWith({})
       expect(fetchSearchQueriesStub).toHaveBeenCalled()
     })
   })
@@ -338,6 +338,14 @@ describe('SearchInput component', () => {
       const changeSearchQueryStub = sinon.stub()
       const changeSearchDepartmentStub = sinon.stub()
 
+      const departmentData = {
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
+
       const container = render(
         <MemoryRouter initialEntries={[SEARCH_PATH]}>
           <Route path={SEARCH_PATH} exact>
@@ -346,7 +354,7 @@ describe('SearchInput component', () => {
                 changeSearchQuery={changeSearchQueryStub}
                 changeSearchDepartment={changeSearchDepartmentStub}
                 searchQuery='any'
-                searchDepartment='new-orleans-pd'
+                searchDepartment={departmentData}
               />
               <div>Search Page</div>
             </div>
@@ -359,18 +367,27 @@ describe('SearchInput component', () => {
       const closeButton = getByTestId('test--close-btn')
       fireEvent.click(closeButton)
       expect(changeSearchQueryStub).toHaveBeenCalledWith('')
-      expect(changeSearchDepartmentStub).toHaveBeenCalled('new-orleans-pd')
-      expect(mockHistoryPush).not.toHaveBeenCalled()
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
+      expect(mockHistoryPush).toHaveBeenCalledWith(FRONT_PAGE_PATH)
     })
 
     it('clears search department and redirect to Home', () => {
       const changeSearchDepartmentStub = sinon.stub()
+
+      const departmentData = {
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
+
       const container = render(
         <MemoryRouter initialEntries={[SEARCH_PATH]}>
           <Route path={SEARCH_PATH} exact>
             <div>
               <SearchInput
-                searchDepartment='any'
+                searchDepartment={departmentData}
                 searchQuery=''
                 changeSearchDepartment={changeSearchDepartmentStub}
               />
@@ -392,19 +409,28 @@ describe('SearchInput component', () => {
 
       const searchInput = getByPlaceholderText('Search within department')
       fireEvent.keyDown(searchInput, { key: 'Backspace', code: 'Backspace' })
-      expect(changeSearchDepartmentStub).toHaveBeenCalledWith('')
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
       expect(mockHistoryPush).toHaveBeenCalledWith(FRONT_PAGE_PATH)
     })
 
     it('does not clear search department and redirect to Home if search query exist', () => {
       const changeSearchDepartmentStub = sinon.stub()
       const changeSearchQueryStub = sinon.stub()
+
+      const departmentData = {
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
+
       const container = render(
         <MemoryRouter initialEntries={[SEARCH_PATH]}>
           <Route path={SEARCH_PATH} exact>
             <div>
               <SearchInput
-                searchDepartment='department'
+                searchDepartment={departmentData}
                 searchQuery='any'
                 changeSearchDepartment={changeSearchDepartmentStub}
                 changeSearchQuery={changeSearchQueryStub}
@@ -428,7 +454,7 @@ describe('SearchInput component', () => {
 
       const searchInput = getByPlaceholderText('Search within department')
       fireEvent.keyDown(searchInput, { key: 'Backspace', code: 'Backspace' })
-      expect(changeSearchDepartmentStub).toHaveBeenCalledWith('')
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
       expect(mockHistoryPush).not.toHaveBeenCalled()
     })
   })
@@ -437,12 +463,21 @@ describe('SearchInput component', () => {
     it('replaces current location if is on search page within department', () => {
       const changeSearchQueryStub = sinon.stub()
       const changeSearchDepartmentStub = sinon.stub()
+
+      const departmentData = {
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
+
       const container = render(
         <MemoryRouter initialEntries={[SEARCH_PATH]}>
           <Route path={SEARCH_PATH} exact>
             <div>
               <SearchInput
-                searchDepartment='baton-rouge-pd'
+                searchDepartment={departmentData}
                 changeSearchQuery={changeSearchQueryStub}
                 changeSearchDepartment={changeSearchDepartmentStub}
               />
@@ -452,7 +487,7 @@ describe('SearchInput component', () => {
           <Route path='dept/:id'>
             <div>
               <SearchInput
-                searchDepartment='baton-rouge-pd'
+                searchDepartment={departmentData}
                 changeSearchQuery={changeSearchQueryStub}
                 changeSearchDepartment={changeSearchDepartmentStub}
               />
@@ -465,6 +500,7 @@ describe('SearchInput component', () => {
       const searchInput = getByPlaceholderText('Search within department')
       fireEvent.change(searchInput, { target: { value: 'any' } })
       expect(changeSearchQueryStub).toHaveBeenCalledWith('any')
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
       expect(baseElement.textContent.includes('Search Page')).toBe(true)
       expect(baseElement.textContent.includes('Department Page')).toBe(false)
       expect(mockHistoryReplace).toHaveBeenCalledWith({
@@ -480,6 +516,15 @@ describe('SearchInput component', () => {
     it('pushes new location if is not on search page within department', () => {
       const changeSearchQueryStub = sinon.stub()
       const changeSearchDepartmentStub = sinon.stub()
+
+      const departmentData = {
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
+      }
+
       const container = render(
         <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
           <Route path={SEARCH_PATH} exact>
@@ -494,7 +539,7 @@ describe('SearchInput component', () => {
           <Route path='dept/:id'>
             <div>
               <SearchInput
-                searchDepartment='baton-rouge-pd'
+                searchDepartment={departmentData}
                 changeSearchQuery={changeSearchQueryStub}
                 changeSearchDepartment={changeSearchDepartmentStub}
               />
@@ -507,6 +552,7 @@ describe('SearchInput component', () => {
       const searchInput = getByPlaceholderText('Search within department')
       fireEvent.change(searchInput, { target: { value: 'any' } })
       expect(changeSearchQueryStub).toHaveBeenCalledWith('any')
+      expect(changeSearchDepartmentStub).not.toHaveBeenCalled()
       expect(baseElement.textContent.includes('Search Page')).toBe(false)
       expect(baseElement.textContent.includes('Department Page')).toBe(true)
       expect(mockHistoryPush).toHaveBeenCalledWith({

@@ -1,4 +1,5 @@
 import { appConfigData } from '../data/common-data'
+import { departmentDetailsData } from '../data/department-page-data'
 import {
   firstSearchData,
   secondSearchData,
@@ -89,6 +90,15 @@ describe('Search Page', () => {
         },
         fifthSearchData
       )
+
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
     })
 
     describe('No historical recent queries', () => {
@@ -169,7 +179,7 @@ describe('Search Page', () => {
         cy.location('pathname').should('eq', '/search/')
         cy.get('.search-input-container')
           .find('.search-tag')
-          .should('text', 'harmonbury-department')
+          .should('text', 'Harmonbury Department')
         cy.get('.search-input-container')
           .find('.transparent-input')
           .should('value', 'Hunt')
@@ -181,37 +191,21 @@ describe('Search Page', () => {
         cy.get('@officersSlides').eq(0).contains('Kelly N Hunt')
       })
 
-      it('backs to front page if click on close button and press backspace', () => {
-        cy.visit('/search/?q=Hunt&department=harmonbury-department')
+      it('backs to front page if press backspace', () => {
+        cy.visit('/search/?q=&department=harmonbury-department')
 
         cy.location('pathname').should('eq', '/search/')
         cy.get('.search-input-container')
           .find('.search-tag')
-          .should('text', 'harmonbury-department')
-        cy.get('.search-input-container')
-          .find('.transparent-input')
-          .should('value', 'Hunt')
-
-        cy.get('.officers-carousel')
-          .find('.swiper-slide')
-          .as('officersSlides')
-          .should('length', 1)
-        cy.get('@officersSlides').eq(0).contains('Kelly N Hunt')
-
-        cy.get('.search-input-container').find('.close-btn').click()
+          .should('text', 'Harmonbury Department')
         cy.get('.search-input-container')
           .find('.transparent-input')
           .should('value', '')
-        cy.get('.search-input-container')
-          .find('.search-tag')
-          .should('text', 'harmonbury-department')
 
         cy.get('.search-input-container')
           .find('.transparent-input')
           .type('{backspace}')
-        cy.get('.search-input-container')
-          .find('.transparent-input')
-          .should('value', '')
+
         cy.get('.search-input-container')
           .find('.search-tag')
           .should('not.exist')

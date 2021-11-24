@@ -724,7 +724,10 @@ describe('Department component', () => {
         </Provider>
       )
 
-      expect(changeSearchDepartment).toHaveBeenCalledWith('baton-rouge-pd')
+      expect(changeSearchDepartment).toHaveBeenCalledWith({
+        name: departmentData.name,
+        id: departmentData.id,
+      })
     })
   })
 })

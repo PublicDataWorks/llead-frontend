@@ -12,6 +12,7 @@ import TaggedInput from 'components/common/inputs/tagged-input'
 import { SEARCH_PATH, FRONT_PAGE_PATH } from 'constants/paths'
 import SearchSVG from 'assets/icons/search.svg'
 import CloseSVG from 'assets/icons/close.svg'
+import get from 'lodash.get'
 
 const SearchInput = (props) => {
   const {
@@ -21,6 +22,8 @@ const SearchInput = (props) => {
     searchQuerySuggestions,
     changeSearchDepartment,
     fetchSearchQueries,
+    fetchDepartment,
+    fetchedDepartment,
   } = props
   const history = useHistory()
   const location = useLocation()
@@ -32,7 +35,10 @@ const SearchInput = (props) => {
   const performSearch = (newSearchQuery) => {
     changeSearchQuery(newSearchQuery)
 
-    const raw_params = { q: newSearchQuery, department: searchDepartment }
+    const raw_params = {
+      q: newSearchQuery,
+      department: get(searchDepartment, 'id', ''),
+    }
     const params = omitBy(raw_params, isEmpty)
 
     const newLocation = {
@@ -55,13 +61,11 @@ const SearchInput = (props) => {
 
   const clearSearch = () => {
     changeSearchQuery('')
-    if (isEmpty(searchDepartment)) {
-      history.push(FRONT_PAGE_PATH)
-    }
+    clearDepartment()
   }
 
   const clearDepartment = () => {
-    changeSearchDepartment('')
+    changeSearchDepartment({})
     history.push(FRONT_PAGE_PATH)
   }
 
@@ -82,10 +86,19 @@ const SearchInput = (props) => {
 
   useEffect(() => {
     if (isSearchPage()) {
+      changeSearchDepartment(fetchedDepartment || {})
+      changeSearchQuery(searchQuery || '')
+    }
+  }, [fetchedDepartment])
+
+  useEffect(() => {
+    if (isSearchPage()) {
       const search = qs.parse(location.search, { ignoreQueryPrefix: true })
       const { q, department } = search
+      if (department) {
+        fetchDepartment(department)
+      }
       changeSearchQuery(q || '')
-      changeSearchDepartment(department || '')
     }
 
     fetchSearchQueries()
@@ -102,7 +115,7 @@ const SearchInput = (props) => {
           <TaggedInput
             iconSrc={SearchSVG}
             placeholder={
-              isEmpty(searchDepartment)
+              isEmpty(get(searchDepartment, 'id', ''))
                 ? 'Search by name, department, or keyword'
                 : 'Search within department'
             }
@@ -110,7 +123,7 @@ const SearchInput = (props) => {
             value={searchQuery}
             autoFocus={isSearchPage()}
             className='search-input'
-            searchTag={searchDepartment}
+            searchTag={get(searchDepartment, 'name', '')}
             onClick={() => setShowSuggestions(true)}
             onKeyDown={onKeyDown}
           />
@@ -153,11 +166,13 @@ const SearchInput = (props) => {
 
 SearchInput.propTypes = {
   searchQuery: PropTypes.string,
-  searchDepartment: PropTypes.string,
+  searchDepartment: PropTypes.object,
   searchQuerySuggestions: PropTypes.array,
   changeSearchQuery: PropTypes.func,
   fetchSearchQueries: PropTypes.func,
   changeSearchDepartment: PropTypes.func,
+  fetchDepartment: PropTypes.func,
+  fetchedDepartment: PropTypes.object,
 }
 
 SearchInput.defaultProps = {
@@ -165,6 +180,7 @@ SearchInput.defaultProps = {
   changeSearchQuery: noop,
   fetchSearchQueries: noop,
   changeSearchDepartment: noop,
+  fetchDepartment: noop,
 }
 
 export default SearchInput
