@@ -389,3 +389,30 @@ export const fifthSearchData = {
     previous: null,
   },
 }
+
+export const sixthSearchData = {
+  departments: {
+    results: departmentsData1,
+    count: 3,
+    next: null,
+    previous: null,
+  },
+  officers: {
+    results: officersData1,
+    count: 4,
+    next: null,
+    previous: null,
+  },
+  documents: {
+    results: [],
+    count: 0,
+    next: null,
+    previous: null,
+  },
+  articles: {
+    results: [],
+    count: [],
+    next: null,
+    previous: null,
+  },
+}

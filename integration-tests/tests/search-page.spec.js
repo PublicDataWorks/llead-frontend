@@ -8,6 +8,7 @@ import {
   fourthSearchDataExtend,
   fourthSearchData,
   fifthSearchData,
+  sixthSearchData,
 } from '../data/search-page-data'
 
 describe('Search Page', () => {
@@ -50,6 +51,15 @@ describe('Search Page', () => {
         {
           method: 'GET',
           url: 'http://localhost:8000/api/search/',
+          query: { q: 'Hunt', department: 'harmonbury-department' },
+        },
+        fifthSearchData
+      )
+
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/search/',
           query: { q: 'ba', doc_type: 'articles' },
         },
         fourthSearchData
@@ -86,9 +96,9 @@ describe('Search Page', () => {
         {
           method: 'GET',
           url: 'http://localhost:8000/api/search/',
-          query: { q: 'Hunt', department: 'harmonbury-department' },
+          query: { q: 'Hunt' },
         },
-        fifthSearchData
+        sixthSearchData
       )
 
       cy.interceptExact(
@@ -99,10 +109,36 @@ describe('Search Page', () => {
         },
         departmentDetailsData
       )
+
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: `http://localhost:8000/api/historical-data/recent-items/`,
+        },
+        []
+      )
+
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/user/',
+        },
+        {
+          email: 'user@mail.com',
+        }
+      )
     })
 
     describe('No historical recent queries', () => {
       beforeEach(() => {
+        cy.interceptExact(
+          {
+            method: 'GET',
+            url: 'http://localhost:8000/api/historical-data/recent-queries/',
+          },
+          []
+        )
+
         cy.login()
       })
 
@@ -119,7 +155,7 @@ describe('Search Page', () => {
       it('render blank search page', () => {
         cy.visit('/search')
 
-        cy.location('pathname').should('eq', '/search')
+        cy.location('pathname').should('eq', '/search/')
         cy.get('.search-input-container').find('.input-field').should('exist')
       })
 
@@ -183,12 +219,6 @@ describe('Search Page', () => {
         cy.get('.search-input-container')
           .find('.transparent-input')
           .should('value', 'Hunt')
-
-        cy.get('.officers-carousel')
-          .find('.swiper-slide')
-          .as('officersSlides')
-          .should('length', 1)
-        cy.get('@officersSlides').eq(0).contains('Kelly N Hunt')
       })
 
       it('backs to front page if press backspace', () => {
@@ -212,9 +242,49 @@ describe('Search Page', () => {
         cy.location('pathname').should('eq', '/')
       })
 
+      it('shows all if press search all', () => {
+        cy.visit('/search/?q=Hunt&department=harmonbury-department')
+
+        cy.location('pathname').should('eq', '/search/')
+        cy.get('.search-input-container')
+          .find('.search-tag')
+          .should('text', 'Harmonbury Department')
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', 'Hunt')
+
+        cy.get('.search-all').find('.search-all-btn').click()
+
+        cy.get('.search-input-container')
+          .find('.search-tag')
+          .should('not.exist')
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', 'Hunt')
+
+        cy.get('.departments-carousel')
+          .find('.swiper-slide')
+          .as('departmentSlides')
+          .should('length', 3)
+        cy.get('@departmentSlides').eq(0).contains('Baton Rouge PD')
+        cy.get('@departmentSlides').eq(1).contains('New Orleans PD')
+        cy.get('@departmentSlides').eq(2).contains('Baton Rouge Sheriff')
+
+        cy.get('.officers-carousel')
+          .find('.swiper-slide')
+          .as('officersSlides')
+          .should('length', 4)
+        cy.get('@officersSlides').eq(0).contains('Mark Carlson')
+        cy.get('@officersSlides').eq(1).contains('Eric Patel')
+        cy.get('@officersSlides').eq(2).contains('Lee Allen')
+        cy.get('@officersSlides').eq(3).contains('Tina Holder')
+
+        cy.url().should('include', '/search/?q=Hunt')
+      })
+
       it('backs to front page if click on close button', () => {
         cy.visit('/search')
-        cy.location('pathname').should('eq', '/search')
+        cy.location('pathname').should('eq', '/search/')
 
         cy.get('.search-input-container').find('.input-field').type('f')
         cy.get('.search-input-container')

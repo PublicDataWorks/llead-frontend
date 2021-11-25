@@ -93,6 +93,12 @@ const SearchInput = (props) => {
 
   useEffect(() => {
     if (isSearchPage()) {
+      performSearch(searchQuery)
+    }
+  }, [searchDepartment])
+
+  useEffect(() => {
+    if (isSearchPage()) {
       const search = qs.parse(location.search, { ignoreQueryPrefix: true })
       const { q, department } = search
       if (department) {

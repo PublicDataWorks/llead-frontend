@@ -17,6 +17,8 @@ import {
   SEARCH_THROTTLE_TIME_OUT,
 } from 'constants/common'
 import { analyzeAction } from 'utils/google-analytics'
+import Button from 'components/common/buttons/button'
+import GoToRightArrow from 'assets/icons/go-to-right-arrow.svg'
 
 const SearchPage = (props) => {
   const {
@@ -28,6 +30,7 @@ const SearchPage = (props) => {
     saveSearchQuery,
     clearSearchResults,
     searchParams,
+    changeSearchDepartment,
   } = props
   const { departments, officers, documents, articles } = searchResults
   const { docType, searchString } = searchParams
@@ -96,6 +99,18 @@ const SearchPage = (props) => {
 
   return (
     <div className='search-page'>
+      {!isEmpty(searchDepartment) && (
+        <div className='search-all'>
+          <Button
+            className='search-all-btn'
+            onClick={() => changeSearchDepartment({})}
+          >
+            Show results from
+            <span className='emphasis-text'> all of LLEAD </span>
+            <img className='inline-arrow' src={GoToRightArrow} />
+          </Button>
+        </div>
+      )}
       {map(
         searchResultsComponents,
         ({ component: Component, key, items, params }) =>
@@ -126,6 +141,7 @@ SearchPage.propTypes = {
   saveRecentItem: PropTypes.func,
   saveSearchQuery: PropTypes.func,
   clearSearchResults: PropTypes.func,
+  changeSearchDepartment: PropTypes.func,
 }
 
 SearchPage.defaultProps = {
@@ -135,6 +151,7 @@ SearchPage.defaultProps = {
   saveRecentItem: noop,
   saveSearchQuery: noop,
   clearSearchResults: noop,
+  changeSearchDepartment: noop,
 }
 
 export default SearchPage
