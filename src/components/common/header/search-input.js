@@ -60,12 +60,6 @@ const SearchInput = (props) => {
   }
 
   const clearSearch = () => {
-    changeSearchQuery('')
-    clearDepartment()
-  }
-
-  const clearDepartment = () => {
-    changeSearchDepartment({})
     history.push(FRONT_PAGE_PATH)
   }
 
@@ -80,7 +74,7 @@ const SearchInput = (props) => {
       isEmpty(searchQuery) &&
       !isEmpty(searchDepartment)
     ) {
-      clearDepartment()
+      clearSearch()
     }
   }
 

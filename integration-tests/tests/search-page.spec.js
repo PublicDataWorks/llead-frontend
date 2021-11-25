@@ -221,6 +221,26 @@ describe('Search Page', () => {
           .should('value', 'Hunt')
       })
 
+      it('clear search query and department on entering homepage', () => {
+        cy.visit('/search/?q=Hunt&department=harmonbury-department')
+
+        cy.location('pathname').should('eq', '/search/')
+        cy.get('.search-input-container')
+          .find('.search-tag')
+          .should('text', 'Harmonbury Department')
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', 'Hunt')
+
+        cy.get('.search-input-container').find('.close-btn').click()
+        cy.location('pathname').should('eq', '/')
+
+        cy.get('.search-tag').should('not.exist')
+        cy.get('.search-input-container')
+          .find('.transparent-input')
+          .should('value', '')
+      })
+
       it('backs to front page if press backspace', () => {
         cy.visit('/search/?q=&department=harmonbury-department')
 
