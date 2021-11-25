@@ -5,10 +5,16 @@ export const officerDetailsData = {
   birth_year: 1962,
   race: 'white',
   gender: 'male',
-  department: {
-    id: 'new-orleans-pd',
-    name: 'New Orleans PD',
-  },
+  departments: [
+    {
+      id: 'new-orleans-pd',
+      name: 'New Orleans PD',
+    },
+    {
+      id: 'harmonbury-department',
+      name: 'Harmonbury Department',
+    },
+  ],
   salary: '54123.124',
   salary_freq: 'yearly',
   documents_count: 3,

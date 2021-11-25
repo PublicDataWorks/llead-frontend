@@ -29,11 +29,13 @@ describe('#officerSelector', () => {
         birthYear: 1962,
         race: 'race',
         gender: 'gender',
-        department: {
-          id: 'department-name',
-          name: 'Department Name',
-          extraDepartmentField: 'should not be included',
-        },
+        departments: [
+          {
+            id: 'department-name',
+            name: 'Department Name',
+            extraDepartmentField: 'should not be included',
+          },
+        ],
         salary: '54267.789',
         salaryFreq: 'yearly',
         documentsCount: 1,
@@ -57,10 +59,68 @@ describe('#officerSelector', () => {
         complaintsCount: 2,
         salary: '$54,267.79/year',
         description: `${age}-year-old race gender`,
-        department: {
-          id: 'department-name',
-          name: 'Department Name',
+        departments: [
+          {
+            id: 'department-name',
+            name: 'Department Name',
+          },
+        ],
+      })
+    })
+
+    it('returns officer data with multi departments', () => {
+      const officerData = {
+        id: 1,
+        name: 'Officer Name',
+        badges: ['12345', '56789'],
+        birthYear: 1962,
+        race: 'race',
+        gender: 'gender',
+        departments: [
+          {
+            id: 'department-name',
+            name: 'Department Name',
+            extraDepartmentField: 'should not be included',
+          },
+          {
+            id: 'related-department-name',
+            name: 'Related Department Name',
+            extraDepartmentField: 'should not be included',
+          },
+        ],
+        salary: '54267.789',
+        salaryFreq: 'yearly',
+        documentsCount: 1,
+        complaintsCount: 2,
+        extraField: 'should not be included',
+      }
+      const state = {
+        officerPage: {
+          officer: officerData,
         },
+      }
+
+      const age = moment().diff(moment('1962', 'YYYY'), 'years')
+      const officer = officerSelector(state)
+
+      expect(officer).toStrictEqual({
+        id: 1,
+        name: 'Officer Name',
+        badges: ['12345', '56789'],
+        documentsCount: 1,
+        complaintsCount: 2,
+        salary: '$54,267.79/year',
+        description: `${age}-year-old race gender`,
+        departments: [
+          {
+            id: 'department-name',
+            name: 'Department Name',
+          },
+          {
+            id: 'related-department-name',
+            name: 'Related Department Name',
+          },
+        ],
       })
     })
 
