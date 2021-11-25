@@ -26,7 +26,7 @@ import {
   TIMELINE_KIND_ORDERS,
 } from 'constants/common'
 
-const baseTimelineItemFormatter = (item) => pick(item, ['kind'])
+const baseTimelineItemFormatter = (item) => pick(item, ['kind', 'department'])
 
 const complaintTimelineItemFormatter = (item) => {
   const attributes = ['kind', 'trackingNumber', 'id']
