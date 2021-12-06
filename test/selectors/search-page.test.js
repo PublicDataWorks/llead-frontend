@@ -5,6 +5,7 @@ import {
   searchResultsSelector,
   searchQuerySuggestionsSelector,
   searchQuerySelector,
+  getSearchDepartment,
 } from 'selectors/search-page'
 import * as commonConstants from 'constants/common'
 
@@ -17,6 +18,18 @@ describe('#getSearchQuery', () => {
     }
     const query = getSearchQuery(state)
     expect(query).toEqual('query test')
+  })
+})
+
+describe('#getSearchDepartment', () => {
+  it('returns search departments', () => {
+    const state = {
+      searchPage: {
+        searchDepartment: 'department test',
+      },
+    }
+    const department = getSearchDepartment(state)
+    expect(department).toEqual('department test')
   })
 })
 

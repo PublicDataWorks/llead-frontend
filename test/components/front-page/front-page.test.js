@@ -42,6 +42,45 @@ describe('FrontPage component', () => {
     expect(fetchFrontPageOrdersSpy).toHaveBeenCalled()
   })
 
+  it('clear search query on enter homepage', () => {
+    const fetchAnalyticSummarySpy = sinon.spy()
+    const fetchDepartmentsSpy = sinon.spy()
+    const fetchOfficersSpy = sinon.spy()
+    const fetchDocumentsSpy = sinon.spy()
+    const fetchNewsArticlesSpy = sinon.spy()
+    const fetchFrontPageOrdersSpy = sinon.spy()
+    const changeSearchQueryStub = sinon.stub()
+    const changeSearchDepartmentStub = sinon.stub()
+
+    render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <FrontPage
+              fetchAnalyticSummary={fetchAnalyticSummarySpy}
+              fetchDepartments={fetchDepartmentsSpy}
+              fetchOfficers={fetchOfficersSpy}
+              fetchDocuments={fetchDocumentsSpy}
+              fetchNewsArticles={fetchNewsArticlesSpy}
+              fetchFrontPageOrders={fetchFrontPageOrdersSpy}
+              changeSearchQuery={changeSearchQueryStub}
+              changeSearchDepartment={changeSearchDepartmentStub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(fetchAnalyticSummarySpy).toHaveBeenCalled()
+    expect(fetchDepartmentsSpy).toHaveBeenCalled()
+    expect(fetchOfficersSpy).toHaveBeenCalled()
+    expect(fetchDocumentsSpy).toHaveBeenCalled()
+    expect(fetchNewsArticlesSpy).toHaveBeenCalled()
+    expect(fetchFrontPageOrdersSpy).toHaveBeenCalled()
+    expect(changeSearchQueryStub).toHaveBeenCalledWith('')
+    expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
+  })
+
   it('should render correctly', () => {
     const cmsData = {
       summary: '**Front page** summary.',

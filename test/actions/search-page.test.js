@@ -28,7 +28,13 @@ describe('#search', () => {
     const getFunc = sinon.stub()
     getStub.returns(getFunc)
 
-    search({ query: 'keyword', docType: 'docType', limit: 1, offset: 1 })
+    search({
+      query: 'keyword',
+      docType: 'docType',
+      limit: 1,
+      offset: 1,
+      department: 'new-orleans-pd',
+    })
 
     expect(getStub).toHaveBeenCalledWith(
       [
@@ -43,6 +49,7 @@ describe('#search', () => {
       limit: 1,
       offset: 1,
       doc_type: 'docType',
+      department: 'new-orleans-pd',
     })
   })
 

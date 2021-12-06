@@ -1,4 +1,6 @@
 @import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
 
 .search-page {
   .search-results {
@@ -11,5 +13,22 @@
 
   .list-title {
     color: $boulder-color;
+  }
+  .search-all {
+    padding: 0 $h-side-frame;
+
+    .search-all-btn {
+      @include small-text;
+      width: 100%;
+      padding: $v-small-margin;
+      margin-top: $v-frame-margin;
+      border-radius: $v-sub-tiny-margin;
+      background-color: $wild-sand-color;
+      border: 1px solid $silver-color;
+
+      .emphasis-text {
+        color: $thunder-color;
+      }
+    }
   }
 }

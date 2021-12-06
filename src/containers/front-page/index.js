@@ -10,6 +10,7 @@ import {
   newsArticlesSelector,
   frontPageOrdersSelector,
 } from 'selectors/front-page'
+import { changeSearchQuery, changeSearchDepartment } from 'actions/search-page'
 import { recentItemsSelector } from 'selectors/front-page/recent-items'
 import { CMS_SECTIONS } from 'constants/common'
 import {
@@ -41,6 +42,8 @@ const mapDispatchToProps = {
   fetchNewsArticles,
   fetchFrontPageOrders,
   saveRecentItem,
+  changeSearchQuery,
+  changeSearchDepartment,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FrontPage)

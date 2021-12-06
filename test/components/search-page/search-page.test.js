@@ -250,6 +250,7 @@ describe('SearchPage component', () => {
       expect(searchStub).toHaveBeenCalledWith({
         query: 'searchString',
         docType: 'documents',
+        department: '',
       })
     })
   })
@@ -448,6 +449,110 @@ describe('SearchPage component', () => {
     expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
       type: EVENT_TYPES.SEARCH,
       data: { search_query: searchQuery },
+    })
+  })
+
+  it('performs search department', async () => {
+    const searchStub = sinon.stub()
+
+    const searchResults = {
+      departments: {
+        results: [],
+      },
+      officers: { results: [] },
+      documents: { results: [] },
+      articles: { results: [] },
+    }
+
+    const departmentData = {
+      id: 'baton-rouge-pd',
+      name: 'Baton Rouge PD',
+      city: 'department city',
+      locationMapUrl: null,
+      parish: 'department parish',
+    }
+
+    const searchQuery = 'searchQuery'
+    const searchParams = { docType: 'document', searchString: 'searchString' }
+
+    const changeSearchDepartmentStub = sinon.stub()
+
+    render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/search']}>
+          <Route path='/search'>
+            <SearchPage
+              searchResults={searchResults}
+              search={searchStub}
+              searchQuery={searchQuery}
+              searchParams={searchParams}
+              searchDepartment={departmentData}
+              changeSearchDepartment={changeSearchDepartmentStub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    await waitFor(() => {
+      expect(searchStub).toHaveBeenCalledWith({
+        query: 'searchString',
+        docType: 'documents',
+        department: 'baton-rouge-pd',
+      })
+    })
+  })
+
+  it('performs clear search department', async () => {
+    const searchStub = sinon.stub()
+
+    const searchResults = {
+      departments: {
+        results: [],
+      },
+      officers: { results: [] },
+      documents: { results: [] },
+      articles: { results: [] },
+    }
+
+    const departmentData = {
+      id: 'baton-rouge-pd',
+      name: 'Baton Rouge PD',
+      city: 'department city',
+      locationMapUrl: null,
+      parish: 'department parish',
+    }
+
+    const searchQuery = 'searchQuery'
+    const searchParams = { docType: 'document', searchString: 'searchString' }
+
+    const changeSearchDepartmentStub = sinon.stub()
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/search']}>
+          <Route path='/search'>
+            <SearchPage
+              searchResults={searchResults}
+              search={searchStub}
+              searchQuery={searchQuery}
+              searchParams={searchParams}
+              searchDepartment={departmentData}
+              changeSearchDepartment={changeSearchDepartmentStub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+    const searchAllButton = baseElement.getElementsByClassName(
+      'search-all-btn'
+    )[0]
+    fireEvent.click(searchAllButton)
+
+    await waitFor(() => {
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
     })
   })
 })
