@@ -87,6 +87,18 @@ const officersData2 = [
   },
 ]
 
+const officersData3 = [
+  {
+    id: 17,
+    name: 'Kelly N Hunt',
+    badges: ['1217'],
+    department: {
+      id: 'harmonbury-department',
+      name: 'Harmonbury Department',
+    },
+  },
+]
+
 const documentsData1 = [
   {
     id: 1,
@@ -346,6 +358,60 @@ export const fourthSearchDataExtend = {
   articles: {
     results: newsArticlesData2,
     count: 6,
+    next: null,
+    previous: null,
+  },
+}
+
+export const fifthSearchData = {
+  departments: {
+    results: [],
+    count: 0,
+    next: null,
+    previous: null,
+  },
+  officers: {
+    results: officersData3,
+    count: 1,
+    next: null,
+    previous: null,
+  },
+  documents: {
+    results: [],
+    count: 0,
+    next: null,
+    previous: null,
+  },
+  articles: {
+    results: [],
+    count: [],
+    next: null,
+    previous: null,
+  },
+}
+
+export const sixthSearchData = {
+  departments: {
+    results: departmentsData1,
+    count: 3,
+    next: null,
+    previous: null,
+  },
+  officers: {
+    results: officersData1,
+    count: 4,
+    next: null,
+    previous: null,
+  },
+  documents: {
+    results: [],
+    count: 0,
+    next: null,
+    previous: null,
+  },
+  articles: {
+    results: [],
+    count: [],
     next: null,
     previous: null,
   },

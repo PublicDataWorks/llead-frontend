@@ -5,10 +5,16 @@ export const officerDetailsData = {
   birth_year: 1962,
   race: 'white',
   gender: 'male',
-  department: {
-    id: 'new-orleans-pd',
-    name: 'New Orleans PD',
-  },
+  departments: [
+    {
+      id: 'new-orleans-pd',
+      name: 'New Orleans PD',
+    },
+    {
+      id: 'harmonbury-department',
+      name: 'Harmonbury Department',
+    },
+  ],
   salary: '54123.124',
   salary_freq: 'yearly',
   documents_count: 3,
@@ -116,11 +122,13 @@ export const officerTimelineData = {
       kind: 'JOINED',
       date: null,
       year: null,
+      department: 'Mandeville PD',
     },
     {
       kind: 'LEFT',
       date: '2020-03-10',
       year: 2020,
+      department: 'Slidell PD',
     },
     {
       id: 39,
@@ -153,11 +161,13 @@ export const officerTimelineData = {
       kind: 'JOINED',
       date: '2019-03-10',
       year: 2019,
+      department: 'Slidell PD',
     },
     {
       kind: 'LEFT',
       date: '2019-03-10',
       year: 2019,
+      department: 'Mandeville PD',
     },
     {
       kind: 'SALARY_CHANGE',

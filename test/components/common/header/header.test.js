@@ -75,6 +75,7 @@ describe('Header component', () => {
   describe('search query of the search box', () => {
     it('does nothing on not search pathname', () => {
       const changeSearchQueryStub = sinon.stub()
+      const changeSearchDepartmentStub = sinon.stub()
       const query = qs.stringify({ q: 'query' }, { addQueryPrefix: true })
       render(
         <MemoryRouter initialEntries={[{ pathname: '/', search: query }]}>
@@ -82,15 +83,18 @@ describe('Header component', () => {
             <Header
               isLoggedIn={true}
               changeSearchQuery={changeSearchQueryStub}
+              changeSearchDepartment={changeSearchDepartmentStub}
             />
           </Route>
         </MemoryRouter>
       )
 
       expect(changeSearchQueryStub).not.toHaveBeenCalled()
+      expect(changeSearchDepartmentStub).not.toHaveBeenCalled()
     })
     it('does call change search query on search pathname', () => {
       const changeSearchQueryStub = sinon.stub()
+      const changeSearchDepartmentStub = sinon.stub()
       const query = qs.stringify({ q: 'query' }, { addQueryPrefix: true })
       render(
         <MemoryRouter initialEntries={[{ pathname: '/search', search: query }]}>
@@ -98,18 +102,21 @@ describe('Header component', () => {
             <Header
               isLoggedIn={true}
               changeSearchQuery={changeSearchQueryStub}
+              changeSearchDepartment={changeSearchDepartmentStub}
             />
           </Route>
         </MemoryRouter>
       )
 
       expect(changeSearchQueryStub).toHaveBeenCalled()
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
     })
   })
 
   describe('handleSearch when user input', () => {
     it('replace current location', () => {
       const changeSearchQueryStub = sinon.stub()
+      const changeSearchDepartmentStub = sinon.stub()
 
       const container = render(
         <MemoryRouter initialEntries={['/search']}>
@@ -118,6 +125,7 @@ describe('Header component', () => {
               <Header
                 isLoggedIn={true}
                 changeSearchQuery={changeSearchQueryStub}
+                changeSearchDepartment={changeSearchDepartmentStub}
               />
               <div>Search Page</div>
             </div>
@@ -141,6 +149,7 @@ describe('Header component', () => {
       fireEvent.change(searchInput, { target: { value: 'any' } })
 
       expect(changeSearchQueryStub).toHaveBeenCalledWith('any')
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
       expect(baseElement.textContent.includes('Search Page')).toBe(true)
       expect(baseElement.textContent.includes('Another Page')).toBe(false)
       expect(mockHistoryReplace).toHaveBeenCalledWith({
@@ -152,6 +161,7 @@ describe('Header component', () => {
 
     it('push new location', () => {
       const changeSearchQueryStub = sinon.stub()
+      const changeSearchDepartmentStub = sinon.stub()
 
       const container = render(
         <MemoryRouter initialEntries={['/']}>
@@ -160,6 +170,7 @@ describe('Header component', () => {
               <Header
                 isLoggedIn={true}
                 changeSearchQuery={changeSearchQueryStub}
+                changeSearchDepartment={changeSearchDepartmentStub}
               />
               <div>Search Page</div>
             </div>
@@ -169,6 +180,7 @@ describe('Header component', () => {
               <Header
                 isLoggedIn={true}
                 changeSearchQuery={changeSearchQueryStub}
+                changeSearchDepartment={changeSearchDepartmentStub}
               />
               <div>Another Page</div>
             </div>
@@ -183,6 +195,7 @@ describe('Header component', () => {
       fireEvent.change(searchInput, { target: { value: 'any' } })
 
       expect(changeSearchQueryStub).toHaveBeenCalledWith('any')
+      expect(changeSearchDepartmentStub).not.toHaveBeenCalled()
       expect(baseElement.textContent.includes('Search Page')).toBe(false)
       expect(baseElement.textContent.includes('Another Page')).toBe(true)
       expect(mockHistoryPush).toHaveBeenCalledWith({
@@ -195,6 +208,7 @@ describe('Header component', () => {
   describe('clearSearch when user click on close button', () => {
     it('clear search box and redirect to Home', () => {
       const changeSearchQueryStub = sinon.stub()
+      const changeSearchDepartmentStub = sinon.stub()
 
       const container = render(
         <MemoryRouter initialEntries={['/search']}>
@@ -203,6 +217,7 @@ describe('Header component', () => {
               <Header
                 isLoggedIn={true}
                 changeSearchQuery={changeSearchQueryStub}
+                changeSearchDepartment={changeSearchDepartmentStub}
                 searchQuery='any'
               />
               <div>Search Page</div>
@@ -225,6 +240,7 @@ describe('Header component', () => {
       const closeButton = getByTestId('test--close-btn')
       fireEvent.click(closeButton)
       expect(changeSearchQueryStub).toHaveBeenCalledWith('')
+      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
       expect(mockHistoryPush).toHaveBeenCalledWith(FRONT_PAGE_PATH)
     })
   })

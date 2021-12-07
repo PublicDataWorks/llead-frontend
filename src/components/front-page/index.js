@@ -31,6 +31,8 @@ const FrontPage = (props) => {
     saveRecentItem,
     recentItems,
     frontPageOrders,
+    changeSearchQuery,
+    changeSearchDepartment,
   } = props
 
   const departmentRef = useRef(null)
@@ -38,6 +40,8 @@ const FrontPage = (props) => {
   const documentRef = useRef(null)
 
   useEffect(() => {
+    changeSearchQuery('')
+    changeSearchDepartment({})
     fetchFrontPageOrders()
     fetchAnalyticSummary()
     fetchDepartments()
@@ -53,9 +57,7 @@ const FrontPage = (props) => {
 
   return (
     <div className='front-page'>
-      <ReactMarkdown className='summary'>
-        {cms.summary}
-      </ReactMarkdown>
+      <ReactMarkdown className='summary'>{cms.summary}</ReactMarkdown>
       <AnalyticSummary
         analyticSummary={analyticSummary}
         departmentRef={departmentRef}
@@ -133,6 +135,8 @@ FrontPage.propTypes = {
   fetchNewsArticles: PropTypes.func,
   fetchFrontPageOrders: PropTypes.func,
   saveRecentItem: PropTypes.func,
+  changeSearchQuery: PropTypes.func,
+  changeSearchDepartment: PropTypes.func,
 }
 
 FrontPage.defaultProps = {
@@ -151,6 +155,8 @@ FrontPage.defaultProps = {
   fetchNewsArticles: noop,
   fetchFrontPageOrders: noop,
   saveRecentItem: noop,
+  changeSearchQuery: noop,
+  changeSearchDepartment: noop,
 }
 
 export default FrontPage

@@ -6,6 +6,7 @@ import join from 'lodash/join'
 import pick from 'lodash/pick'
 import compact from 'lodash/compact'
 import trim from 'lodash/trim'
+import map from 'lodash/map'
 
 import { formatSalary } from 'utils/formatter'
 import { officerFormatter } from 'selectors/common'
@@ -40,17 +41,21 @@ const officerDetailsFormatter = (officer) => {
   ]
 
   const salary = get(officer, 'salary')
-  const salaryFreq = get(officer, 'salaryFreq') 
+  const salaryFreq = get(officer, 'salaryFreq')
 
   const salaryString = formatSalary(salary, salaryFreq)
 
-  const officerDepartment = get(officer, 'department')
+  const officerDepartment = get(officer, 'departments', [])
+
+  const departments = map(officerDepartment, (department) =>
+    pick(department, officerDepartmentAttributes)
+  )
 
   return {
     ...pick(officer, officerAttributes),
     description: formatOfficerDescription(officer),
     salary: salaryString,
-    department: pick(officerDepartment, officerDepartmentAttributes),
+    departments,
   }
 }
 

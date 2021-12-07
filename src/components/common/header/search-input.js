@@ -5,19 +5,25 @@ import qs from 'qs'
 import cx from 'classnames'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
+import omitBy from 'lodash/omitBy'
 
 import './search-input.scss'
-import Input from 'components/common/inputs/input'
+import TaggedInput from 'components/common/inputs/tagged-input'
 import { SEARCH_PATH, FRONT_PAGE_PATH } from 'constants/paths'
 import SearchSVG from 'assets/icons/search.svg'
 import CloseSVG from 'assets/icons/close.svg'
+import get from 'lodash.get'
 
 const SearchInput = (props) => {
   const {
     changeSearchQuery,
     searchQuery,
+    searchDepartment,
     searchQuerySuggestions,
+    changeSearchDepartment,
     fetchSearchQueries,
+    fetchDepartment,
+    fetchedDepartment,
   } = props
   const history = useHistory()
   const location = useLocation()
@@ -29,10 +35,16 @@ const SearchInput = (props) => {
   const performSearch = (newSearchQuery) => {
     changeSearchQuery(newSearchQuery)
 
+    const raw_params = {
+      q: newSearchQuery,
+      department: get(searchDepartment, 'id', ''),
+    }
+    const params = omitBy(raw_params, isEmpty)
+
     const newLocation = {
       pathname: SEARCH_PATH,
       search: newSearchQuery
-        ? qs.stringify({ q: newSearchQuery }, { addQueryPrefix: true })
+        ? qs.stringify(params, { addQueryPrefix: true })
         : '',
     }
 
@@ -48,7 +60,6 @@ const SearchInput = (props) => {
   }
 
   const clearSearch = () => {
-    changeSearchQuery('')
     history.push(FRONT_PAGE_PATH)
   }
 
@@ -57,10 +68,36 @@ const SearchInput = (props) => {
     setShowSuggestions(false)
   }
 
+  const onKeyDown = (event) => {
+    if (
+      event.code == 'Backspace' &&
+      isEmpty(searchQuery) &&
+      !isEmpty(searchDepartment)
+    ) {
+      clearSearch()
+    }
+  }
+
+  useEffect(() => {
+    if (isSearchPage()) {
+      changeSearchDepartment(fetchedDepartment || {})
+      changeSearchQuery(searchQuery || '')
+    }
+  }, [fetchedDepartment])
+
+  useEffect(() => {
+    if (isSearchPage()) {
+      performSearch(searchQuery)
+    }
+  }, [searchDepartment])
+
   useEffect(() => {
     if (isSearchPage()) {
       const search = qs.parse(location.search, { ignoreQueryPrefix: true })
-      const { q } = search
+      const { q, department } = search
+      if (department) {
+        fetchDepartment(department)
+      }
       changeSearchQuery(q || '')
     }
 
@@ -75,14 +112,20 @@ const SearchInput = (props) => {
         })}
       >
         <div className='search-input-with-suggestions'>
-          <Input
+          <TaggedInput
             iconSrc={SearchSVG}
-            placeholder='Search by name, department, or keyword'
+            placeholder={
+              isEmpty(get(searchDepartment, 'id', ''))
+                ? 'Search by name, department, or keyword'
+                : 'Search within department'
+            }
             onChange={onSearchInputChange}
             value={searchQuery}
             autoFocus={isSearchPage()}
             className='search-input'
+            searchTag={get(searchDepartment, 'name', '')}
             onClick={() => setShowSuggestions(true)}
+            onKeyDown={onKeyDown}
           />
           <div
             className={cx('search-query-suggestions', {
@@ -123,15 +166,21 @@ const SearchInput = (props) => {
 
 SearchInput.propTypes = {
   searchQuery: PropTypes.string,
+  searchDepartment: PropTypes.object,
   searchQuerySuggestions: PropTypes.array,
   changeSearchQuery: PropTypes.func,
   fetchSearchQueries: PropTypes.func,
+  changeSearchDepartment: PropTypes.func,
+  fetchDepartment: PropTypes.func,
+  fetchedDepartment: PropTypes.object,
 }
 
 SearchInput.defaultProps = {
   searchQuerySuggestions: [],
   changeSearchQuery: noop,
   fetchSearchQueries: noop,
+  changeSearchDepartment: noop,
+  fetchDepartment: noop,
 }
 
 export default SearchInput

@@ -1,4 +1,5 @@
 import { appConfigData } from '../data/common-data'
+import { departmentDetailsData } from '../data/department-page-data'
 import {
   officerDetailsData,
   officerDocumentsData,
@@ -15,6 +16,14 @@ describe('Officer Page', () => {
 
   describe('render successfully', () => {
     beforeEach(() => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
       cy.interceptExact(
         {
           method: 'GET',
@@ -82,10 +91,27 @@ describe('Officer Page', () => {
         .should('text', '$54,123.12/year')
       cy.get('.officer-basic-info')
         .find('.officer-department')
+        .eq(0)
         .should('text', 'New Orleans PD')
+      cy.get('.officer-basic-info')
+        .find('.officer-department')
+        .eq(1)
+        .should('text', 'Harmonbury Department')
       cy.get('.officer-basic-info')
         .find('.officer-summary-info')
         .should('text', 'Corliss Conway is named in\u00A03 documents.')
+    })
+
+    it('redirect to department page on click officer department', () => {
+      cy.visit('/officers/1')
+
+      cy.location('pathname').should('eq', '/officers/1')
+      cy.get('.officer-basic-info')
+        .find('.officer-department')
+        .eq(1)
+        .should('text', 'Harmonbury Department')
+      cy.get('.officer-basic-info').find('.officer-department').eq(1).click()
+      cy.location('pathname').should('eq', '/dept/harmonbury-department/')
     })
 
     it('changes title on officer clicked', () => {
@@ -152,7 +178,7 @@ describe('Officer Page', () => {
           .should('have.length', 1)
         cy.get('@secondTimelineGroup')
           .find('.timeline-main-item')
-          .should('text', 'Left department')
+          .should('text', 'Left Slidell PD')
 
         cy.get('.officer-timeline')
           .find('.timeline-group')
@@ -166,11 +192,11 @@ describe('Officer Page', () => {
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(0)
-          .should('text', 'Joined department')
+          .should('text', 'Joined Slidell PD')
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(1)
-          .should('text', 'Left department')
+          .should('text', 'Left Mandeville PD')
         cy.get('@thirdTimelineGroup')
           .find('.timeline-item')
           .eq(2)
@@ -250,7 +276,7 @@ describe('Officer Page', () => {
           .find('.timeline-item')
           .eq(0)
           .find('.timeline-main-item')
-          .should('text', 'Joined department')
+          .should('text', 'Joined Mandeville PD')
         cy.get('@forthTimelineGroup')
           .find('.timeline-item')
           .eq(1)

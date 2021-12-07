@@ -8,12 +8,12 @@ import isNaN from 'lodash/isNaN'
 import startCase from 'lodash/startCase'
 
 import './officer-page.scss'
-import CustomLink from 'components/common/links/custom-link'
 import OfficerBadges from 'components/common/items/officer-badges'
 import TimelineContainer from 'containers/officer-page/timeline'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 import { stringifyTotalItems } from 'utils/formatter'
-import { departmentPath, generateOfficerSlug } from 'utils/paths'
+import { generateOfficerSlug } from 'utils/paths'
+import OfficerDepartments from 'components/common/items/officer-departments'
 
 const Officer = (props) => {
   const {
@@ -38,7 +38,7 @@ const Officer = (props) => {
 
   const {
     name,
-    department,
+    departments,
     badges,
     description,
     salary,
@@ -128,13 +128,8 @@ const Officer = (props) => {
             <div className='officer-basic-info-row'>{description}</div>
           )}
           {salary && <div className='officer-basic-info-row'>{salary}</div>}
-          {!isEmpty(department) && (
-            <CustomLink
-              className='officer-department'
-              to={departmentPath(department.id)}
-            >
-              {department.name}
-            </CustomLink>
+          {!isEmpty(departments) && (
+            <OfficerDepartments departments={departments} />
           )}
           {displaySummaryInfo()}
         </div>
