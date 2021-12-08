@@ -876,7 +876,7 @@ describe('#timelineFilterGroupsSelector', () => {
       },
       {
         filterGroupKey: 'COMPLAINTS',
-        title: 'Complaints',
+        title: 'Allegations',
         count: 6,
       },
       {
