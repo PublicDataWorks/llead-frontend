@@ -269,6 +269,21 @@ export const newsArticlesData2 = [
   },
 ]
 
+export const newsArticlesData3 = [
+  {
+    id: 4,
+    source_name: 'NOLA',
+    title: 'Face growth poor wait follow option better.',
+    url: 'http://documents.com/from/few.pdf',
+    date: '2020-01-06',
+    preview_image_url: 'http://image.com/third/source4.jpg',
+    author: 'Fourth Author',
+    content: 'This is the fourth dummy content',
+    content_highlight: null,
+    author_highlight: null,
+  }
+]
+
 export const firstSearchData = {
   departments: {
     results: departmentsData1,
@@ -383,8 +398,8 @@ export const fifthSearchData = {
     previous: null,
   },
   articles: {
-    results: [],
-    count: [],
+    results: newsArticlesData3,
+    count: 1,
     next: null,
     previous: null,
   },
