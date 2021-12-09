@@ -29,7 +29,7 @@ import {
 const baseTimelineItemFormatter = (item) => pick(item, ['kind', 'department'])
 
 const complaintTimelineItemFormatter = (item) => {
-  const attributes = ['kind', 'trackingNumber', 'id']
+  const attributes = ['kind', 'trackingNumber', 'id', 'allegationDesc']
 
   const capitalizeAttributes = [
     'ruleViolation',

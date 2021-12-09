@@ -84,6 +84,7 @@ export const officerTimelineData = {
       disposition: 'Exonerated',
       action: 'officer action 2019-03-10',
       tracking_number: '10-03',
+      allegation_desc: 'dummy allegation',
     },
     {
       id: 102,

@@ -28,6 +28,8 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
       },
       {
         id: 39,
@@ -67,6 +69,8 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion 2019-03-10',
         action: 'officer action 2019-03-10',
         trackingNumber: '10-03',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
       },
       {
         kind: 'SALARY_CHANGE',
@@ -244,6 +248,8 @@ describe('#timelineSelector', () => {
             disposition: 'Officer dispostion 2019-06-13',
             action: 'Officer action 2019-06-13',
             trackingNumber: '13-06',
+            allegationDesc:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
           },
           {
             kind: 'UOF',
@@ -324,6 +330,8 @@ describe('#timelineSelector', () => {
             paragraphViolation: 'Officer paragraph violation 2019-03-10',
             disposition: 'Officer dispostion 2019-03-10',
             action: 'Officer action 2019-03-10',
+            allegationDesc:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
           },
           {
             id: '128',
@@ -494,6 +502,8 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
       {
         id: 39,
@@ -715,6 +725,8 @@ describe('#timelineFilterGroupsSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
       {
         id: 39,
@@ -938,6 +950,8 @@ describe('#hasEventDetailsSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
       {
         kind: 'JOINED',
