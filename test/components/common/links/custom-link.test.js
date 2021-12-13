@@ -39,4 +39,29 @@ describe('CustomLink component', () => {
     expect(mockHistoryPush).toHaveBeenCalledWith(link)
     expect(onClickSpy).toHaveBeenCalled()
   })
+
+  it('handles removing item correctly', () => {
+    const link = '/link'
+    const removeRecentItemStub = sinon.stub()
+    const removeData = { abc: '123' }
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <CustomLink
+            to={link}
+            removeRecentItem={removeRecentItemStub}
+            removeData={removeData}
+          >
+            Custom Link
+          </CustomLink>
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { baseElement } = container
+    const removeIconItem = baseElement.getElementsByClassName('remove-btn')[0]
+    fireEvent.click(removeIconItem)
+
+    expect(removeRecentItemStub).toHaveBeenCalledWith(removeData)
+  })
 })

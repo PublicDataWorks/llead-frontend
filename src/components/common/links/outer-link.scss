@@ -1,3 +1,12 @@
-.outer-link {
+@import 'styles/variables';
+
+.outer-link-wrapper {
+  position: relative;
   cursor: pointer;
+
+  .remove-btn {
+    position: absolute;
+    right: $v-top-remove-btn;
+    top: $v-top-remove-btn;
+  }
 }

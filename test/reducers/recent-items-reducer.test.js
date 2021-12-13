@@ -1,6 +1,9 @@
 import recentItemsReducer from 'reducers/recent-items-reducer'
 
-import { SAVE_RECENT_ITEM_START } from 'action-types/common/recent-items'
+import {
+  REMOVE_RECENT_ITEM_START,
+  SAVE_RECENT_ITEM_START,
+} from 'action-types/common/recent-items'
 import { RECENT_ITEMS_FETCH_SUCCESS } from 'action-types/common/recent-items'
 
 jest.mock('constants/common', () => ({
@@ -11,6 +14,36 @@ jest.mock('constants/common', () => ({
 describe('#recentItemsReducer', () => {
   it('should return initial state', () => {
     expect(recentItemsReducer(undefined, {})).toStrictEqual([])
+  })
+
+  describe('handle REMOVE_RECENT_ITEM_START', () => {
+    it('removes recent item', () => {
+      const recentItem1 = { type: 'OFFICER', id: 1 }
+      const recentItem2 = { type: 'DEPARTMENT', id: 2 }
+
+      const result = recentItemsReducer([recentItem1, recentItem2], {
+        type: REMOVE_RECENT_ITEM_START,
+        request: {
+          params: recentItem1,
+        },
+      })
+
+      expect(result).toStrictEqual([recentItem2])
+    })
+
+    it('removes non-existed recent item', () => {
+      const recentItem1 = { type: 'OFFICER', id: 1 }
+      const recentItem2 = { type: 'DEPARTMENT', id: 2 }
+
+      const result = recentItemsReducer([recentItem1], {
+        type: REMOVE_RECENT_ITEM_START,
+        request: {
+          params: recentItem2,
+        },
+      })
+
+      expect(result).toStrictEqual([recentItem1])
+    })
   })
 
   describe('handle SAVE_RECENT_ITEM_START', () => {

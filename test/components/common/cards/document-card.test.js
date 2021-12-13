@@ -8,8 +8,11 @@ import { CARD_TYPES, EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 import * as googleAnalytics from 'utils/google-analytics'
 
 describe('Document card component', () => {
+  let windowOpenStub
+
   beforeEach(() => {
     sinon.stub(googleAnalytics, 'analyzeAction')
+    windowOpenStub = sinon.stub(window, 'open')
   })
 
   it('should render correctly', () => {
@@ -48,8 +51,43 @@ describe('Document card component', () => {
     )
   })
 
+  it('should remove correctly', () => {
+    const removeRecentItemStub = sinon.stub()
+    const props = {
+      id: 1,
+      documentType: 'csv',
+      url: 'https://i.imgur.com/nHTFohI.csv',
+      title: 'document-2',
+      previewImageUrl: 'previewImageUrl-2',
+      incidentDate: 'Dec 1, 2020',
+      departments: [
+        {
+          id: 10,
+          name: 'department-2',
+        },
+      ],
+      className: 'custom-class-name',
+      removeRecentItem: removeRecentItemStub,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+    const removeIconItem = baseElement.getElementsByClassName('remove-btn')[0]
+    fireEvent.click(removeIconItem)
+
+    expect(removeRecentItemStub).toHaveBeenCalledWith({
+      id: 1,
+      type: 'DOCUMENT',
+    })
+  })
+
   it('should handle click on document card', () => {
-    const windowOpenStub = sinon.stub(window, 'open')
     const saveRecentItemSpy = sinon.spy()
     const documentData = {
       id: 1,
@@ -86,7 +124,6 @@ describe('Document card component', () => {
   })
 
   it('should analyze click on document card', () => {
-    sinon.stub(window, 'open')
     const saveRecentItemSpy = sinon.spy()
     const documentData = {
       id: 1,

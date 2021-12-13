@@ -7,6 +7,11 @@ import NewsArticleCard from 'components/common/cards/news-article-card'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('News article card component', () => {
+  let windowOpenStub
+  beforeEach(() => {
+    windowOpenStub = sinon.stub(window, 'open')
+  })
+
   it('should render correctly', () => {
     const props = {
       id: 1,
@@ -35,8 +40,38 @@ describe('News article card component', () => {
     expect(newsArticleCard.textContent.includes(props.publishedDate)).toBe(true)
   })
 
+  it('should remove correctly', () => {
+    const removeRecentItemStub = sinon.stub()
+    const saveRecentItemSpy = sinon.spy()
+    const props = {
+      id: 1,
+      sourceName: 'The lens',
+      url: 'https://i.imgur.com/news-article1.pdf',
+      title: 'news-article-1',
+      publishedDate: 'Nov 9, 2020',
+      className: 'custom-class-name',
+      removeRecentItem: removeRecentItemStub,
+      saveRecentItem: saveRecentItemSpy,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <NewsArticleCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+    const removeIconItem = baseElement.getElementsByClassName('remove-btn')[0]
+    fireEvent.click(removeIconItem)
+
+    expect(removeRecentItemStub).toHaveBeenCalledWith({
+      id: 1,
+      type: 'NEWS_ARTICLE',
+    })
+  })
+
   it('should handle click on news article card', () => {
-    const windowOpenStub = sinon.stub(window, 'open')
     const saveRecentItemSpy = sinon.spy()
     const newsArticleData = {
       id: 1,
@@ -49,7 +84,7 @@ describe('News article card component', () => {
     const props = {
       ...newsArticleData,
       saveRecentItem: saveRecentItemSpy,
-      recentData: {...newsArticleData, date: newsArticleData.publishedDate},
+      recentData: { ...newsArticleData, date: newsArticleData.publishedDate },
     }
 
     const container = render(
@@ -61,7 +96,9 @@ describe('News article card component', () => {
     )
     const { baseElement } = container
 
-    const newsArticleCard = baseElement.getElementsByClassName('news-article-card')[0]
+    const newsArticleCard = baseElement.getElementsByClassName(
+      'news-article-card'
+    )[0]
     fireEvent.click(newsArticleCard)
 
     expect(windowOpenStub).toHaveBeenCalledWith(
@@ -72,7 +109,7 @@ describe('News article card component', () => {
     expect(saveRecentItemSpy).toHaveBeenCalledWith({
       type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
       id: 1,
-      data: {...newsArticleData, date: newsArticleData.publishedDate},
+      data: { ...newsArticleData, date: newsArticleData.publishedDate },
     })
   })
 })
