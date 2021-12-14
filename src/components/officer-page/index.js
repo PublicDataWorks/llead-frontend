@@ -92,7 +92,9 @@ const Officer = (props) => {
       return (
         <div className='officer-summary-info'>
           Our data shows that {startCase(name)} has&nbsp;
-          <b>{stringifyTotalItems(complaintsCount, 'misconduct complaints')}</b>
+          <b>
+            {stringifyTotalItems(complaintsCount, 'misconduct allegations')}
+          </b>
           .
         </div>
       )

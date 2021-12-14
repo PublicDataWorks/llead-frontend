@@ -293,7 +293,7 @@ describe('Officer component', () => {
         baseElement.getElementsByClassName('officer-summary-info')[0]
           .textContent
       ).toEqual(
-        'Our data shows that Officer Name has\u00A02 misconduct complaints.'
+        'Our data shows that Officer Name has\u00A02 misconduct allegations.'
       )
     })
 

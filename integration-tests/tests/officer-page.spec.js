@@ -471,7 +471,7 @@ describe('Officer Page', () => {
         cy.get('.timeline-filters')
           .find('.filter-item')
           .eq(1)
-          .should('have.text', 'Complaints (4)')
+          .should('have.text', 'Allegations (4)')
 
         cy.get('.timeline-filters')
           .find('.filter-item')

@@ -60,7 +60,7 @@ export const TIMELINE_KINDS = {
 
 export const TIMELINE_FILTERS = {
   COMPLAINTS: {
-    title: 'Complaints',
+    title: 'Allegations',
     kinds: [TIMELINE_KINDS.COMPLAINT],
   },
   DOCUMENTS: {
