@@ -86,7 +86,7 @@ const FrontPage = (props) => {
           <div className='section-anchor' ref={officerRef} />
           <OfficersCarousel
             items={officers}
-            sortedField='complaints'
+            sortedField='most allegations'
             className='front-page-carousel'
           />
         </div>
