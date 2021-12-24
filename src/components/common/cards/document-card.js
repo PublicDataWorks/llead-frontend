@@ -22,6 +22,7 @@ const DocumentCard = (props) => {
     url,
     incidentDate,
     pagesCount,
+    removeRecentItem,
     saveRecentItem,
     className,
     recentData,
@@ -58,6 +59,11 @@ const DocumentCard = (props) => {
       href={url}
       className={cx('document-card', className)}
       onClick={handleClick}
+      removeRecentItem={removeRecentItem}
+      removeData={{
+        id,
+        type: RECENT_ITEM_TYPES.DOCUMENT,
+      }}
     >
       <div className='document-info'>
         <div className='document-type'>{CARD_TYPES.DOCUMENT}</div>
@@ -84,6 +90,7 @@ DocumentCard.propTypes = {
   pagesCount: PropTypes.number,
   departments: PropTypes.array,
   saveRecentItem: PropTypes.func,
+  removeRecentItem: PropTypes.func,
   className: PropTypes.string,
   recentData: PropTypes.object,
 }

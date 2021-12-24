@@ -2,8 +2,12 @@ import sinon from 'sinon'
 import axiosClient from 'utils/axios-client'
 import FileSaver from 'file-saver'
 
-import { download, get, post } from 'utils/api'
-import { DEPARTMENTS_API_URL, TOKEN_API_URL } from 'constants/api'
+import { download, get, post, deleteApi } from 'utils/api'
+import {
+  DEPARTMENTS_API_URL,
+  TOKEN_API_URL,
+  RECENT_ITEMS_API_URL,
+} from 'constants/api'
 
 describe('#get', () => {
   describe('calls to API server successfully', () => {
@@ -346,5 +350,116 @@ describe('#download', () => {
         },
       },
     ])
+  })
+})
+
+describe('#deleteApi', () => {
+  describe('calls to API server successfully', () => {
+    it('dispatches the response data', async () => {
+      const DELETE_START = 'DELETE_START'
+      const DELETE_SUCCESS = 'DELETE_SUCCESS'
+      const DELETE_FAILURE = 'DELETE_FAILURE'
+      const params = { type: 'delete-type', id: 'delete-id' }
+      const dispatch = sinon.spy()
+
+      const url = RECENT_ITEMS_API_URL
+
+      sinon.stub(axiosClient, 'delete').resolves(
+        Promise.resolve({
+          data: {
+            detail: 'delete successfully',
+          },
+        })
+      )
+
+      const deleteFunc = deleteApi(
+        [DELETE_START, DELETE_SUCCESS, DELETE_FAILURE],
+        url,
+        'cancelToken'
+      )(params)
+
+      await deleteFunc(dispatch)
+      expect(dispatch).toHaveBeenCalledTwice()
+      expect(dispatch.getCall(0).args).toStrictEqual([
+        {
+          type: DELETE_START,
+          request: {
+            url,
+            params,
+          },
+        },
+      ])
+
+      expect(axiosClient.delete).toHaveBeenCalledWith(RECENT_ITEMS_API_URL, {
+        params,
+        cancelToken: 'cancelToken',
+      })
+      expect(dispatch.getCall(1).args).toStrictEqual([
+        {
+          type: DELETE_SUCCESS,
+          payload: {
+            detail: 'delete successfully',
+          },
+          request: {
+            url,
+            params,
+          },
+        },
+      ])
+    })
+  })
+
+  describe('calls to API server unsuccessfully', () => {
+    it('dispatches error message', async () => {
+      const DELETE_START = 'DELETE_START'
+      const DELETE_SUCCESS = 'DELETE_SUCCESS'
+      const DELETE_FAILURE = 'DELETE_FAILURE'
+      const dispatch = sinon.spy()
+      const params = { type: 'delete-type', id: 'delete-id' }
+
+      sinon.stub(axiosClient, 'delete').resolves(
+        Promise.reject({
+          response: {
+            data: {
+              message: 'error',
+            },
+          },
+        })
+      )
+      const url = RECENT_ITEMS_API_URL
+
+      const deleteFunc = deleteApi(
+        [DELETE_START, DELETE_SUCCESS, DELETE_FAILURE],
+        url,
+        'cancelToken'
+      )(params)
+
+      await deleteFunc(dispatch)
+      expect(dispatch).toHaveBeenCalledTwice()
+      expect(dispatch.getCall(0).args).toStrictEqual([
+        {
+          type: DELETE_START,
+          request: {
+            url,
+            params,
+          },
+        },
+      ])
+
+      expect(axiosClient.delete).toHaveBeenCalledWith(RECENT_ITEMS_API_URL, {
+        params,
+        cancelToken: 'cancelToken',
+      })
+      expect(dispatch.getCall(1).args).toStrictEqual([
+        {
+          type: DELETE_FAILURE,
+          payload: { message: 'error' },
+          request: {
+            url,
+            params,
+          },
+        },
+      ])
+    })
   })
 })

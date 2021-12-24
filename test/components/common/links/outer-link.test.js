@@ -26,4 +26,26 @@ describe('OuterLink component', () => {
     )
     expect(onClickSpy).toHaveBeenCalled()
   })
+
+  it('handles removing item correctly', () => {
+    const link = '/link'
+    const removeRecentItemStub = sinon.stub()
+    sinon.stub(window, 'open')
+    const removeData = { abc: '123' }
+    const container = render(
+      <OuterLink
+        href={link}
+        removeRecentItem={removeRecentItemStub}
+        removeData={removeData}
+      >
+        Outer Link
+      </OuterLink>
+    )
+
+    const { baseElement } = container
+    const removeIconItem = baseElement.getElementsByClassName('remove-btn')[0]
+    fireEvent.click(removeIconItem)
+
+    expect(removeRecentItemStub).toHaveBeenCalledWith(removeData)
+  })
 })

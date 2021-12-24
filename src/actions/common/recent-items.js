@@ -1,6 +1,6 @@
 import * as actionTypes from 'action-types/common/recent-items'
 
-import { get, post } from 'utils/api'
+import { get, post, deleteApi } from 'utils/api'
 import { RECENT_ITEMS_API_URL } from 'constants/api'
 
 export const saveRecentItem = (recentItem) =>
@@ -9,6 +9,16 @@ export const saveRecentItem = (recentItem) =>
       actionTypes.SAVE_RECENT_ITEM_START,
       actionTypes.SAVE_RECENT_ITEM_SUCCESS,
       actionTypes.SAVE_RECENT_ITEM_FAILURE,
+    ],
+    RECENT_ITEMS_API_URL
+  )(recentItem)
+
+export const removeRecentItem = (recentItem) =>
+  deleteApi(
+    [
+      actionTypes.REMOVE_RECENT_ITEM_START,
+      actionTypes.REMOVE_RECENT_ITEM_SUCCESS,
+      actionTypes.REMOVE_RECENT_ITEM_FAILURE,
     ],
     RECENT_ITEMS_API_URL
   )(recentItem)

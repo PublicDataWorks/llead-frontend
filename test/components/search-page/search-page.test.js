@@ -343,7 +343,7 @@ describe('SearchPage component', () => {
     const { baseElement } = container
 
     const searchResultItem = baseElement.getElementsByClassName(
-      'department-card'
+      'custom-link'
     )[0]
     fireEvent.click(searchResultItem)
     await waitFor(() =>
@@ -439,7 +439,7 @@ describe('SearchPage component', () => {
     const { baseElement } = container
 
     const searchResultItem = baseElement.getElementsByClassName(
-      'department-card'
+      'custom-link'
     )[0]
     fireEvent.click(searchResultItem)
     await waitFor(() =>

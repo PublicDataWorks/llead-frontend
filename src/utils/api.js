@@ -80,6 +80,45 @@ export const post = (actionTypes, url, cancelToken) => {
   }
 }
 
+export const deleteApi = (actionTypes, url, cancelToken) => {
+  const actionStarted = (request) => ({
+    type: actionTypes[0],
+    request,
+  })
+
+  const actionSuccess = (request, data) => ({
+    type: actionTypes[1],
+    request,
+    payload: data,
+  })
+
+  const actionFailure = (request, error) => ({
+    type: actionTypes[2],
+    request,
+    payload: error,
+  })
+
+  return (params = {}) => {
+    const requestData = {
+      url,
+      params,
+    }
+
+    return (dispatch) => {
+      dispatch(actionStarted(requestData))
+
+      return axiosClient
+        .delete(url, { params, cancelToken })
+        .then((res) => {
+          dispatch(actionSuccess(requestData, res.data))
+        })
+        .catch((err) => {
+          dispatch(actionFailure(requestData, lodashGet(err, 'response.data')))
+        })
+    }
+  }
+}
+
 export const download = (actionTypes, url, cancelToken) => {
   const actionStarted = (request) => ({
     type: actionTypes[0],

@@ -9,15 +9,29 @@ import './officer-card.scss'
 import OfficerBadges from 'components/common/items/officer-badges'
 import { officerPath } from 'utils/paths'
 import CustomLink from '../links/custom-link'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const OfficerCard = (props) => {
-  const { id, name, badges, department, className, onItemClick } = props
+  const {
+    id,
+    name,
+    badges,
+    department,
+    className,
+    onItemClick,
+    removeRecentItem,
+  } = props
 
   return (
     <CustomLink
       className={cx('officer-card', className)}
       to={officerPath(id, name)}
       onClick={onItemClick}
+      removeRecentItem={removeRecentItem}
+      removeData={{
+        id,
+        type: RECENT_ITEM_TYPES.OFFICER,
+      }}
     >
       <div className='officer-info'>
         <div className='officer-type'>Police Officer</div>
@@ -40,6 +54,7 @@ OfficerCard.propTypes = {
   department: PropTypes.object,
   className: PropTypes.string,
   onItemClick: PropTypes.func,
+  removeRecentItem: PropTypes.func,
 }
 
 OfficerCard.defaultProps = {

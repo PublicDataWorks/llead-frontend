@@ -7,6 +7,7 @@ import noop from 'lodash/noop'
 import './department-card.scss'
 import { departmentPath } from 'utils/paths'
 import CustomLink from 'components/common/links/custom-link'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const DepartmentCard = (props) => {
   const {
@@ -17,6 +18,7 @@ const DepartmentCard = (props) => {
     locationMapUrl,
     className,
     onItemClick,
+    removeRecentItem,
   } = props
   const elementStyles = isEmpty(locationMapUrl)
     ? {}
@@ -27,6 +29,11 @@ const DepartmentCard = (props) => {
       to={departmentPath(id)}
       className={cx('department-card', className)}
       onClick={onItemClick}
+      removeRecentItem={removeRecentItem}
+      removeData={{
+        id,
+        type: RECENT_ITEM_TYPES.DEPARTMENT,
+      }}
     >
       <div className='department-info'>
         <div className='department-type'>Police Department</div>
@@ -51,6 +58,7 @@ DepartmentCard.propTypes = {
   locationMapUrl: PropTypes.string,
   className: PropTypes.string,
   onItemClick: PropTypes.func,
+  removeRecentItem: PropTypes.func,
 }
 
 DepartmentCard.defaultProps = {

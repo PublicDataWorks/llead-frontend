@@ -29,6 +29,7 @@ const FrontPage = (props) => {
     documents,
     newsArticles,
     saveRecentItem,
+    removeRecentItem,
     recentItems,
     frontPageOrders,
     changeSearchQuery,
@@ -68,6 +69,7 @@ const FrontPage = (props) => {
         <RecentItemsCarousel
           items={recentItems}
           saveRecentItem={saveRecentItem}
+          removeRecentItem={removeRecentItem}
           className='front-page-carousel'
         />
       )}
@@ -135,6 +137,7 @@ FrontPage.propTypes = {
   fetchNewsArticles: PropTypes.func,
   fetchFrontPageOrders: PropTypes.func,
   saveRecentItem: PropTypes.func,
+  removeRecentItem: PropTypes.func,
   changeSearchQuery: PropTypes.func,
   changeSearchDepartment: PropTypes.func,
 }

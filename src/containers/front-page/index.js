@@ -21,7 +21,7 @@ import {
   fetchNewsArticles,
   fetchFrontPageOrders,
 } from 'actions/front-page'
-import { saveRecentItem } from 'actions/common/recent-items'
+import { saveRecentItem, removeRecentItem } from 'actions/common/recent-items'
 
 const mapStateToProps = (state) => ({
   cms: cmsSelector(state, CMS_SECTIONS.FRONT_PAGE),
@@ -42,6 +42,7 @@ const mapDispatchToProps = {
   fetchNewsArticles,
   fetchFrontPageOrders,
   saveRecentItem,
+  removeRecentItem,
   changeSearchQuery,
   changeSearchDepartment,
 }
