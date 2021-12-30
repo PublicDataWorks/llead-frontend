@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
+import pluralize from 'pluralize'
 import qs from 'qs'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
@@ -14,7 +15,7 @@ import './department-page.scss'
 import DepartmentDocumentsContainer from 'containers/department-page/department-documents-container'
 import WRGLFile from './wrgl-file'
 import { RECENT_ITEM_TYPES } from 'constants/common'
-import { formatDataPeriods, stringifyTotalItems } from 'utils/formatter'
+import { formatDataPeriods } from 'utils/formatter'
 
 const Department = (props) => {
   const {
@@ -35,11 +36,20 @@ const Department = (props) => {
 
   const {
     city,
+    address,
+    phone,
     complaintsCount,
+    sustainedComplaintPercentage,
     documentsCount,
+    recentDocumentsCount,
+    datasetsCount,
+    recentDatasetsCount,
     locationMapUrl,
     name,
     officersCount,
+    newsArticlesCount,
+    recentNewsArticlesCount,
+    incidentForceCount,
     parish,
     wrglFiles,
     dataPeriod,
@@ -148,20 +158,72 @@ const Department = (props) => {
               {!isEmpty(mapElementStyles) && (
                 <div className='department-map' style={mapElementStyles} />
               )}
-              <div className='department-location-info'>
-                <div className='department-city'>{city}</div>
-                <div className='department-parish'>{parish}</div>
+              <div className='upper-location-info'>
+                {!isEmpty(city) && (
+                  <div className='department-city'>{city}</div>
+                )}
+                {!isEmpty(parish) && (
+                  <div className='department-parish'>{parish}</div>
+                )}
               </div>
+              {(!isEmpty(address) || !isEmpty(phone)) && (
+                <div className='lower-location-info'>
+                  {!isEmpty(address) && (
+                    <div className='address'>{address}</div>
+                  )}
+                  {!isEmpty(phone) && <div className='phone'>{phone}</div>}
+                </div>
+              )}
             </div>
             <div className='department-summary'>
-              <div className='department-summary-row'>
-                {stringifyTotalItems(officersCount, 'officer')}
+              <div className='summary-item summary-officers'>
+                <div className='summary-item-count'>{officersCount}</div>
+                <div className='summary-item-title'>
+                  {pluralize('officer', officersCount)}
+                </div>
               </div>
-              <div className='department-summary-row'>
-                {stringifyTotalItems(complaintsCount, 'complaint')}
+              <div className='summary-item  summary-datasets'>
+                <div className='summary-item-count'>{datasetsCount}</div>
+                <div className='summary-item-title'>
+                  {pluralize('dataset', datasetsCount)}
+                </div>
+                <div className='recent-summary-item'>
+                  +{recentDatasetsCount} in the past 30 days
+                </div>
               </div>
-              <div className='department-summary-row'>
-                {stringifyTotalItems(documentsCount, 'document')}
+              <div className='summary-item summary-news-articles'>
+                <div className='summary-item-count'>{newsArticlesCount}</div>
+                <div className='summary-item-title'>
+                  {pluralize('news article', newsArticlesCount)}
+                </div>
+                <div className='recent-summary-item'>
+                  +{recentNewsArticlesCount} in the past 30 days
+                </div>
+              </div>
+              <div className='summary-item summary-allegations'>
+                <div className='summary-item-count'>{complaintsCount}</div>
+                <div className='summary-item-title'>
+                  {pluralize('allegation', complaintsCount)}
+                </div>
+                <div className='recent-summary-item'>
+                  {sustainedComplaintPercentage}% sustained allegations
+                </div>
+              </div>
+              <div className='summary-item summary-documents'>
+                <div className='summary-item-count'>{documentsCount}</div>
+                <div className='summary-item-title'>
+                  {pluralize('document', documentsCount)}
+                </div>
+                <div className='recent-summary-item'>
+                  +{recentDocumentsCount} in the past 30 days
+                </div>
+              </div>
+
+              <div className='summary-item summary-incidents'>
+                <div className='summary-item-count'>{incidentForceCount}</div>
+                <div className='summary-item-title'>
+                  {pluralize('force incident', incidentForceCount)}
+                </div>
               </div>
             </div>
           </div>

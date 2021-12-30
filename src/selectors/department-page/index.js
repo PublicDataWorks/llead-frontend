@@ -37,12 +37,20 @@ const departmentDetailsFormatter = (department) => {
   const departmentAttributes = [
     'id',
     'city',
+    'address',
+    'phone',
     'complaintsCount',
     'documentsCount',
+    'recentDocumentsCount',
+    'datasetsCount',
+    'recentDatasetsCount',
     'locationMapUrl',
     'name',
     'parish',
     'officersCount',
+    'newsArticlesCount',
+    'recentNewsArticlesCount',
+    'incidentForceCount',
     'dataPeriod',
   ]
 
@@ -51,8 +59,15 @@ const departmentDetailsFormatter = (department) => {
   }
   const rawWrglFiles = get(department, 'wrglFiles')
 
+  const sustainedComplaintsCount = get(department, 'sustainedComplaintsCount')
+  const complaintsCount = get(department, 'complaintsCount')
+  const sustainedComplaintPercentage = complaintsCount
+    ? Math.round((100 * sustainedComplaintsCount) / complaintsCount)
+    : 0
+
   return {
     ...pick(department, departmentAttributes),
+    sustainedComplaintPercentage,
     wrglFiles: map(rawWrglFiles, (wrglFile) => pick(wrglFile, wrglAttributes)),
   }
 }

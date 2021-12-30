@@ -25,6 +25,22 @@ describe('#departmentSelector', () => {
       const departmentData = {
         id: 1,
         name: 'Department data',
+        city: 'News Orleans',
+        address: '1 Third St #1, New Orleans, LA 70130',
+        phone: '(504) 891-7585',
+        documentsCount: 3,
+        recentDocumentsCount: 2,
+        datasetsCount: 5,
+        recentDatasetsCount: 1,
+        locationMapUrl: 'Map URL',
+        parish: 'Orleans Parish',
+        officersCount: 1000,
+        newsArticlesCount: 123,
+        recentNewsArticlesCount: 12,
+        incidentForceCount: 1,
+        dataPeriod: '1998-2019',
+        sustainedComplaintsCount: 10,
+        complaintsCount: 40,
         wrglFiles: [
           {
             id: 2,
@@ -43,7 +59,24 @@ describe('#departmentSelector', () => {
       const department = departmentSelector(state)
 
       expect(department).toStrictEqual({
-        ...departmentData,
+        id: 1,
+        name: 'Department data',
+        city: 'News Orleans',
+        address: '1 Third St #1, New Orleans, LA 70130',
+        phone: '(504) 891-7585',
+        documentsCount: 3,
+        recentDocumentsCount: 2,
+        datasetsCount: 5,
+        recentDatasetsCount: 1,
+        locationMapUrl: 'Map URL',
+        parish: 'Orleans Parish',
+        officersCount: 1000,
+        newsArticlesCount: 123,
+        recentNewsArticlesCount: 12,
+        incidentForceCount: 1,
+        dataPeriod: '1998-2019',
+        complaintsCount: 40,
+        sustainedComplaintPercentage: 25,
         wrglFiles: [
           {
             id: 2,
@@ -60,6 +93,33 @@ describe('#departmentSelector', () => {
       const department = departmentSelector({})
 
       expect(department).toStrictEqual({})
+    })
+
+    it('returns no sustained allegations if no allegations', () => {
+      const departmentData = {
+        id: 1,
+        name: 'Department data',
+        city: 'News Orleans',
+        sustainedComplaintsCount: 10,
+        complaintsCount: 0,
+      }
+
+      const state = {
+        departmentPage: {
+          department: departmentData,
+        },
+      }
+
+      const department = departmentSelector(state)
+
+      expect(department).toStrictEqual({
+        id: 1,
+        name: 'Department data',
+        city: 'News Orleans',
+        complaintsCount: 0,
+        sustainedComplaintPercentage: 0,
+        wrglFiles: [],
+      })
     })
   })
 })
