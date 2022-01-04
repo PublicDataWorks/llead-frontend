@@ -190,7 +190,7 @@ describe('Department component', () => {
     expect(
       departmentSummary.getElementsByClassName('summary-item-count')[0]
         .textContent
-    ).toEqual('1000')
+    ).toEqual('1,000')
     expect(
       departmentSummary.getElementsByClassName('summary-item-title')[0]
         .textContent
@@ -905,6 +905,92 @@ describe('Department component', () => {
         name: departmentData.name,
         id: departmentData.id,
       })
+    })
+  })
+
+  describe('render featured officers', () => {
+    it('renders featured officers correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredOfficers = [
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: ['84'],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+        {
+          id: 2436,
+          name: 'Derrick Burmaster',
+          badges: ['85'],
+          isStarred: false,
+          complaintsCount: 80,
+          useOfForcesCount: 15,
+        },
+      ]
+
+      const fetchFeaturedOfficerSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { getByText, queryByText } = container
+
+      const featuredOfficerTitle = queryByText('Featured officers')
+      expect(featuredOfficerTitle).toBeTruthy()
+      expect(featuredOfficerTitle.className).toContain('carousel-title')
+
+      const featuredOfficer1Name = getByText('Jayson Germann')
+      expect(featuredOfficer1Name).toBeTruthy()
+
+      const featuredOfficer2Name = getByText('Derrick Burmaster')
+      expect(featuredOfficer2Name).toBeTruthy()
+    })
+
+    it('does not render featured officers if items are empty', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredOfficers = []
+
+      const fetchFeaturedOfficerSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { queryByText } = container
+
+      const featuredOfficerTitle = queryByText('Featured officers')
+      expect(featuredOfficerTitle).toBeFalsy()
     })
   })
 })

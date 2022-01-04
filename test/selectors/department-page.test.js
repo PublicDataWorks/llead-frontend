@@ -4,6 +4,8 @@ import {
   documentsSelector,
   documentsPaginationSelector,
   departmentRecentDataSelector,
+  featuredOfficersSelector,
+  featuredDocumentsSelector,
 } from 'selectors/department-page'
 
 describe('#getIsDepartmentRequesting', () => {
@@ -246,6 +248,68 @@ describe('#documentsPaginationSelector', () => {
       const documentsPagination = documentsPaginationSelector({})
 
       expect(documentsPagination).toStrictEqual({})
+    })
+  })
+})
+
+describe('#featuredOfficersSelector', () => {
+  describe('has data', () => {
+    it('returns featured officers data', () => {
+      const featuredOfficersData = [
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: [84],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+        {
+          id: 2436,
+          name: 'Derrick Burmaster',
+          badges: [85],
+          isStarred: false,
+          complaintsCount: 80,
+          useOfForcesCount: 15,
+        },
+      ]
+      const state = {
+        departmentPage: {
+          featuredOfficers: featuredOfficersData,
+        },
+      }
+
+      const featuredOfficers = featuredOfficersSelector(state)
+
+      expect(featuredOfficers).toStrictEqual([
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: [84],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+        {
+          id: 2436,
+          name: 'Derrick Burmaster',
+          badges: [85],
+          isStarred: false,
+          complaintsCount: 80,
+          useOfForcesCount: 15,
+        },
+      ])
+    })
+  })
+
+  describe('does not have data', () => {
+    it('returns empty data', () => {
+      const state = {
+        departmentPage: {},
+      }
+      const featuredOfficers = featuredOfficersSelector(state)
+
+      expect(featuredOfficers).toStrictEqual([])
     })
   })
 })

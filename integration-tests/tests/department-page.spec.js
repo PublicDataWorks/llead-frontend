@@ -5,7 +5,21 @@ import {
   departmentNextDocumentsData,
   departmentDocumentsSearchData,
   departmentDocumentsSearchNextData,
+  featuredOfficersData,
 } from '../data/department-page-data'
+
+const CAROUSEL_LEFT_MARGIN = 16
+const CAROUSEL_CARD_MARGIN = 8
+const OFFICER_CARD_WIDTH = 248
+
+const calculateScreenWidth = (itemSize, number) => {
+  return (
+    itemSize * number +
+    CAROUSEL_CARD_MARGIN * (number - 1) +
+    CAROUSEL_LEFT_MARGIN +
+    4
+  )
+}
 
 describe('Department Page', () => {
   it('redirect to login when not logged in', () => {
@@ -31,6 +45,15 @@ describe('Department Page', () => {
           noQuery: true,
         },
         departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/officers/',
+          noQuery: true,
+        },
+        featuredOfficersData
       )
       cy.interceptExact(
         {
@@ -97,7 +120,7 @@ describe('Department Page', () => {
         .find('.address')
         .should('text', '1 Third St #1, New Orleans, LA 70130')
 
-      cy.get('.summary-officers').find('div').eq(0).should('text', '1000')
+      cy.get('.summary-officers').find('div').eq(0).should('text', '1,000')
       cy.get('.summary-officers').find('div').eq(1).should('text', 'officers')
 
       cy.get('.summary-datasets').find('div').eq(0).should('text', '5')
@@ -336,6 +359,132 @@ describe('Department Page', () => {
       cy.visit('/dept/harmonbury-department')
 
       cy.get('.department-period').should('not.exist')
+    })
+  })
+
+  describe('featured officers carousel', () => {
+    beforeEach(() => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/app-config/',
+        },
+        appConfigData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/officers/',
+          noQuery: true,
+        },
+        featuredOfficersData
+      )
+
+      cy.login()
+    })
+
+    it('render correctly', () => {
+      const OFFICER_VISIBLE_COUNTS = 4
+      const screenWidth = calculateScreenWidth(
+        OFFICER_CARD_WIDTH,
+        OFFICER_VISIBLE_COUNTS
+      )
+      cy.viewport(screenWidth, 1200)
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container')
+        .find('.carousel-title')
+        .should('text', 'Featured officers')
+      cy.get('.department-section-container')
+        .find('.swiper-slide')
+        .should('length', 5)
+      cy.get('.department-section-container')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', OFFICER_VISIBLE_COUNTS)
+
+      cy.get('@visibleSlides').eq(0).contains('Mark Carlson')
+      cy.get('@visibleSlides').eq(1).contains('Eric Patel')
+      cy.get('@visibleSlides').eq(2).contains('Lee Allen')
+      cy.get('@visibleSlides').eq(3).contains('Tina Holder')
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.officer-name')
+        .contains('Mark Carlson')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.featured-officer-badges')
+        .contains('12435, 612')
+      cy.get('@visibleSlides').eq(0).find('.star-corner').should('exist')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.allegation-count')
+        .should('not.exist')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.use-of-force-count')
+        .should('not.exist')
+
+      cy.get('@visibleSlides')
+        .eq(1)
+        .contains('Eric Patel')
+        .find('.star-corner')
+        .should('not.exist')
+      cy.get('@visibleSlides')
+        .eq(1)
+        .find('.featured-officer-badges')
+        .should('have.value', '')
+      cy.get('@visibleSlides').eq(1).find('.allegation-count').contains('80')
+      cy.get('@visibleSlides').eq(1).find('.use-of-force-count').contains('15')
+
+      cy.get('@visibleSlides')
+        .eq(2)
+        .find('.featured-officer-badges')
+        .contains('1056, 111, 222 ...')
+
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+
+      cy.get('.department-section-container').find(
+        '.carousel-next.swiper-button-disabled'
+      )
+
+      cy.get('.department-section-container')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', OFFICER_VISIBLE_COUNTS)
+
+      cy.get('@visibleSlides').eq(0).contains('Eric Patel')
+      cy.get('@visibleSlides').eq(1).contains('Lee Allen')
+      cy.get('@visibleSlides').eq(2).contains('Tina Holder')
+      cy.get('@visibleSlides').eq(3).contains('Kelly Hunt')
+    })
+
+    it('redirects to officer page when clicks on officer card', () => {
+      cy.visit('/dept/harmonbury-department')
+      cy.waitUntil(() =>
+        cy.get('.department-section-container').should('exist')
+      )
+      cy.get('.department-section-container')
+        .find('.swiper-slide')
+        .eq(0)
+        .click()
+
+      cy.location('pathname').should(
+        'eq',
+        `/officers/${featuredOfficersData[0].id}/mark-carlson`
+      )
     })
   })
 })

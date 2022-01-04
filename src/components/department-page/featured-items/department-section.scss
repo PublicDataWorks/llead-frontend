@@ -1,0 +1,22 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.department-section-container {
+  padding: 24px 0 36px $h-side-frame;
+  background-color: $wild-sand-color;
+  color: $thunder-color;
+  display: flex;
+  flex-direction: column;
+
+  .carousel-title {
+    @include callout-text;
+    flex-grow: 1;
+  }
+}
+
+@media only screen and (min-width: $desktop-breakpoint) {
+  .department-section-container {
+    padding-left: 24px;
+  }
+}

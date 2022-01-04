@@ -70,6 +70,8 @@ describe('Officer Page', () => {
     })
 
     it('renders officer basics info', () => {
+      const now = new Date(2021, 6, 15).getTime()
+      cy.clock(now)
       cy.visit('/officers/1')
 
       cy.location('pathname').should('eq', '/officers/1')

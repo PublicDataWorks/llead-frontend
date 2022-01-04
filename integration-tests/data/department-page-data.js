@@ -300,3 +300,46 @@ export const departmentDocumentsSearchNextData = {
     },
   ],
 }
+
+export const featuredOfficersData = [
+  {
+    id: 1,
+    name: 'Mark Carlson',
+    badges: ['12435', '612'],
+    complaints_count: 0,
+    is_starred: true,
+    use_of_forces_count: 0,
+  },
+  {
+    id: 9,
+    name: 'Eric Patel',
+    badges: [],
+    complaints_count: 80,
+    is_starred: false,
+    use_of_forces_count: 15,
+  },
+  {
+    id: 5,
+    name: 'Lee Allen',
+    badges: ['1056','111','222','333'],
+    complaints_count: 70,
+    is_starred: false,
+    use_of_forces_count: 25,
+  },
+  {
+    id: 2,
+    name: 'Tina Holder',
+    badges: ['20079'],
+    complaints_count: 65,
+    is_starred: false,
+    use_of_forces_count: 6,
+  },
+  {
+    id: 7,
+    name: 'Kelly Hunt',
+    badges: ['12117'],
+    complaints_count: 64,
+    is_starred: false,
+    use_of_forces_count: 15,
+  },
+]

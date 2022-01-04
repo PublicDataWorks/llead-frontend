@@ -15,7 +15,9 @@ import './department-page.scss'
 import DepartmentDocumentsContainer from 'containers/department-page/department-documents-container'
 import WRGLFile from './wrgl-file'
 import { RECENT_ITEM_TYPES } from 'constants/common'
-import { formatDataPeriods } from 'utils/formatter'
+import { formatDataPeriods, formatNumber } from 'utils/formatter'
+import DepartmentSection from './featured-items/department-section'
+import FeaturedOfficerCard from './featured-items/featured-officer-card'
 
 const Department = (props) => {
   const {
@@ -26,6 +28,8 @@ const Department = (props) => {
     recentData,
     clearDocumentHead,
     setDocumentHead,
+    featuredOfficers,
+    fetchFeaturedOfficers,
     changeSearchDepartment,
   } = props
   const { id: departmentId } = useParams()
@@ -33,6 +37,14 @@ const Department = (props) => {
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
   const location = useLocation()
   const history = useHistory()
+
+  const featuredSectionMappings = [
+    {
+      title: 'Featured officers',
+      cardComponent: FeaturedOfficerCard,
+      items: featuredOfficers,
+    },
+  ]
 
   const {
     city,
@@ -65,6 +77,7 @@ const Department = (props) => {
 
   useEffect(() => {
     fetchDepartment(departmentId)
+    fetchFeaturedOfficers(departmentId)
   }, [departmentId])
 
   useEffect(() => {
@@ -177,13 +190,17 @@ const Department = (props) => {
             </div>
             <div className='department-summary'>
               <div className='summary-item summary-officers'>
-                <div className='summary-item-count'>{officersCount}</div>
+                <div className='summary-item-count'>
+                  {formatNumber(officersCount)}
+                </div>
                 <div className='summary-item-title'>
                   {pluralize('officer', officersCount)}
                 </div>
               </div>
               <div className='summary-item  summary-datasets'>
-                <div className='summary-item-count'>{datasetsCount}</div>
+                <div className='summary-item-count'>
+                  {formatNumber(datasetsCount)}
+                </div>
                 <div className='summary-item-title'>
                   {pluralize('dataset', datasetsCount)}
                 </div>
@@ -192,7 +209,9 @@ const Department = (props) => {
                 </div>
               </div>
               <div className='summary-item summary-news-articles'>
-                <div className='summary-item-count'>{newsArticlesCount}</div>
+                <div className='summary-item-count'>
+                  {formatNumber(newsArticlesCount)}
+                </div>
                 <div className='summary-item-title'>
                   {pluralize('news article', newsArticlesCount)}
                 </div>
@@ -201,7 +220,9 @@ const Department = (props) => {
                 </div>
               </div>
               <div className='summary-item summary-allegations'>
-                <div className='summary-item-count'>{complaintsCount}</div>
+                <div className='summary-item-count'>
+                  {formatNumber(complaintsCount)}
+                </div>
                 <div className='summary-item-title'>
                   {pluralize('allegation', complaintsCount)}
                 </div>
@@ -210,7 +231,9 @@ const Department = (props) => {
                 </div>
               </div>
               <div className='summary-item summary-documents'>
-                <div className='summary-item-count'>{documentsCount}</div>
+                <div className='summary-item-count'>
+                  {formatNumber(documentsCount)}
+                </div>
                 <div className='summary-item-title'>
                   {pluralize('document', documentsCount)}
                 </div>
@@ -220,7 +243,9 @@ const Department = (props) => {
               </div>
 
               <div className='summary-item summary-incidents'>
-                <div className='summary-item-count'>{incidentForceCount}</div>
+                <div className='summary-item-count'>
+                  {formatNumber(incidentForceCount)}
+                </div>
                 <div className='summary-item-title'>
                   {pluralize('force incident', incidentForceCount)}
                 </div>
@@ -237,11 +262,21 @@ const Department = (props) => {
               />
             ))}
           </div>
-
           {documentsCount > 0 && (
             <DepartmentDocumentsContainer departmentId={departmentId} />
           )}
         </div>
+        {featuredSectionMappings.map(
+          ({ items, cardComponent: Card, title }, index) =>
+            !isEmpty(items) && (
+              <DepartmentSection
+                key={index}
+                card={Card}
+                title={title}
+                items={items}
+              />
+            )
+        )}
       </div>
     )
   )
@@ -250,6 +285,8 @@ const Department = (props) => {
 Department.propTypes = {
   clearDocumentHead: PropTypes.func,
   department: PropTypes.object,
+  featuredOfficers: PropTypes.array,
+  fetchFeaturedOfficers: PropTypes.func,
   fetchDepartment: PropTypes.func,
   isRequesting: PropTypes.bool,
   recentData: PropTypes.object,
@@ -261,6 +298,8 @@ Department.propTypes = {
 Department.defaultProps = {
   clearDocumentHead: noop,
   department: {},
+  featuredOfficers: [],
+  fetchFeaturedOfficers: noop,
   fetchDepartment: noop,
   isRequesting: false,
   recentData: {},

@@ -11,3 +11,13 @@
     color: $thunder-color;
   }
 }
+
+.featured-officer-badges {
+  padding-left: 23px;
+  color: $boulder-color;
+  background: url('assets/icons/badge.svg') no-repeat left;
+
+  :first-child {
+    font-weight: 700;
+  }
+}
