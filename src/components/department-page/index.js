@@ -18,6 +18,7 @@ import { formatDataPeriods, formatNumber } from 'utils/formatter'
 import DepartmentSection from './featured-items/department-section'
 import FeaturedOfficerCard from './featured-items/featured-officer-card'
 import FeaturedDocumentCard from './featured-items/featured-document-card'
+import FeaturedNewsArticleCard from './featured-items/featured-news-article-card'
 
 const Department = (props) => {
   const {
@@ -25,6 +26,7 @@ const Department = (props) => {
     fetchDepartment,
     featuredOfficers,
     featuredDocuments,
+    featuredNewsArticles,
     isRequesting,
     saveRecentItem,
     recentData,
@@ -32,6 +34,7 @@ const Department = (props) => {
     setDocumentHead,
     fetchFeaturedOfficers,
     fetchFeaturedDocuments,
+    fetchFeaturedNewsArticles,
     changeSearchDepartment,
   } = props
   const { id: departmentId } = useParams()
@@ -50,6 +53,11 @@ const Department = (props) => {
       title: 'Featured documents',
       cardComponent: FeaturedDocumentCard,
       items: featuredDocuments,
+    },
+    {
+      title: 'Featured news',
+      cardComponent: FeaturedNewsArticleCard,
+      items: featuredNewsArticles,
     },
   ]
 
@@ -86,6 +94,7 @@ const Department = (props) => {
     fetchDepartment(departmentId)
     fetchFeaturedOfficers(departmentId)
     fetchFeaturedDocuments(departmentId)
+    fetchFeaturedNewsArticles(departmentId)
   }, [departmentId])
 
   useEffect(() => {
@@ -292,8 +301,10 @@ Department.propTypes = {
   department: PropTypes.object,
   featuredOfficers: PropTypes.array,
   featuredDocuments: PropTypes.array,
+  featuredNewsArticles: PropTypes.array,
   fetchFeaturedOfficers: PropTypes.func,
   fetchFeaturedDocuments: PropTypes.func,
+  fetchFeaturedNewsArticles: PropTypes.func,
   fetchDepartment: PropTypes.func,
   isRequesting: PropTypes.bool,
   recentData: PropTypes.object,
@@ -307,8 +318,10 @@ Department.defaultProps = {
   department: {},
   featuredOfficers: [],
   featuredDocuments: [],
+  featuredNewsArticles: [],
   fetchFeaturedOfficers: noop,
   fetchFeaturedDocuments: noop,
+  fetchFeaturedNewsArticles: noop,
   fetchDepartment: noop,
   isRequesting: false,
   recentData: {},

@@ -6,6 +6,7 @@ import {
   departmentRecentDataSelector,
   featuredOfficersSelector,
   featuredDocumentsSelector,
+  featuredNewsArticlesSelector,
 } from 'selectors/department-page'
 
 describe('#getIsDepartmentRequesting', () => {
@@ -321,23 +322,19 @@ describe('#featuredDocumentsSelector', () => {
         {
           id: 15248,
           title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
-          url:
-            'https://i.imgur.com/nHTFohI.csv',
+          url: 'https://i.imgur.com/nHTFohI.csv',
           isStarred: true,
           incidentDate: '2020-03-12',
-          previewImageUrl:
-            'https://i.imgur.com/nHTFohI.csv',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.csv',
           pagesCount: 5,
         },
         {
           id: 770,
           title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
-          url:
-            'https://i.imgur.com/nHTFohI.csv',
+          url: 'https://i.imgur.com/nHTFohI.csv',
           isStarred: false,
           incidentDate: '2020-12-10',
-          previewImageUrl:
-            'https://i.imgur.com/nHTFohI.csv',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.csv',
           pagesCount: 5,
         },
       ]
@@ -353,23 +350,19 @@ describe('#featuredDocumentsSelector', () => {
         {
           id: 15248,
           title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
-          url:
-            'https://i.imgur.com/nHTFohI.csv',
+          url: 'https://i.imgur.com/nHTFohI.csv',
           isStarred: true,
           incidentDate: '2020-03-12',
-          previewImageUrl:
-            'https://i.imgur.com/nHTFohI.csv',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.csv',
           pagesCount: 5,
         },
         {
           id: 770,
           title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
-          url:
-            'https://i.imgur.com/nHTFohI.csv',
+          url: 'https://i.imgur.com/nHTFohI.csv',
           isStarred: false,
           incidentDate: '2020-12-10',
-          previewImageUrl:
-            'https://i.imgur.com/nHTFohI.csv',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.csv',
           pagesCount: 5,
         },
       ])
@@ -385,5 +378,63 @@ describe('#featuredDocumentsSelector', () => {
 
       expect(featuredDocuments).toStrictEqual([])
     })
+  })
+})
+
+describe('#featuredNewsArticlesSelector', () => {
+  it('returns featured newsArticles data', () => {
+    const featuredNewsArticlesData = [
+      {
+        id: 15248,
+        title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
+        url: 'https://i.imgur.com/nHTFohI.csv',
+        isStarred: true,
+        publishedDate: '2020-03-12',
+        sourceDisplayName: 'The lens',
+      },
+      {
+        id: 770,
+        title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
+        url: 'https://i.imgur.com/nHTFohI.csv',
+        isStarred: false,
+        publishedDate: '2020-12-10',
+        sourceDisplayName: 'The lens',
+      },
+    ]
+    const state = {
+      departmentPage: {
+        featuredNewsArticles: featuredNewsArticlesData,
+      },
+    }
+
+    const featuredNewsArticles = featuredNewsArticlesSelector(state)
+
+    expect(featuredNewsArticles).toStrictEqual([
+      {
+        id: 15248,
+        title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
+        url: 'https://i.imgur.com/nHTFohI.csv',
+        isStarred: true,
+        publishedDate: '2020-03-12',
+        sourceDisplayName: 'The lens',
+      },
+      {
+        id: 770,
+        title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
+        url: 'https://i.imgur.com/nHTFohI.csv',
+        isStarred: false,
+        publishedDate: '2020-12-10',
+        sourceDisplayName: 'The lens',
+      },
+    ])
+  })
+
+  it('returns empty data if no data', () => {
+    const state = {
+      departmentPage: {},
+    }
+    const featuredNewsArticles = featuredOfficersSelector(state)
+
+    expect(featuredNewsArticles).toStrictEqual([])
   })
 })

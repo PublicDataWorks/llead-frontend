@@ -51,6 +51,19 @@ const featuredDocumentFormatter = (featuredDocument) => {
   return pick(featuredDocument, featuredDocumentAttributes)
 }
 
+const featuredNewsArticleFormatter = (featuredNewsArticle) => {
+  const featuredNewsArticleAttributes = [
+    'id',
+    'title',
+    'isStarred',
+    'url',
+    'publishedDate',
+    'sourceDisplayName',
+  ]
+
+  return pick(featuredNewsArticle, featuredNewsArticleAttributes)
+}
+
 const departmentDetailsFormatter = (department) => {
   const wrglAttributes = [
     'id',
@@ -104,6 +117,8 @@ const getFeaturedOfficers = (state) =>
   get(state.departmentPage, 'featuredOfficers', [])
 const getFeaturedDocuments = (state) =>
   get(state.departmentPage, 'featuredDocuments', [])
+const getFeaturedNewsArticles = (state) =>
+  get(state.departmentPage, 'featuredNewsArticles', [])
 const getDocuments = (state) => get(state.departmentPage, 'documents', {})
 const getDocumentsPagination = (state) =>
   get(state.departmentPage, 'documentsPagination', {})
@@ -129,6 +144,12 @@ export const featuredOfficersSelector = createSelector(
 export const featuredDocumentsSelector = createSelector(
   getFeaturedDocuments,
   (featuredDocuments) => map(featuredDocuments, featuredDocumentFormatter)
+)
+
+export const featuredNewsArticlesSelector = createSelector(
+  getFeaturedNewsArticles,
+  (featuredNewsArticles) =>
+    map(featuredNewsArticles, featuredNewsArticleFormatter)
 )
 
 export const documentsSelector = (state) => {

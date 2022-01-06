@@ -3,12 +3,14 @@ import {
   departmentDetailsData,
   featuredOfficersData,
   featuredDocumentsData,
+  featuredNewsArticlesData,
 } from '../data/department-page-data'
 
 const CAROUSEL_LEFT_MARGIN = 16
 const CAROUSEL_CARD_MARGIN = 8
 const OFFICER_CARD_WIDTH = 248
 const DOCUMENT_CARD_WIDTH = 248
+const NEWS_ARTICLE_CARD_WIDTH = 248
 
 const calculateScreenWidth = (itemSize, number) => {
   return (
@@ -471,6 +473,130 @@ describe('Department Page', () => {
       cy.get('@open').should(
         'to.be.calledWith',
         featuredDocumentsData[0].url,
+        '_blank',
+        'noopener noreferrer'
+      )
+    })
+  })
+
+  describe('featured news articles carousel', () => {
+    beforeEach(() => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/app-config/',
+        },
+        appConfigData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/news_articles/',
+          noQuery: true,
+        },
+        featuredNewsArticlesData
+      )
+
+      cy.login()
+    })
+
+    it('renders correctly', () => {
+      const NEWS_ARTICLE_VISIBLE_COUNTS = 3
+      const screenWidth = calculateScreenWidth(
+        NEWS_ARTICLE_CARD_WIDTH,
+        NEWS_ARTICLE_VISIBLE_COUNTS
+      )
+      cy.viewport(screenWidth, 1200)
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container')
+        .find('.carousel-title')
+        .should('text', 'Featured news')
+
+      cy.get('.department-section-container')
+        .find('.swiper-slide')
+        .should('length', 6)
+      cy.get('.department-section-container')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', NEWS_ARTICLE_VISIBLE_COUNTS)
+
+      cy.get('@visibleSlides').eq(0).contains('Her hard step sea.')
+      cy.get('@visibleSlides')
+        .eq(1)
+        .contains('Yourself say language meeting ok.')
+      cy.get('@visibleSlides')
+        .eq(2)
+        .contains('Be decade those someone tough year sing.')
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-type')
+        .contains('news article')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-title')
+        .contains('Her hard step sea.')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-subtitle')
+        .first()
+        .contains('Jan 6, 2020')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-subtitle')
+        .last()
+        .contains('The lens')
+
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+
+      cy.get('.department-section-container').find(
+        '.carousel-next.swiper-button-disabled',
+        {
+          timeout: 1000,
+        }
+      )
+
+      cy.get('.department-section-container')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', NEWS_ARTICLE_VISIBLE_COUNTS)
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .contains('Face growth poor wait follow option better.')
+      cy.get('@visibleSlides').eq(1).contains('Performance past from.')
+      cy.get('@visibleSlides')
+        .eq(2)
+        .contains('Mouth trip too finally society smile man.')
+    })
+
+    it('opens news articles url in new tab when click on featured news article card', () => {
+      cy.visit('/dept/harmonbury-department')
+      cy.window().then((win) => {
+        cy.stub(win, 'open').as('open')
+      })
+
+      cy.get('.department-section-container')
+        .find('.swiper-slide')
+        .eq(0)
+        .click()
+
+      cy.get('@open').should(
+        'to.be.calledWith',
+        featuredNewsArticlesData[0].url,
         '_blank',
         'noopener noreferrer'
       )

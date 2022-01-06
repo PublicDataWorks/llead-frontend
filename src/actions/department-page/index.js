@@ -31,3 +31,13 @@ export const fetchFeaturedDocuments = (id) =>
     ],
     `${DEPARTMENTS_API_URL}${id}/documents/`
   )()
+
+export const fetchFeaturedNewsArticles = (id) =>
+get(
+  [
+    actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_START,
+    actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_SUCCESS,
+    actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_FAILURE,
+  ],
+  `${DEPARTMENTS_API_URL}${id}/news_articles/`
+)()

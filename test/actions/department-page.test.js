@@ -3,6 +3,7 @@ import sinon from 'sinon'
 import {
   fetchDepartment,
   fetchFeaturedDocuments,
+  fetchFeaturedNewsArticles,
   fetchFeaturedOfficers,
 } from 'actions/department-page'
 import * as actionTypes from 'action-types/department-page'
@@ -64,6 +65,26 @@ describe('#fetchFeaturedDocuments', () => {
         actionTypes.DEPARTMENT_FEATURED_DOCUMENTS_FETCH_FAILURE,
       ],
       `${DEPARTMENTS_API_URL}1/documents/`
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchFeaturedNewsArticles', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchFeaturedNewsArticles(1)
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_START,
+        actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_SUCCESS,
+        actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_FAILURE,
+      ],
+      `${DEPARTMENTS_API_URL}1/news_articles/`
     )
     expect(getFunc).toHaveBeenCalled()
   })

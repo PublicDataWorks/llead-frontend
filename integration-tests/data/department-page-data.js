@@ -144,3 +144,54 @@ export const featuredDocumentsData = [
     pages_count: 5,
   },
 ]
+
+export const featuredNewsArticlesData = [
+  {
+    id: 1,
+    source_display_name: 'The lens',
+    title: 'Her hard step sea.',
+    url: 'http://documents.com/century/five.pdf',
+    published_date: '2020-01-06',
+    is_starred: true,
+  },
+  {
+    id: 2,
+    source_display_name: 'The lens',
+    title: 'Yourself say language meeting ok.',
+    url: 'http://documents.com/national/must.pdf',
+    published_date: '2020-01-06',
+    is_starred: false,
+  },
+  {
+    id: 3,
+    source_display_name: 'NOLA',
+    title: 'Be decade those someone tough year sing.',
+    url: 'http://documents.com/may/rest.pdf',
+    published_date: '2020-01-06',
+    is_starred: false,
+  },
+  {
+    id: 4,
+    source_display_name: 'NOLA',
+    title: 'Face growth poor wait follow option better.',
+    url: 'http://documents.com/from/few.pdf',
+    published_date: '2020-01-06',
+    is_starred: false,
+  },
+  {
+    id: 5,
+    source_display_name: 'The lens',
+    title: 'Performance past from.',
+    url: 'http://documents.com/cup/body.pdf',
+    published_date: '2020-01-06',
+    is_starred: false,
+  },
+  {
+    id: 6,
+    source_display_name: 'The lens',
+    title: 'Mouth trip too finally society smile man.',
+    url: 'http://documents.com/and/hit.pdf',
+    published_date: '2020-01-06',
+    is_starred: false,
+  },
+]

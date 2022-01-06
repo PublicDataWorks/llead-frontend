@@ -1047,4 +1047,98 @@ describe('Department component', () => {
       expect(featuredOfficerTitle).toBeFalsy()
     })
   })
+
+  describe('render featured news articles', () => {
+    it('renders featured news articles correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredNewsArticles = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          publishedDate: '2020-03-12',
+          sourceDisplayName: 'The lens 1',
+        },
+        {
+          id: 770,
+          title: 'Appeal hearing: Santiago St. Clair on 2020-12-10',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: false,
+          publishedDate: '2020-12-10',
+          sourceDisplayName: 'The lens 2',
+        },
+      ]
+
+      const fetchFeaturedNewsArticleSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredNewsArticles={featuredNewsArticles}
+                fetchFeaturedNewsArticles={fetchFeaturedNewsArticleSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement, getByText, queryByText } = container
+
+      const featuredNewsArticleTitle = queryByText('Featured news')
+      expect(featuredNewsArticleTitle).toBeTruthy()
+      expect(featuredNewsArticleTitle.className).toContain('carousel-title')
+
+      const featuredNewsArticle1Title = getByText(
+        'Appeal hearing: Eric Curlee on 2020-3-12'
+      )
+      expect(featuredNewsArticle1Title).toBeTruthy()
+
+      expect(
+        baseElement.getElementsByClassName('star-corner')[0].classList.length
+      ).toEqual(1)
+
+      const featuredNewsArticle2Title = getByText(
+        'Appeal hearing: Santiago St. Clair on 2020-12-10'
+      )
+      expect(featuredNewsArticle2Title).toBeTruthy()
+    })
+
+    it('does not render featured news articles if items are empty', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredNewsArticles = []
+
+      const fetchFeaturedNewsArticleSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredNewsArticles={featuredNewsArticles}
+                fetchFeaturedNewsArticles={fetchFeaturedNewsArticleSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { queryByText } = container
+
+      const featuredOfficerTitle = queryByText('Featured news')
+      expect(featuredOfficerTitle).toBeFalsy()
+    })
+  })
 })
