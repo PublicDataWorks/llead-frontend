@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import Department from 'components/department-page'
 import {
   departmentSelector,
-  documentsSelector,
-  documentsPaginationSelector,
   getIsDepartmentRequesting,
   departmentRecentDataSelector,
   featuredOfficersSelector,
@@ -12,7 +10,6 @@ import {
 } from 'selectors/department-page'
 import {
   fetchDepartment,
-  fetchDocuments,
   fetchFeaturedOfficers,
   fetchFeaturedDocuments,
 } from 'actions/department-page'
@@ -28,16 +25,13 @@ const mapStateToProps = (state) => ({
   featuredOfficers: featuredOfficersSelector(state),
   featuredDocuments: featuredDocumentsSelector(state),
   recentData: departmentRecentDataSelector(state),
-  documents: documentsSelector(state),
   isRequesting: getIsDepartmentRequesting(state),
-  ...documentsPaginationSelector(state),
 })
 
 const mapDispatchToProps = {
   fetchDepartment,
   fetchFeaturedOfficers,
   fetchFeaturedDocuments,
-  fetchDocuments,
   saveRecentItem,
   setDocumentHead,
   clearDocumentHead,

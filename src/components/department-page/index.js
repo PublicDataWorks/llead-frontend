@@ -12,7 +12,6 @@ import filter from 'lodash/filter'
 import concat from 'lodash/concat'
 
 import './department-page.scss'
-import DepartmentDocumentsContainer from 'containers/department-page/department-documents-container'
 import WRGLFile from './wrgl-file'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 import { formatDataPeriods, formatNumber } from 'utils/formatter'
@@ -271,9 +270,6 @@ const Department = (props) => {
               />
             ))}
           </div>
-          {documentsCount > 0 && (
-            <DepartmentDocumentsContainer departmentId={departmentId} />
-          )}
         </div>
         {featuredSectionMappings.map(
           ({ items, cardComponent: Card, title }, index) =>

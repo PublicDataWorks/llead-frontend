@@ -1,10 +1,6 @@
 import { appConfigData } from '../data/common-data'
 import {
   departmentDetailsData,
-  departmentDocumentData,
-  departmentNextDocumentsData,
-  departmentDocumentsSearchData,
-  departmentDocumentsSearchNextData,
   featuredOfficersData,
   featuredDocumentsData,
 } from '../data/department-page-data'
@@ -56,42 +52,6 @@ describe('Department Page', () => {
           noQuery: true,
         },
         featuredOfficersData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url:
-            'http://localhost:8000/api/departments/harmonbury-department/documents/',
-          noQuery: true,
-        },
-        departmentDocumentData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url:
-            'http://localhost:8000/api/departments/harmonbury-department/documents/',
-          query: { limit: '2', offset: '2', q: 'this' },
-        },
-        departmentDocumentsSearchNextData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url:
-            'http://localhost:8000/api/departments/harmonbury-department/documents/',
-          query: { q: 'this' },
-        },
-        departmentDocumentsSearchData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url:
-            'http://localhost:8000/api/departments/harmonbury-department/documents/',
-          query: { limit: '5', offset: '5' },
-        },
-        departmentNextDocumentsData
       )
 
       cy.login()
@@ -227,84 +187,6 @@ describe('Department Page', () => {
         .find('.wrgl-description-more-btn')
         .should('be.visible')
     })
-
-    it('should render documents', () => {
-      cy.visit('/dept/harmonbury-department')
-
-      cy.contains(`Documents (${departmentDocumentData.count})`)
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .should('length', 5)
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .eq(0)
-        .find('.document-item-name')
-        .should('text', departmentDocumentData.results[0].title)
-
-      cy.get('.department-documents-loadmore')
-        .should('text', 'Load 5 more')
-        .click()
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .should('length', 10)
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .eq(6)
-        .find('.document-item-name')
-        .should('text', departmentNextDocumentsData.results[1].title)
-
-      cy.get('.department-documents-loadmore').should('not.exist')
-    })
-
-    it('should render search results', () => {
-      cy.visit('/dept/harmonbury-department')
-      cy.get('.department-documents').find('.input-field').type('this')
-
-      cy.contains(`Documents (${departmentDocumentsSearchData.count})`)
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .should('length', 2)
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .eq(0)
-        .find('.document-item-name')
-        .should('text', departmentDocumentsSearchData.results[0].title)
-
-      cy.get('.department-documents-loadmore')
-        .should('text', 'Load 2 more')
-        .click()
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .should('length', 4)
-
-      cy.get('.department-documents-listview')
-        .find('.document-item')
-        .eq(2)
-        .find('.document-item-name')
-        .should('text', departmentDocumentsSearchNextData.results[0].title)
-
-      cy.get('.department-documents-loadmore').should('not.exist')
-    })
-
-    it('changes title on department clicked', () => {
-      cy.visit('/')
-      cy.title().should('eq', 'LLEAD')
-
-      cy.visit('/dept/harmonbury-department')
-
-      cy.title().should('eq', 'Harmonbury Department')
-
-      cy.visit('/')
-
-      cy.title().should('eq', 'LLEAD')
-    })
   })
 
   describe('render data period info', () => {
@@ -317,24 +199,8 @@ describe('Department Page', () => {
         },
         appConfigData
       )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url:
-            'http://localhost:8000/api/departments/harmonbury-department/documents/',
-          query: { limit: '5', offset: '5' },
-        },
-        departmentNextDocumentsData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url:
-            'http://localhost:8000/api/departments/harmonbury-department/documents/',
-        },
-        departmentDocumentData
-      )
     })
+
     it('should render with data period', () => {
       cy.interceptExact(
         {

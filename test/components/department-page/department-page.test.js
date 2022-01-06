@@ -17,11 +17,6 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
-jest.mock(
-  'containers/department-page/department-documents-container',
-  () => () => 'DepartmentDocumentsContainer'
-)
-
 beforeEach(() => {
   mockHistoryReplace.mockClear()
 })
@@ -713,39 +708,6 @@ describe('Department component', () => {
           { arrayFormat: 'comma', encode: false }
         ),
       })
-    })
-  })
-
-  describe('render department documents', () => {
-    it('show department documents element if count is greater than 0', () => {
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department department={{ id: 1, documentsCount: 2 }} />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { queryByText } = container
-
-      expect(queryByText('DepartmentDocumentsContainer')).toBeTruthy()
-    })
-
-    it('hide department documents element if count is not greater than 0', () => {
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department department={{ id: 1, documentsCount: 0 }} />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { queryByText } = container
-      expect(queryByText('DepartmentDocumentsContainer')).not.toBeTruthy()
     })
   })
 

@@ -267,42 +267,6 @@ describe('FrontPage recent items', () => {
       .contains('Jan 6, 2020')
   })
 
-  it('adds document to recent items when click document row in department page', () => {
-    cy.window().then((win) => {
-      cy.stub(win, 'open').as('open')
-    })
-    cy.visit('/dept/baton-rouge-pd/')
-    cy.get('.document-item').click()
-    cy.get('.logo').click()
-
-    cy.get('.recent-items-carousel')
-      .find('.swiper-slide:visible')
-      .as('visibleSlides')
-      .should('length', 2)
-
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-title')
-      .contains('Pattern risk team election myself suffer wind.')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-subtitle')
-      .contains('May 4, 2020')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-department-name')
-      .contains('Baton Rouge PD')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-preview')
-      .should(
-        'have.css',
-        'background-image',
-        'url("http://image.com/glass/shoulder-preview.pdf")'
-      )
-  })
-
   it('adds document to recent items when click document card in officer timeline', () => {
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
