@@ -313,3 +313,77 @@ describe('#featuredOfficersSelector', () => {
     })
   })
 })
+
+describe('#featuredDocumentsSelector', () => {
+  describe('has data', () => {
+    it('returns featured documents data', () => {
+      const featuredDocumentsData = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
+          url:
+            'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          incidentDate: '2020-03-12',
+          previewImageUrl:
+            'https://i.imgur.com/nHTFohI.csv',
+          pagesCount: 5,
+        },
+        {
+          id: 770,
+          title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
+          url:
+            'https://i.imgur.com/nHTFohI.csv',
+          isStarred: false,
+          incidentDate: '2020-12-10',
+          previewImageUrl:
+            'https://i.imgur.com/nHTFohI.csv',
+          pagesCount: 5,
+        },
+      ]
+      const state = {
+        departmentPage: {
+          featuredDocuments: featuredDocumentsData,
+        },
+      }
+
+      const featuredDocuments = featuredDocumentsSelector(state)
+
+      expect(featuredDocuments).toStrictEqual([
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
+          url:
+            'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          incidentDate: '2020-03-12',
+          previewImageUrl:
+            'https://i.imgur.com/nHTFohI.csv',
+          pagesCount: 5,
+        },
+        {
+          id: 770,
+          title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
+          url:
+            'https://i.imgur.com/nHTFohI.csv',
+          isStarred: false,
+          incidentDate: '2020-12-10',
+          previewImageUrl:
+            'https://i.imgur.com/nHTFohI.csv',
+          pagesCount: 5,
+        },
+      ])
+    })
+  })
+
+  describe('does not have data', () => {
+    it('returns empty data', () => {
+      const state = {
+        departmentPage: {},
+      }
+      const featuredDocuments = featuredOfficersSelector(state)
+
+      expect(featuredDocuments).toStrictEqual([])
+    })
+  })
+})

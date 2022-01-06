@@ -8,8 +8,14 @@ import {
   getIsDepartmentRequesting,
   departmentRecentDataSelector,
   featuredOfficersSelector,
+  featuredDocumentsSelector,
 } from 'selectors/department-page'
-import { fetchDepartment, fetchDocuments, fetchFeaturedOfficers } from 'actions/department-page'
+import {
+  fetchDepartment,
+  fetchDocuments,
+  fetchFeaturedOfficers,
+  fetchFeaturedDocuments,
+} from 'actions/department-page'
 import { changeSearchDepartment } from 'actions/search-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 import {
@@ -20,6 +26,7 @@ import {
 const mapStateToProps = (state) => ({
   department: departmentSelector(state),
   featuredOfficers: featuredOfficersSelector(state),
+  featuredDocuments: featuredDocumentsSelector(state),
   recentData: departmentRecentDataSelector(state),
   documents: documentsSelector(state),
   isRequesting: getIsDepartmentRequesting(state),
@@ -29,6 +36,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   fetchDepartment,
   fetchFeaturedOfficers,
+  fetchFeaturedDocuments,
   fetchDocuments,
   saveRecentItem,
   setDocumentHead,

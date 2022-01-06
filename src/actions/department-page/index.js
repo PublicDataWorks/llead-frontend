@@ -34,6 +34,16 @@ export const fetchFeaturedOfficers = (id) =>
     `${DEPARTMENTS_API_URL}${id}/officers/`
   )()
 
+export const fetchFeaturedDocuments = (id) =>
+  get(
+    [
+      actionTypes.DEPARTMENT_FEATURED_DOCUMENTS_FETCH_START,
+      actionTypes.DEPARTMENT_FEATURED_DOCUMENTS_FETCH_SUCCESS,
+      actionTypes.DEPARTMENT_FEATURED_DOCUMENTS_FETCH_FAILURE,
+    ],
+    `${DEPARTMENTS_API_URL}${id}/documents/`
+  )()
+
 export const fetchDocuments = cancelOldRequest((id, params) =>
   get(
     [

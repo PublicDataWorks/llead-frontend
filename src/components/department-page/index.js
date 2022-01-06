@@ -18,18 +18,21 @@ import { RECENT_ITEM_TYPES } from 'constants/common'
 import { formatDataPeriods, formatNumber } from 'utils/formatter'
 import DepartmentSection from './featured-items/department-section'
 import FeaturedOfficerCard from './featured-items/featured-officer-card'
+import FeaturedDocumentCard from './featured-items/featured-document-card'
 
 const Department = (props) => {
   const {
     department,
     fetchDepartment,
+    featuredOfficers,
+    featuredDocuments,
     isRequesting,
     saveRecentItem,
     recentData,
     clearDocumentHead,
     setDocumentHead,
-    featuredOfficers,
     fetchFeaturedOfficers,
+    fetchFeaturedDocuments,
     changeSearchDepartment,
   } = props
   const { id: departmentId } = useParams()
@@ -43,6 +46,11 @@ const Department = (props) => {
       title: 'Featured officers',
       cardComponent: FeaturedOfficerCard,
       items: featuredOfficers,
+    },
+    {
+      title: 'Featured documents',
+      cardComponent: FeaturedDocumentCard,
+      items: featuredDocuments,
     },
   ]
 
@@ -78,6 +86,7 @@ const Department = (props) => {
   useEffect(() => {
     fetchDepartment(departmentId)
     fetchFeaturedOfficers(departmentId)
+    fetchFeaturedDocuments(departmentId)
   }, [departmentId])
 
   useEffect(() => {
@@ -286,7 +295,9 @@ Department.propTypes = {
   clearDocumentHead: PropTypes.func,
   department: PropTypes.object,
   featuredOfficers: PropTypes.array,
+  featuredDocuments: PropTypes.array,
   fetchFeaturedOfficers: PropTypes.func,
+  fetchFeaturedDocuments: PropTypes.func,
   fetchDepartment: PropTypes.func,
   isRequesting: PropTypes.bool,
   recentData: PropTypes.object,
@@ -299,7 +310,9 @@ Department.defaultProps = {
   clearDocumentHead: noop,
   department: {},
   featuredOfficers: [],
+  featuredDocuments: [],
   fetchFeaturedOfficers: noop,
+  fetchFeaturedDocuments: noop,
   fetchDepartment: noop,
   isRequesting: false,
   recentData: {},

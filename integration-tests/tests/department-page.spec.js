@@ -6,11 +6,13 @@ import {
   departmentDocumentsSearchData,
   departmentDocumentsSearchNextData,
   featuredOfficersData,
+  featuredDocumentsData,
 } from '../data/department-page-data'
 
 const CAROUSEL_LEFT_MARGIN = 16
 const CAROUSEL_CARD_MARGIN = 8
 const OFFICER_CARD_WIDTH = 248
+const DOCUMENT_CARD_WIDTH = 248
 
 const calculateScreenWidth = (itemSize, number) => {
   return (
@@ -484,6 +486,127 @@ describe('Department Page', () => {
       cy.location('pathname').should(
         'eq',
         `/officers/${featuredOfficersData[0].id}/mark-carlson`
+      )
+    })
+  })
+
+  describe('featured documents carousel', () => {
+    beforeEach(() => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/app-config/',
+        },
+        appConfigData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          noQuery: true,
+        },
+        featuredDocumentsData
+      )
+
+      cy.login()
+    })
+
+    it('render correctly', () => {
+      const DOCUMENT_VISIBLE_COUNTS = 3
+      const screenWidth = calculateScreenWidth(
+        DOCUMENT_CARD_WIDTH,
+        DOCUMENT_VISIBLE_COUNTS
+      )
+      cy.viewport(screenWidth, 1200)
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container')
+        .find('.carousel-title')
+        .should('text', 'Featured documents')
+      cy.get('.department-section-container')
+        .find('.swiper-slide')
+        .should('length', 6)
+      cy.get('.department-section-container')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', DOCUMENT_VISIBLE_COUNTS)
+
+      cy.get('@visibleSlides').eq(0).contains('Her hard step sea.')
+      cy.get('@visibleSlides')
+        .eq(1)
+        .contains('Yourself say language meeting ok.')
+      cy.get('@visibleSlides')
+        .eq(2)
+        .contains('Be decade those someone tough year sing.')
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.document-title')
+        .contains('Her hard step sea.')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.document-subtitle')
+        .contains('Jan 6, 2020')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.document-preview')
+        .should(
+          'have.css',
+          'background-image',
+          'url("http://image.com/century/five-preview.pdf")'
+        )
+
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+      cy.get('.department-section-container').find('.carousel-next').click()
+
+      cy.get('.department-section-container').find(
+        '.carousel-next.swiper-button-disabled',
+        {
+          timeout: 1000,
+        }
+      )
+
+      cy.get('.department-section-container')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', DOCUMENT_VISIBLE_COUNTS)
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .contains('Face growth poor wait follow option better.')
+      cy.get('@visibleSlides').eq(1).contains('Performance past from.')
+      cy.get('@visibleSlides')
+        .eq(2)
+        .contains('Mouth trip too finally society smile man.')
+    })
+
+    it('opens document url in new tab when click on featured document card', () => {
+      cy.visit('/dept/harmonbury-department')
+      cy.window().then((win) => {
+        cy.stub(win, 'open').as('open')
+      })
+
+      cy.get('.department-section-container')
+        .find('.swiper-slide')
+        .eq(0)
+        .click()
+
+      cy.get('@open').should(
+        'to.be.calledWith',
+        featuredDocumentsData[0].url,
+        '_blank',
+        'noopener noreferrer'
       )
     })
   })

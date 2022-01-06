@@ -47,7 +47,8 @@ export const departmentDetailsData = {
 
 export const departmentDocumentData = {
   count: 10,
-  next: 'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=5&offset=5',
+  next:
+    'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=5&offset=5',
   previous: null,
   results: [
     {
@@ -138,7 +139,8 @@ export const departmentDocumentData = {
 export const departmentNextDocumentsData = {
   count: 10,
   next: null,
-  previous: 'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=5',
+  previous:
+    'http://localhost:8000/api/departments/harmonbury-department/documents/?limit=5',
   results: [
     {
       id: 6,
@@ -321,7 +323,7 @@ export const featuredOfficersData = [
   {
     id: 5,
     name: 'Lee Allen',
-    badges: ['1056','111','222','333'],
+    badges: ['1056', '111', '222', '333'],
     complaints_count: 70,
     is_starred: false,
     use_of_forces_count: 25,
@@ -341,5 +343,62 @@ export const featuredOfficersData = [
     complaints_count: 64,
     is_starred: false,
     use_of_forces_count: 15,
+  },
+]
+
+export const featuredDocumentsData = [
+  {
+    id: 1,
+    is_starred: true,
+    title: 'Her hard step sea.',
+    url: 'http://documents.com/century/five.pdf',
+    preview_image_url: 'http://image.com/century/five-preview.pdf',
+    incident_date: '2020-01-06',
+    pages_count: 5,
+  },
+  {
+    id: 2,
+    is_starred: true,
+    title: 'Yourself say language meeting ok.',
+    url: 'http://documents.com/national/must.pdf',
+    preview_image_url: 'http://image.com/production/activity.jpg',
+    incident_date: '2020-01-06',
+    pages_count: 5,
+  },
+  {
+    id: 3,
+    is_starred: false,
+    title: 'Be decade those someone tough year sing.',
+    url: 'http://documents.com/may/rest.pdf',
+    preview_image_url: 'http://image.com/food/test.jpg',
+    incident_date: '2020-01-06',
+    pages_count: 5,
+  },
+  {
+    id: 4,
+    is_starred: false,
+    title: 'Face growth poor wait follow option better.',
+    url: 'http://documents.com/from/few.pdf',
+    preview_image_url: 'http://image.com/would/popular.jpg',
+    incident_date: '2020-01-06',
+    pages_count: 5,
+  },
+  {
+    id: 5,
+    is_starred: false,
+    title: 'Performance past from.',
+    url: 'http://documents.com/cup/body.pdf',
+    preview_image_url: 'http://image.com/character/return.jpg',
+    incident_date: '2020-01-06',
+    pages_count: 5,
+  },
+  {
+    id: 6,
+    is_starred: false,
+    title: 'Mouth trip too finally society smile man.',
+    url: 'http://documents.com/and/hit.pdf',
+    preview_image_url: 'http://image.com/third/source.jpg',
+    incident_date: '2020-01-06',
+    pages_count: 5,
   },
 ]

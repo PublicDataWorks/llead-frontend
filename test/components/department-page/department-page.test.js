@@ -993,4 +993,96 @@ describe('Department component', () => {
       expect(featuredOfficerTitle).toBeFalsy()
     })
   })
+
+  describe('render featured documents', () => {
+    it('renders featured documents correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredDocuments = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          incidentDate: '2020-03-12',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.png',
+          pagesCount: 5,
+        },
+        {
+          id: 770,
+          title: 'Appeal hearing: Santiago St. Clair on 2020-12-10',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: false,
+          incidentDate: '2020-12-10',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.png',
+          pagesCount: 5,
+        },
+      ]
+
+      const fetchFeaturedDocumentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredDocuments={featuredDocuments}
+                fetchFeaturedDocuments={fetchFeaturedDocumentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { getByText, queryByText } = container
+
+      const featuredDocumentTitle = queryByText('Featured documents')
+      expect(featuredDocumentTitle).toBeTruthy()
+      expect(featuredDocumentTitle.className).toContain('carousel-title')
+
+      const featuredDocument1Title = getByText(
+        'Appeal hearing: Eric Curlee on 2020-3-12'
+      )
+      expect(featuredDocument1Title).toBeTruthy()
+
+      const featuredDocument2Title = getByText(
+        'Appeal hearing: Santiago St. Clair on 2020-12-10'
+      )
+      expect(featuredDocument2Title).toBeTruthy()
+    })
+
+    it('does not render featured documents if items are empty', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredDocuments = []
+
+      const fetchFeaturedDocumentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredDocuments={featuredDocuments}
+                fetchFeaturedDocuments={fetchFeaturedDocumentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { queryByText } = container
+
+      const featuredOfficerTitle = queryByText('Featured documents')
+      expect(featuredOfficerTitle).toBeFalsy()
+    })
+  })
 })
