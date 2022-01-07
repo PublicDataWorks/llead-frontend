@@ -33,11 +33,21 @@ export const fetchFeaturedDocuments = (id) =>
   )()
 
 export const fetchFeaturedNewsArticles = (id) =>
-get(
-  [
-    actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_START,
-    actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_SUCCESS,
-    actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_FAILURE,
-  ],
-  `${DEPARTMENTS_API_URL}${id}/news_articles/`
-)()
+  get(
+    [
+      actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_START,
+      actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_SUCCESS,
+      actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_FAILURE,
+    ],
+    `${DEPARTMENTS_API_URL}${id}/news_articles/`
+  )()
+
+export const fetchDatasets = (id) =>
+  get(
+    [
+      actionTypes.DEPARTMENT_DATASETS_FETCH_START,
+      actionTypes.DEPARTMENT_DATASETS_FETCH_SUCCESS,
+      actionTypes.DEPARTMENT_DATASETS_FETCH_FAILURE,
+    ],
+    `${DEPARTMENTS_API_URL}${id}/datasets/`
+  )()

@@ -4,25 +4,7 @@ import map from 'lodash/map'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 
-import { formatDate } from 'utils/formatter'
-import { departmentFormatter, documentFormatter } from 'selectors/common'
-
-const departmentDocumentFormatter = (document) => {
-  const documentAttributes = [
-    'id',
-    'title',
-    'url',
-    'documentType',
-    'textContent',
-    'textContentHighlight',
-  ]
-
-  return {
-    ...pick(document, documentAttributes),
-    incidentDate: formatDate(document.incidentDate),
-    recentData: documentFormatter(document),
-  }
-}
+import { departmentFormatter } from 'selectors/common'
 
 const featuredOfficerFormatter = (featuredOfficer) => {
   const featuredOfficerAttributes = [
@@ -64,8 +46,8 @@ const featuredNewsArticleFormatter = (featuredNewsArticle) => {
   return pick(featuredNewsArticle, featuredNewsArticleAttributes)
 }
 
-const departmentDetailsFormatter = (department) => {
-  const wrglAttributes = [
+const datasetFormatter = (dataset) => {
+  const datasetAttributes = [
     'id',
     'name',
     'slug',
@@ -74,6 +56,11 @@ const departmentDetailsFormatter = (department) => {
     'downloadUrl',
     'defaultExpanded',
   ]
+
+  return pick(dataset, datasetAttributes)
+}
+
+const departmentDetailsFormatter = (department) => {
   const departmentAttributes = [
     'id',
     'city',
@@ -97,7 +84,6 @@ const departmentDetailsFormatter = (department) => {
   if (isEmpty(department)) {
     return {}
   }
-  const rawWrglFiles = get(department, 'wrglFiles')
 
   const sustainedComplaintsCount = get(department, 'sustainedComplaintsCount')
   const complaintsCount = get(department, 'complaintsCount')
@@ -108,7 +94,6 @@ const departmentDetailsFormatter = (department) => {
   return {
     ...pick(department, departmentAttributes),
     sustainedComplaintPercentage,
-    wrglFiles: map(rawWrglFiles, (wrglFile) => pick(wrglFile, wrglAttributes)),
   }
 }
 
@@ -119,9 +104,7 @@ const getFeaturedDocuments = (state) =>
   get(state.departmentPage, 'featuredDocuments', [])
 const getFeaturedNewsArticles = (state) =>
   get(state.departmentPage, 'featuredNewsArticles', [])
-const getDocuments = (state) => get(state.departmentPage, 'documents', {})
-const getDocumentsPagination = (state) =>
-  get(state.departmentPage, 'documentsPagination', {})
+const getDatasets = (state) => get(state.departmentPage, 'datasets', [])
 
 export const getIsDepartmentRequesting = (state) =>
   get(state.departmentPage, 'isRequesting')
@@ -152,14 +135,6 @@ export const featuredNewsArticlesSelector = createSelector(
     map(featuredNewsArticles, featuredNewsArticleFormatter)
 )
 
-export const documentsSelector = (state) => {
-  const rawDocuments = getDocuments(state)
-
-  return map(rawDocuments, departmentDocumentFormatter)
-}
-
-export const documentsPaginationSelector = (state) => {
-  const paginationAttributes = ['limit', 'offset', 'count']
-
-  return pick(getDocumentsPagination(state), paginationAttributes)
-}
+export const datasetsSelector = createSelector(getDatasets, (datasets) =>
+  map(datasets, datasetFormatter)
+)

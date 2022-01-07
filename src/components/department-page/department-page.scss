@@ -119,6 +119,17 @@
       }
     }
   }
+
+  .department-wrgl-files {
+    padding: 24px $h-side-frame 36px $h-side-frame;
+    background-color: $wild-sand-color;
+    color: $thunder-color;
+
+    .wrgl-title {
+      @include callout-text;
+      margin-bottom: 45px;
+    }
+  }
 }
 
 @media only screen and (min-width: $mobile-breakpoint) {

@@ -3,8 +3,23 @@
 @import 'styles/mixins';
 
 .wrgl-container {
-  border-bottom: 1px solid $alto-color;
-  padding: $v-header-margin $h-card-margin $v-small-margin $h-card-margin;
+  border: 1px solid $alto-color;
+  padding: 34px $h-side-frame 34px 27px;
+  background-color: $white-color;
+
+  + .wrgl-container {
+    border-top-width: 0px;
+  }
+
+  &:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
 
   .wrgl-header {
     display: flex;
@@ -13,7 +28,7 @@
 
     .wrgl-arrow {
       width: 16px;
-      height: 31px;
+      height: 50px;
       background: url('assets/icons/right-arrow.svg') no-repeat center;
     }
 
@@ -25,17 +40,20 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 31px;
+      line-height: 50px;
     }
 
     .wrgl-download {
+      display: block;
+      height: 21px;
+      width: 21px;
       padding: 13px $h-side-frame 14px $h-side-frame;
       border-radius: 2px;
       text-decoration: none;
-      background-color: $wild-sand-color;
       color: $thunder-color;
       border: 1px solid $alto-color;
-      display: none;
+      background: $wild-sand-color url('assets/icons/mobile-download.svg')
+        no-repeat center;
     }
   }
 
@@ -90,8 +108,6 @@
   }
 
   &.wrgl-expanded {
-    border-bottom: none;
-
     .wrgl-header {
       color: $thunder-color;
 
@@ -109,14 +125,10 @@
 @media only screen and (min-width: 767px) {
   .wrgl-container {
     .wrgl-header {
-      .wrgl-arrow {
-        height: 50px;
-      }
-      .wrgl-name {
-        line-height: 50px;
-      }
       .wrgl-download {
-        display: block;
+        height: auto;
+        width: auto;
+        background: $wild-sand-color;
       }
     }
   }

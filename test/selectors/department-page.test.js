@@ -1,12 +1,11 @@
 import {
   getIsDepartmentRequesting,
   departmentSelector,
-  documentsSelector,
-  documentsPaginationSelector,
   departmentRecentDataSelector,
   featuredOfficersSelector,
   featuredDocumentsSelector,
   featuredNewsArticlesSelector,
+  datasetsSelector,
 } from 'selectors/department-page'
 
 describe('#getIsDepartmentRequesting', () => {
@@ -44,14 +43,6 @@ describe('#departmentSelector', () => {
         dataPeriod: '1998-2019',
         sustainedComplaintsCount: 10,
         complaintsCount: 40,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            extraField: 'field',
-          },
-        ],
       }
       const state = {
         departmentPage: {
@@ -80,13 +71,6 @@ describe('#departmentSelector', () => {
         dataPeriod: '1998-2019',
         complaintsCount: 40,
         sustainedComplaintPercentage: 25,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-          },
-        ],
       })
     })
   })
@@ -121,7 +105,6 @@ describe('#departmentSelector', () => {
         city: 'News Orleans',
         complaintsCount: 0,
         sustainedComplaintPercentage: 0,
-        wrglFiles: [],
       })
     })
   })
@@ -151,104 +134,6 @@ describe('#departmentRecentDataSelector', () => {
       city: 'Baton Rouge',
       parish: 'East Baton Rouge',
       locationMapUrl: 'http://mapurl.com/department1',
-    })
-  })
-})
-
-describe('#documentsSelector', () => {
-  describe('has data', () => {
-    it('returns documents data', () => {
-      const documentsData = [
-        {
-          id: 39,
-          documentType: 'json',
-          title: 'Pattern risk team election myself suffer wind.',
-          url: 'http://documents.com/glass/shoulder.pdf',
-          incidentDate: '2020-05-04',
-          extraField: 'data',
-          departments: [
-            {
-              id: 22,
-              name: 'Petersonmouth Department',
-            },
-          ],
-        },
-      ]
-      const state = {
-        departmentPage: {
-          documents: documentsData,
-        },
-      }
-
-      const documents = documentsSelector(state)
-
-      expect(documents).toStrictEqual([
-        {
-          id: 39,
-          documentType: 'json',
-          title: 'Pattern risk team election myself suffer wind.',
-          url: 'http://documents.com/glass/shoulder.pdf',
-          incidentDate: 'May 4, 2020',
-          recentData: {
-            id: 39,
-            documentType: 'json',
-            title: 'Pattern risk team election myself suffer wind.',
-            url: 'http://documents.com/glass/shoulder.pdf',
-            incidentDate: 'May 4, 2020',
-            departments: [
-              {
-                id: 22,
-                name: 'Petersonmouth Department',
-              },
-            ],
-          },
-        },
-      ])
-    })
-  })
-
-  describe('does not have data', () => {
-    it('returns empty data', () => {
-      const state = {
-        departmentPage: {},
-      }
-      const documents = documentsSelector(state)
-
-      expect(documents).toStrictEqual([])
-    })
-  })
-})
-
-describe('#documentsPaginationSelector', () => {
-  describe('has data', () => {
-    it('returns department data', () => {
-      const documentsPaginationData = {
-        limit: 2,
-        offset: 2,
-        count: 1,
-        extraField: 'data',
-      }
-      const state = {
-        departmentPage: {
-          documentsPagination: documentsPaginationData,
-        },
-      }
-
-      const documentsPagination = documentsPaginationSelector(state)
-
-      expect(documentsPagination).toStrictEqual({
-        limit: 2,
-        offset: 2,
-        count: 1,
-      })
-    })
-  })
-
-  describe('does not have data', () => {
-    it('returns empty data', () => {
-      const documentsPagination = documentsPaginationSelector({})
-
-      expect(documentsPagination).toStrictEqual({})
     })
   })
 })
@@ -382,7 +267,7 @@ describe('#featuredDocumentsSelector', () => {
 })
 
 describe('#featuredNewsArticlesSelector', () => {
-  it('returns featured newsArticles data', () => {
+  it('returns featured news articles data', () => {
     const featuredNewsArticlesData = [
       {
         id: 15248,
@@ -436,5 +321,49 @@ describe('#featuredNewsArticlesSelector', () => {
     const featuredNewsArticles = featuredOfficersSelector(state)
 
     expect(featuredNewsArticles).toStrictEqual([])
+  })
+})
+
+describe('#datasetsSelector', () => {
+  it('returns datasets', () => {
+    const datasetsData = [
+      {
+        id: 1,
+        name: 'Personnel (NOPD)',
+        slug: 'per-new-orleans-pd',
+        description: '',
+        url: 'https://i.imgur.com/nHTFohI.csv',
+        downloadUrl: 'https://i.imgur.com/nHTFohI.csv',
+        defaultExpanded: true,
+      },
+    ]
+    const state = {
+      departmentPage: {
+        datasets: datasetsData,
+      },
+    }
+
+    const datasets = datasetsSelector(state)
+
+    expect(datasets).toStrictEqual([
+      {
+        id: 1,
+        name: 'Personnel (NOPD)',
+        slug: 'per-new-orleans-pd',
+        description: '',
+        url: 'https://i.imgur.com/nHTFohI.csv',
+        downloadUrl: 'https://i.imgur.com/nHTFohI.csv',
+        defaultExpanded: true,
+      },
+    ])
+  })
+
+  it('returns empty data if no data', () => {
+    const state = {
+      departmentPage: {},
+    }
+    const datasets = featuredOfficersSelector(state)
+
+    expect(datasets).toStrictEqual([])
   })
 })

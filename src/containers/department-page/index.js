@@ -8,12 +8,14 @@ import {
   featuredOfficersSelector,
   featuredDocumentsSelector,
   featuredNewsArticlesSelector,
+  datasetsSelector,
 } from 'selectors/department-page'
 import {
   fetchDepartment,
   fetchFeaturedOfficers,
   fetchFeaturedDocuments,
   fetchFeaturedNewsArticles,
+  fetchDatasets,
 } from 'actions/department-page'
 import { changeSearchDepartment } from 'actions/search-page'
 import { saveRecentItem } from 'actions/common/recent-items'
@@ -27,6 +29,7 @@ const mapStateToProps = (state) => ({
   featuredOfficers: featuredOfficersSelector(state),
   featuredDocuments: featuredDocumentsSelector(state),
   featuredNewsArticles: featuredNewsArticlesSelector(state),
+  datasets: datasetsSelector(state),
   recentData: departmentRecentDataSelector(state),
   isRequesting: getIsDepartmentRequesting(state),
 })
@@ -36,6 +39,7 @@ const mapDispatchToProps = {
   fetchFeaturedOfficers,
   fetchFeaturedDocuments,
   fetchFeaturedNewsArticles,
+  fetchDatasets,
   saveRecentItem,
   setDocumentHead,
   clearDocumentHead,

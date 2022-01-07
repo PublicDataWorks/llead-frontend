@@ -5,6 +5,7 @@ import isRequestingReducer from './is-requesting-reducer'
 import featuredOfficersReducer from './featured-officers-reducer'
 import featuredDocumentsReducer from './featured-documents-reducer'
 import featuredNewsArticlesReducer from './featured-news-articles-reducer'
+import datasetsReducer from './datasets-reducer'
 
 export default combineReducers({
   department: departmentReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   featuredOfficers: featuredOfficersReducer,
   featuredDocuments: featuredDocumentsReducer,
   featuredNewsArticles: featuredNewsArticlesReducer,
+  datasets: datasetsReducer,
 })

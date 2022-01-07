@@ -425,7 +425,7 @@ describe('Department component', () => {
     )
   })
 
-  describe('render with wrglFiles', () => {
+  describe('render with datasets', () => {
     it('set default expanded csv files if csv params is null', () => {
       const departmentData = {
         id: 1,
@@ -436,22 +436,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: true,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: true,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -459,7 +462,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -484,22 +489,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: true,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: true,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -514,7 +522,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -539,22 +549,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: true,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: true,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -571,7 +584,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -598,22 +613,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: false,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: false,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -628,7 +646,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -658,22 +678,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: false,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: false,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -690,7 +713,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>

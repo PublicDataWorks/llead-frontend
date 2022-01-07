@@ -27,6 +27,7 @@ const Department = (props) => {
     featuredOfficers,
     featuredDocuments,
     featuredNewsArticles,
+    datasets,
     isRequesting,
     saveRecentItem,
     recentData,
@@ -35,6 +36,7 @@ const Department = (props) => {
     fetchFeaturedOfficers,
     fetchFeaturedDocuments,
     fetchFeaturedNewsArticles,
+    fetchDatasets,
     changeSearchDepartment,
   } = props
   const { id: departmentId } = useParams()
@@ -78,7 +80,6 @@ const Department = (props) => {
     recentNewsArticlesCount,
     incidentForceCount,
     parish,
-    wrglFiles,
     dataPeriod,
   } = department
 
@@ -95,6 +96,7 @@ const Department = (props) => {
     fetchFeaturedOfficers(departmentId)
     fetchFeaturedDocuments(departmentId)
     fetchFeaturedNewsArticles(departmentId)
+    fetchDatasets(departmentId)
   }, [departmentId])
 
   useEffect(() => {
@@ -126,7 +128,7 @@ const Department = (props) => {
 
     if (isEmpty(csv)) {
       const defaultExpandedCsvFiles = map(
-        filter(wrglFiles, 'defaultExpanded'),
+        filter(datasets, 'defaultExpanded'),
         'slug'
       )
       setExpandedCsvFiles(defaultExpandedCsvFiles)
@@ -135,7 +137,7 @@ const Department = (props) => {
     } else {
       setExpandedCsvFiles(csv)
     }
-  }, [wrglFiles])
+  }, [datasets])
 
   useEffect(() => {
     if (!isEmpty(name)) {
@@ -269,16 +271,6 @@ const Department = (props) => {
               </div>
             </div>
           </div>
-          <div className='department-wrgl-files'>
-            {map(wrglFiles, ({ id, ...rest }) => (
-              <WRGLFile
-                key={id}
-                {...rest}
-                expandedCsvFiles={expandedCsvFiles}
-                updateExpandedCsvFiles={updateExpandedCsvFiles}
-              />
-            ))}
-          </div>
         </div>
         {featuredSectionMappings.map(
           ({ items, cardComponent: Card, title }, index) =>
@@ -291,6 +283,21 @@ const Department = (props) => {
               />
             )
         )}
+        {!isEmpty(datasets) && (
+          <div className='department-wrgl-files'>
+            <div className='wrgl-title'>Datasets</div>
+            <div>
+              {map(datasets, ({ id, ...rest }) => (
+                <WRGLFile
+                  key={id}
+                  {...rest}
+                  expandedCsvFiles={expandedCsvFiles}
+                  updateExpandedCsvFiles={updateExpandedCsvFiles}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     )
   )
@@ -302,9 +309,11 @@ Department.propTypes = {
   featuredOfficers: PropTypes.array,
   featuredDocuments: PropTypes.array,
   featuredNewsArticles: PropTypes.array,
+  datasets: PropTypes.array,
   fetchFeaturedOfficers: PropTypes.func,
   fetchFeaturedDocuments: PropTypes.func,
   fetchFeaturedNewsArticles: PropTypes.func,
+  fetchDatasets: PropTypes.func,
   fetchDepartment: PropTypes.func,
   isRequesting: PropTypes.bool,
   recentData: PropTypes.object,
@@ -319,9 +328,11 @@ Department.defaultProps = {
   featuredOfficers: [],
   featuredDocuments: [],
   featuredNewsArticles: [],
+  datasets: [],
   fetchFeaturedOfficers: noop,
   fetchFeaturedDocuments: noop,
   fetchFeaturedNewsArticles: noop,
+  fetchDatasets: noop,
   fetchDepartment: noop,
   isRequesting: false,
   recentData: {},

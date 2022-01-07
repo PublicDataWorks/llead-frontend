@@ -1,6 +1,7 @@
 import sinon from 'sinon'
 
 import {
+  fetchDatasets,
   fetchDepartment,
   fetchFeaturedDocuments,
   fetchFeaturedNewsArticles,
@@ -85,6 +86,26 @@ describe('#fetchFeaturedNewsArticles', () => {
         actionTypes.DEPARTMENT_FEATURED_NEWS_ARTICLES_FETCH_FAILURE,
       ],
       `${DEPARTMENTS_API_URL}1/news_articles/`
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchDatasets', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchDatasets(1)
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.DEPARTMENT_DATASETS_FETCH_START,
+        actionTypes.DEPARTMENT_DATASETS_FETCH_SUCCESS,
+        actionTypes.DEPARTMENT_DATASETS_FETCH_FAILURE,
+      ],
+      `${DEPARTMENTS_API_URL}1/datasets/`
     )
     expect(getFunc).toHaveBeenCalled()
   })
