@@ -60,6 +60,18 @@ const datasetFormatter = (dataset) => {
   return pick(dataset, datasetAttributes)
 }
 
+const searchOfficerFormatter = (Officer) => {
+  const OfficerAttributes = [
+    'id',
+    'name',
+    'useOfForcesCount',
+    'badges',
+    'complaintsCount',
+  ]
+
+  return pick(Officer, OfficerAttributes)
+}
+
 const departmentDetailsFormatter = (department) => {
   const departmentAttributes = [
     'id',
@@ -106,6 +118,10 @@ const getFeaturedNewsArticles = (state) =>
   get(state.departmentPage, 'featuredNewsArticles', [])
 const getDatasets = (state) => get(state.departmentPage, 'datasets', [])
 
+const getSearchItems = (state) => get(state, 'departmentPage.searchItems', [])
+const getSearchItemsPagination = (state) =>
+  get(state, 'departmentPage.searchItemsPagination', {})
+
 export const getIsDepartmentRequesting = (state) =>
   get(state.departmentPage, 'isRequesting')
 
@@ -138,3 +154,15 @@ export const featuredNewsArticlesSelector = createSelector(
 export const datasetsSelector = createSelector(getDatasets, (datasets) =>
   map(datasets, datasetFormatter)
 )
+
+const formatterMapping = {
+  officers: searchOfficerFormatter,
+}
+
+export const searchItemsSelector = createSelector(
+  getSearchItems,
+  getSearchItemsPagination,
+  (items, pagination) => map(items, formatterMapping[pagination.kind])
+)
+
+export const searchItemsPaginationSelector = getSearchItemsPagination

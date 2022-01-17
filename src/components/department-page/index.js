@@ -19,6 +19,7 @@ import DepartmentSection from './featured-items/department-section'
 import FeaturedOfficerCard from './featured-items/featured-officer-card'
 import FeaturedDocumentCard from './featured-items/featured-document-card'
 import FeaturedNewsArticleCard from './featured-items/featured-news-article-card'
+import FeaturedSearch from 'containers/department-page/featured-search'
 
 const Department = (props) => {
   const {
@@ -42,6 +43,7 @@ const Department = (props) => {
   const { id: departmentId } = useParams()
 
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
+  const [itemType, setItemType] = useState('')
   const location = useLocation()
   const history = useHistory()
 
@@ -50,16 +52,19 @@ const Department = (props) => {
       title: 'Featured officers',
       cardComponent: FeaturedOfficerCard,
       items: featuredOfficers,
+      section: 'officers',
     },
     {
       title: 'Featured documents',
       cardComponent: FeaturedDocumentCard,
       items: featuredDocuments,
+      section: 'documents',
     },
     {
       title: 'Featured news',
       cardComponent: FeaturedNewsArticleCard,
       items: featuredNewsArticles,
+      section: 'news_articles',
     },
   ]
 
@@ -172,6 +177,18 @@ const Department = (props) => {
     setExpandedCsvFiles(newExpandedCsvFiles)
   }
 
+  const [isSearchModalOpen, setIsSearchModalOpen] = React.useState(false)
+
+  const openSearchModal = () => {
+    setIsSearchModalOpen(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeSearchModal = () => {
+    setIsSearchModalOpen(false)
+    document.body.style.overflow = 'unset'
+  }
+
   return (
     !isRequesting &&
     !isEmpty(department) && (
@@ -273,13 +290,16 @@ const Department = (props) => {
           </div>
         </div>
         {featuredSectionMappings.map(
-          ({ items, cardComponent: Card, title }, index) =>
+          ({ items, cardComponent: Card, title, section }, index) =>
             !isEmpty(items) && (
               <DepartmentSection
                 key={index}
                 card={Card}
                 title={title}
                 items={items}
+                searchModalOnOpen={openSearchModal}
+                setItemType={setItemType}
+                section={section}
               />
             )
         )}
@@ -298,6 +318,13 @@ const Department = (props) => {
             </div>
           </div>
         )}
+        <FeaturedSearch
+          isSearchModalOpen={isSearchModalOpen}
+          searchModalOnClose={closeSearchModal}
+          departmentId={departmentId}
+          departmentName={name}
+          itemType={itemType}
+        />
       </div>
     )
   )
@@ -310,11 +337,13 @@ Department.propTypes = {
   featuredDocuments: PropTypes.array,
   featuredNewsArticles: PropTypes.array,
   datasets: PropTypes.array,
+  searchOfficers: PropTypes.array,
   fetchFeaturedOfficers: PropTypes.func,
   fetchFeaturedDocuments: PropTypes.func,
   fetchFeaturedNewsArticles: PropTypes.func,
   fetchDatasets: PropTypes.func,
   fetchDepartment: PropTypes.func,
+  fetchSearchOfficers: PropTypes.func,
   isRequesting: PropTypes.bool,
   recentData: PropTypes.object,
   saveRecentItem: PropTypes.func,
@@ -329,11 +358,13 @@ Department.defaultProps = {
   featuredDocuments: [],
   featuredNewsArticles: [],
   datasets: [],
+  searchOfficers: [],
   fetchFeaturedOfficers: noop,
   fetchFeaturedDocuments: noop,
   fetchFeaturedNewsArticles: noop,
   fetchDatasets: noop,
   fetchDepartment: noop,
+  fetchSearchOfficers: noop,
   isRequesting: false,
   recentData: {},
   saveRecentItem: noop,

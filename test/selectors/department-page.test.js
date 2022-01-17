@@ -6,6 +6,8 @@ import {
   featuredDocumentsSelector,
   featuredNewsArticlesSelector,
   datasetsSelector,
+  searchItemsSelector,
+  searchItemsPaginationSelector,
 } from 'selectors/department-page'
 
 describe('#getIsDepartmentRequesting', () => {
@@ -365,5 +367,78 @@ describe('#datasetsSelector', () => {
     const datasets = featuredOfficersSelector(state)
 
     expect(datasets).toStrictEqual([])
+  })
+})
+
+describe('#searchItemsSelector', () => {
+  it('has data of officer', () => {
+    const officerData = [
+      {
+        id: 15248,
+        name: 'Jayson Germann',
+        badges: ['84'],
+        complaintsCount: 84,
+        useOfForcesCount: 0,
+      },
+    ]
+
+    const state = {
+      departmentPage: {
+        searchItems: officerData,
+        searchItemsPagination: {
+          kind: 'officers',
+        },
+      },
+    }
+
+    const officer = searchItemsSelector(state)
+
+    expect(officer).toStrictEqual([
+      {
+        id: 15248,
+        name: 'Jayson Germann',
+        badges: ['84'],
+        complaintsCount: 84,
+        useOfForcesCount: 0,
+      },
+    ])
+  })
+
+  it('does not have data', () => {
+    const state = {
+      departmentPage: {},
+    }
+    const items = searchItemsSelector(state)
+
+    expect(items).toStrictEqual([])
+  })
+})
+
+describe('#searchItemsPaginationSelector', () => {
+  it('has data', () => {
+    const searchItemsPaginationData = {
+      limit: 2,
+      offset: 2,
+      count: 1,
+    }
+    const state = {
+      departmentPage: {
+        searchItemsPagination: searchItemsPaginationData,
+      },
+    }
+
+    const searchItemsPagination = searchItemsPaginationSelector(state)
+
+    expect(searchItemsPagination).toStrictEqual({
+      limit: 2,
+      offset: 2,
+      count: 1,
+    })
+  })
+
+  it('does not have data', () => {
+    const searchItemsPagination = searchItemsPaginationSelector({})
+
+    expect(searchItemsPagination).toStrictEqual({})
   })
 })

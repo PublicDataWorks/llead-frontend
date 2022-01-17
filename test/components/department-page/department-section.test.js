@@ -1,5 +1,6 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
+import sinon from 'sinon'
 
 import DepartmentSection from 'components/department-page/featured-items/department-section'
 
@@ -30,5 +31,29 @@ describe('Department Section', () => {
       id: 456,
       name: 'Item 2',
     })
+  })
+
+  it('calls to open modal with specific section', () => {
+    const section = 'officers'
+
+    const setItemTypeStub = sinon.stub()
+
+    const searchModalOnOpenStub = sinon.stub()
+
+    const container = render(
+      <DepartmentSection
+        searchModalOnOpen={searchModalOnOpenStub}
+        section={section}
+        setItemType={setItemTypeStub}
+      />
+    )
+    const { baseElement } = container
+
+    const searchIcon = baseElement.getElementsByClassName('search-icon')[0]
+
+    fireEvent.click(searchIcon)
+
+    expect(searchModalOnOpenStub).toHaveBeenCalled()
+    expect(setItemTypeStub).toHaveBeenCalledWith(section)
   })
 })

@@ -1,11 +1,13 @@
 import sinon from 'sinon'
 
 import {
+  clearDepartmentSearchResults,
   fetchDatasets,
   fetchDepartment,
   fetchFeaturedDocuments,
   fetchFeaturedNewsArticles,
   fetchFeaturedOfficers,
+  fetchSearchItems,
 } from 'actions/department-page'
 import * as actionTypes from 'action-types/department-page'
 import * as ServiceApi from 'utils/api'
@@ -108,5 +110,55 @@ describe('#fetchDatasets', () => {
       `${DEPARTMENTS_API_URL}1/datasets/`
     )
     expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchSearchItems', () => {
+  it('calls get Api with no params', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchSearchItems(1)
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.SEARCH_ITEMS_START,
+        actionTypes.SEARCH_ITEMS_SUCCESS,
+        actionTypes.SEARCH_ITEMS_FAILURE,
+      ],
+      `${DEPARTMENTS_API_URL}1/search/`
+    )
+    expect(getFunc).toHaveBeenCalledWith(undefined)
+  })
+
+  it('calls get Api with params', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    const params = {
+      key: 'value',
+    }
+
+    fetchSearchItems(1, params)
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.SEARCH_ITEMS_START,
+        actionTypes.SEARCH_ITEMS_SUCCESS,
+        actionTypes.SEARCH_ITEMS_FAILURE,
+      ],
+      `${DEPARTMENTS_API_URL}1/search/`
+    )
+    expect(getFunc).toHaveBeenCalledWith(params)
+  })
+})
+
+describe('#clearDepartmentSearchResults', () => {
+  it('returns the clear search results action', () => {
+    expect(clearDepartmentSearchResults()).toEqual({
+      type: actionTypes.CLEAR_DEPARTMENT_SEARCH_RESULTS,
+    })
   })
 })

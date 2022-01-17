@@ -8,6 +8,7 @@ import qs from 'qs'
 
 import Department from 'components/department-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
+import FeaturedSearch from 'containers/department-page/featured-search'
 
 const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -17,8 +18,23 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
+jest.mock('containers/department-page/featured-search', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockFeaturedSearchComponent = () => {
+  return <div>Featured Search</div>
+}
+
+beforeAll(() => {
+  FeaturedSearch.mockImplementation(MockFeaturedSearchComponent)
+})
+
 beforeEach(() => {
   mockHistoryReplace.mockClear()
+  FeaturedSearch.mockClear()
 })
 
 describe('Department component', () => {
@@ -937,7 +953,7 @@ describe('Department component', () => {
         </Provider>
       )
 
-      const { getByText, queryByText } = container
+      const { getByText, queryByText, baseElement } = container
 
       const featuredOfficerTitle = queryByText('Featured officers')
       expect(featuredOfficerTitle).toBeTruthy()
@@ -948,6 +964,9 @@ describe('Department component', () => {
 
       const featuredOfficer2Name = getByText('Derrick Burmaster')
       expect(featuredOfficer2Name).toBeTruthy()
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
     })
 
     it('does not render featured officers if items are empty', () => {
@@ -1164,6 +1183,80 @@ describe('Department component', () => {
 
       const featuredOfficerTitle = queryByText('Featured news')
       expect(featuredOfficerTitle).toBeFalsy()
+    })
+  })
+
+  describe('render search modal', () => {
+    it('renders search modal correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(FeaturedSearch.mock.calls[0][0]).toStrictEqual({
+        departmentId: 'baton-rouge-pd',
+        departmentName: 'department name',
+        isSearchModalOpen: false,
+        searchModalOnClose: expect.anything(),
+        itemType: '',
+      })
+    })
+
+    it('opens search officers modal correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredOfficers = [
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: ['84'],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+      ]
+
+      const fetchFeaturedOfficerSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
+
+      const numOfRenders = FeaturedSearch.mock.calls.length
+
+      expect(
+        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
+      ).toEqual(true)
     })
   })
 })

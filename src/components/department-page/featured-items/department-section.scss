@@ -6,16 +6,28 @@
   padding: 24px 0 36px $h-side-frame;
   background-color: $wild-sand-color;
   color: $thunder-color;
-  display: flex;
-  flex-direction: column;
 
-  .carousel-title {
-    @include callout-text;
-    flex-grow: 1;
+  .carousel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .carousel-title {
+      @include callout-text;
+    }
+
+    .search-icon {
+      width: 48px;
+      height: 48px;
+      margin-right: 25px;
+      border: 1px solid #bdbdbd;
+      border-radius: 2px;
+      background: $white-color url('assets/icons/search.svg') center no-repeat;
+    }
   }
 }
 
-@media only screen and (min-width: $desktop-breakpoint) {
+@media only screen and (min-width: $laptop-breakpoint) {
   .department-section-container {
     padding-left: 24px;
   }

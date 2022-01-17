@@ -6,6 +6,8 @@ import featuredOfficersReducer from './featured-officers-reducer'
 import featuredDocumentsReducer from './featured-documents-reducer'
 import featuredNewsArticlesReducer from './featured-news-articles-reducer'
 import datasetsReducer from './datasets-reducer'
+import searchItemsReducer from './search-items-reducer'
+import searchItemsPaginationReducer from './search-items-pagination-reducer'
 
 export default combineReducers({
   department: departmentReducer,
@@ -14,4 +16,6 @@ export default combineReducers({
   featuredDocuments: featuredDocumentsReducer,
   featuredNewsArticles: featuredNewsArticlesReducer,
   datasets: datasetsReducer,
+  searchItems: searchItemsReducer,
+  searchItemsPagination: searchItemsPaginationReducer,
 })

@@ -5,6 +5,9 @@ import {
   featuredDocumentsData,
   featuredNewsArticlesData,
   datasetsData,
+  searchEmptyData,
+  searchOfficersData,
+  nextSearchOfficersData,
 } from '../data/department-page-data'
 
 const CAROUSEL_LEFT_MARGIN = 16
@@ -632,6 +635,137 @@ describe('Department Page', () => {
         .eq(1)
         .find('.wrgl-description-more-btn')
         .should('be.visible')
+    })
+  })
+
+  describe('search officers', () => {
+    beforeEach(() => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/app-config/',
+        },
+        appConfigData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/officers/',
+          noQuery: true,
+        },
+        featuredOfficersData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          noQuery: true,
+        },
+        searchEmptyData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          query: { q: 'this', kind: 'officers', limit: '5', offset: '5' },
+        },
+        nextSearchOfficersData
+      ).as('nextSearchOfficersData')
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          query: { q: 'this', kind: 'officers' },
+        },
+        searchOfficersData
+      )
+
+      cy.login()
+    })
+
+    it('renders search officers', () => {
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container').find('.search-icon').click()
+      cy.get('input[name="searchInput"]').type('this')
+
+      cy.get('.featured-search-modal')
+        .find('.search-result-count')
+        .should('text', '10 Search results for "this" ')
+
+      cy.get('.featured-search-modal')
+        .find('.search-result-department')
+        .should('text', ' | Harmonbury Department')
+
+      cy.get('.card-collection')
+        .find('.featured-officer-card')
+        .should('length', 5)
+
+      cy.get('.card-collection')
+        .find('.officer-name')
+        .eq(0)
+        .contains('Shyra Allen')
+
+      cy.get('.card-collection')
+        .find('.officer-name')
+        .eq(1)
+        .contains('Debra Adams')
+
+      cy.get('.card-collection')
+        .find('.officer-name')
+        .eq(2)
+        .contains('Ira Austin Jr')
+
+      cy.get('.card-collection')
+        .find('.officer-name')
+        .eq(3)
+        .contains('Barbara Anderson')
+
+      cy.get('.card-collection')
+        .find('.officer-name')
+        .eq(4)
+        .contains('Quasaundra Anderson')
+
+      cy.get('.card-collection').scrollTo('bottom')
+      cy.wait(['@nextSearchOfficersData'])
+
+      cy.get('.card-collection')
+        .find('.officer-name')
+        .eq(9)
+        .contains('Erin Gray')
+
+      cy.get('.featured-search-modal').find('.close-icon').click()
+
+      cy.get('.featured-search-modal').should('not.exist')
+    })
+
+    it('redirects to officer page when clicks on officer card', () => {
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container').find('.search-icon').click()
+      cy.get('input[name="searchInput"]').type('this')
+
+      cy.get('.featured-search-modal')
+        .find('.featured-officer-card')
+        .eq(0)
+        .click()
+
+      cy.location('pathname').should(
+        'eq',
+        `/officers/${searchOfficersData.results[0].id}/shyra-allen`
+      )
     })
   })
 })

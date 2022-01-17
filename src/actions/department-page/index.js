@@ -1,6 +1,20 @@
+import { createAction } from 'redux-actions'
+import { CancelToken } from 'axios'
+
 import * as actionTypes from 'action-types/department-page'
 import { get } from 'utils/api'
 import { DEPARTMENTS_API_URL } from 'constants/api'
+import { REQUEST_CANCEL_MESSAGE } from 'constants/common'
+
+let cancelTokenSource
+
+const cancelOldRequest = (newRequest) => (...args) => {
+  if (cancelTokenSource) {
+    cancelTokenSource.cancel(REQUEST_CANCEL_MESSAGE)
+  }
+  cancelTokenSource = CancelToken.source()
+  return newRequest(...args)
+}
 
 export const fetchDepartment = (id) =>
   get(
@@ -51,3 +65,19 @@ export const fetchDatasets = (id) =>
     ],
     `${DEPARTMENTS_API_URL}${id}/datasets/`
   )()
+
+export const fetchSearchItems = cancelOldRequest((id, params) =>
+  get(
+    [
+      actionTypes.SEARCH_ITEMS_START,
+      actionTypes.SEARCH_ITEMS_SUCCESS,
+      actionTypes.SEARCH_ITEMS_FAILURE,
+    ],
+    `${DEPARTMENTS_API_URL}${id}/search/`,
+    cancelTokenSource.token
+  )(params)
+)
+
+export const clearDepartmentSearchResults = createAction(
+  actionTypes.CLEAR_DEPARTMENT_SEARCH_RESULTS
+)

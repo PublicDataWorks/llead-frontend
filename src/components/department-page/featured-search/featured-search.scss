@@ -1,0 +1,126 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.featured-search-modal {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 286px;
+  background-color: $white-color;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 30;
+  animation: slide-down 300ms ease-out forwards;
+
+  .featured-search-header {
+    border: 1px solid #dbdbdb;
+    box-sizing: border-box;
+
+    .search-icon {
+      width: $v-header-margin;
+      height: $v-header-margin;
+      background: $white-color url('assets/icons/search.svg') center no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .stretch-input {
+      font-weight: 400;
+      width: calc(100% - 96px);
+      display: inline-block;
+      vertical-align: middle;
+
+      .transparent-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        display: inline-block;
+        @include body-text;
+      }
+    }
+
+    .close-icon {
+      width: $v-header-margin;
+      height: $v-header-margin;
+      background: $white-color url('assets/icons/remove.svg') center no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .search-result {
+    padding-top: $v-small-margin;
+    padding-left: 24px;
+    margin-bottom: 24px;
+
+    .search-result-count {
+      @include strong-text;
+    }
+
+    .search-result-department {
+      @include small-text;
+      color: $boulder-color;
+    }
+  }
+
+  .card-collection {
+    overflow-y: auto;
+    height: 500px;
+
+    .infinity-scroll {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-left: $h-side-frame;
+      padding-right: 28px;
+
+      .featured-officer-card {
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+.featured-search-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .featured-search-modal {
+    width: 552px;
+
+    .search-result {
+      .search-result-count {
+        display: inline-block;
+      }
+
+      .search-result-department {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $desktop-breakpoint) {
+  .featured-search-modal {
+    width: 1080px;
+
+    .card-collection {
+      .infinity-scroll {
+        padding-left: 18px;
+        padding-right: 30px;
+
+        .featured-officer-card {
+          margin-bottom: $v-frame-margin;
+        }
+      }
+    }
+  }
+}

@@ -196,3 +196,98 @@ export const featuredNewsArticlesData = [
     is_starred: false,
   },
 ]
+
+export const searchEmptyData = {
+  count: 0,
+  next: null,
+  previous: null,
+  results: [],
+}
+
+export const searchOfficersData = {
+  count: 10,
+  next:
+    'http://localhost:8000/api/departments/harmonbury-department/search/?q=this&limit=5&offset=5&kind=officers',
+  previous: null,
+  results: [
+    {
+      id: 4060,
+      name: 'Shyra Allen',
+      use_of_forces_count: 0,
+      badges: ['1336'],
+      complaints_count: 1,
+    },
+    {
+      id: 18486,
+      name: 'Debra Adams',
+      use_of_forces_count: 0,
+      badges: [],
+      complaints_count: 1,
+    },
+    {
+      id: 4222,
+      name: 'Ira Austin Jr',
+      use_of_forces_count: 0,
+      badges: ['138'],
+      complaints_count: 0,
+    },
+    {
+      id: 9162,
+      name: 'Barbara Anderson',
+      use_of_forces_count: 0,
+      badges: [],
+      complaints_count: 0,
+    },
+    {
+      id: 17281,
+      name: 'Quasaundra Anderson',
+      use_of_forces_count: 0,
+      badges: [],
+      complaints_count: 0,
+    },
+  ],
+}
+
+export const nextSearchOfficersData = {
+  count: 10,
+  next: null,
+  previous:
+    'http://localhost:8000/api/departments/harmonbury-department/search/?q=this&limit=5&kind=officers',
+  results: [
+    {
+      id: 10620,
+      name: 'Donna Ray',
+      use_of_forces_count: 0,
+      badges: [],
+      complaints_count: 0,
+    },
+    {
+      id: 12121,
+      name: 'Vidal Ray',
+      use_of_forces_count: 0,
+      badges: [],
+      complaints_count: 0,
+    },
+    {
+      id: 7758,
+      name: 'Ray Jones',
+      use_of_forces_count: 16,
+      badges: ['975'],
+      complaints_count: 41,
+    },
+    {
+      id: 1760,
+      name: 'Lori Gray',
+      use_of_forces_count: 0,
+      badges: ['1904'],
+      complaints_count: 0,
+    },
+    {
+      id: 3547,
+      name: 'Erin Gray',
+      use_of_forces_count: 0,
+      badges: [],
+      complaints_count: 0,
+    },
+  ],
+}
