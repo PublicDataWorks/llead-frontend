@@ -8,6 +8,8 @@ import {
   searchEmptyData,
   searchOfficersData,
   nextSearchOfficersData,
+  nextSearchNewsArticlesData,
+  searchNewsArticlesData,
 } from '../data/department-page-data'
 
 const CAROUSEL_LEFT_MARGIN = 16
@@ -766,6 +768,110 @@ describe('Department Page', () => {
         'eq',
         `/officers/${searchOfficersData.results[0].id}/shyra-allen`
       )
+    })
+  })
+
+  describe('search news articles', () => {
+    beforeEach(() => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/app-config/',
+        },
+        appConfigData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/news_articles/',
+          noQuery: true,
+        },
+        featuredNewsArticlesData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          noQuery: true,
+        },
+        searchEmptyData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          query: { q: 'this', kind: 'news_articles', limit: '8', offset: '8' },
+        },
+        nextSearchNewsArticlesData
+      ).as('nextSearchNewsAticlesData')
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          query: { q: 'this', kind: 'news_articles' },
+        },
+        searchNewsArticlesData
+      )
+
+      cy.login()
+    })
+
+    it('renders search news articles', () => {
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container').find('.search-icon').click()
+      cy.get('input[name="searchInput"]').type('this')
+
+      cy.get('.featured-search-modal')
+        .find('.search-result-count')
+        .should('text', '11 Search results for "this" ')
+
+      cy.get('.featured-search-modal')
+        .find('.search-result-department')
+        .should('text', ' | Harmonbury Department')
+
+      cy.get('.card-collection')
+        .find('.search-news-article-item')
+        .should('length', 11)
+
+      cy.get('.card-collection')
+        .find('.news-article-item-title')
+        .eq(0)
+        .contains('Her hard step sea.')
+
+      cy.get('.card-collection')
+        .find('.news-article-item-title')
+        .eq(1)
+        .contains('Yourself say language meeting ok.')
+
+      cy.get('.card-collection')
+        .find('.news-article-item-title')
+        .eq(2)
+        .contains('Be decade those someone tough year sing.')
+
+      cy.get('.card-collection').scrollTo('bottom')
+      cy.wait(['@nextSearchNewsAticlesData'])
+
+      cy.get('.card-collection')
+        .find('.news-article-item-title')
+        .eq(10)
+        .contains('Mouth trip too finally society smile man.')
+
+      cy.get('.featured-search-modal').find('.close-icon').click()
+
+      cy.get('.featured-search-modal').should('not.exist')
     })
   })
 })

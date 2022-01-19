@@ -404,6 +404,47 @@ describe('#searchItemsSelector', () => {
     ])
   })
 
+  it('has data of news article', () => {
+    const newsArticleData = [
+      {
+        id: 25,
+        sourceName: 'Source',
+        title: 'This is title',
+        url: 'http://documents.com/hundred/work.pdf',
+        date: 'Jan 10, 2021',
+        author: 'Staff Writer',
+        content: 'Text content key',
+        contentHighlight: 'Text content <em>key</em>',
+        authorHighlight: null,
+      },
+    ]
+
+    const state = {
+      departmentPage: {
+        searchItems: newsArticleData,
+        searchItemsPagination: {
+          kind: 'newsArticles',
+        },
+      },
+    }
+
+    const newsArticle = searchItemsSelector(state)
+
+    expect(newsArticle).toStrictEqual([
+      {
+        id: 25,
+        sourceName: 'Source',
+        title: 'This is title',
+        url: 'http://documents.com/hundred/work.pdf',
+        publishedDate: 'Jan 10, 2021',
+        author: 'Staff Writer',
+        content: 'Text content key',
+        contentHighlight: 'Text content <em>key</em>',
+        authorHighlight: null,
+      },
+    ])
+  })
+
   it('does not have data', () => {
     const state = {
       departmentPage: {},

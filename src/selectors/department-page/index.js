@@ -5,6 +5,7 @@ import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 
 import { departmentFormatter } from 'selectors/common'
+import { formatDate } from 'utils/formatter'
 
 const featuredOfficerFormatter = (featuredOfficer) => {
   const featuredOfficerAttributes = [
@@ -70,6 +71,24 @@ const searchOfficerFormatter = (Officer) => {
   ]
 
   return pick(Officer, OfficerAttributes)
+}
+
+const searchNewsArticleFormatter = (NewsArticle) => {
+  const NewsArticleAttributes = [
+    'id',
+    'title',
+    'url',
+    'sourceName',
+    'author',
+    'authorHighlight',
+    'content',
+    'contentHighlight',
+  ]
+
+  return {
+    ...pick(NewsArticle, NewsArticleAttributes),
+    publishedDate: formatDate(NewsArticle.date),
+  }
 }
 
 const departmentDetailsFormatter = (department) => {
@@ -157,6 +176,7 @@ export const datasetsSelector = createSelector(getDatasets, (datasets) =>
 
 const formatterMapping = {
   officers: searchOfficerFormatter,
+  newsArticles: searchNewsArticleFormatter,
 }
 
 export const searchItemsSelector = createSelector(

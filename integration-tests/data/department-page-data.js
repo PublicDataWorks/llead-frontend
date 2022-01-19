@@ -291,3 +291,158 @@ export const nextSearchOfficersData = {
     },
   ],
 }
+
+export const searchNewsArticlesData = {
+  count: 11,
+  next:
+    'http://localhost:8000/api/departments/harmonbury-department/search/?q=this&limit=8&offset=8&kind=news_articles',
+  previous: null,
+  results: [
+    {
+      id: 1,
+      source_name: 'The lens',
+      title: 'Her hard step sea.',
+      url: 'http://documents.com/century/five.pdf',
+      date: '2020-01-06',
+      author: 'First Author',
+      content: 'This is the first dummy content',
+      content_highlight: null,
+      author_highlight: 'First <em>Author</em>',
+    },
+    {
+      id: 2,
+      source_name: 'The lens',
+      title: 'Yourself say language meeting ok.',
+      url: 'http://documents.com/national/must.pdf',
+      date: '2020-01-06',
+      author: 'Second Author',
+      content: 'This is the second dummy content',
+      content_highlight: 'This is the second dummy <em>content</em>',
+      author_highlight: 'First <em>Author</em>',
+    },
+    {
+      id: 3,
+      source_name: 'NOLA',
+      title: 'Be decade those someone tough year sing.',
+      url: 'http://documents.com/may/rest.pdf',
+      date: '2020-01-06',
+      author: 'Thirst Author',
+      content: 'This is the thirst dummy content',
+      content_highlight: null,
+      author_highlight: null,
+    },
+    {
+      id: 15000,
+      source_name: 'Bossier Press-Tribune',
+      title: 'BCPD seeking whereabouts of missing Bossier City man',
+      url: 'http://documents.com/national/must.pdf',
+      date: '2021-12-16',
+      author: 'Randy Brown',
+      content:
+        'The Bossier City Police Department is seeking the whereabouts of Robert Hart, who was reported as a Missing Person.  Robert Hart is a 49 year old black male and is believed to have a medical condition requiring medications.Robert Hart is known to drive a brown 2013 Volkswagen Jetta station wagon wit',
+      content_highlight:
+        'The Bossier City Police Department is seeking the whereabouts of Robert Hart, who was reported as a <em>Missing</em>',
+      author_highlight: null,
+    },
+    {
+      id: 13410,
+      source_name: 'WGNO',
+      title:
+        'LSP, DOTD urges drivers to practice safe driving ahead of upcoming holiday travel',
+      url: 'http://documents.com/national/must.pdf',
+      date: '2021-12-10',
+      author: 'Vannia Joseph',
+      content:
+        '\nBATON ROUGE, La (BRPROUD) — Officials are urging drivers to practice safe driving as another increase in traffic is expected during the upcoming holidays. \nThanksgiving weekend in Louisiana was the deadliest in seven years, according to the Louisiana Department of Transportation and Development (DO',
+      content_highlight:
+        '<em>Missing</em> street signs in Pointe Coupee could have negative consequences, parish official says\t\n&quot;Unfortunately',
+      author_highlight: null,
+    },
+    {
+      id: 13352,
+      source_name: 'Shreveport Times',
+      title:
+        'The 318: Probable omicron COVID case found in Louisiana, Shreveport halts liquor licenses',
+      url: 'http://documents.com/national/must.pdf',
+      date: '2021-12-06',
+      author: 'Kendrick Dante, Shreveport Times',
+      content:
+        'Good evening, Shreveport.This week, early voting ended Saturday for the infrastructure-focused 2021 bond proposals. Did you vote? Are you concerned about the new COVID variant omicron being reported in New Orleans? Body found on Youree Drive confirmed as missing elderly woman A body found in a drain',
+      content_highlight:
+        'Body found on Youree Drive confirmed as <em>missing</em> elderly woman A body found in a drain on the Chevyland',
+      author_highlight: null,
+    },
+    {
+      id: 13134,
+      source_name: 'BR Proud',
+      title: '7-Eleven surveillance video offers last glimpse of missing woman',
+      url: 'http://documents.com/national/must.pdf',
+      date: '2021-12-05',
+      author: 'Dillon Davis',
+      content:
+        '\nSAN DIEGO (KSWB) - New surveillance video released Thursday shows a missing woman and her boyfriend at a 7-Eleven in downtown San Diego, in what is possibly the last time she was seen before vanishing last month.\nLateche Norris, left, and boyfriend Joseph Smith, right. Norris has not been seen sinc',
+      content_highlight:
+        'SAN DIEGO (KSWB) - New surveillance video released Thursday shows a <em>missing</em> woman and her boyfriend',
+      author_highlight: null,
+    },
+    {
+      id: 12951,
+      source_name: 'WGNO',
+      title:
+        'Parents captured after son charged in deadly Michigan high school shooting',
+      url: 'http://documents.com/national/must.pdf',
+      date: '2021-12-04',
+      author: 'The Associated Press',
+      content:
+        '\nPONTIAC, Mich. (AP) — The parents of a teen accused ofkilling four studentsin a shooting at a Michigan high school were caught early Saturday, several hours after a prosecutor filed involuntary manslaughter charges against them, officials said.\nJames and Jennifer Crumbley were captured in a commerc',
+      content_highlight:
+        'James Crumbley called 911 to say that a gun was <em>missing</em> from their home and that Ethan might be the shooter',
+      author_highlight: null,
+    },
+  ],
+}
+
+export const nextSearchNewsArticlesData = {
+  count: 11,
+  next: null,
+  previous:
+    'http://localhost:8000/api/departments/harmonbury-department/search/?q=this&limit=8&kind=news_articles',
+  results: [
+    {
+      id: 4,
+      source_name: 'NOLA',
+      title: 'Face growth poor wait follow option better.',
+      url: 'http://documents.com/from/few.pdf',
+      date: '2020-01-06',
+      preview_image_url: 'http://image.com/third/source4.jpg',
+      author: 'Fourth Author',
+      content: 'This is the fourth dummy content',
+      content_highlight: null,
+      author_highlight: null,
+    },
+    {
+      id: 5,
+      source_name: 'The lens',
+      title: 'Performance past from.',
+      url: 'http://documents.com/cup/body.pdf',
+      date: '2020-01-06',
+      preview_image_url: 'http://image.com/third/source5.jpg',
+      author: 'Fifth Author',
+      content: 'This is the fifth dummy content',
+      content_highlight: null,
+      author_highlight: null,
+    },
+    {
+      id: 6,
+      source_name: 'The lens',
+      title: 'Mouth trip too finally society smile man.',
+      url: 'http://documents.com/and/hit.pdf',
+      date: '2020-01-06',
+      preview_image_url: 'http://image.com/third/source6.jpg',
+      author: 'Sixth Author',
+      content: 'This is the sixth dummy content',
+      content_highlight: null,
+      author_highlight: null,
+    },
+  ],
+}

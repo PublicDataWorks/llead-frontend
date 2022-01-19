@@ -35,7 +35,7 @@ describe('featured search component', () => {
         <Route path='departments/:id/'>
           <FeaturedSearch
             isSearchModalOpen={true}
-            departmentId={'1'}
+            departmentId='1'
             departmentName='Deparment name'
             searchItems={officersData}
             fetchSearchItems={fetchSearchItemsSpy}
@@ -75,6 +75,83 @@ describe('featured search component', () => {
     expect(getByText('Derrick Burmaster').className).toEqual('officer-name')
   })
 
+  it('renders news articles correctly', () => {
+    const newsArticlesData = [
+      {
+        id: 25,
+        sourceName: 'Source',
+        title: 'This is title 1',
+        url: 'http://documents.com/hundred/work-1.pdf',
+        date: '2021-01-10',
+        author: 'Staff Writer',
+        content: 'Text content key',
+        contentHighlight: 'Text content <em>key</em>',
+        authorHighlight: null,
+      },
+      {
+        id: 27,
+        sourceName: 'Source',
+        title: 'This is title 2',
+        url: 'http://documents.com/hundred/work-2.pdf',
+        date: '2021-01-11',
+        author: 'Author key',
+        content: 'Text content',
+        contentHighlight: null,
+        authorHighlight: 'Author <em>key</em>',
+      },
+    ]
+
+    const fetchSearchItemsSpy = sinon.spy()
+
+    const container = render(
+      <MemoryRouter initialEntries={['departments/1']}>
+        <Route path='departments/:id/'>
+          <FeaturedSearch
+            isSearchModalOpen={true}
+            departmentId='1'
+            departmentName='Deparment name'
+            searchItems={newsArticlesData}
+            fetchSearchItems={fetchSearchItemsSpy}
+            itemType={'news_articles'}
+          />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const {
+      getByText,
+      getAllByText,
+      getByPlaceholderText,
+      baseElement,
+    } = container
+
+    expect(fetchSearchItemsSpy.firstCall.args).toEqual([
+      '1',
+      {
+        q: '',
+        kind: 'news_articles',
+      },
+    ])
+
+    const featuredSearchModal = baseElement.getElementsByClassName(
+      'featured-search-modal'
+    )[0]
+
+    expect(
+      getByPlaceholderText('Search news in Deparment name').className
+    ).toEqual('transparent-input')
+    expect(
+      featuredSearchModal.getElementsByClassName('card-collection')[0]
+    ).toBeTruthy()
+    expect(getAllByText('news')).toBeTruthy()
+    expect(getByText('This is title 1').className).toEqual(
+      'news-article-item-name'
+    )
+    expect(getByText('This is title 2').className).toEqual(
+      'news-article-item-name'
+    )
+  })
+
   it('does not render results if items are empty', () => {
     const itemsData = []
 
@@ -85,7 +162,7 @@ describe('featured search component', () => {
         <Route path='departments/:id/'>
           <FeaturedSearch
             isSearchModalOpen={true}
-            departmentId={'1'}
+            departmentId='1'
             departmentName='Deparment name'
             searchItems={itemsData}
             fetchSearchItems={fetchSearchItemsSpy}
@@ -139,7 +216,7 @@ describe('featured search component', () => {
         <Route path='departments/:id/'>
           <FeaturedSearch
             isSearchModalOpen={true}
-            departmentId={'1'}
+            departmentId='1'
             departmentName='Deparment name'
             searchItems={officersData}
             fetchSearchItems={fetchSearchItemsSpy}
@@ -160,6 +237,61 @@ describe('featured search component', () => {
     expect(fetchSearchItemsSpy).toHaveBeenCalledWith('1', {
       q: 'text',
       kind: 'officers',
+    })
+  })
+
+  it('searches for news articles', () => {
+    const newsArticlesData = [
+      {
+        id: 25,
+        sourceName: 'Source',
+        title: 'This is title 1',
+        url: 'http://documents.com/hundred/work-1.pdf',
+        date: '2021-01-10',
+        author: 'Staff Writer',
+        content: 'Text content key',
+        contentHighlight: 'Text content <em>key</em>',
+        authorHighlight: null,
+      },
+      {
+        id: 27,
+        sourceName: 'Source',
+        title: 'This is title 2',
+        url: 'http://documents.com/hundred/work-2.pdf',
+        date: '2021-01-11',
+        author: 'Author key',
+        content: 'Text content',
+        contentHighlight: null,
+        authorHighlight: 'Author <em>key</em>',
+      },
+    ]
+
+    const fetchSearchItemsSpy = sinon.spy()
+
+    const container = render(
+      <MemoryRouter initialEntries={['departments/1']}>
+        <Route path='departments/:id/'>
+          <FeaturedSearch
+            isSearchModalOpen={true}
+            departmentId='1'
+            departmentName='Deparment name'
+            searchItems={newsArticlesData}
+            fetchSearchItems={fetchSearchItemsSpy}
+            itemType={'news_articles'}
+          />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { getByPlaceholderText } = container
+
+    const searchInput = getByPlaceholderText('Search news in Deparment name')
+
+    fireEvent.change(searchInput, { target: { value: 'text' } })
+
+    expect(fetchSearchItemsSpy).toHaveBeenCalledWith('1', {
+      q: 'text',
+      kind: 'news_articles',
     })
   })
 })

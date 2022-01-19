@@ -10,6 +10,7 @@ import { isMobile } from 'react-device-detect'
 
 import './featured-search.scss'
 import FeaturedOfficerCard from 'components/department-page/featured-items/featured-officer-card'
+import SearchNewsArticleItem from './search-news-articles-item'
 
 const FeaturedSearch = (props) => {
   const {
@@ -30,6 +31,10 @@ const FeaturedSearch = (props) => {
     officers: {
       Card: FeaturedOfficerCard,
       title: 'officers',
+    },
+    news_articles: {
+      Card: SearchNewsArticleItem,
+      title: 'news',
     },
   }
 
