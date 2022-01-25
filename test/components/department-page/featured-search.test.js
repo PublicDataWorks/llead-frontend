@@ -152,6 +152,86 @@ describe('featured search component', () => {
     )
   })
 
+  it('renders documents correctly', () => {
+    const documentsData = [
+      {
+        id: 1,
+        documentType: 'pdf',
+        url: 'https://i.imgur.com/document1.pdf',
+        title: 'document-1',
+        previewImageUrl: '',
+        incidentDate: 'Nov 9, 2020',
+        departments: [
+          {
+            id: 101,
+            name: 'department-1',
+          },
+          {
+            id: 102,
+            name: 'department-2',
+          },
+        ],
+        textContent: 'Text content',
+      },
+      {
+        id: 2,
+        documentType: 'csv',
+        url: 'https://i.imgur.com/document2.csv',
+        title: 'document-2',
+        previewImageUrl: 'previewImageUrl-2',
+        incidentDate: 'Dec 1, 2020',
+        departments: [
+          {
+            id: 103,
+            name: 'department-3',
+          },
+        ],
+        textContentHightlight: 'Text content <em>highlight</em>',
+      },
+    ]
+
+    const fetchSearchItemsSpy = sinon.spy()
+
+    const container = render(
+      <MemoryRouter initialEntries={['departments/1']}>
+        <Route path='departments/:id/'>
+          <FeaturedSearch
+            isSearchModalOpen={true}
+            departmentId='1'
+            departmentName='Deparment name'
+            searchItems={documentsData}
+            fetchSearchItems={fetchSearchItemsSpy}
+            itemType={'documents'}
+          />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { getByText, getByPlaceholderText, baseElement } = container
+
+    expect(fetchSearchItemsSpy.firstCall.args).toEqual([
+      '1',
+      {
+        q: '',
+        kind: 'documents',
+      },
+    ])
+
+    const featuredSearchModal = baseElement.getElementsByClassName(
+      'featured-search-modal'
+    )[0]
+
+    expect(
+      getByPlaceholderText('Search documents in Deparment name').className
+    ).toEqual('transparent-input')
+    expect(
+      featuredSearchModal.getElementsByClassName('card-collection')[0]
+    ).toBeTruthy()
+
+    expect(getByText('document-1').className).toEqual('document-item-name')
+    expect(getByText('document-2').className).toEqual('document-item-name')
+  })
+
   it('does not render results if items are empty', () => {
     const itemsData = []
 
@@ -292,6 +372,75 @@ describe('featured search component', () => {
     expect(fetchSearchItemsSpy).toHaveBeenCalledWith('1', {
       q: 'text',
       kind: 'news_articles',
+    })
+  })
+
+  it('searches for documents', () => {
+    const documentsData = [
+      {
+        id: 1,
+        documentType: 'pdf',
+        url: 'https://i.imgur.com/document1.pdf',
+        title: 'document-1',
+        previewImageUrl: '',
+        incidentDate: 'Nov 9, 2020',
+        departments: [
+          {
+            id: 101,
+            name: 'department-1',
+          },
+          {
+            id: 102,
+            name: 'department-2',
+          },
+        ],
+        textContent: 'Text content',
+      },
+      {
+        id: 2,
+        documentType: 'csv',
+        url: 'https://i.imgur.com/document2.csv',
+        title: 'document-2',
+        previewImageUrl: 'previewImageUrl-2',
+        incidentDate: 'Dec 1, 2020',
+        departments: [
+          {
+            id: 103,
+            name: 'department-3',
+          },
+        ],
+        textContentHightlight: 'Text content <em>highlight</em>',
+      },
+    ]
+
+    const fetchSearchItemsSpy = sinon.spy()
+
+    const container = render(
+      <MemoryRouter initialEntries={['departments/1']}>
+        <Route path='departments/:id/'>
+          <FeaturedSearch
+            isSearchModalOpen={true}
+            departmentId='1'
+            departmentName='Deparment name'
+            searchItems={documentsData}
+            fetchSearchItems={fetchSearchItemsSpy}
+            itemType={'documents'}
+          />
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { getByPlaceholderText } = container
+
+    const searchInput = getByPlaceholderText(
+      'Search documents in Deparment name'
+    )
+
+    fireEvent.change(searchInput, { target: { value: 'text' } })
+
+    expect(fetchSearchItemsSpy).toHaveBeenCalledWith('1', {
+      q: 'text',
+      kind: 'documents',
     })
   })
 })

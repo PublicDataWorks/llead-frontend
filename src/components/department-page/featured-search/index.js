@@ -11,6 +11,7 @@ import { isMobile } from 'react-device-detect'
 import './featured-search.scss'
 import FeaturedOfficerCard from 'components/department-page/featured-items/featured-officer-card'
 import SearchNewsArticleItem from './search-news-articles-item'
+import SearchDocumentItem from './search-documents-item'
 
 const FeaturedSearch = (props) => {
   const {
@@ -36,6 +37,10 @@ const FeaturedSearch = (props) => {
       Card: SearchNewsArticleItem,
       title: 'news',
     },
+    documents: {
+      Card: SearchDocumentItem,
+      title: 'documents',
+    }
   }
 
   const { Card, title } = get(componentMapping, itemType, {})

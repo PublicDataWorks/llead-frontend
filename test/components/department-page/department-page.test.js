@@ -1305,5 +1305,53 @@ describe('Department component', () => {
         FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
       ).toEqual(true)
     })
+
+    it('opens search document modal correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredDocuments = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          incidentDate: '2020-03-12',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.png',
+          pagesCount: 5,
+        },
+      ]
+
+      const fetchFeaturedDocumentsSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredNewsArticles={featuredDocuments}
+                fetchFeaturedNewsArticles={fetchFeaturedDocumentsSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
+
+      const numOfRenders = FeaturedSearch.mock.calls.length
+
+      expect(
+        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
+      ).toEqual(true)
+    })
   })
 })

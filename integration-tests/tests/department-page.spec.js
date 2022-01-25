@@ -10,6 +10,8 @@ import {
   nextSearchOfficersData,
   nextSearchNewsArticlesData,
   searchNewsArticlesData,
+  nextSearchDocumentsData,
+  searchDocumentsData,
 } from '../data/department-page-data'
 
 const CAROUSEL_LEFT_MARGIN = 16
@@ -868,6 +870,112 @@ describe('Department Page', () => {
         .find('.news-article-item-title')
         .eq(10)
         .contains('Mouth trip too finally society smile man.')
+
+      cy.get('.featured-search-modal').find('.close-icon').click()
+
+      cy.get('.featured-search-modal').should('not.exist')
+    })
+  })
+
+  describe('search documents', () => {
+    beforeEach(() => {
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/app-config/',
+        },
+        appConfigData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: 'http://localhost:8000/api/departments/harmonbury-department/',
+          noQuery: true,
+        },
+        departmentDetailsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/documents/',
+          noQuery: true,
+        },
+        featuredDocumentsData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          noQuery: true,
+        },
+        searchEmptyData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          query: { q: 'this', kind: 'documents', limit: '8', offset: '8' },
+        },
+        nextSearchDocumentsData
+      ).as('nextSearchDocumentsData')
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url:
+            'http://localhost:8000/api/departments/harmonbury-department/search/',
+          query: { q: 'this', kind: 'documents' },
+        },
+        searchDocumentsData
+      )
+
+      cy.login()
+    })
+
+    it('renders documents', () => {
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container').find('.search-icon').click()
+      cy.get('input[name="searchInput"]').type('this')
+
+      cy.get('.featured-search-modal')
+        .find('.search-result-count')
+        .should('text', '11 Search results for "this" ')
+
+      cy.get('.featured-search-modal')
+        .find('.search-result-department')
+        .should('text', ' | Harmonbury Department')
+
+      cy.get('.card-collection')
+        .find('.search-document-item')
+        .should('length', 11)
+
+      cy.get('.card-collection')
+        .find('.document-item-name')
+        .eq(0)
+        .contains('Her hard step sea.')
+
+      cy.get('.card-collection')
+        .find('.document-item-name')
+        .eq(1)
+        .contains('Yourself say language meeting ok.')
+
+      cy.get('.card-collection')
+        .find('.document-item-name')
+        .eq(2)
+        .contains('Be decade those someone tough year sing.')
+
+      cy.get('.card-collection').scrollTo('bottom')
+      cy.wait(['@nextSearchDocumentsData'])
+
+      cy.get('.card-collection')
+        .find('.document-item-name')
+        .eq(10)
+        .contains(
+          'Appeal hearing: William R. Woodward, Ill, Docket No. 16-229; Notice of Possible Defect in Appeal on 2017-1-12'
+        )
 
       cy.get('.featured-search-modal').find('.close-icon').click()
 

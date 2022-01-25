@@ -91,6 +91,25 @@ const searchNewsArticleFormatter = (NewsArticle) => {
   }
 }
 
+export const searchDocumentFormatter = (document) => {
+  const documentAttributes = [
+    'id',
+    'title',
+    'url',
+    'documentType',
+    'departments',
+    'textContent',
+    'textContentHighlight',
+    'previewImageUrl',
+    'pagesCount',
+  ]
+
+  return {
+    ...pick(document, documentAttributes),
+    incidentDate: formatDate(document.incidentDate),
+  }
+}
+
 const departmentDetailsFormatter = (department) => {
   const departmentAttributes = [
     'id',
@@ -177,6 +196,7 @@ export const datasetsSelector = createSelector(getDatasets, (datasets) =>
 const formatterMapping = {
   officers: searchOfficerFormatter,
   newsArticles: searchNewsArticleFormatter,
+  documents: searchDocumentFormatter,
 }
 
 export const searchItemsSelector = createSelector(

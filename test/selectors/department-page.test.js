@@ -445,6 +445,59 @@ describe('#searchItemsSelector', () => {
     ])
   })
 
+  it('has data of document', () => {
+    const documentData = [
+      {
+        id: 22,
+        documentType: 'css',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.pdf',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+    ]
+
+    const state = {
+      departmentPage: {
+        searchItems: documentData,
+        searchItemsPagination: {
+          kind: 'documents',
+        },
+      },
+    }
+
+    const document = searchItemsSelector(state)
+
+    expect(document).toStrictEqual([
+      {
+        id: 22,
+        documentType: 'css',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.pdf',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+    ])
+  })
+
   it('does not have data', () => {
     const state = {
       departmentPage: {},

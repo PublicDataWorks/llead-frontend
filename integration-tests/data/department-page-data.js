@@ -446,3 +446,206 @@ export const nextSearchNewsArticlesData = {
     },
   ],
 }
+
+export const searchDocumentsData = {
+  count: 11,
+  next:
+    'http://localhost:8000/api/departments/harmonbury-department/search/?q=this&limit=8&offset=8&kind=documents',
+  previous: null,
+  results: [
+    {
+      id: 1,
+      document_type: 'csv',
+      title: 'Her hard step sea.',
+      url: 'http://documents.com/century/five.pdf',
+      preview_image_url: '',
+      incident_date: '2020-01-06',
+      pages_count: 5,
+      departments: [
+        {
+          id: 22,
+          name: 'Petersonmouth Department',
+        },
+      ],
+      textContent: 'Text content',
+    },
+    {
+      id: 2,
+      document_type: 'webm',
+      title: 'Yourself say language meeting ok.',
+      url: 'http://documents.com/national/must.pdf',
+      preview_image_url: 'http://image.com/production/activity.jpg',
+      incident_date: '2020-01-06',
+      pages_count: 5,
+    },
+    {
+      id: 3,
+      document_type: 'css',
+      title: 'Be decade those someone tough year sing.',
+      url: 'http://documents.com/may/rest.pdf',
+      preview_image_url: 'http://image.com/food/test.jpg',
+      incident_date: '2020-01-06',
+      pages_count: 5,
+      departments: [
+        {
+          id: 23,
+          name: 'City Department',
+        },
+      ],
+    },
+    {
+      id: 4,
+      document_type: 'mp3',
+      title: 'Face growth poor wait follow option better.',
+      url: 'http://documents.com/from/few.pdf',
+      preview_image_url: 'http://image.com/would/popular.jpg',
+      incident_date: '2020-01-06',
+      pages_count: 5,
+      departments: [
+        {
+          id: 23,
+          name: 'City Department',
+        },
+      ],
+      textContent: 'Text content',
+      textContentHighlight: 'Text content <em>highlight</em>',
+    },
+    {
+      id: 5,
+      document_type: 'css',
+      title: 'Performance past from.',
+      url: 'http://documents.com/cup/body.pdf',
+      preview_image_url: 'http://image.com/character/return.jpg',
+      incident_date: '2020-01-06',
+      pages_count: 5,
+      departments: [
+        {
+          id: 24,
+          name: 'New Orleans Department',
+        },
+      ],
+    },
+    {
+      id: 6,
+      document_type: 'jpg',
+      title: 'Mouth trip too finally society smile man.',
+      url: 'http://documents.com/and/hit.pdf',
+      preview_image_url: 'http://image.com/third/source.jpg',
+      incident_date: '2020-01-06',
+      pages_count: 5,
+      departments: [
+        {
+          id: 25,
+          name: 'Baton Rouge Department',
+        },
+      ],
+    },
+    {
+      id: 6303,
+      document_type: 'pdf',
+      title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
+      url: 'http://documents.com/and/hit.pdf',
+      incident_date: '2020-12-10',
+      preview_image_url: 'http://documents.com/and/hit.pdf',
+      pages_count: 4,
+      departments: [
+        {
+          id: 'louisiana-state-pd',
+          name: 'Louisiana State PD',
+        },
+      ],
+      text_content:
+        '2. In the matter of Santiago St. Clair (Department of Public Safety and Corrections,\nOffice of State Police), Docket No. 20-246-T. Mr. St. Clair is a pro se litigant.\nMichele Giroir and Jericha Remondet represent the Office of State Police.\na. Public hearing\nb. Executive Session to discuss investiga',
+      text_content_highlight:
+        'Public discussion of <em>appeal</em> and possible vote\nDirector Hannaman advised the Commission that Mr.',
+    },
+    {
+      id: 6376,
+      document_type: 'pdf',
+      title: 'Appeal hearing: Eric Curlee on 2019-10-10',
+      url: 'http://documents.com/and/hit.pdf',
+      incident_date: '2019-10-10',
+      preview_image_url: 'http://documents.com/and/hit.pdf',
+      pages_count: 4,
+      departments: [
+        {
+          id: 'louisiana-state-pd',
+          name: 'Louisiana State PD',
+        },
+      ],
+      text_content:
+        '2. Oral Arguments on Motions Filed in the Consolidated Appeal of Eric Curlee\n(Dockets No. 18-239 and 18-243-S). Donovan Livaccari representing Eric Curlee and\nMichele Giroir representing the Office of State Police.\na. Oral Arguments\nMs. Giroir and Mr. Livaccari appeared in representation of their re',
+      text_content_highlight:
+        'Oral Arguments on Motions Filed in the Consolidated <em>Appeal</em> of Eric Curlee\n(Dockets No. 18-239 and 18-',
+    },
+  ],
+}
+
+export const nextSearchDocumentsData = {
+  count: 11,
+  next: null,
+  previous:
+    'http://localhost:8000/api/departments/harmonbury-department/search/?q=this&limit=8&kind=documents',
+  results: [
+    {
+      id: 6124,
+      document_type: 'pdf',
+      title:
+        'Appeal hearing: Tracy Plaisance Appeal, Docket No 14-216 on 2016-9-8',
+      url: 'http://documents.com/century/five.pdf',
+      incident_date: '2016-09-08',
+      preview_image_url: 'http://documents.com/century/five.pdf',
+      pages_count: 3,
+      departments: [
+        {
+          id: 'louisiana-state-pd',
+          name: 'Louisiana State PD',
+        },
+      ],
+      text_content:
+        '4. Consideration of Settlement Agreement in the matter of Tracy Plaisance Appeal, Docket No 14-216\n4. Consideration of Settlement Agreement in the matter of Tracy Plaisance Appeal, Docket No\n14-216\nMr. Calvin Braxton moved to go into executive session, which was seconded by Mr. Thomas TJ\nDoss. All m',
+      text_content_highlight:
+        'Consideration of Settlement Agreement in the matter of Tracy Plaisance <em>Appeal</em>, Docket No 14-216\n4.',
+    },
+    {
+      id: 6162,
+      document_type: 'pdf',
+      title:
+        'Appeal hearing: William R. Woodward, II! Docket No. 16-229; discussion/ vote regarding on 2017-2-9',
+      url: 'http://documents.com/century/five.pdf',
+      incident_date: '2017-02-09',
+      preview_image_url: 'http://documents.com/century/five.pdf',
+      pages_count: 3,
+      departments: [
+        {
+          id: 'louisiana-state-pd',
+          name: 'Louisiana State PD',
+        },
+      ],
+      text_content:
+        '6. In the matter of William R. Woodward, II! Docket No. 16-229; discussion/ vote regarding\nwhether the appeal may proceed,',
+      text_content_highlight:
+        'Docket No. 16-229; discussion/ vote regarding\nwhether the <em>appeal</em> may proceed,',
+    },
+    {
+      id: 6215,
+      document_type: 'pdf',
+      title:
+        'Appeal hearing: William R. Woodward, Ill, Docket No. 16-229; Notice of Possible Defect in Appeal on 2017-1-12',
+      url: 'http://documents.com/century/five.pdf',
+      incident_date: '2017-01-12',
+      preview_image_url: 'http://documents.com/century/five.pdf',
+      pages_count: 4,
+      departments: [
+        {
+          id: 'louisiana-state-pd',
+          name: 'Louisiana State PD',
+        },
+      ],
+      text_content:
+        '4. In the matter of William R. Woodward, Ill, Docket No. 16-229; Notice of Possible Defect in Appeal\nMs. Feeney explained that her review revealed that Mr. Woodward risked dismissal of his appeal because it did not\nappear that his claims were timely or were sufficiently stated causes of action under',
+      text_content_highlight:
+        'Woodward, Ill, Docket No. 16-229; Notice of Possible Defect in <em>Appeal</em>\nMs.',
+    },
+  ],
+}
