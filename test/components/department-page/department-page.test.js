@@ -269,7 +269,7 @@ describe('Department component', () => {
     ).toEqual('force incident')
   })
 
-  it('hides map, city, parish, address, and phone if there is no information', () => {
+  it('hides department location if there is no information', () => {
     const departmentData = {
       id: 1,
       name: null,
@@ -291,17 +291,8 @@ describe('Department component', () => {
     )
 
     const { baseElement } = container
-    expect(baseElement.getElementsByClassName('department-map').length).toEqual(
-      0
-    )
     expect(
-      baseElement.getElementsByClassName('department-city').length
-    ).toEqual(0)
-    expect(
-      baseElement.getElementsByClassName('department-parish').length
-    ).toEqual(0)
-    expect(
-      baseElement.getElementsByClassName('lower-location-info').length
+      baseElement.getElementsByClassName('department-location').length
     ).toEqual(0)
   })
 
@@ -309,11 +300,11 @@ describe('Department component', () => {
     const departmentData = {
       id: 1,
       name: 'Department data',
-      city: 'News Orleans',
+      city: null,
       address: null,
       phone: '(504) 891-7585',
       locationMapUrl: null,
-      parish: 'Orleans Parish',
+      parish: null,
     }
 
     const container = render(
@@ -327,6 +318,12 @@ describe('Department component', () => {
     )
 
     const { baseElement } = container
+    expect(baseElement.getElementsByClassName('department-map').length).toEqual(
+      0
+    )
+    expect(
+      baseElement.getElementsByClassName('upper-location-info').length
+    ).toEqual(0)
     expect(baseElement.getElementsByClassName('address').length).toEqual(0)
     expect(baseElement.getElementsByClassName('phone')[0].textContent).toEqual(
       '(504) 891-7585'
@@ -355,6 +352,12 @@ describe('Department component', () => {
     )
 
     const { baseElement } = container
+    expect(baseElement.getElementsByClassName('department-map').length).toEqual(
+      0
+    )
+    expect(
+      baseElement.getElementsByClassName('upper-location-info').length
+    ).toEqual(1)
     expect(
       baseElement.getElementsByClassName('address')[0].textContent
     ).toEqual('1 Third St #1, New Orleans, LA 70130')

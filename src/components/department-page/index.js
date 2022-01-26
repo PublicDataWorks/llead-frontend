@@ -10,6 +10,7 @@ import isString from 'lodash/isString'
 import compact from 'lodash/compact'
 import filter from 'lodash/filter'
 import concat from 'lodash/concat'
+import some from 'lodash/some'
 
 import './department-page.scss'
 import WRGLFile from './wrgl-file'
@@ -189,6 +190,8 @@ const Department = (props) => {
     document.body.style.overflow = 'unset'
   }
 
+  const isLocationShow = some([locationMapUrl, city, parish, address, phone])
+
   return (
     !isRequesting &&
     !isEmpty(department) && (
@@ -203,27 +206,33 @@ const Department = (props) => {
           <div className='department-title'>Police Department</div>
           <div className='department-name'>{name}</div>
           <div className='department-basic-info'>
-            <div className='department-location'>
-              {!isEmpty(mapElementStyles) && (
-                <div className='department-map' style={mapElementStyles} />
-              )}
-              <div className='upper-location-info'>
-                {!isEmpty(city) && (
-                  <div className='department-city'>{city}</div>
+            {isLocationShow && (
+              <div className='department-location'>
+                {!isEmpty(mapElementStyles) && (
+                  <div className='department-map' style={mapElementStyles} />
                 )}
-                {!isEmpty(parish) && (
-                  <div className='department-parish'>{parish}</div>
+                {(!isEmpty(city) || !isEmpty(parish)) && (
+                  <div className='upper-location-info'>
+                    {!isEmpty(city) && (
+                      <div className='department-city'>{city}</div>
+                    )}
+                    {!isEmpty(parish) && (
+                      <div className='department-parish'>{parish}</div>
+                    )}
+                  </div>
+                )}
+
+                {(!isEmpty(address) || !isEmpty(phone)) && (
+                  <div className='lower-location-info'>
+                    {!isEmpty(address) && (
+                      <div className='address'>{address}</div>
+                    )}
+                    {!isEmpty(phone) && <div className='phone'>{phone}</div>}
+                  </div>
                 )}
               </div>
-              {(!isEmpty(address) || !isEmpty(phone)) && (
-                <div className='lower-location-info'>
-                  {!isEmpty(address) && (
-                    <div className='address'>{address}</div>
-                  )}
-                  {!isEmpty(phone) && <div className='phone'>{phone}</div>}
-                </div>
-              )}
-            </div>
+            )}
+
             <div className='department-summary'>
               <div className='summary-item summary-officers'>
                 <div className='summary-item-count'>
