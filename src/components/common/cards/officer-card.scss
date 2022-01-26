@@ -46,4 +46,14 @@
       background-color: $wild-sand-color;
     }
   }
+
+  &:hover {
+    box-shadow: 0px 4px 8px $black-12-color;
+
+    .officer-info {
+      .officer-name {
+        color: $blue-ribbon-color;
+      }
+    }
+  }
 }

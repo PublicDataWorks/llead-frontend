@@ -63,4 +63,14 @@
       }
     }
   }
+
+  &:hover {
+    box-shadow: 0px 4px 8px $black-12-color;
+
+    .document-info {
+      .document-title {
+        color: $blue-ribbon-color;
+      }
+    }
+  }
 }
