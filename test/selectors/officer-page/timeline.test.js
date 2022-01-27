@@ -317,6 +317,8 @@ describe('#timelineSelector', () => {
             },
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: 'Mar 10, 2019',
@@ -374,6 +376,8 @@ describe('#timelineSelector', () => {
             },
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: '2018',
@@ -399,6 +403,8 @@ describe('#timelineSelector', () => {
             action: 'Officer action year 2018',
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
       {
         groupName: 'Oct 20, 2018',
@@ -421,6 +427,8 @@ describe('#timelineSelector', () => {
             action: 'Officer action 2018-10-20',
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
       {
         groupName: 'No Date',
@@ -436,6 +444,8 @@ describe('#timelineSelector', () => {
             action: 'Officer action of unknowed time',
           },
         ],
+        leftGroup: true,
+        year: null,
       },
     ])
   })
@@ -476,6 +486,8 @@ describe('#timelineSelector', () => {
             rank: 'Senior police officer',
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: '2018',
@@ -486,6 +498,8 @@ describe('#timelineSelector', () => {
             rank: '0992834',
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
     ])
   })
@@ -676,6 +690,8 @@ describe('#timelineSelector', () => {
             prevDepartmentDesc: 'Superior area',
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: '2018',
@@ -689,6 +705,8 @@ describe('#timelineSelector', () => {
             prevDepartmentDesc: null,
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
     ])
   })

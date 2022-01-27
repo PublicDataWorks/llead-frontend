@@ -232,23 +232,23 @@ const Timeline = (props) => {
             filterGroupKey={filterGroupKey}
           />
         </BrowserView>
-        {timeline.map((group, groupIndex) => {
-          const leftGroup = groupIndex % 2 === 0
-          return (
-            <div
-              key={groupIndex}
-              className={cx('timeline-group', {
-                'left-group': leftGroup,
-                'date-event-group': group.isDateEvent,
-              })}
-            >
-              <div className='timeline-group-title'>{group.groupName}</div>
-              {group.items.map((item, index) =>
-                renderTimelineItem(item, index, { group, leftGroup })
-              )}
-            </div>
-          )
-        })}
+        {timeline.map((group, groupIndex) => (
+          <div
+            key={groupIndex}
+            className={cx('timeline-group', {
+              'left-group': group.leftGroup,
+              'date-event-group': group.isDateEvent,
+            })}
+          >
+            <div className='timeline-group-title'>{group.groupName}</div>
+            {group.items.map((item, index) =>
+              renderTimelineItem(item, index, {
+                group,
+                leftGroup: group.leftGroup,
+              })
+            )}
+          </div>
+        ))}
         <div className='clearfix' />
       </div>
     )

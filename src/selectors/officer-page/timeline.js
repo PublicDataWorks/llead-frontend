@@ -16,6 +16,7 @@ import some from 'lodash/some'
 import sum from 'lodash/sum'
 import upperFirst from 'lodash/upperFirst'
 import values from 'lodash/values'
+import forEach from 'lodash/forEach'
 
 import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter, newsArticleFormatter } from 'selectors/common'
@@ -206,6 +207,7 @@ export const timelineSelector = createSelector(
       groupName,
       isDateEvent: !isEmpty(items[0].date),
       items: timelineItemsFormatter(items),
+      year: items[0].year,
     }))
 
     const orderedGroup = orderBy(
@@ -214,6 +216,17 @@ export const timelineSelector = createSelector(
         item.groupName ? `${item.groupName}${item.isDateEvent || 'z'}` : '',
       'desc'
     )
+
+    let currentYear, leftGroup
+    forEach(orderedGroup, (group, groupIndex) => {
+      if (groupIndex === 0) {
+        leftGroup = true
+      } else if (group.year !== currentYear) {
+        leftGroup = !leftGroup
+      }
+      currentYear = group.year
+      group.leftGroup = leftGroup
+    })
 
     return map(orderedGroup, (group) => ({
       ...group,
