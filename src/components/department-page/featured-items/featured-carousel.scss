@@ -29,6 +29,12 @@
       &.swiper-button-disabled {
         background-image: url('assets/icons/right-disclosure-indicator.svg');
       }
+
+      &:hover:not([class*='swiper-button-disabled']) {
+        background-image: url('assets/icons/right-disclosure-indicator-white.svg');
+        background-color: $blue-ribbon-color;
+        cursor: pointer;
+      }
     }
 
     .carousel-prev {
@@ -37,6 +43,12 @@
 
       &.swiper-button-disabled {
         background-image: url('assets/icons/left-disclosure-indicator.svg');
+      }
+
+      &:hover:not([class*='swiper-button-disabled']) {
+        background-image: url('assets/icons/left-disclosure-indicator-white.svg');
+        background-color: $blue-ribbon-color;
+        cursor: pointer;
       }
     }
   }
