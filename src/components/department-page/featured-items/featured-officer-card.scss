@@ -1,0 +1,76 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.featured-officer-card {
+  @include small-text;
+  width: 248px;
+  height: 313px;
+  background: $white-color;
+  border-radius: 8px;
+  border: 1px solid $alto-color;
+  box-sizing: border-box;
+
+  .star-corner {
+    position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+
+    background: url('assets/icons/star-2.svg') no-repeat top 6px right 6px,
+      linear-gradient(to top right, #0000 50%, $husk-color 50%) top right
+        no-repeat,
+      white;
+
+    border-top-right-radius: 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .officer-info {
+    box-sizing: border-box;
+    padding: $v-margin $h-card-margin 0 $h-card-margin;
+
+    .officer-type {
+      @include small-text;
+      color: $boulder-color;
+      margin-bottom: $v-small-margin;
+    }
+
+    .officer-name {
+      @include h1;
+      color: $thunder-color;
+      margin-bottom: $h-small-margin;
+    }
+  }
+
+  .officer-card-footer {
+    box-sizing: border-box;
+    padding: $v-frame-margin 24px $v-frame-margin $h-card-margin;
+    background-color: $wild-sand-color;
+    overflow: auto;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    color: $boulder-color;
+    border-radius: 0 0 8px 8px;
+
+    .allegation-row {
+      margin-bottom: 8px;
+
+      .allegation-count {
+        color: $bright-red-color;
+        font-weight: bold;
+      }
+    }
+
+    .use-of-force-count {
+      color: $three-poppy-color;
+      font-weight: bold;
+    }
+
+    .label {
+      color: $black-color;
+    }
+  }
+}

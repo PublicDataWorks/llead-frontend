@@ -1,0 +1,43 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.featured-swiper {
+  margin-top: 42px;
+
+  .swiper-container {
+    padding: 0 $h-card-margin $toolbar-height 0;
+
+    .carousel-next,
+    .carousel-prev {
+      position: absolute;
+      bottom: $v-mid-margin;
+      width: 40px;
+      height: 40px;
+      border: 1px solid $alto-color;
+      border-radius: 20px;
+      box-sizing: border-box;
+      background-position: center;
+      background-repeat: no-repeat;
+      outline: none;
+    }
+
+    .carousel-next {
+      left: 44px;
+      background-image: url('assets/icons/right-disclosure-indicator-blue.svg');
+
+      &.swiper-button-disabled {
+        background-image: url('assets/icons/right-disclosure-indicator.svg');
+      }
+    }
+
+    .carousel-prev {
+      left: 0;
+      background-image: url('assets/icons/left-disclosure-indicator-blue.svg');
+
+      &.swiper-button-disabled {
+        background-image: url('assets/icons/left-disclosure-indicator.svg');
+      }
+    }
+  }
+}

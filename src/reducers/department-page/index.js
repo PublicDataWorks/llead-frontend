@@ -1,13 +1,21 @@
 import { combineReducers } from 'redux'
 
 import departmentReducer from './department-reducer'
-import documentsReducer from './documents-reducer'
-import documentsPaginationReducer from './documents-pagination-reducer'
 import isRequestingReducer from './is-requesting-reducer'
+import featuredOfficersReducer from './featured-officers-reducer'
+import featuredDocumentsReducer from './featured-documents-reducer'
+import featuredNewsArticlesReducer from './featured-news-articles-reducer'
+import datasetsReducer from './datasets-reducer'
+import searchItemsReducer from './search-items-reducer'
+import searchItemsPaginationReducer from './search-items-pagination-reducer'
 
 export default combineReducers({
   department: departmentReducer,
-  documents: documentsReducer,
-  documentsPagination: documentsPaginationReducer,
   isRequesting: isRequestingReducer,
+  featuredOfficers: featuredOfficersReducer,
+  featuredDocuments: featuredDocumentsReducer,
+  featuredNewsArticles: featuredNewsArticlesReducer,
+  datasets: datasetsReducer,
+  searchItems: searchItemsReducer,
+  searchItemsPagination: searchItemsPaginationReducer,
 })

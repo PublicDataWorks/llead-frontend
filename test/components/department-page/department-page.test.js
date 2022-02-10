@@ -8,6 +8,7 @@ import qs from 'qs'
 
 import Department from 'components/department-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
+import FeaturedSearch from 'containers/department-page/featured-search'
 
 const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -17,13 +18,23 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
-jest.mock(
-  'containers/department-page/department-documents-container',
-  () => () => 'DepartmentDocumentsContainer'
-)
+jest.mock('containers/department-page/featured-search', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockFeaturedSearchComponent = () => {
+  return <div>Featured Search</div>
+}
+
+beforeAll(() => {
+  FeaturedSearch.mockImplementation(MockFeaturedSearchComponent)
+})
 
 beforeEach(() => {
   mockHistoryReplace.mockClear()
+  FeaturedSearch.mockClear()
 })
 
 describe('Department component', () => {
@@ -134,13 +145,23 @@ describe('Department component', () => {
   it('should render correctly', () => {
     const departmentData = {
       id: 1,
-      city: 'department city',
-      complaintsCount: 2,
-      documentsCount: 1,
-      locationMapUrl: null,
-      name: 'department name',
-      parish: 'department parish',
-      officersCount: 3,
+      name: 'Department data',
+      city: 'News Orleans',
+      address: '1 Third St #1, New Orleans, LA 70130',
+      phone: '(504) 891-7585',
+      documentsCount: 3,
+      recentDocumentsCount: 2,
+      datasetsCount: 5,
+      recentDatasetsCount: 1,
+      locationMapUrl: 'Map URL',
+      parish: 'Orleans Parish',
+      officersCount: 1000,
+      newsArticlesCount: 123,
+      recentNewsArticlesCount: 12,
+      incidentForceCount: 1,
+      dataPeriod: '1998-2019',
+      sustainedComplaintPercentage: 25,
+      complaintsCount: 40,
     }
 
     const container = render(
@@ -159,18 +180,188 @@ describe('Department component', () => {
     ).toEqual('Police Department')
     expect(
       baseElement.getElementsByClassName('department-name')[0].textContent
-    ).toEqual('department name')
+    ).toEqual('Department data')
     expect(
       baseElement.getElementsByClassName('department-city')[0].textContent
-    ).toEqual('department city')
+    ).toEqual('News Orleans')
+    expect(
+      baseElement.getElementsByClassName('department-parish')[0].textContent
+    ).toEqual('Orleans Parish')
+    expect(
+      baseElement.getElementsByClassName('address')[0].textContent
+    ).toEqual('1 Third St #1, New Orleans, LA 70130')
+    expect(baseElement.getElementsByClassName('phone')[0].textContent).toEqual(
+      '(504) 891-7585'
+    )
 
     const departmentSummary = baseElement.getElementsByClassName(
       'department-summary'
     )[0]
 
-    expect(departmentSummary.children[0].textContent).toEqual('3 officers')
-    expect(departmentSummary.children[1].textContent).toEqual('2 complaints')
-    expect(departmentSummary.children[2].textContent).toEqual('1 document')
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-count')[0]
+        .textContent
+    ).toEqual('1,000')
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-title')[0]
+        .textContent
+    ).toEqual('officers')
+
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-count')[1]
+        .textContent
+    ).toEqual('5')
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-title')[1]
+        .textContent
+    ).toEqual('datasets')
+    expect(
+      departmentSummary.getElementsByClassName('recent-summary-item')[0]
+        .textContent
+    ).toEqual('+1 in the past 30 days')
+
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-count')[2]
+        .textContent
+    ).toEqual('123')
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-title')[2]
+        .textContent
+    ).toEqual('news articles')
+    expect(
+      departmentSummary.getElementsByClassName('recent-summary-item')[1]
+        .textContent
+    ).toEqual('+12 in the past 30 days')
+
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-count')[3]
+        .textContent
+    ).toEqual('40')
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-title')[3]
+        .textContent
+    ).toEqual('allegations')
+    expect(
+      departmentSummary.getElementsByClassName('recent-summary-item')[2]
+        .textContent
+    ).toEqual('25% sustained allegations')
+
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-count')[4]
+        .textContent
+    ).toEqual('3')
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-title')[4]
+        .textContent
+    ).toEqual('documents')
+    expect(
+      departmentSummary.getElementsByClassName('recent-summary-item')[3]
+        .textContent
+    ).toEqual('+2 in the past 30 days')
+
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-count')[5]
+        .textContent
+    ).toEqual('1')
+    expect(
+      departmentSummary.getElementsByClassName('summary-item-title')[5]
+        .textContent
+    ).toEqual('force incident')
+  })
+
+  it('hides department location if there is no information', () => {
+    const departmentData = {
+      id: 1,
+      name: null,
+      city: null,
+      address: null,
+      phone: null,
+      locationMapUrl: null,
+      parish: null,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
+            <Department department={departmentData} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+    expect(
+      baseElement.getElementsByClassName('department-location').length
+    ).toEqual(0)
+  })
+
+  it('hides address if there is information', () => {
+    const departmentData = {
+      id: 1,
+      name: 'Department data',
+      city: null,
+      address: null,
+      phone: '(504) 891-7585',
+      locationMapUrl: null,
+      parish: null,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
+            <Department department={departmentData} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+    expect(baseElement.getElementsByClassName('department-map').length).toEqual(
+      0
+    )
+    expect(
+      baseElement.getElementsByClassName('upper-location-info').length
+    ).toEqual(0)
+    expect(baseElement.getElementsByClassName('address').length).toEqual(0)
+    expect(baseElement.getElementsByClassName('phone')[0].textContent).toEqual(
+      '(504) 891-7585'
+    )
+  })
+
+  it('hides phone if there is information', () => {
+    const departmentData = {
+      id: 1,
+      name: 'Department data',
+      city: 'News Orleans',
+      address: '1 Third St #1, New Orleans, LA 70130',
+      phone: null,
+      locationMapUrl: null,
+      parish: 'Orleans Parish',
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
+            <Department department={departmentData} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+    expect(baseElement.getElementsByClassName('department-map').length).toEqual(
+      0
+    )
+    expect(
+      baseElement.getElementsByClassName('upper-location-info').length
+    ).toEqual(1)
+    expect(
+      baseElement.getElementsByClassName('address')[0].textContent
+    ).toEqual('1 Third St #1, New Orleans, LA 70130')
+    expect(baseElement.getElementsByClassName('phone').length).toEqual(0)
   })
 
   it('should not render if isRequesting', () => {
@@ -253,7 +444,7 @@ describe('Department component', () => {
     )
   })
 
-  describe('render with wrglFiles', () => {
+  describe('render with datasets', () => {
     it('set default expanded csv files if csv params is null', () => {
       const departmentData = {
         id: 1,
@@ -264,22 +455,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: true,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: true,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -287,7 +481,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -312,22 +508,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: true,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: true,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -342,7 +541,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -367,22 +568,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: true,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: true,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -399,7 +603,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -426,22 +632,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: false,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: false,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -456,7 +665,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -486,22 +697,25 @@ describe('Department component', () => {
         name: 'department name',
         parish: 'department parish',
         officersCount: 3,
-        wrglFiles: [
-          {
-            id: 2,
-            name: 'Com Madison Village pd',
-            slug: 'com-madisonville-pd',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            url:
-              'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
-            downloadUrl:
-              'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
-            defaultExpanded: false,
-          },
-        ],
       }
+
+      const datasets = [
+        {
+          id: 2,
+          name: 'Com Madison Village pd',
+          slug: 'com-madisonville-pd',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat idatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          url:
+            'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+          downloadUrl:
+            'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+          defaultExpanded: false,
+        },
+      ]
+
       const fetchDepartmentSpy = sinon.spy()
+      const fetchDatasetsSpy = sinon.spy()
 
       const container = render(
         <Provider store={MockStore()()}>
@@ -518,7 +732,9 @@ describe('Department component', () => {
             <Route path='dept/:id'>
               <Department
                 department={departmentData}
+                datasets={datasets}
                 fetchDepartment={fetchDepartmentSpy}
+                fetchDatasets={fetchDatasetsSpy}
               />
             </Route>
           </MemoryRouter>
@@ -536,39 +752,6 @@ describe('Department component', () => {
           { arrayFormat: 'comma', encode: false }
         ),
       })
-    })
-  })
-
-  describe('render department documents', () => {
-    it('show department documents element if count is greater than 0', () => {
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department department={{ id: 1, documentsCount: 2 }} />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { queryByText } = container
-
-      expect(queryByText('DepartmentDocumentsContainer')).toBeTruthy()
-    })
-
-    it('hide department documents element if count is not greater than 0', () => {
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department department={{ id: 1, documentsCount: 0 }} />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { queryByText } = container
-      expect(queryByText('DepartmentDocumentsContainer')).not.toBeTruthy()
     })
   })
 
@@ -728,6 +911,450 @@ describe('Department component', () => {
         name: departmentData.name,
         id: departmentData.id,
       })
+    })
+  })
+
+  describe('render featured officers', () => {
+    it('renders featured officers correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredOfficers = [
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: ['84'],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+        {
+          id: 2436,
+          name: 'Derrick Burmaster',
+          badges: ['85'],
+          isStarred: false,
+          complaintsCount: 80,
+          useOfForcesCount: 15,
+        },
+      ]
+
+      const fetchFeaturedOfficerSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { getByText, queryByText, baseElement } = container
+
+      const featuredOfficerTitle = queryByText('Featured officers')
+      expect(featuredOfficerTitle).toBeTruthy()
+      expect(featuredOfficerTitle.className).toContain('carousel-title')
+
+      const featuredOfficer1Name = getByText('Jayson Germann')
+      expect(featuredOfficer1Name).toBeTruthy()
+
+      const featuredOfficer2Name = getByText('Derrick Burmaster')
+      expect(featuredOfficer2Name).toBeTruthy()
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
+    })
+
+    it('does not render featured officers if items are empty', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredOfficers = []
+
+      const fetchFeaturedOfficerSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { queryByText } = container
+
+      const featuredOfficerTitle = queryByText('Featured officers')
+      expect(featuredOfficerTitle).toBeFalsy()
+    })
+  })
+
+  describe('render featured documents', () => {
+    it('renders featured documents correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredDocuments = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          incidentDate: '2020-03-12',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.png',
+          pagesCount: 5,
+        },
+        {
+          id: 770,
+          title: 'Appeal hearing: Santiago St. Clair on 2020-12-10',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: false,
+          incidentDate: '2020-12-10',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.png',
+          pagesCount: 5,
+        },
+      ]
+
+      const fetchFeaturedDocumentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredDocuments={featuredDocuments}
+                fetchFeaturedDocuments={fetchFeaturedDocumentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { getByText, queryByText } = container
+
+      const featuredDocumentTitle = queryByText('Featured documents')
+      expect(featuredDocumentTitle).toBeTruthy()
+      expect(featuredDocumentTitle.className).toContain('carousel-title')
+
+      const featuredDocument1Title = getByText(
+        'Appeal hearing: Eric Curlee on 2020-3-12'
+      )
+      expect(featuredDocument1Title).toBeTruthy()
+
+      const featuredDocument2Title = getByText(
+        'Appeal hearing: Santiago St. Clair on 2020-12-10'
+      )
+      expect(featuredDocument2Title).toBeTruthy()
+    })
+
+    it('does not render featured documents if items are empty', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredDocuments = []
+
+      const fetchFeaturedDocumentSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredDocuments={featuredDocuments}
+                fetchFeaturedDocuments={fetchFeaturedDocumentSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { queryByText } = container
+
+      const featuredOfficerTitle = queryByText('Featured documents')
+      expect(featuredOfficerTitle).toBeFalsy()
+    })
+  })
+
+  describe('render featured news articles', () => {
+    it('renders featured news articles correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredNewsArticles = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          publishedDate: '2020-03-12',
+          sourceDisplayName: 'The lens 1',
+        },
+        {
+          id: 770,
+          title: 'Appeal hearing: Santiago St. Clair on 2020-12-10',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: false,
+          publishedDate: '2020-12-10',
+          sourceDisplayName: 'The lens 2',
+        },
+      ]
+
+      const fetchFeaturedNewsArticleSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredNewsArticles={featuredNewsArticles}
+                fetchFeaturedNewsArticles={fetchFeaturedNewsArticleSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement, getByText, queryByText } = container
+
+      const featuredNewsArticleTitle = queryByText('Featured news')
+      expect(featuredNewsArticleTitle).toBeTruthy()
+      expect(featuredNewsArticleTitle.className).toContain('carousel-title')
+
+      const featuredNewsArticle1Title = getByText(
+        'Appeal hearing: Eric Curlee on 2020-3-12'
+      )
+      expect(featuredNewsArticle1Title).toBeTruthy()
+
+      expect(
+        baseElement.getElementsByClassName('star-corner')[0].classList.length
+      ).toEqual(1)
+
+      const featuredNewsArticle2Title = getByText(
+        'Appeal hearing: Santiago St. Clair on 2020-12-10'
+      )
+      expect(featuredNewsArticle2Title).toBeTruthy()
+    })
+
+    it('does not render featured news articles if items are empty', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredNewsArticles = []
+
+      const fetchFeaturedNewsArticleSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredNewsArticles={featuredNewsArticles}
+                fetchFeaturedNewsArticles={fetchFeaturedNewsArticleSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { queryByText } = container
+
+      const featuredOfficerTitle = queryByText('Featured news')
+      expect(featuredOfficerTitle).toBeFalsy()
+    })
+  })
+
+  describe('render search modal', () => {
+    it('renders search modal correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      expect(FeaturedSearch.mock.calls[0][0]).toStrictEqual({
+        departmentId: 'baton-rouge-pd',
+        departmentName: 'department name',
+        isSearchModalOpen: false,
+        searchModalOnClose: expect.anything(),
+        itemType: '',
+      })
+    })
+
+    it('opens search officers modal correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredOfficers = [
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: ['84'],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+      ]
+
+      const fetchFeaturedOfficerSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
+
+      const numOfRenders = FeaturedSearch.mock.calls.length
+
+      expect(
+        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
+      ).toEqual(true)
+    })
+
+    it('opens search news aticles modal correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredNewsAticles = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          publishedDate: '2020-03-12',
+          sourceDisplayName: 'The lens 1',
+        },
+      ]
+
+      const fetchFeaturedNewsArticlesSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredNewsArticles={featuredNewsAticles}
+                fetchFeaturedNewsArticles={fetchFeaturedNewsArticlesSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
+
+      const numOfRenders = FeaturedSearch.mock.calls.length
+
+      expect(
+        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
+      ).toEqual(true)
+    })
+
+    it('opens search document modal correctly', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredDocuments = [
+        {
+          id: 15248,
+          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
+          url: 'https://i.imgur.com/nHTFohI.csv',
+          isStarred: true,
+          incidentDate: '2020-03-12',
+          previewImageUrl: 'https://i.imgur.com/nHTFohI.png',
+          pagesCount: 5,
+        },
+      ]
+
+      const fetchFeaturedDocumentsSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredNewsArticles={featuredDocuments}
+                fetchFeaturedNewsArticles={fetchFeaturedDocumentsSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
+
+      const numOfRenders = FeaturedSearch.mock.calls.length
+
+      expect(
+        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
+      ).toEqual(true)
     })
   })
 })
