@@ -12,6 +12,12 @@
   line-height: 31px;
 }
 
+@mixin strong-text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px;
+}
+
 @mixin body-text {
   font-weight: 300;
   font-size: 18px;

@@ -3,7 +3,10 @@ import filter from 'lodash/filter'
 import slice from 'lodash/slice'
 import map from 'lodash/map'
 
-import { SAVE_RECENT_ITEM_START } from 'action-types/common/recent-items'
+import {
+  REMOVE_RECENT_ITEM_START,
+  SAVE_RECENT_ITEM_START,
+} from 'action-types/common/recent-items'
 import { RECENT_ITEMS_FETCH_SUCCESS } from 'action-types/common/recent-items'
 import { MAX_RECENT_ITEMS } from 'constants/common'
 
@@ -18,6 +21,12 @@ export default handleActions(
 
       const newData = filter(state, (item) => !findRecentItem(item, recentItem))
       newData.unshift(recentItem)
+      return slice(newData, 0, MAX_RECENT_ITEMS)
+    },
+    [REMOVE_RECENT_ITEM_START]: (state, action) => {
+      const recentItem = action.request.params
+
+      const newData = filter(state, (item) => !findRecentItem(item, recentItem))
       return slice(newData, 0, MAX_RECENT_ITEMS)
     },
     [RECENT_ITEMS_FETCH_SUCCESS]: (state, action) => {

@@ -4,17 +4,17 @@ import concat from 'lodash/concat'
 import get from 'lodash/get'
 
 import {
-  DEPARTMENT_DOCUMENTS_FETCH_START,
-  DEPARTMENT_DOCUMENTS_FETCH_SUCCESS,
+  SEARCH_ITEMS_START,
+  SEARCH_ITEMS_SUCCESS,
+  CLEAR_DEPARTMENT_SEARCH_RESULTS,
 } from 'action-types/department-page'
 
 export default handleActions(
   {
-    [DEPARTMENT_DOCUMENTS_FETCH_START]: (state, action) => {
-      const offset = get(action.request, 'params.offset', 0)
-      return offset === 0 ? [] : state
-    },
-    [DEPARTMENT_DOCUMENTS_FETCH_SUCCESS]: (state, action) =>
+    [SEARCH_ITEMS_START]: (state, action) =>
+      get(action, 'request.params.limit') ? state : [],
+    [CLEAR_DEPARTMENT_SEARCH_RESULTS]: () => [],
+    [SEARCH_ITEMS_SUCCESS]: (state, action) =>
       action.payload.previous
         ? compact(concat(state, action.payload.results))
         : action.payload.results,

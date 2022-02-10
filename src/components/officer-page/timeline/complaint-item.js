@@ -25,6 +25,7 @@ const ComplaintItem = (props) => {
     ruleViolation,
     paragraphCode,
     paragraphViolation,
+    allegationDesc,
     disposition,
     action,
     trackingNumber,
@@ -81,6 +82,10 @@ const ComplaintItem = (props) => {
     {
       title: 'Paragraph Violation',
       content: join(compact([paragraphCode, paragraphViolation]), ' - '),
+    },
+    {
+      title: 'Allegation',
+      content: allegationDesc,
     },
     {
       title: 'Disposition',
@@ -167,6 +172,7 @@ ComplaintItem.propTypes = {
   id: PropTypes.number,
   ruleViolation: PropTypes.string,
   paragraphViolation: PropTypes.string,
+  allegationDesc: PropTypes.string,
   disposition: PropTypes.string,
   action: PropTypes.string,
   trackingNumber: PropTypes.string,

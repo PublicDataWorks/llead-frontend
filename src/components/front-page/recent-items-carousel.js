@@ -20,7 +20,7 @@ const RECENT_COMPONENTS_MAPPING = {
 }
 
 const RecentItemsCarousel = (props) => {
-  const { items, saveRecentItem, className } = props
+  const { items, saveRecentItem, removeRecentItem, className } = props
 
   const cards = map(items, (item) => {
     const ItemComponent = RECENT_COMPONENTS_MAPPING[item.type]
@@ -31,6 +31,7 @@ const RecentItemsCarousel = (props) => {
           key={`${item.type}-${item.id}`}
           className='swiper-slide'
           saveRecentItem={saveRecentItem}
+          removeRecentItem={removeRecentItem}
           recentData={{ ...item, date: item.publishedDate }}
           {...item}
         />
@@ -50,6 +51,7 @@ const RecentItemsCarousel = (props) => {
 RecentItemsCarousel.propTypes = {
   items: PropTypes.array,
   saveRecentItem: PropTypes.func,
+  removeRecentItem: PropTypes.func,
   className: PropTypes.string,
 }
 

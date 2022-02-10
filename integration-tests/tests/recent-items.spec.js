@@ -267,42 +267,6 @@ describe('FrontPage recent items', () => {
       .contains('Jan 6, 2020')
   })
 
-  it('adds document to recent items when click document row in department page', () => {
-    cy.window().then((win) => {
-      cy.stub(win, 'open').as('open')
-    })
-    cy.visit('/dept/baton-rouge-pd/')
-    cy.get('.document-item').click()
-    cy.get('.logo').click()
-
-    cy.get('.recent-items-carousel')
-      .find('.swiper-slide:visible')
-      .as('visibleSlides')
-      .should('length', 2)
-
-    cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-title')
-      .contains('Pattern risk team election myself suffer wind.')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-subtitle')
-      .contains('May 4, 2020')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-department-name')
-      .contains('Baton Rouge PD')
-    cy.get('@visibleSlides')
-      .eq(0)
-      .find('.document-preview')
-      .should(
-        'have.css',
-        'background-image',
-        'url("http://image.com/glass/shoulder-preview.pdf")'
-      )
-  })
-
   it('adds document to recent items when click document card in officer timeline', () => {
     cy.window().then((win) => {
       cy.stub(win, 'open').as('open')
@@ -493,5 +457,99 @@ describe('FrontPage recent items', () => {
         'background-image',
         'url("http://image.com/production/activity.jpg")'
       )
+  })
+
+  it('deletes recent data', () => {
+    cy.interceptExact(
+      {
+        method: 'GET',
+        url: `http://localhost:8000/api/historical-data/recent-items/`,
+      },
+      recentItemsData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'DELETE',
+        url: 'http://localhost:8000/api/historical-data/recent-items/',
+        query: { id: '1', type: 'OFFICER' },
+      },
+      recentItemsData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'DELETE',
+        url: 'http://localhost:8000/api/historical-data/recent-items/',
+        query: { id: 'baton-rouge-pd', type: 'DEPARTMENT' },
+      },
+      recentItemsData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'DELETE',
+        url: 'http://localhost:8000/api/historical-data/recent-items/',
+        query: { id: '4', type: 'DOCUMENT' },
+      },
+      recentItemsData
+    )
+
+    cy.interceptExact(
+      {
+        method: 'DELETE',
+        url: 'http://localhost:8000/api/historical-data/recent-items/',
+        query: { id: '1', type: 'NEWS_ARTICLE' },
+      },
+      recentItemsData
+    )
+
+    cy.visit('/')
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .should('length', 4)
+
+    cy.get('.recent-items-carousel')
+      .find('.officer-card')
+      .find('.remove-btn')
+      .click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .should('length', 3)
+
+    cy.get('.recent-items-carousel').find('.officer-card').should('not.exist')
+
+    cy.get('.recent-items-carousel')
+      .find('.department-card')
+      .find('.remove-btn')
+      .click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .should('length', 2)
+
+    cy.get('.recent-items-carousel')
+      .find('.department-card')
+      .should('not.exist')
+
+    cy.get('.recent-items-carousel')
+      .find('.document-card')
+      .find('.remove-btn')
+      .click()
+
+    cy.get('.recent-items-carousel')
+      .find('.swiper-slide:visible')
+      .should('length', 1)
+
+    cy.get('.recent-items-carousel').find('.document-card').should('not.exist')
+
+    cy.get('.recent-items-carousel')
+      .find('.news-article-card')
+      .find('.remove-btn')
+      .click()
+
+    cy.get('.recent-items-carousel').should('not.exist')
   })
 })

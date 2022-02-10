@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import noop from 'lodash/noop'
 
 import './news-article-card.scss'
 import OuterLink from 'components/common/links/outer-link'
@@ -14,6 +13,7 @@ const NewsArticleCard = (props) => {
     url,
     publishedDate,
     sourceName,
+    removeRecentItem,
     saveRecentItem,
     className,
     recentData,
@@ -32,6 +32,11 @@ const NewsArticleCard = (props) => {
       href={url}
       className={cx('news-article-card', className)}
       onClick={handleClick}
+      removeRecentItem={removeRecentItem}
+      removeData={{
+        id,
+        type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      }}
     >
       <div className='news-article-info'>
         <div className='news-article-type'>news article</div>
@@ -54,6 +59,7 @@ NewsArticleCard.propTypes = {
   title: PropTypes.string,
   publishedDate: PropTypes.string,
   sourceName: PropTypes.string,
+  removeRecentItem: PropTypes.func,
   saveRecentItem: PropTypes.func,
   className: PropTypes.string,
   recentData: PropTypes.object,
@@ -64,7 +70,6 @@ NewsArticleCard.defaultProps = {
   url: '',
   publishedDate: '',
   sourceName: '',
-  saveRecentItem: noop,
   className: '',
   recentData: {},
 }

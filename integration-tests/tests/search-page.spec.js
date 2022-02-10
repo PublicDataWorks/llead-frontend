@@ -219,6 +219,14 @@ describe('Search Page', () => {
         cy.get('.search-input-container')
           .find('.transparent-input')
           .should('value', 'Hunt')
+
+        cy.get('.news-articles-list')
+          .find('.news-article-item')
+          .as('newsArticleItems')
+          .should('length', 1)
+        cy.get('@newsArticleItems')
+          .eq(0)
+          .contains('Face growth poor wait follow option better.')
       })
 
       it('clear search query and department on entering homepage', () => {

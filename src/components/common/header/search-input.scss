@@ -10,7 +10,7 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
   position: relative;
   order: 3;
   flex-basis: 100%;
-  z-index: 1000;
+  z-index: 20;
 
   .search-input-with-suggestions {
     position: relative;
@@ -86,7 +86,7 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
   right: 0;
   left: 0;
   background-color: transparent;
-  z-index: 999;
+  z-index: 19;
 }
 
 @media only screen and (min-width: $mobile-breakpoint) {

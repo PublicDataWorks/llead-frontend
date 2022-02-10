@@ -1,0 +1,62 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.featured-document-card {
+  @include small-text;
+  width: 248px;
+  height: 313px;
+  background: $white-color;
+  border-radius: 8px;
+  border: 1px solid $alto-color;
+  box-sizing: border-box;
+  display: inline-block;
+
+  .star-corner {
+    position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+
+    background: url('assets/icons/star-2.svg') no-repeat top 6px right 6px,
+      linear-gradient(to top right, #0000 50%, $husk-color 50%) top right
+        no-repeat,
+      white;
+
+    border-top-right-radius: 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .document-info {
+    box-sizing: border-box;
+    padding: 65px $h-card-margin 0 $h-card-margin;
+
+    .document-title {
+      font-weight: 400;
+      height: 2 * $h-card-content;
+      margin-top: 18px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+    }
+
+    .document-subtitle {
+      @include small-text;
+      margin-top: 37px;
+      color: $boulder-color;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 8px $black-12-color;
+
+    .document-info {
+      .document-title {
+        color: $blue-ribbon-color;
+      }
+    }
+  }
+}

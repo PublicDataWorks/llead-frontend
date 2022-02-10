@@ -28,6 +28,8 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
       },
       {
         id: 39,
@@ -67,6 +69,8 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion 2019-03-10',
         action: 'officer action 2019-03-10',
         trackingNumber: '10-03',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
       },
       {
         kind: 'SALARY_CHANGE',
@@ -244,6 +248,8 @@ describe('#timelineSelector', () => {
             disposition: 'Officer dispostion 2019-06-13',
             action: 'Officer action 2019-06-13',
             trackingNumber: '13-06',
+            allegationDesc:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
           },
           {
             kind: 'UOF',
@@ -311,6 +317,8 @@ describe('#timelineSelector', () => {
             },
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: 'Mar 10, 2019',
@@ -324,6 +332,8 @@ describe('#timelineSelector', () => {
             paragraphViolation: 'Officer paragraph violation 2019-03-10',
             disposition: 'Officer dispostion 2019-03-10',
             action: 'Officer action 2019-03-10',
+            allegationDesc:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
           },
           {
             id: '128',
@@ -366,6 +376,8 @@ describe('#timelineSelector', () => {
             },
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: '2018',
@@ -391,6 +403,8 @@ describe('#timelineSelector', () => {
             action: 'Officer action year 2018',
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
       {
         groupName: 'Oct 20, 2018',
@@ -413,6 +427,8 @@ describe('#timelineSelector', () => {
             action: 'Officer action 2018-10-20',
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
       {
         groupName: 'No Date',
@@ -428,6 +444,8 @@ describe('#timelineSelector', () => {
             action: 'Officer action of unknowed time',
           },
         ],
+        leftGroup: true,
+        year: null,
       },
     ])
   })
@@ -468,6 +486,8 @@ describe('#timelineSelector', () => {
             rank: 'Senior police officer',
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: '2018',
@@ -478,6 +498,8 @@ describe('#timelineSelector', () => {
             rank: '0992834',
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
     ])
   })
@@ -494,6 +516,8 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
       {
         id: 39,
@@ -666,6 +690,8 @@ describe('#timelineSelector', () => {
             prevDepartmentDesc: 'Superior area',
           },
         ],
+        leftGroup: true,
+        year: 2019,
       },
       {
         groupName: '2018',
@@ -679,6 +705,8 @@ describe('#timelineSelector', () => {
             prevDepartmentDesc: null,
           },
         ],
+        leftGroup: false,
+        year: 2018,
       },
     ])
   })
@@ -715,6 +743,8 @@ describe('#timelineFilterGroupsSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
       {
         id: 39,
@@ -876,7 +906,7 @@ describe('#timelineFilterGroupsSelector', () => {
       },
       {
         filterGroupKey: 'COMPLAINTS',
-        title: 'Complaints',
+        title: 'Allegations',
         count: 6,
       },
       {
@@ -938,6 +968,8 @@ describe('#hasEventDetailsSelector', () => {
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
         trackingNumber: '13-06',
+        allegationDesc:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
       {
         kind: 'JOINED',

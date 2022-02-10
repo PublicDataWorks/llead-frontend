@@ -4,28 +4,51 @@ import map from 'lodash/map'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 
+import { departmentFormatter } from 'selectors/common'
 import { formatDate } from 'utils/formatter'
-import { departmentFormatter, documentFormatter } from 'selectors/common'
 
-const departmentDocumentFormatter = (document) => {
-  const documentAttributes = [
+const featuredOfficerFormatter = (featuredOfficer) => {
+  const featuredOfficerAttributes = [
     'id',
-    'title',
-    'url',
-    'documentType',
-    'textContent',
-    'textContentHighlight',
+    'name',
+    'isStarred',
+    'useOfForcesCount',
+    'badges',
+    'complaintsCount',
   ]
 
-  return {
-    ...pick(document, documentAttributes),
-    incidentDate: formatDate(document.incidentDate),
-    recentData: documentFormatter(document),
-  }
+  return pick(featuredOfficer, featuredOfficerAttributes)
 }
 
-const departmentDetailsFormatter = (department) => {
-  const wrglAttributes = [
+const featuredDocumentFormatter = (featuredDocument) => {
+  const featuredDocumentAttributes = [
+    'id',
+    'title',
+    'isStarred',
+    'url',
+    'incidentDate',
+    'previewImageUrl',
+    'pagesCount',
+  ]
+
+  return pick(featuredDocument, featuredDocumentAttributes)
+}
+
+const featuredNewsArticleFormatter = (featuredNewsArticle) => {
+  const featuredNewsArticleAttributes = [
+    'id',
+    'title',
+    'isStarred',
+    'url',
+    'publishedDate',
+    'sourceDisplayName',
+  ]
+
+  return pick(featuredNewsArticle, featuredNewsArticleAttributes)
+}
+
+const datasetFormatter = (dataset) => {
+  const datasetAttributes = [
     'id',
     'name',
     'slug',
@@ -34,33 +57,108 @@ const departmentDetailsFormatter = (department) => {
     'downloadUrl',
     'defaultExpanded',
   ]
+
+  return pick(dataset, datasetAttributes)
+}
+
+const searchOfficerFormatter = (Officer) => {
+  const OfficerAttributes = [
+    'id',
+    'name',
+    'useOfForcesCount',
+    'badges',
+    'complaintsCount',
+  ]
+
+  return pick(Officer, OfficerAttributes)
+}
+
+const searchNewsArticleFormatter = (NewsArticle) => {
+  const NewsArticleAttributes = [
+    'id',
+    'title',
+    'url',
+    'sourceName',
+    'author',
+    'authorHighlight',
+    'content',
+    'contentHighlight',
+  ]
+
+  return {
+    ...pick(NewsArticle, NewsArticleAttributes),
+    publishedDate: formatDate(NewsArticle.date),
+  }
+}
+
+export const searchDocumentFormatter = (document) => {
+  const documentAttributes = [
+    'id',
+    'title',
+    'url',
+    'documentType',
+    'departments',
+    'textContent',
+    'textContentHighlight',
+    'previewImageUrl',
+    'pagesCount',
+  ]
+
+  return {
+    ...pick(document, documentAttributes),
+    incidentDate: formatDate(document.incidentDate),
+  }
+}
+
+const departmentDetailsFormatter = (department) => {
   const departmentAttributes = [
     'id',
     'city',
+    'address',
+    'phone',
     'complaintsCount',
     'documentsCount',
+    'recentDocumentsCount',
+    'datasetsCount',
+    'recentDatasetsCount',
     'locationMapUrl',
     'name',
     'parish',
     'officersCount',
+    'newsArticlesCount',
+    'recentNewsArticlesCount',
+    'incidentForceCount',
     'dataPeriod',
   ]
 
   if (isEmpty(department)) {
     return {}
   }
-  const rawWrglFiles = get(department, 'wrglFiles')
+
+  const sustainedComplaintsCount = get(department, 'sustainedComplaintsCount')
+  const complaintsCount = get(department, 'complaintsCount')
+  const sustainedComplaintPercentage = complaintsCount
+    ? Math.round((100 * sustainedComplaintsCount) / complaintsCount)
+    : 0
 
   return {
     ...pick(department, departmentAttributes),
-    wrglFiles: map(rawWrglFiles, (wrglFile) => pick(wrglFile, wrglAttributes)),
+    sustainedComplaintPercentage,
   }
 }
 
 const getDepartment = (state) => get(state.departmentPage, 'department', {})
-const getDocuments = (state) => get(state.departmentPage, 'documents', {})
-const getDocumentsPagination = (state) =>
-  get(state.departmentPage, 'documentsPagination', {})
+const getFeaturedOfficers = (state) =>
+  get(state.departmentPage, 'featuredOfficers', [])
+const getFeaturedDocuments = (state) =>
+  get(state.departmentPage, 'featuredDocuments', [])
+const getFeaturedNewsArticles = (state) =>
+  get(state.departmentPage, 'featuredNewsArticles', [])
+const getDatasets = (state) => get(state.departmentPage, 'datasets', [])
+
+const getSearchItems = (state) => get(state, 'departmentPage.searchItems', [])
+const getSearchItemsPagination = (state) =>
+  get(state, 'departmentPage.searchItemsPagination', {})
 
 export const getIsDepartmentRequesting = (state) =>
   get(state.departmentPage, 'isRequesting')
@@ -75,14 +173,36 @@ export const departmentRecentDataSelector = createSelector(
   departmentFormatter
 )
 
-export const documentsSelector = (state) => {
-  const rawDocuments = getDocuments(state)
+export const featuredOfficersSelector = createSelector(
+  getFeaturedOfficers,
+  (featuredOfficers) => map(featuredOfficers, featuredOfficerFormatter)
+)
 
-  return map(rawDocuments, departmentDocumentFormatter)
+export const featuredDocumentsSelector = createSelector(
+  getFeaturedDocuments,
+  (featuredDocuments) => map(featuredDocuments, featuredDocumentFormatter)
+)
+
+export const featuredNewsArticlesSelector = createSelector(
+  getFeaturedNewsArticles,
+  (featuredNewsArticles) =>
+    map(featuredNewsArticles, featuredNewsArticleFormatter)
+)
+
+export const datasetsSelector = createSelector(getDatasets, (datasets) =>
+  map(datasets, datasetFormatter)
+)
+
+const formatterMapping = {
+  officers: searchOfficerFormatter,
+  newsArticles: searchNewsArticleFormatter,
+  documents: searchDocumentFormatter,
 }
 
-export const documentsPaginationSelector = (state) => {
-  const paginationAttributes = ['limit', 'offset', 'count']
+export const searchItemsSelector = createSelector(
+  getSearchItems,
+  getSearchItemsPagination,
+  (items, pagination) => map(items, formatterMapping[pagination.kind])
+)
 
-  return pick(getDocumentsPagination(state), paginationAttributes)
-}
+export const searchItemsPaginationSelector = getSearchItemsPagination

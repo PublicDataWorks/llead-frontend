@@ -29,6 +29,7 @@ describe('ComplaintItem component', () => {
       action: 'Action',
       trackingNumber: '123-456',
       showEventDetails: false,
+      allegationDesc: 'Description',
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
@@ -78,19 +79,24 @@ describe('ComplaintItem component', () => {
       'Paragraph_code - Paragraph Violation'
     )
 
-    const complaintDisposition = complaintItemContent.getElementsByClassName(
+    const complaintDesc = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[2]
+    expect(complaintDesc.textContent).toEqual('Description')
+
+    const complaintDisposition = complaintItemContent.getElementsByClassName(
+      'complaint-item-info-row-value'
+    )[3]
     expect(complaintDisposition.textContent).toEqual('Disposition')
 
     const complaintAction = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
-    )[3]
+    )[4]
     expect(complaintAction.textContent).toEqual('Action')
 
     const complaintTrackingNumber = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
-    )[4]
+    )[5]
     expect(complaintTrackingNumber.textContent).toEqual('123-456')
 
     const complaintCopyLink = complaintItemContent.getElementsByClassName(

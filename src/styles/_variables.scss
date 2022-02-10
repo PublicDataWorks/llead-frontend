@@ -2,11 +2,16 @@ $toolbar-height: 80px;
 
 $footer-height: 129px;
 
+$laptop-breakpoint: 1024px;
+$desktop-breakpoint: 1200px;
 $mobile-breakpoint: 768px;
 
 $input-width: 532px;
 $icon-width: 16px;
 $search-tag-height: 36px;
+
+$map-small-height: 80px;
+$map-height: 148px;
 
 $v-header-margin: 48px;
 $v-margin: 32px;
@@ -20,6 +25,7 @@ $v-footer-margin: 76px;
 $v-card-preview-height: 70px;
 $v-card-preview-img-height: 49px;
 $v-small-thumbnail: 56px;
+$v-top-remove-btn: 25px;
 
 $h-tiny-margin: 4px;
 $h-side-frame: 16px;

@@ -2,7 +2,11 @@ import sinon from 'sinon'
 
 import * as actionTypes from 'action-types/common/recent-items'
 import * as ServiceApi from 'utils/api'
-import { fetchRecentItems, saveRecentItem } from 'actions/common/recent-items'
+import {
+  fetchRecentItems,
+  saveRecentItem,
+  removeRecentItem,
+} from 'actions/common/recent-items'
 import { RECENT_ITEMS_API_URL } from 'constants/api'
 
 describe('#saveRecentItem', () => {
@@ -27,6 +31,31 @@ describe('#saveRecentItem', () => {
     )
 
     expect(postFuncStub).toHaveBeenCalledWith(recentItem)
+  })
+})
+
+describe('#removeRecentItem', () => {
+  it('calls delete Api', () => {
+    const deleteStub = sinon.stub(ServiceApi, 'deleteApi')
+    const deleteFuncStub = sinon.stub()
+    deleteStub.returns(deleteFuncStub)
+
+    const recentItem = {
+      type: 'DOCUMENT',
+      id: '131',
+    }
+
+    removeRecentItem(recentItem)
+    expect(deleteStub).toHaveBeenCalledWith(
+      [
+        actionTypes.REMOVE_RECENT_ITEM_START,
+        actionTypes.REMOVE_RECENT_ITEM_SUCCESS,
+        actionTypes.REMOVE_RECENT_ITEM_FAILURE,
+      ],
+      RECENT_ITEMS_API_URL
+    )
+
+    expect(deleteFuncStub).toHaveBeenCalledWith(recentItem)
   })
 })
 

@@ -3,12 +3,20 @@ import { connect } from 'react-redux'
 import Department from 'components/department-page'
 import {
   departmentSelector,
-  documentsSelector,
-  documentsPaginationSelector,
   getIsDepartmentRequesting,
   departmentRecentDataSelector,
+  featuredOfficersSelector,
+  featuredDocumentsSelector,
+  featuredNewsArticlesSelector,
+  datasetsSelector,
 } from 'selectors/department-page'
-import { fetchDepartment, fetchDocuments } from 'actions/department-page'
+import {
+  fetchDepartment,
+  fetchFeaturedOfficers,
+  fetchFeaturedDocuments,
+  fetchFeaturedNewsArticles,
+  fetchDatasets,
+} from 'actions/department-page'
 import { changeSearchDepartment } from 'actions/search-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 import {
@@ -18,15 +26,20 @@ import {
 
 const mapStateToProps = (state) => ({
   department: departmentSelector(state),
+  featuredOfficers: featuredOfficersSelector(state),
+  featuredDocuments: featuredDocumentsSelector(state),
+  featuredNewsArticles: featuredNewsArticlesSelector(state),
+  datasets: datasetsSelector(state),
   recentData: departmentRecentDataSelector(state),
-  documents: documentsSelector(state),
   isRequesting: getIsDepartmentRequesting(state),
-  ...documentsPaginationSelector(state),
 })
 
 const mapDispatchToProps = {
   fetchDepartment,
-  fetchDocuments,
+  fetchFeaturedOfficers,
+  fetchFeaturedDocuments,
+  fetchFeaturedNewsArticles,
+  fetchDatasets,
   saveRecentItem,
   setDocumentHead,
   clearDocumentHead,
