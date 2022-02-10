@@ -125,6 +125,7 @@ describe('Timeline component', () => {
             kind: 'LEFT',
           },
         ],
+        leftGroup: true,
       },
       {
         groupName: 'Mar 10, 2019',
@@ -147,6 +148,7 @@ describe('Timeline component', () => {
             action: 'Officer action 2019-03-10 no1',
           },
         ],
+        leftGroup: false,
       },
       {
         groupName: '2018',
@@ -161,6 +163,7 @@ describe('Timeline component', () => {
             action: 'Officer action year 2018',
           },
         ],
+        leftGroup: true,
       },
     ]
 
@@ -605,6 +608,7 @@ describe('Timeline component', () => {
               action: 'Officer action 2019-03-10',
             },
           ],
+          leftGroup: true,
         },
       ]
       const mockSaveRecentItem = jest.fn()
@@ -654,6 +658,7 @@ describe('Timeline component', () => {
               action: 'Officer action 2019-03-10',
             },
           ],
+          leftGroup: true,
         },
       ]
       const mockSaveRecentItem = jest.fn()
@@ -740,6 +745,7 @@ describe('Timeline component', () => {
               ],
             },
           ],
+          leftGroup: true,
         },
       ]
       const mockSaveRecentItem = jest.fn()
@@ -807,6 +813,7 @@ describe('Timeline component', () => {
               ],
             },
           ],
+          leftGroup: true,
         },
       ]
       const mockSaveRecentItem = jest.fn()
@@ -944,6 +951,7 @@ describe('Timeline component', () => {
             kind: 'LEFT',
           },
         ],
+        leftGroup: true,
       },
     ]
     const mockSaveRecentItem = jest.fn()
@@ -979,6 +987,7 @@ describe('Timeline component', () => {
             kind: 'JOINED',
           },
         ],
+        leftGroup: true,
       },
     ]
     const mockSaveRecentItem = jest.fn()
@@ -1021,6 +1030,7 @@ describe('Timeline component', () => {
             ...newsArticleData,
           },
         ],
+        leftGroup: true,
       },
     ]
 
@@ -1067,6 +1077,7 @@ describe('Timeline component', () => {
             recentData: documentData,
           },
         ],
+        leftGroup: true,
       },
     ]
     const mockSaveRecentItem = jest.fn()
@@ -1110,6 +1121,7 @@ describe('Timeline component', () => {
             salary: '$65k/year',
           },
         ],
+        leftGroup: true,
       },
     ]
 
@@ -1148,6 +1160,7 @@ describe('Timeline component', () => {
             rank: 'senior police officer',
           },
         ],
+        leftGroup: true,
       },
     ]
 
