@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import sinon from 'sinon'
 import * as googleAnalytics from 'utils/google-analytics'
 
-import { EVENT_TYPES } from 'constants/common'
+import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 import SearchNewsArticleItem from 'components/department-page/featured-search/search-news-articles-item'
 
 describe('Search News Articles Item', () => {
@@ -40,6 +40,7 @@ describe('Search News Articles Item', () => {
   })
 
   it('clicks on news article card', () => {
+    const saveRecentItemSpy = sinon.spy()
     const windowOpenStub = sinon.stub(window, 'open')
 
     const newsArticle = {
@@ -54,7 +55,12 @@ describe('Search News Articles Item', () => {
       authorHighlight: null,
     }
 
-    const container = render(<SearchNewsArticleItem item={newsArticle} />)
+    const container = render(
+      <SearchNewsArticleItem
+        item={newsArticle}
+        saveRecentItem={saveRecentItemSpy}
+      />
+    )
     const { baseElement } = container
 
     const newsArticleItem = baseElement.getElementsByClassName(
@@ -68,35 +74,16 @@ describe('Search News Articles Item', () => {
       '_blank',
       'noopener noreferrer'
     )
-  })
-
-  it('analyzes click on news article item', () => {
-    sinon.stub(window, 'open')
-
-    const newsArticle = {
-      id: 25,
-      sourceName: 'Source',
-      title: 'This is title 1',
-      url: 'http://documents.com/hundred/work-1.pdf',
-      publishedDate: 'Jan 10, 2021',
-      author: 'Staff Writer',
-      content: 'Text content key',
-      contentHighlight: null,
-      authorHighlight: null,
-    }
-
-    const container = render(<SearchNewsArticleItem item={newsArticle} />)
-    const { baseElement } = container
-
-    const newsArticleItem = baseElement.getElementsByClassName(
-      'search-news-article-item'
-    )[0]
-
-    fireEvent.click(newsArticleItem)
 
     expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
       type: EVENT_TYPES.OPEN_ARTICLE,
       data: { article_id: 25 },
+    })
+
+    expect(saveRecentItemSpy).toHaveBeenCalledWith({
+      type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      id: 25,
+      data: newsArticle,
     })
   })
 })

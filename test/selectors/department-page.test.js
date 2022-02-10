@@ -151,6 +151,7 @@ describe('#featuredOfficersSelector', () => {
           isStarred: true,
           complaintsCount: 84,
           useOfForcesCount: 0,
+          departments: ['Department'],
         },
         {
           id: 2436,
@@ -159,6 +160,7 @@ describe('#featuredOfficersSelector', () => {
           isStarred: false,
           complaintsCount: 80,
           useOfForcesCount: 15,
+          departments: ['Department'],
         },
       ]
       const state = {
@@ -177,6 +179,7 @@ describe('#featuredOfficersSelector', () => {
           isStarred: true,
           complaintsCount: 84,
           useOfForcesCount: 0,
+          department: 'Department',
         },
         {
           id: 2436,
@@ -185,6 +188,7 @@ describe('#featuredOfficersSelector', () => {
           isStarred: false,
           complaintsCount: 80,
           useOfForcesCount: 15,
+          department: 'Department',
         },
       ])
     })
@@ -302,16 +306,16 @@ describe('#featuredNewsArticlesSelector', () => {
         title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
         url: 'https://i.imgur.com/nHTFohI.csv',
         isStarred: true,
-        publishedDate: '2020-03-12',
-        sourceDisplayName: 'The lens',
+        publishedDate: 'Mar 12, 2020',
+        sourceName: 'The lens',
       },
       {
         id: 770,
         title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
         url: 'https://i.imgur.com/nHTFohI.csv',
         isStarred: false,
-        publishedDate: '2020-12-10',
-        sourceDisplayName: 'The lens',
+        publishedDate: 'Dec 10, 2020',
+        sourceName: 'The lens',
       },
     ])
   })

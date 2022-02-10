@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import * as googleAnalytics from 'utils/google-analytics'
 
 import SearchDocumentItem from 'components/department-page/featured-search/search-documents-item'
-import { EVENT_TYPES } from 'constants/common'
+import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('Search Documents Item', () => {
   beforeEach(() => {
@@ -80,6 +80,7 @@ describe('Search Documents Item', () => {
   })
 
   it('clicks on document item', () => {
+    const saveRecentItemSpy = sinon.spy()
     const windowOpenStub = sinon.stub(window, 'open')
 
     const document = {
@@ -102,7 +103,9 @@ describe('Search Documents Item', () => {
       textContent: 'Text content',
       textContentHighlight: 'Text content <em>highlight</em>',
     }
-    const container = render(<SearchDocumentItem item={document} />)
+    const container = render(
+      <SearchDocumentItem item={document} saveRecentItem={saveRecentItemSpy} />
+    )
     const { baseElement } = container
 
     const documentItem = baseElement.getElementsByClassName(
@@ -120,6 +123,12 @@ describe('Search Documents Item', () => {
     expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
       type: EVENT_TYPES.OPEN_DOCUMENT,
       data: { document_id: 2 },
+    })
+
+    expect(saveRecentItemSpy).toHaveBeenCalledWith({
+      type: RECENT_ITEM_TYPES.DOCUMENT,
+      id: 2,
+      data: document,
     })
   })
 })

@@ -4,6 +4,7 @@ import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
 
 import FeaturedNewsArticleCard from 'components/department-page/featured-items/featured-news-article-card'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 
 describe('Featured news article card component', () => {
   let windowOpenStub
@@ -15,7 +16,7 @@ describe('Featured news article card component', () => {
     const props = {
       item: {
         id: 1,
-        sourceDisplayName: 'The lens',
+        sourceName: 'The lens',
         url: 'https://i.imgur.com/news-article1.pdf',
         title: 'news-article-1',
         publishedDate: 'Nov 9, 2020',
@@ -49,16 +50,19 @@ describe('Featured news article card component', () => {
   })
 
   it('handles click on news article card', () => {
+    const saveRecentItemSpy = sinon.spy()
+    const newsArticleData = {
+      id: 1,
+      sourceName: 'The lens',
+      url: 'https://i.imgur.com/news-article1.pdf',
+      title: 'news-article-1',
+      publishedDate: 'Nov 9, 2020',
+      isStarred: true,
+    }
     const props = {
-      item: {
-        id: 1,
-        sourceDisplayName: 'The lens',
-        url: 'https://i.imgur.com/news-article1.pdf',
-        title: 'news-article-1',
-        publishedDate: 'Nov 9, 2020',
-        isStarred: true,
-      },
+      item: newsArticleData,
       className: 'custom-class-name',
+      saveRecentItem: saveRecentItemSpy,
     }
 
     const container = render(
@@ -80,5 +84,10 @@ describe('Featured news article card component', () => {
       '_blank',
       'noopener noreferrer'
     )
+    expect(saveRecentItemSpy).toHaveBeenCalledWith({
+      type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      id: 1,
+      data: newsArticleData,
+    })
   })
 })

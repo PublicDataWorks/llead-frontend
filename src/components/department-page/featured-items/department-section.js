@@ -14,9 +14,12 @@ const DepartmentSection = (props) => {
     searchModalOnOpen,
     section,
     setItemType,
+    saveRecentItem,
   } = props
 
-  const cardItems = map(items, (item) => <Card key={item.id} item={item} />)
+  const cardItems = map(items, (item) => (
+    <Card key={item.id} item={item} saveRecentItem={saveRecentItem} />
+  ))
 
   const onSearchModalClick = () => {
     setItemType(section)
@@ -41,11 +44,13 @@ DepartmentSection.propTypes = {
   searchModalOnOpen: PropTypes.func,
   section: PropTypes.string,
   setItemType: PropTypes.func,
+  saveRecentItem: PropTypes.func,
 }
 
 DepartmentSection.defaultProps = {
   items: [],
   setItemType: noop,
+  saveRecentItem: noop,
 }
 
 export default DepartmentSection

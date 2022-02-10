@@ -263,6 +263,7 @@ describe('#newsArticlesSelector', () => {
         url: 'https://i.imgur.com/news-article1.pdf',
         title: 'news-article-1',
         publishedDate: 'Nov 9, 2020',
+        date: 'Nov 9, 2020',
       },
       {
         id: 2,
@@ -270,6 +271,7 @@ describe('#newsArticlesSelector', () => {
         url: 'https://i.imgur.com/news-article2.pdf',
         title: 'news-article-2',
         publishedDate: 'Nov 10, 2020',
+        date: 'Nov 10, 2020',
       },
     ]
 

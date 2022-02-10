@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
 
-import { EVENT_TYPES } from 'constants/common'
+import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 import * as googleAnalytics from 'utils/google-analytics'
 import FeaturedDocumentCard from 'components/department-page/featured-items/featured-document-card'
 
@@ -80,8 +80,11 @@ describe('Document card component', () => {
   })
 
   it('analyzes click on featured document card', () => {
+    const saveRecentItemSpy = sinon.spy()
+    const documentData = { id: 1, url: 'https://i.imgur.com/nHTFohI.csv' }
     const props = {
-      item: { id: 1, url: 'https://i.imgur.com/nHTFohI.csv' },
+      item: documentData,
+      saveRecentItem: saveRecentItemSpy
     }
 
     const container = render(
@@ -101,6 +104,11 @@ describe('Document card component', () => {
     expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
       type: EVENT_TYPES.OPEN_DOCUMENT,
       data: { document_id: 1 },
+    })
+    expect(saveRecentItemSpy).toHaveBeenCalledWith({
+      type: RECENT_ITEM_TYPES.DOCUMENT,
+      id: 1,
+      data: documentData,
     })
   })
 
