@@ -80,7 +80,6 @@ const FeaturedSearch = (props) => {
           <input
             name='searchInput'
             className='transparent-input'
-            style={{ fontStyle: searchQuery ? '' : 'italic' }}
             placeholder={`Search ${title} in ${departmentName}`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
