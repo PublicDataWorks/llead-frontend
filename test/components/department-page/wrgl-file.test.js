@@ -81,4 +81,36 @@ describe('WRGL file component', () => {
 
     expect(wrglDescription.classList).toContain('wrgl-description-expanded')
   })
+
+  it('loads iframe only when user open the wrgl section', () => {
+    const updateExpandedCsvFilesStub = sinon.stub()
+    const props = {
+      name: 'Com Madison Village pd',
+      slug: 'com-madisonville-pd',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      url:
+        'https://www.wrgl.co/em/@ipno/r/com-madisonville-pd/7e47b16aba077e1edf2e236ad2027cc6',
+      downloadUrl:
+        'https://www.wrgl.co/api/v1/users/ipno/repos/com-madisonville-pd/commits/7e47b16aba077e1edf2e236ad2027cc6/csv',
+      updateExpandedCsvFiles: updateExpandedCsvFilesStub,
+      expandedCsvFiles: [],
+    }
+    const container = render(<WRGLFile {...props} />)
+    const { baseElement, getByTestId } = container
+
+    expect(baseElement.textContent.includes('Com Madison Village pd')).toBe(
+      true
+    )
+
+    const wrglIframe = baseElement.getElementsByClassName('wrgl-embed')[0]
+    expect(wrglIframe.getAttribute('src')).toEqual(null)
+
+    const expandArrowElement = getByTestId('test--expand-control')
+    fireEvent.click(expandArrowElement)
+
+    const expanedWrglIframe = baseElement.getElementsByClassName(
+      'wrgl-embed'
+    )[0]
+    expect(expanedWrglIframe.getAttribute('src')).toEqual(props.url)
+  })
 })
