@@ -40,7 +40,7 @@ const FeaturedSearch = (props) => {
     documents: {
       Card: SearchDocumentItem,
       title: 'documents',
-    }
+    },
   }
 
   const { Card, title } = get(componentMapping, itemType, {})
@@ -80,6 +80,7 @@ const FeaturedSearch = (props) => {
           <input
             name='searchInput'
             className='transparent-input'
+            autoFocus
             placeholder={`Search ${title} in ${departmentName}`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
