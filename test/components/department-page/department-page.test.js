@@ -444,6 +444,280 @@ describe('Department component', () => {
     )
   })
 
+  describe('summary section', () => {
+    it('renders 6 categories', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 3,
+        datasetsCount: 5,
+        officersCount: 1000,
+        newsArticlesCount: 123,
+        incidentForceCount: 1,
+        complaintsCount: 40,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-6').length
+      ).toEqual(6)
+    })
+
+    it('renders 5 categories with both officers and allegations', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 3,
+        datasetsCount: 5,
+        officersCount: 1000,
+        newsArticlesCount: 0,
+        incidentForceCount: 1,
+        complaintsCount: 40,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-5').length
+      ).toEqual(5)
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-stretch').length
+      ).toEqual(3)
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-shrink').length
+      ).toEqual(1)
+    })
+
+    it('renders 5 categories with either officers or allegations', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 3,
+        datasetsCount: 5,
+        officersCount: 0,
+        newsArticlesCount: 10,
+        incidentForceCount: 1,
+        complaintsCount: 40,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-5').length
+      ).toEqual(5)
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-stretch').length
+      ).toEqual(2)
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-shrink').length
+      ).toEqual(0)
+    })
+
+    it('renders 4 categories', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 3,
+        datasetsCount: 5,
+        officersCount: 0,
+        newsArticlesCount: 0,
+        incidentForceCount: 1,
+        complaintsCount: 40,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-4').length
+      ).toEqual(4)
+    })
+
+    it('renders 3 categories', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 0,
+        datasetsCount: 5,
+        officersCount: 0,
+        newsArticlesCount: 0,
+        incidentForceCount: 1,
+        complaintsCount: 40,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-3').length
+      ).toEqual(3)
+    })
+
+    it('renders 2 categories', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 0,
+        datasetsCount: 5,
+        officersCount: 0,
+        newsArticlesCount: 0,
+        incidentForceCount: 1,
+        complaintsCount: 0,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-2').length
+      ).toEqual(2)
+    })
+
+    it('renders 1 category', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 0,
+        datasetsCount: 0,
+        officersCount: 0,
+        newsArticlesCount: 0,
+        incidentForceCount: 1,
+        complaintsCount: 0,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item-1').length
+      ).toEqual(1)
+    })
+
+    it('renders 0 categories if there are no information', () => {
+      const departmentData = {
+        id: 1,
+        documentsCount: 0,
+        datasetsCount: 0,
+        officersCount: 0,
+        newsArticlesCount: 0,
+        incidentForceCount: 0,
+        complaintsCount: 0,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department department={departmentData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      const departmentSummary = baseElement.getElementsByClassName(
+        'department-summary'
+      )[0]
+
+      expect(
+        departmentSummary.getElementsByClassName('summary-item').length
+      ).toEqual(0)
+    })
+  })
+
   describe('render with datasets', () => {
     it('set default expanded csv files if csv params is null', () => {
       const departmentData = {
