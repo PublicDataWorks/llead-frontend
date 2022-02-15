@@ -52,8 +52,25 @@
       text-decoration: none;
       color: $thunder-color;
       border: 1px solid $alto-color;
-      background: $wild-sand-color url('assets/icons/mobile-download.svg')
-        no-repeat center;
+      background: $white-color url('assets/icons/mobile-download.svg') no-repeat
+        center;
+
+      &:hover {
+        color: $white-color;
+        background: $emperor-color;
+        border: 1px solid $emperor-color;
+      }
+
+      &:disabled {
+        color: $boulder-color;
+        background: $gallery-color;
+        border: 1px solid $alto-color;
+      }
+
+      &:active {
+        background: $emperor-color;
+        border: 3px solid $black-color;
+      }
     }
   }
 
@@ -128,7 +145,7 @@
       .wrgl-download {
         height: auto;
         width: auto;
-        background: $wild-sand-color;
+        background: $white-color;
       }
     }
   }
