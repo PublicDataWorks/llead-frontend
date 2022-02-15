@@ -6,15 +6,26 @@
   @include body-text;
   box-sizing: border-box;
   padding: $v-small-margin $h-card-margin;
-  color: $boulder-color;
-  background: $white-color;
-  border: 1px solid $alto-color;
+  color: $white-color;
+  background: $thunder-color;
+  border: 1px solid $thunder-color;
   border-radius: 2px;
   outline: none;
   cursor: pointer;
-}
 
-.active {
-  color: $blue-ribbon-color;
-  background: $wild-sand-color;
+  &:hover {
+    background: $emperor-color;
+    border: 1px solid $emperor-color;
+  }
+
+  &:disabled {
+    color: $boulder-color;
+    background: $gallery-color;
+    border: 1px solid $alto-color;
+  }
+
+  &:active {
+    background: $emperor-color;
+    border: 3px solid $black-color;
+  }
 }
