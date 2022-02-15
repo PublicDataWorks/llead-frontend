@@ -1210,6 +1210,7 @@ describe('Department component', () => {
         departmentId: 'baton-rouge-pd',
         departmentName: 'department name',
         isSearchModalOpen: false,
+        saveRecentItem: expect.anything(),
         searchModalOnClose: expect.anything(),
         itemType: '',
       })

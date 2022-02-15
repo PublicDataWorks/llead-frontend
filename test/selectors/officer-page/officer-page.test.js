@@ -263,11 +263,13 @@ describe('#officerRecentDataSelector', () => {
       id: 1,
       name: 'Officer Name',
       badges: ['12345'],
-      department: {
-        id: 'department-name',
-        name: 'Department Name',
-        extraDepartmentField: 'should not be included',
-      },
+      departments: [
+        {
+          id: 'department-name',
+          name: 'Department Name',
+          extraDepartmentField: 'should not be included',
+        },
+      ],
       extraField: 'field',
     }
     const state = {

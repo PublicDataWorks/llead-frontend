@@ -17,7 +17,10 @@ const featuredOfficerFormatter = (featuredOfficer) => {
     'complaintsCount',
   ]
 
-  return pick(featuredOfficer, featuredOfficerAttributes)
+  return {
+    ...pick(featuredOfficer, featuredOfficerAttributes),
+    department: get(featuredOfficer, 'departments[0]', []),
+  }
 }
 
 const featuredDocumentFormatter = (featuredDocument) => {
@@ -29,22 +32,20 @@ const featuredDocumentFormatter = (featuredDocument) => {
     'incidentDate',
     'previewImageUrl',
     'pagesCount',
+    'departments',
   ]
 
   return pick(featuredDocument, featuredDocumentAttributes)
 }
 
 const featuredNewsArticleFormatter = (featuredNewsArticle) => {
-  const featuredNewsArticleAttributes = [
-    'id',
-    'title',
-    'isStarred',
-    'url',
-    'publishedDate',
-    'sourceDisplayName',
-  ]
+  const featuredNewsArticleAttributes = ['id', 'title', 'isStarred', 'url']
 
-  return pick(featuredNewsArticle, featuredNewsArticleAttributes)
+  return {
+    ...pick(featuredNewsArticle, featuredNewsArticleAttributes),
+    publishedDate: formatDate(featuredNewsArticle.publishedDate),
+    sourceName: featuredNewsArticle.sourceDisplayName,
+  }
 }
 
 const datasetFormatter = (dataset) => {

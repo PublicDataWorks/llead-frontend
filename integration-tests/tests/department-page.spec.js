@@ -10,6 +10,7 @@ import {
   nextSearchOfficersData,
   nextSearchNewsArticlesData,
   searchNewsArticlesData,
+  officer1DetailsData,
   nextSearchDocumentsData,
   searchDocumentsData,
 } from '../data/department-page-data'
@@ -153,7 +154,7 @@ describe('Department Page', () => {
       cy.url().should(
         'eq',
         Cypress.config().baseUrl +
-          `/search/?q=Hunt&department=harmonbury-department`
+        `/search/?q=Hunt&department=harmonbury-department`
       )
     })
   })
@@ -224,6 +225,13 @@ describe('Department Page', () => {
           noQuery: true,
         },
         featuredOfficersData
+      )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: `http://localhost:8000/api/officers/1/`,
+        },
+        officer1DetailsData
       )
 
       cy.login()
@@ -322,6 +330,22 @@ describe('Department Page', () => {
         'eq',
         `/officers/${featuredOfficersData[0].id}/mark-carlson`
       )
+
+      cy.get('.logo').click()
+
+      cy.get('.recent-items-carousel')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', 2)
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.officer-name')
+        .contains('Mark Carlson')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.officer-badges')
+        .contains('12435, 612')
     })
   })
 
@@ -426,7 +450,7 @@ describe('Department Page', () => {
         .contains('Mouth trip too finally society smile man.')
     })
 
-    it('opens document url in new tab when click on featured document card', () => {
+    it('opens document url in new tab and save it to recent items when click on featured document card', () => {
       cy.visit('/dept/harmonbury-department')
       cy.window().then((win) => {
         cy.stub(win, 'open').as('open')
@@ -437,12 +461,29 @@ describe('Department Page', () => {
         .eq(0)
         .click()
 
-      cy.get('@open').should(
-        'to.be.calledWith',
-        featuredDocumentsData[0].url,
-        '_blank',
-        'noopener noreferrer'
-      )
+      cy.visit('/')
+      cy.get('.recent-items-carousel')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', 2)
+
+      cy.get('@visibleSlides').eq(0).find('.document-type').contains('document')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.document-title')
+        .contains('Her hard step sea.')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.document-subtitle')
+        .contains('Jan 6, 2020')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.document-preview')
+        .should(
+          'have.css',
+          'background-image',
+          'url("http://image.com/century/five-preview.pdf")'
+        )
     })
   })
 
@@ -550,7 +591,7 @@ describe('Department Page', () => {
         .contains('Mouth trip too finally society smile man.')
     })
 
-    it('opens news articles url in new tab when click on featured news article card', () => {
+    it('opens news articles url in new tab and save it to recent item when click on featured news article card', () => {
       cy.visit('/dept/harmonbury-department')
       cy.window().then((win) => {
         cy.stub(win, 'open').as('open')
@@ -561,12 +602,21 @@ describe('Department Page', () => {
         .eq(0)
         .click()
 
-      cy.get('@open').should(
-        'to.be.calledWith',
-        featuredNewsArticlesData[0].url,
-        '_blank',
-        'noopener noreferrer'
-      )
+      cy.visit('/')
+
+      cy.get('.recent-items-carousel')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', 2)
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-type')
+        .contains('news article')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-title')
+        .contains('Her hard step sea.')
     })
   })
 
@@ -695,6 +745,13 @@ describe('Department Page', () => {
         },
         searchOfficersData
       )
+      cy.interceptExact(
+        {
+          method: 'GET',
+          url: `http://localhost:8000/api/officers/1/`,
+        },
+        officer1DetailsData
+      )
 
       cy.login()
     })
@@ -720,7 +777,7 @@ describe('Department Page', () => {
       cy.get('.card-collection')
         .find('.officer-name')
         .eq(0)
-        .contains('Shyra Allen')
+        .contains('Mark Carlson')
 
       cy.get('.card-collection')
         .find('.officer-name')
@@ -755,7 +812,7 @@ describe('Department Page', () => {
       cy.get('.featured-search-modal').should('not.exist')
     })
 
-    it('redirects to officer page when clicks on officer card', () => {
+    it('redirects to officer page and save it to recent item when click on officer card', () => {
       cy.visit('/dept/harmonbury-department')
 
       cy.get('.department-section-container').find('.search-icon').click()
@@ -768,8 +825,24 @@ describe('Department Page', () => {
 
       cy.location('pathname').should(
         'eq',
-        `/officers/${searchOfficersData.results[0].id}/shyra-allen`
+        `/officers/${searchOfficersData.results[0].id}/mark-carlson`
       )
+
+      cy.get('.logo').click()
+
+      cy.get('.recent-items-carousel')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', 2)
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.officer-name')
+        .contains('Mark Carlson')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.officer-badges')
+        .contains('12435, 612')
     })
   })
 
@@ -874,6 +947,45 @@ describe('Department Page', () => {
       cy.get('.featured-search-modal').find('.close-icon').click()
 
       cy.get('.featured-search-modal').should('not.exist')
+    })
+
+
+    it('redirects to news article page and save it to recent item when click on news article card', () => {
+      cy.visit('/dept/harmonbury-department')
+
+      cy.get('.department-section-container').find('.search-icon').click()
+      cy.get('input[name="searchInput"]').type('this')
+
+      cy.get('.featured-search-modal')
+        .find('.search-news-article-item')
+        .eq(0)
+        .click()
+
+      cy.visit('/')
+
+      cy.get('.recent-items-carousel')
+        .find('.swiper-slide:visible')
+        .as('visibleSlides')
+        .should('length', 2)
+
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-type')
+        .contains('news article')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-title')
+        .contains('Her hard step sea.')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-subtitle')
+        .first()
+        .contains('The lens')
+      cy.get('@visibleSlides')
+        .eq(0)
+        .find('.news-article-subtitle')
+        .last()
+        .contains('Jan 6, 2020')
     })
   })
 

@@ -309,6 +309,7 @@ const Department = (props) => {
                 searchModalOnOpen={openSearchModal}
                 setItemType={setItemType}
                 section={section}
+                saveRecentItem={saveRecentItem}
               />
             )
         )}
@@ -333,6 +334,7 @@ const Department = (props) => {
           departmentId={departmentId}
           departmentName={name}
           itemType={itemType}
+          saveRecentItem={saveRecentItem}
         />
       </div>
     )

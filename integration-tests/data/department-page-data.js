@@ -46,6 +46,20 @@ export const datasetsData = [
   },
 ]
 
+export const officer1DetailsData = {
+  id: 1,
+  name: 'Mark Carlson',
+  badges: ['12435', '612'],
+  birth_year: 1962,
+  race: 'white',
+  gender: 'male',
+  department: {
+    id: 'baton-rouge-pd',
+    name: 'Baton Rouge PD',
+  },
+  documents_count: 1,
+}
+
 export const featuredOfficersData = [
   {
     id: 1,
@@ -211,10 +225,10 @@ export const searchOfficersData = {
   previous: null,
   results: [
     {
-      id: 4060,
-      name: 'Shyra Allen',
+      id: 1,
+      name: 'Mark Carlson',
       use_of_forces_count: 0,
-      badges: ['1336'],
+      badges: ['12435', '612'],
       complaints_count: 1,
     },
     {

@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
+import noop from 'lodash/noop'
 
 import './featured-document-card.scss'
 import OuterLink from 'components/common/links/outer-link'
-import { EVENT_TYPES } from 'constants/common'
+import { EVENT_TYPES, RECENT_ITEM_TYPES } from 'constants/common'
 import DocumentPreview from 'components/common/items/document-preview'
 import { analyzeAction } from 'utils/google-analytics'
 import { formatDate } from 'utils/formatter'
 
 const FeaturedDocumentCard = (props) => {
-  const { item: document, className } = props
+  const { item: document, className, saveRecentItem } = props
 
   const {
     id,
@@ -26,6 +27,11 @@ const FeaturedDocumentCard = (props) => {
     analyzeAction({
       type: EVENT_TYPES.OPEN_DOCUMENT,
       data: { document_id: id },
+    })
+    saveRecentItem({
+      type: RECENT_ITEM_TYPES.DOCUMENT,
+      id: id,
+      data: document,
     })
   }
 
@@ -51,11 +57,13 @@ const FeaturedDocumentCard = (props) => {
 FeaturedDocumentCard.propTypes = {
   item: PropTypes.object,
   className: PropTypes.string,
+  saveRecentItem: PropTypes.func,
 }
 
 FeaturedDocumentCard.defaultProps = {
   item: {},
   className: '',
+  saveRecentItem: noop,
 }
 
 export default FeaturedDocumentCard

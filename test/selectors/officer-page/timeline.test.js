@@ -13,6 +13,7 @@ describe('#timelineSelector', () => {
         id: 22,
         year: 2019,
         date: '2019-06-13',
+        publishedDate: '2019-06-13',
         kind: 'NEWS_ARTICLE',
         sourceName: 'The Lens NOLA',
         title: 'News Article 2019-06-13',
@@ -306,14 +307,15 @@ describe('#timelineSelector', () => {
             url: 'url',
             kind: 'NEWS_ARTICLE',
             publishedDate: 'Jun 13, 2019',
+            date: 'Jun 13, 2019',
             sourceName: 'The Lens NOLA',
             recentData: {
               id: 22,
               title: 'News Article 2019-06-13',
               url: 'url',
               publishedDate: 'Jun 13, 2019',
-              sourceName: 'The Lens NOLA',
               date: 'Jun 13, 2019',
+              sourceName: 'The Lens NOLA',
             },
           },
         ],
@@ -726,7 +728,7 @@ describe('#timelineFilterGroupsSelector', () => {
     const timelineData = [
       {
         year: 2019,
-        date: '2019-06-13',
+        publishedDate: '2019-06-13',
         kind: 'NEWS_ARTICLE',
         id: 22,
         sourceName: 'The Lens NOLA',

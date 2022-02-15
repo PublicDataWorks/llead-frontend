@@ -54,6 +54,7 @@ export const newsArticleFormatter = (news_article) => {
   return {
     ...pick(news_article, news_articleAttributes),
     publishedDate: formatDate(news_article.date),
+    date: formatDate(news_article.date),
   }
 }
 

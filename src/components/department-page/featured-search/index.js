@@ -26,6 +26,7 @@ const FeaturedSearch = (props) => {
     searchItems,
     fetchSearchItems,
     clearDepartmentSearchResults,
+    saveRecentItem,
   } = props
 
   const componentMapping = {
@@ -106,7 +107,7 @@ const FeaturedSearch = (props) => {
             useWindow={false}
           >
             {map(searchItems, (item) => (
-              <Card key={item.id} item={item} />
+              <Card key={item.id} item={item} saveRecentItem={saveRecentItem} />
             ))}
           </InfiniteScroll>
         </div>
@@ -127,6 +128,7 @@ FeaturedSearch.propTypes = {
   limit: PropTypes.number,
   offset: PropTypes.number,
   clearDepartmentSearchResults: PropTypes.func,
+  saveRecentItem: PropTypes.func,
 }
 
 FeaturedSearch.defaultProps = {
@@ -135,6 +137,7 @@ FeaturedSearch.defaultProps = {
   searchModalOnClose: noop,
   fetchSearchItems: noop,
   clearDepartmentSearchResults: noop,
+  saveRecentItem: noop,
 }
 
 export default FeaturedSearch
