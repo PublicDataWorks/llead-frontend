@@ -27,6 +27,10 @@
     & + .analytic-summary-item {
       border-top: 1px solid $wild-sand-color;
     }
+
+    &:hover {
+      background-color: $emperor-color;
+    }
   }
 }
 
