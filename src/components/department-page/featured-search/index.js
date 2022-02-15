@@ -133,6 +133,7 @@ FeaturedSearch.propTypes = {
 }
 
 FeaturedSearch.defaultProps = {
+  departmentId: '',
   searchItems: [],
   isSearchModalOpen: false,
   searchModalOnClose: noop,

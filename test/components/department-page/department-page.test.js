@@ -1631,5 +1631,49 @@ describe('Department component', () => {
         FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
       ).toEqual(true)
     })
+
+    it('closes modal when unmount', () => {
+      const departmentData = {
+        id: 1,
+        name: 'department name',
+      }
+
+      const featuredOfficers = [
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: ['84'],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+      ]
+
+      const fetchFeaturedOfficerSpy = sinon.spy()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+            <Route path='dept/:id'>
+              <Department
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
+              />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement, unmount } = container
+
+      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchButton)
+
+      expect(baseElement.style).toHaveProperty('overflow', 'hidden')
+
+      unmount()
+      expect(baseElement.style).toHaveProperty('overflow', 'unset')
+    })
   })
 })
