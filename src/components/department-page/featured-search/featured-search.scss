@@ -59,6 +59,7 @@
 
     .search-result-count {
       @include strong-text;
+      white-space: pre;
     }
 
     .search-result-department {

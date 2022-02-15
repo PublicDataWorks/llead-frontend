@@ -94,7 +94,7 @@ const FeaturedSearch = (props) => {
         <div className='search-result'>
           <div className='search-result-count'>{`${count} Search results for "${searchQuery}" `}</div>
           <div className='search-result-department'>
-            {isMobile ? departmentName : ` | ${departmentName}`}
+            {isMobile ? departmentName : `| ${departmentName}`}
           </div>
         </div>
       )}
