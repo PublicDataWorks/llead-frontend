@@ -70,6 +70,7 @@ const FeaturedSearch = (props) => {
 
   return (
     <Modal
+      closeTimeoutMS={150}
       isOpen={isSearchModalOpen}
       onRequestClose={searchModalOnClose}
       className='featured-search-modal'
