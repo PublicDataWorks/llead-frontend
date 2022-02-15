@@ -20,6 +20,7 @@ const WRGLFile = (props) => {
   const [isExpanded, setExpanded] = useState(false)
   const [isDescriptionExpanded, setDescriptionExpanded] = useState(false)
   const [isDescriptionExpandable, setDescriptionExpandable] = useState(false)
+  const [iframeSrc, setIframeSrc] = useState(null)
   let descriptionRef = useRef()
 
   const handleClick = () => {
@@ -42,6 +43,12 @@ const WRGLFile = (props) => {
       setDescriptionExpandable(true)
     }
   }, [description, descriptionRef.current, isExpanded])
+
+  useEffect(() => {
+    if (isExpanded && !iframeSrc) {
+      setIframeSrc(url)
+    }
+  }, [isExpanded])
 
   return (
     <div className={cx('wrgl-container', { 'wrgl-expanded': isExpanded })}>
@@ -74,7 +81,7 @@ const WRGLFile = (props) => {
             ...<span>more</span>
           </a>
         </div>
-        <iframe className='wrgl-embed' src={url} />
+        <iframe className='wrgl-embed' src={iframeSrc} loading='lazy' />
       </div>
     </div>
   )
