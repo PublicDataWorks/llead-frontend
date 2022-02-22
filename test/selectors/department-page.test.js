@@ -468,6 +468,57 @@ describe('#searchItemsSelector', () => {
         previewImageUrl: 'http://documents.com/preview',
         pagesCount: 5,
       },
+      {
+        id: 23,
+        documentType: 'application/msword',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.doc',
+        incidentDate: '2020-01-06',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 24,
+        documentType: 'application/xml',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.docx',
+        incidentDate: '2020-01-06',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 25,
+        documentType: 'application/xml',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work',
+        incidentDate: '2020-01-06',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
     ]
 
     const state = {
@@ -484,9 +535,60 @@ describe('#searchItemsSelector', () => {
     expect(document).toStrictEqual([
       {
         id: 22,
-        documentType: 'css',
+        documentType: 'pdf',
         title: 'Especially sense available best.',
         url: 'http://documents.com/hundred/work.pdf',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 23,
+        documentType: 'doc',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.doc',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 24,
+        documentType: 'docx',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.docx',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 25,
+        documentType: '',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work',
         incidentDate: 'Jan 6, 2020',
         departments: [
           {

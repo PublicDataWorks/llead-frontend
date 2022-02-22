@@ -3,6 +3,8 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
+import split from 'lodash/split'
+import includes from 'lodash/includes'
 
 import { departmentFormatter } from 'selectors/common'
 import { formatDate } from 'utils/formatter'
@@ -97,7 +99,6 @@ export const searchDocumentFormatter = (document) => {
     'id',
     'title',
     'url',
-    'documentType',
     'departments',
     'textContent',
     'textContentHighlight',
@@ -105,9 +106,14 @@ export const searchDocumentFormatter = (document) => {
     'pagesCount',
   ]
 
+  const documentUrl = get(document, 'url')
+  const filename = split(documentUrl, '/').pop()
+  const documentType = includes(filename, '.') ? split(filename, '.').pop() : ''
+
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDate(document.incidentDate),
+    documentType,
   }
 }
 
