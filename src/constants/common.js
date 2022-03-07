@@ -42,8 +42,9 @@ export const TIMELINE_KIND_ORDERS = {
   SALARY_CHANGE: 5,
   COMPLAINT: 6,
   UOF: 7,
-  DOCUMENT: 8,
-  NEWS_ARTICLE: 9,
+  APPEAL: 8,
+  DOCUMENT: 9,
+  NEWS_ARTICLE: 10,
 }
 
 export const TIMELINE_KINDS = {
@@ -56,6 +57,7 @@ export const TIMELINE_KINDS = {
   RANK_CHANGE: 'RANK_CHANGE',
   UNIT_CHANGE: 'UNIT_CHANGE',
   NEWS_ARTICLE: 'NEWS_ARTICLE',
+  APPEAL: 'APPEAL',
 }
 
 export const TIMELINE_FILTERS = {
@@ -79,6 +81,10 @@ export const TIMELINE_FILTERS = {
     title: 'Use of force',
     kinds: [TIMELINE_KINDS.UOF],
   },
+  APPEAL: {
+    title: 'Apppeal',
+    kinds: [TIMELINE_KINDS.APPEAL],
+  },
 }
 
 export const QUICK_ANIMATION_DURATION = 400
@@ -87,6 +93,7 @@ export const ANIMATION_DURATION = 1500
 export const TRACK_ITEM_TYPES = {
   COMPLAINT: 'complaint',
   UOF: 'use of force',
+  APPEAL: 'appeal',
 }
 
 export const EVENT_TYPES = {
