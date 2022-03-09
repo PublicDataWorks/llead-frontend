@@ -17,5 +17,12 @@
     width: 100%;
     margin-top: $v-frame-margin;
     background-color: $wild-sand-color;
+    border-width: 0;
+    border-radius: $h-margin;
+    color: $boulder-color;
+
+    &:hover {
+      background-color: $wild-sand-color;
+    }
   }
 }

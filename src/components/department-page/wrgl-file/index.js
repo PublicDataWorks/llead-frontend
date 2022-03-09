@@ -3,7 +3,6 @@ import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import indexOf from 'lodash/indexOf'
-import { isMobile } from 'react-device-detect'
 
 import './wrgl-file.scss'
 
@@ -64,7 +63,7 @@ const WRGLFile = (props) => {
           className='wrgl-download'
           onClick={(event) => event.stopPropagation()}
         >
-          {isMobile ? '' : 'Download .csv'}
+          <div className='download-text'>Download .csv</div>
         </a>
       </div>
       <div className='wrgl-content'>

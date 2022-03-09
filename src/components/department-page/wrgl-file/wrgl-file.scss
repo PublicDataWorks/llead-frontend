@@ -71,6 +71,10 @@
         background: $emperor-color;
         border: 3px solid $black-color;
       }
+
+      .download-text {
+        display: none;
+      }
     }
   }
 
@@ -146,6 +150,10 @@
         height: auto;
         width: auto;
         background: $white-color;
+
+        .download-text {
+          display: block;
+        }
       }
     }
   }

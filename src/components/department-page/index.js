@@ -47,6 +47,7 @@ const Department = (props) => {
 
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
   const [itemType, setItemType] = useState('')
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
   const location = useLocation()
   const history = useHistory()
 
@@ -108,6 +109,41 @@ const Department = (props) => {
     dataPeriod,
   ])
 
+  const updateExpandedCsvFiles = (slug, isExpanded) => {
+    const parsedSearch = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+      comma: true,
+    })
+
+    let newExpandedCsvFiles
+    if (isExpanded) {
+      newExpandedCsvFiles = compact(
+        filter(expandedCsvFiles, (item) => item !== slug)
+      )
+    } else {
+      newExpandedCsvFiles = compact(concat(expandedCsvFiles, [slug]))
+    }
+    history.replace({
+      search: qs.stringify(
+        { ...parsedSearch, csv: newExpandedCsvFiles },
+        { arrayFormat: 'comma', encode: false }
+      ),
+    })
+    setExpandedCsvFiles(newExpandedCsvFiles)
+  }
+
+  const openSearchModal = () => {
+    setIsSearchModalOpen(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeSearchModal = () => {
+    setIsSearchModalOpen(false)
+    document.body.style.overflow = 'unset'
+  }
+
+  const isLocationShow = some([locationMapUrl, city, parish, address, phone])
+
   useEffect(() => {
     fetchDepartment(departmentId)
     fetchFeaturedOfficers(departmentId)
@@ -166,42 +202,9 @@ const Department = (props) => {
     return () => clearDocumentHead()
   }, [name, setDocumentHead])
 
-  const updateExpandedCsvFiles = (slug, isExpanded) => {
-    const parsedSearch = qs.parse(location.search, {
-      ignoreQueryPrefix: true,
-      comma: true,
-    })
-
-    let newExpandedCsvFiles
-    if (isExpanded) {
-      newExpandedCsvFiles = compact(
-        filter(expandedCsvFiles, (item) => item !== slug)
-      )
-    } else {
-      newExpandedCsvFiles = compact(concat(expandedCsvFiles, [slug]))
-    }
-    history.replace({
-      search: qs.stringify(
-        { ...parsedSearch, csv: newExpandedCsvFiles },
-        { arrayFormat: 'comma', encode: false }
-      ),
-    })
-    setExpandedCsvFiles(newExpandedCsvFiles)
-  }
-
-  const [isSearchModalOpen, setIsSearchModalOpen] = React.useState(false)
-
-  const openSearchModal = () => {
-    setIsSearchModalOpen(true)
-    document.body.style.overflow = 'hidden'
-  }
-
-  const closeSearchModal = () => {
-    setIsSearchModalOpen(false)
-    document.body.style.overflow = 'unset'
-  }
-
-  const isLocationShow = some([locationMapUrl, city, parish, address, phone])
+  useEffect(() => {
+    return () => closeSearchModal()
+  }, [departmentId])
 
   return (
     !isRequesting &&
