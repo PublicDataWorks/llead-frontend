@@ -46,7 +46,7 @@ describe('SearchPage component', () => {
         results: [
           {
             id: 22,
-            documentType: 'css',
+            documentType: 'pdf',
             title: 'Especially sense available best.',
             url: 'http://documents.com/hundred/work.pdf',
             incidentDate: '2020-01-06',
@@ -92,7 +92,7 @@ describe('SearchPage component', () => {
       </Provider>
     )
 
-    const { baseElement } = container
+    const { baseElement, getByText } = container
 
     const departmentCarousel = baseElement.getElementsByClassName(
       'departments-carousel'
@@ -127,6 +127,7 @@ describe('SearchPage component', () => {
     const documentItems = documentList.getElementsByClassName('list-items')
     expect(documentTitle.textContent).toEqual('Documents')
     expect(documentItems.length).toEqual(1)
+    expect(getByText('pdf').className).toEqual('document-item-type')
     expect(
       documentItems[0].textContent.includes('Especially sense available best.')
     ).toBe(true)
@@ -164,7 +165,7 @@ describe('SearchPage component', () => {
         results: [
           {
             id: 22,
-            documentType: 'css',
+            documentType: 'pdf',
             title: 'Especially sense available best.',
             url: 'http://documents.com/hundred/work.pdf',
             incidentDate: '2020-01-06',
@@ -288,7 +289,7 @@ describe('SearchPage component', () => {
         results: [
           {
             id: 22,
-            documentType: 'css',
+            documentType: 'pdf',
             title: 'Especially sense available best.',
             url: 'http://documents.com/hundred/work.pdf',
             incidentDate: '2020-01-06',
@@ -384,7 +385,7 @@ describe('SearchPage component', () => {
         results: [
           {
             id: 22,
-            documentType: 'css',
+            documentType: 'pdf',
             title: 'Especially sense available best.',
             url: 'http://documents.com/hundred/work.pdf',
             incidentDate: '2020-01-06',
