@@ -9,6 +9,11 @@ defaults:
     GOOGLE_PROJECT_ID: 'excellent-zoo-300106'
     GOOGLE_COMPUTE_ZONE: 'us-east4-a'
     GOOGLE_CLUSTER_NAME: 'ipno-staging'
+  - &set-push-env
+    USER_NAME: 'East Agile'
+    USER_EMAIL: 'open-source@eastagile.com'
+    DESTINATION_REPOSITORY_USERNAME: 'PublicDataWorks'
+    DESTINATION_REPOSITORY_NAME: 'llead-frontend'
   - &set-gcloud-service-key
     command: |
       echo 'export GCLOUD_SERVICE_KEY=$(echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -d)' >> $BASH_ENV
@@ -90,6 +95,16 @@ jobs:
           paths:
             - dist
 
+  push_to_public:
+    description: Push code to public repository
+    machine: true
+    environment: *set-push-env
+    steps:
+      - checkout
+      - run:
+          name: Push to public
+          command: sh bin/public_push.sh
+
   push_image:
     description: Push docker image
     machine: true
@@ -149,9 +164,24 @@ workflows:
               ignore:
                 - staging
                 - main
+                - develop
       - build:
           requires:
             - test
+
+  push_to_public:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - develop
+      - build:
+          requires:
+            - test
+      - push_to_public:
+          requires:
+            - build
 
   deploy_frontend:
     jobs:
@@ -170,3 +200,10 @@ workflows:
       - deploy:
           requires:
             - push_image
+      - push_to_public:
+          requires:
+            - deploy
+          filters:
+            branches:
+              only:
+                - main
