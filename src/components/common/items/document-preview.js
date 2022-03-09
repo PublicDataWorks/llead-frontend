@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import isEmpty from 'lodash/isEmpty'
 import times from 'lodash/times'
 
 import './document-preview.scss'
+import documentThumbnail from 'assets/icons/document-thumbnail.svg'
 
 const DocumentPreview = (props) => {
   const { previewImageUrl, pagesCount, small } = props
-  const elementStyles = isEmpty(previewImageUrl)
-    ? {}
-    : { backgroundImage: `url(${previewImageUrl})` }
+
+  const backgroundImage = previewImageUrl || documentThumbnail
+  const elementStyles = { backgroundImage: `url(${backgroundImage})` }
 
   const displayPages = Math.min(pagesCount || 1, 10) - 1
 
