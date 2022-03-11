@@ -16,6 +16,11 @@
     background-color: $wild-sand-color;
     box-sizing: border-box;
     cursor: pointer;
+
+    &:hover {
+      background: url('assets/icons/logout-hover.svg') no-repeat center;
+      background-color: $emperor-color;
+    }
   }
 
   &.highlight-blue {
