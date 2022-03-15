@@ -82,7 +82,7 @@ export const TIMELINE_FILTERS = {
     kinds: [TIMELINE_KINDS.UOF],
   },
   APPEAL: {
-    title: 'Apppeal',
+    title: 'Appeals',
     kinds: [TIMELINE_KINDS.APPEAL],
   },
 }
