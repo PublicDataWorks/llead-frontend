@@ -19,5 +19,9 @@
     text-decoration: none;
     line-height: $toolbar-height;
     order: 1;
+
+    &:hover {
+      color: $blue-ribbon-color;
+    }
   }
 }

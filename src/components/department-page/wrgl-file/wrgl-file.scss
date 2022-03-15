@@ -55,23 +55,6 @@
       background: $white-color url('assets/icons/mobile-download.svg') no-repeat
         center;
 
-      &:hover {
-        color: $white-color;
-        background: $emperor-color;
-        border: 1px solid $emperor-color;
-      }
-
-      &:disabled {
-        color: $boulder-color;
-        background: $gallery-color;
-        border: 1px solid $alto-color;
-      }
-
-      &:active {
-        background: $emperor-color;
-        border: 3px solid $black-color;
-      }
-
       .download-text {
         display: none;
       }
@@ -146,6 +129,12 @@
 @media only screen and (min-width: 767px) {
   .wrgl-container {
     .wrgl-header {
+      .wrgl-name {
+        &:hover {
+          color: $blue-ribbon-color;
+        }
+      }
+
       .wrgl-download {
         height: auto;
         width: auto;
@@ -153,6 +142,23 @@
 
         .download-text {
           display: block;
+        }
+
+        &:hover {
+          color: $white-color;
+          background: $emperor-color;
+          border: 1px solid $emperor-color;
+        }
+
+        &:disabled {
+          color: $boulder-color;
+          background: $gallery-color;
+          border: 1px solid $alto-color;
+        }
+
+        &:active {
+          background: $emperor-color;
+          border: 3px solid $black-color;
         }
       }
     }
