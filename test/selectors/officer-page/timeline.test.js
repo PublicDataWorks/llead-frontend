@@ -204,6 +204,19 @@ describe('#timelineSelector', () => {
         officerInjured: 'yes',
         trafficStop: 'yes',
       },
+      {
+        id: 1,
+        kind: 'APPEAL',
+        year: 2019,
+        date: '2019-06-13',
+        docketNo: '1234',
+        counsel: 'Dirks',
+        chargingSupervisor: 'Paul Fontenot',
+        appealDisposition: 'appeal upheld',
+        actionAppealed: 'suspension',
+        appealed: 'Yes',
+        motions: 'amicable settlement',
+      },
     ]
     const state = {
       officerPage: {
@@ -269,6 +282,18 @@ describe('#timelineSelector', () => {
               'officer injured',
               'traffic stop',
             ],
+          },
+          {
+            id: 1,
+            kind: 'APPEAL',
+            year: 2019,
+            date: 'Jun 13, 2019',
+            docketNo: '1234',
+            counsel: 'Dirks',
+            chargingSupervisor: 'Paul Fontenot',
+            appealDisposition: 'Appeal upheld',
+            actionAppealed: 'suspension',
+            motions: 'amicable settlement',
           },
           {
             id: 39,

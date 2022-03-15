@@ -20,7 +20,7 @@ import forEach from 'lodash/forEach'
 
 import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter, newsArticleFormatter } from 'selectors/common'
-import { formatDataPeriods, formatSalary } from 'utils/formatter'
+import { formatDataPeriods, formatSalary, formatDate } from 'utils/formatter'
 import {
   TIMELINE_FILTERS,
   TIMELINE_KINDS,
@@ -93,6 +93,26 @@ const useOfForceTimelineItemFormatter = (item) => {
   }
 }
 
+const appealTimelineItemFormatter = (item) => {
+  const attributes = [
+    'id',
+    'kind',
+    'year',
+    'docketNo',
+    'counsel',
+    'chargingSupervisor',
+    'actionAppealed',
+    'motions',
+    'department',
+  ]
+
+  return {
+    ...pick(item, attributes),
+    appealDisposition: capitalize(item.appealDisposition),
+    date: formatDate(item.date),
+  }
+}
+
 const documentTimelineItemFormatter = (document) => {
   const formattedDocument = documentFormatter(document)
   return {
@@ -161,6 +181,7 @@ const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.RANK_CHANGE]: rankChangeTimelineItemFormatter,
   [TIMELINE_KINDS.UNIT_CHANGE]: unitChangeTimelineItemFormatter,
   [TIMELINE_KINDS.NEWS_ARTICLE]: newsArticleTimelineItemFormatter,
+  [TIMELINE_KINDS.APPEAL]: appealTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {

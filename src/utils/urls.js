@@ -8,3 +8,6 @@ export const complaintItemUrl = (officerId, complaintId) =>
 
 export const uofItemUrl = (officerId, useOfForceId) =>
   `${host}${OFFICERS_PATH}${officerId}/?uof_id=${useOfForceId}`
+
+export const appealItemUrl = (officerId, appealId) =>
+  `${host}${OFFICERS_PATH}${officerId}/?appeal_id=${appealId}`

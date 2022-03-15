@@ -13,6 +13,7 @@ import SalaryChangeItem from 'components/officer-page/timeline/salary-change-ite
 import RankChangeItem from 'components/officer-page/timeline/rank-change-item'
 import TimelineFilters from 'components/officer-page/timeline/filters'
 import UseOfForceItem from 'components/officer-page/timeline/use-of-force-item'
+import AppealItem from 'components/officer-page/timeline/appeal-item'
 import NewsArticleCard from 'components/officer-page/timeline/news-article-card'
 import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
@@ -32,6 +33,15 @@ const MockUOFItemComponent = () => {
   return <div>Use of force Item</div>
 }
 jest.mock('components/officer-page/timeline/use-of-force-item', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockAppealItemComponent = () => {
+  return <div>Appeal Item</div>
+}
+jest.mock('components/officer-page/timeline/appeal-item', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
@@ -99,6 +109,7 @@ beforeAll(() => {
   RankChangeItem.mockImplementation(MockRankChangeItemComponent)
   TimelineFilters.mockImplementation(MockFiltersComponent)
   UseOfForceItem.mockImplementation(MockUOFItemComponent)
+  AppealItem.mockImplementation(MockAppealItemComponent)
   NewsArticleCard.mockImplementation(MockNewsArticleCardComponent)
 })
 
@@ -110,6 +121,7 @@ beforeEach(() => {
   RankChangeItem.mockClear()
   TimelineFilters.mockClear()
   UseOfForceItem.mockClear()
+  AppealItem.mockClear()
   NewsArticleCard.mockClear()
   sinon.stub(googleAnalytics, 'analyzeAction')
 })
@@ -885,6 +897,151 @@ describe('Timeline component', () => {
           'officer injured',
           'traffic stop',
         ],
+      })
+    })
+  })
+
+  describe('Appeal item', () => {
+    it('renders timeline without highlighting appeal item', () => {
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 1,
+              kind: 'APPEAL',
+              year: 2019,
+              date: '2019-06-13',
+              docketNo: '1234',
+              counsel: 'Dirks',
+              chargingSupervisor: 'Paul Fontenot',
+              appealDisposition: 'appeal upheld',
+              actionAppealed: 'suspension',
+              appealed: 'Yes',
+              motions: 'amicable settlement',
+            },
+          ],
+          leftGroup: true,
+        },
+      ]
+      const mockSaveRecentItem = jest.fn()
+
+      render(
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      expect(AppealItem.mock.calls[0][0]).toStrictEqual({
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: false,
+        officerId: '1',
+        showEventDetails: false,
+        id: 1,
+        kind: 'APPEAL',
+        year: 2019,
+        date: '2019-06-13',
+        docketNo: '1234',
+        counsel: 'Dirks',
+        chargingSupervisor: 'Paul Fontenot',
+        appealDisposition: 'appeal upheld',
+        actionAppealed: 'suspension',
+        appealed: 'Yes',
+        motions: 'amicable settlement',
+      })
+    })
+
+    it('renders timeline with highlighting appeal item', () => {
+      const clock = sinon.useFakeTimers()
+
+      const timelineData = [
+        {
+          groupName: 'Mar 10, 2019',
+          isDateEvent: true,
+          items: [
+            {
+              id: 1,
+              kind: 'APPEAL',
+              year: 2019,
+              date: '2019-06-13',
+              docketNo: '1234',
+              counsel: 'Dirks',
+              chargingSupervisor: 'Paul Fontenot',
+              appealDisposition: 'appeal upheld',
+              actionAppealed: 'suspension',
+              appealed: 'Yes',
+              motions: 'amicable settlement',
+            },
+          ],
+          leftGroup: true,
+        },
+      ]
+      const mockSaveRecentItem = jest.fn()
+
+      const query = qs.stringify({ appeal_id: 1 }, { addQueryPrefix: true })
+
+      render(
+        <MemoryRouter
+          initialEntries={[{ pathname: 'officers/1', search: query }]}
+        >
+          <Route path='officers/:id'>
+            <Timeline
+              timeline={timelineData}
+              saveRecentItem={mockSaveRecentItem}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      expect(AppealItem.mock.calls[1][0]).toStrictEqual({
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: true,
+        showEventDetails: false,
+        officerId: '1',
+        id: 1,
+        kind: 'APPEAL',
+        year: 2019,
+        date: '2019-06-13',
+        docketNo: '1234',
+        counsel: 'Dirks',
+        chargingSupervisor: 'Paul Fontenot',
+        appealDisposition: 'appeal upheld',
+        actionAppealed: 'suspension',
+        appealed: 'Yes',
+        motions: 'amicable settlement',
+      })
+
+      AppealItem.mockClear()
+
+      act(() => {
+        clock.tick(ANIMATION_DURATION + 100)
+      })
+
+      expect(AppealItem.mock.calls[0][0]).toStrictEqual({
+        className: 'has-connected-line left-item',
+        saveRecentItem: mockSaveRecentItem,
+        highlight: false,
+        officerId: '1',
+        showEventDetails: false,
+        id: 1,
+        kind: 'APPEAL',
+        year: 2019,
+        date: '2019-06-13',
+        docketNo: '1234',
+        counsel: 'Dirks',
+        chargingSupervisor: 'Paul Fontenot',
+        appealDisposition: 'appeal upheld',
+        actionAppealed: 'suspension',
+        appealed: 'Yes',
+        motions: 'amicable settlement',
       })
     })
   })
