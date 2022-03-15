@@ -43,7 +43,7 @@ describe('Appeal Item component', () => {
     const appealItemTitle = baseElement.getElementsByClassName(
       'appeal-item-title'
     )[0]
-    expect(appealItemTitle.textContent).toEqual('Appeal suspension')
+    expect(appealItemTitle.textContent).toEqual('Appealed suspension')
 
     const appealItemSubtitle = baseElement.getElementsByClassName(
       'appeal-item-subtitle'

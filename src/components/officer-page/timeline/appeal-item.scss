@@ -20,6 +20,14 @@
 
       span {
         color: $boulder-color;
+
+        &::before {
+          content: '"';
+        }
+
+        &::after {
+          content: '"';
+        }
       }
     }
 
