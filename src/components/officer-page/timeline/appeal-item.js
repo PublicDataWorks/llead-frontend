@@ -126,7 +126,7 @@ const AppealItem = (props) => {
     >
       <div className='appeal-item-header' onClick={handleAppealExpand}>
         <div className='appeal-item-title'>
-          Appeal <span>{actionAppealed}</span>
+          Appealed <span>{actionAppealed}</span>
         </div>
         <div className='appeal-item-subtitle'>{appealDisposition}</div>
         <div
