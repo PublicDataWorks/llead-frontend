@@ -184,7 +184,9 @@ const Timeline = (props) => {
             {showHeaderActionsButton && (
               <div className='timeline-header-actions-container'>
                 <div
-                  className='timeline-header-actions-btn'
+                  className={cx('timeline-header-actions-btn', {
+                    'active-btn': showActionsPanel,
+                  })}
                   onClick={() => setShowActionsPanel(!showActionsPanel)}
                 />
                 {showActionsPanel && (
@@ -214,9 +216,13 @@ const Timeline = (props) => {
             )}
             <BrowserView className='timeline-header-download-container'>
               <div
-                className={cx('timeline-download-btn', {
-                  'timeline-download-btn-disable': isDownloadingFile,
-                })}
+                className={cx(
+                  'timeline-download-btn',
+                  {
+                    'timeline-download-btn-disable': isDownloadingFile,
+                  },
+                  { 'active-btn': showDownloadPanel }
+                )}
                 onClick={() => setShowDownloadPanel(!showDownloadPanel)}
               />
               {showDownloadPanel && (

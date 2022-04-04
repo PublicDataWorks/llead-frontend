@@ -23,6 +23,12 @@
       border: 1px solid #bdbdbd;
       border-radius: 2px;
       background: $white-color url('assets/icons/search.svg') center no-repeat;
+
+      &:hover {
+        background: $emperor-color url('assets/icons/search-hover.svg') center
+          no-repeat;
+        cursor: pointer;
+      }
     }
   }
 }

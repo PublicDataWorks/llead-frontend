@@ -38,6 +38,18 @@ $first-connection-line-height: 156px;
           background: url('assets/icons/filter.svg') no-repeat center;
           cursor: pointer;
           display: inline-block;
+          box-sizing: border-box;
+
+          &:hover {
+            background: url('assets/icons/filter-hover.svg') no-repeat center;
+            background-color: $emperor-color;
+          }
+        }
+
+        .timeline-header-actions-btn.active-btn {
+          background: url('assets/icons/filter-hover.svg') no-repeat center;
+          background-color: $emperor-color;
+          border: 3px solid $black-color;
         }
 
         .timeline-header-actions {
@@ -90,6 +102,20 @@ $first-connection-line-height: 156px;
           background: url('assets/icons/download-file.svg') no-repeat center;
           cursor: pointer;
           display: inline-block;
+          box-sizing: border-box;
+
+          &:hover {
+            background: url('assets/icons/download-file-hover.svg') no-repeat
+              center;
+            background-color: $emperor-color;
+          }
+        }
+
+        .timeline-download-btn.active-btn {
+          background: url('assets/icons/download-file-hover.svg') no-repeat
+            center;
+          background-color: $emperor-color;
+          border: 3px solid $black-color;
         }
 
         .timeline-download-btn-disable {
