@@ -6,6 +6,7 @@ import officersReducer from './officers-reducer'
 import documentsReducer from './documents-reducer'
 import newsArticlesReducer from './news-articles-reducer'
 import frontPageOrdersReducer from './front-page-orders-reducer'
+import migratoryDataReducer from './migratory-data-reducer'
 
 export default combineReducers({
   analyticSummary: analyticSummaryReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
   documents: documentsReducer,
   newsArticles: newsArticlesReducer,
   frontPageOrders: frontPageOrdersReducer,
+  migratoryData: migratoryDataReducer,
 })

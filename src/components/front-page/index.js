@@ -13,6 +13,7 @@ import DocumentsCarousel from 'components/common/carousel/documents-carousel'
 import NewsArticlesCarousel from 'components/common/carousel/news-articles-carousel'
 import RecentItemsCarousel from './recent-items-carousel'
 import { FRONT_PAGE_SECTIONS } from 'constants/common'
+import MigratoryPatternMap from './migratory-map'
 
 const FrontPage = (props) => {
   const {
@@ -23,6 +24,7 @@ const FrontPage = (props) => {
     fetchDocuments,
     fetchNewsArticles,
     fetchFrontPageOrders,
+    fetchMigratoryData,
     analyticSummary,
     departments,
     officers,
@@ -49,6 +51,7 @@ const FrontPage = (props) => {
     fetchOfficers()
     fetchDocuments()
     fetchNewsArticles()
+    fetchMigratoryData()
   }, [])
 
   const frontPageOrderClasses = mapValues(
@@ -59,6 +62,7 @@ const FrontPage = (props) => {
   return (
     <div className='front-page'>
       <ReactMarkdown className='summary'>{cms.summary}</ReactMarkdown>
+      <MigratoryPatternMap />
       <AnalyticSummary
         analyticSummary={analyticSummary}
         departmentRef={departmentRef}
@@ -136,6 +140,7 @@ FrontPage.propTypes = {
   fetchDocuments: PropTypes.func,
   fetchNewsArticles: PropTypes.func,
   fetchFrontPageOrders: PropTypes.func,
+  fetchMigratoryData: PropTypes.func,
   saveRecentItem: PropTypes.func,
   removeRecentItem: PropTypes.func,
   changeSearchQuery: PropTypes.func,
@@ -157,6 +162,7 @@ FrontPage.defaultProps = {
   fetchDocuments: noop,
   fetchNewsArticles: noop,
   fetchFrontPageOrders: noop,
+  fetchMigratoryData: noop,
   saveRecentItem: noop,
   changeSearchQuery: noop,
   changeSearchDepartment: noop,
