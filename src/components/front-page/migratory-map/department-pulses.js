@@ -38,15 +38,14 @@ const DepartmentPulses = (props) => {
   }, [currentPoints])
 
   useEffect(() => {
-    if (pulsingRatio > MAXIMUM_PULSING_RATIO) {
-      setPulsingRatio(1)
-    }
-    const timeout = setTimeout(() => {
-      setPulsingRatio(pulsingRatio * PULSING_STEP)
-    }, 100)
+    if (pulsingRatio <= MAXIMUM_PULSING_RATIO) {
+      const timeout = setTimeout(() => {
+        setPulsingRatio(pulsingRatio * PULSING_STEP)
+      }, 500)
 
-    return () => {
-      clearTimeout(timeout)
+      return () => {
+        clearTimeout(timeout)
+      }
     }
   }, [pulsingRatio])
 

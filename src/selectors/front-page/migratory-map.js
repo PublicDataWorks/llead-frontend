@@ -1,15 +1,19 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import map from 'lodash/map'
-import countBy from 'lodash/countBy'
 import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
+import pick from 'lodash/pick'
+import camelCase from 'lodash/camelCase'
+import { formatDate } from 'utils/formatter'
 
-export const getDepartmentNodes = (state) =>
+const getDepartmentNodes = (state) =>
   get(state, 'frontPage.migratoryData.nodes', [])
 
-export const getDepartmentGraphs = (state) =>
+const getDepartmentGraphs = (state) =>
   get(state, 'frontPage.migratoryData.graphs', [])
+
+const getMapCurrentIndex = (state) => get(state, 'frontPage.mapCurrentIndex', 0)
 
 export const getDepartmentCoordinates = createSelector(
   getDepartmentNodes,
@@ -67,5 +71,22 @@ export const pulsingPointsSelector = createSelector(
     })
 
     return pulses
+  }
+)
+
+export const migrattionDetailsSelector = createSelector(
+  getDepartmentNodes,
+  getDepartmentGraphs,
+  getMapCurrentIndex,
+  (departmentNodes, departmentGraphs, currentIndex) => {
+    const attributes = ['startDepartment', 'endDepartment', 'officerName', 'date']
+
+    forEach(departmentGraphs, (obj) => {
+      obj.startDepartment = departmentNodes[camelCase(obj.startNode)].name
+      obj.endDepartment = departmentNodes[camelCase(obj.endNode)].name
+      obj.date = formatDate(obj.date)
+    })
+
+    return pick(get(departmentGraphs, currentIndex), attributes)
   }
 )

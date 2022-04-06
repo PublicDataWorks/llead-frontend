@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
+import noop from 'lodash/noop'
 import {
   bezierSpline,
   lineString,
@@ -20,7 +21,7 @@ import FixedArc from './fixed-arc'
 import DepartmentPulses from 'containers/front-page/migratory-map/department-pulses'
 
 const DepartmentMigration = (props) => {
-  const { graphs } = props
+  const { graphs, setMapCurrentIndex } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -64,6 +65,7 @@ const DepartmentMigration = (props) => {
       () => {
         if (currentIndex < mappedData.length - 1) {
           setCurrentIndex(currentIndex + 1)
+          setMapCurrentIndex(currentIndex + 1)
         }
       },
       currentIndex < 5 ? SLOW_PATTERN_VELOCITY : FAST_PATTERN_VELOCITY
@@ -94,10 +96,12 @@ const DepartmentMigration = (props) => {
 
 DepartmentMigration.propTypes = {
   graphs: PropTypes.array,
+  setMapCurrentIndex: PropTypes.func,
 }
 
 DepartmentMigration.defaultProps = {
   graphs: [],
+  setMapCurrentIndex: noop,
 }
 
 export default DepartmentMigration
