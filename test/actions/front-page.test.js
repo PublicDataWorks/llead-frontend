@@ -7,6 +7,8 @@ import {
   fetchDocuments,
   fetchNewsArticles,
   fetchFrontPageOrders,
+  fetchMigratoryData,
+  setMapCurrentIndex,
 } from 'actions/front-page'
 import * as actionTypes from 'action-types/front-page'
 import * as ServiceApi from 'utils/api'
@@ -136,5 +138,33 @@ describe('#fetchFrontPageOrders', () => {
       FRONT_PAGE_ORDERS_API_URL
     )
     expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchMigratoryData', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchMigratoryData()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.MIGRATORY_DATA_FETCH_START,
+        actionTypes.MIGRATORY_DATA_FETCH_SUCCESS,
+        actionTypes.MIGRATORY_DATA_FETCH_FAILURE,
+      ],
+      `${DEPARTMENTS_API_URL}migratory`
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#setMapCurrentIndex', () => {
+  it('sets the current index for the map', () => {
+    expect(setMapCurrentIndex()).toEqual({
+      type: actionTypes.SET_MAP_CURRENT_INDEX,
+    })
   })
 })

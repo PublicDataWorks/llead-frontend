@@ -140,9 +140,8 @@ export const RADIUS = 20
 export const NUM_OF_POINTS = 501
 export const RADIAN_VALUE = (RADIUS * Math.PI) / 180
 
-export const SLOW_PATTERN_VELOCITY = 1500
-export const FAST_PATTERN_VELOCITY = 200
+export const MAP_BASE_INTERVAL = 1500
 export const BASE_CIRCLE_RADIUS = 3
-export const RADIUS_THRESHOLD_RATIO = 1/4
+export const RADIUS_THRESHOLD_RATIO = 1 / 4
 export const MAXIMUM_PULSING_RATIO = 1.5
 export const PULSING_STEP = 1.1

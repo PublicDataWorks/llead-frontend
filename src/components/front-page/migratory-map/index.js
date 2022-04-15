@@ -17,7 +17,7 @@ const MigratoryMap = () => {
     attributionControl: false,
   })
 
-  const mapHeight = isMobile ? 500 : isTablet ? 746 : 640
+  const mapHeight = isMobile ? 500 : isTablet ? 700 : 640
 
   return (
     <div style={{ position: 'relative' }}>

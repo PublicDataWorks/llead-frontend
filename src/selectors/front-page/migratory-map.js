@@ -8,14 +8,14 @@ import camelCase from 'lodash/camelCase'
 import { formatDate } from 'utils/formatter'
 
 const getDepartmentNodes = (state) =>
-  get(state, 'frontPage.migratoryData.nodes', [])
+  get(state, 'frontPage.migratoryData.nodes', {})
 
 const getDepartmentGraphs = (state) =>
   get(state, 'frontPage.migratoryData.graphs', [])
 
 const getMapCurrentIndex = (state) => get(state, 'frontPage.mapCurrentIndex', 0)
 
-export const getDepartmentCoordinates = createSelector(
+export const departmentCoordinatesSelector = createSelector(
   getDepartmentNodes,
   (departmentNodes) => {
     const coordinates = map(departmentNodes, (node) => {
@@ -74,12 +74,17 @@ export const pulsingPointsSelector = createSelector(
   }
 )
 
-export const migrattionDetailsSelector = createSelector(
+export const migrationDetailsSelector = createSelector(
   getDepartmentNodes,
   getDepartmentGraphs,
   getMapCurrentIndex,
   (departmentNodes, departmentGraphs, currentIndex) => {
-    const attributes = ['startDepartment', 'endDepartment', 'officerName', 'date']
+    const attributes = [
+      'startDepartment',
+      'endDepartment',
+      'officerName',
+      'date',
+    ]
 
     forEach(departmentGraphs, (obj) => {
       obj.startDepartment = departmentNodes[camelCase(obj.startNode)].name

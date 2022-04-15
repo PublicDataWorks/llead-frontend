@@ -2,23 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import noop from 'lodash/noop'
-import {
-  bezierSpline,
-  lineString,
-  distance,
-  destination,
-  bearing,
-} from '@turf/turf'
 
-import {
-  FAST_PATTERN_VELOCITY,
-  RADIAN_VALUE,
-  RADIUS,
-  SLOW_PATTERN_VELOCITY,
-} from 'constants/common'
+import { MAP_BASE_INTERVAL } from 'constants/common'
 import AnimatedArc from './animated-arc'
 import FixedArc from './fixed-arc'
 import DepartmentPulses from 'containers/front-page/migratory-map/department-pulses'
+import { createCurvedLine } from 'utils/curved-line'
 
 const DepartmentMigration = (props) => {
   const { graphs, setMapCurrentIndex } = props
@@ -28,22 +17,7 @@ const DepartmentMigration = (props) => {
   const mappedData = useMemo(
     () =>
       map(graphs, (obj) => {
-        const startLoc = obj.startLocation
-        const endLoc = obj.endLocation
-        const lineDistance = distance(startLoc, endLoc)
-        const lineBearing = bearing(startLoc, endLoc)
-        const curvedPoint = destination(
-          startLoc,
-          lineDistance / 2 / Math.cos(RADIAN_VALUE),
-          lineBearing + RADIUS
-        )
-
-        const curvedLine = bezierSpline(
-          lineString([startLoc, curvedPoint.geometry.coordinates, endLoc]),
-          {
-            sharpness: 1,
-          }
-        )
+        const curvedLine = createCurvedLine(obj.startLocation, obj.endLocation)
 
         return {
           type: 'Feature',
@@ -61,15 +35,17 @@ const DepartmentMigration = (props) => {
   )
 
   useEffect(() => {
-    const timeout = setTimeout(
-      () => {
-        if (currentIndex < mappedData.length - 1) {
-          setCurrentIndex(currentIndex + 1)
-          setMapCurrentIndex(currentIndex + 1)
-        }
-      },
-      currentIndex < 5 ? SLOW_PATTERN_VELOCITY : FAST_PATTERN_VELOCITY
-    )
+    const interval =
+      currentIndex < 5
+        ? MAP_BASE_INTERVAL
+        : MAP_BASE_INTERVAL / (Math.log(currentIndex) + 1)
+
+    const timeout = setTimeout(() => {
+      if (currentIndex < mappedData.length - 1) {
+        setCurrentIndex(currentIndex + 1)
+        setMapCurrentIndex(currentIndex + 1)
+      }
+    }, interval)
 
     return () => {
       clearTimeout(timeout)

@@ -43,14 +43,14 @@ const FixedArc = (props) => {
           'line-opacity': 0.2,
         }}
       />
-      {currentIndex <= 5 && (
+      {currentIndex < 5 && (
         <Source
           id='officer-name'
           geoJsonSource={{ type: 'geojson', data: officerData }}
         />
       )}
 
-      {currentIndex <= 5 && (
+      {currentIndex < 5 && (
         <Layer
           id='officer-layer'
           type='symbol'
