@@ -23,11 +23,11 @@ describe('migration details component', () => {
 
     expect(migartionDetailsBox).toBeTruthy()
     expect(getByText('Jun 21, 1999').className).toEqual('migration-date')
-    expect(getByText('New Orleans Police Department').className).toEqual(
+    expect(getByText('NEW ORLEANS POLICE DEPARTMENT').className).toEqual(
       'start-department'
     )
     expect(getByText('Tonya Johnese').className).toEqual('officer-name')
-    expect(getByText('Southern - Br University PD').className).toEqual(
+    expect(getByText('SOUTHERN - BR UNIVERSITY PD').className).toEqual(
       'end-department'
     )
   })
