@@ -79,7 +79,7 @@ export const fetchMigratoryData = () =>
       actionTypes.MIGRATORY_DATA_FETCH_SUCCESS,
       actionTypes.MIGRATORY_DATA_FETCH_FAILURE,
     ],
-    `${DEPARTMENTS_API_URL}migratory`
+    `${DEPARTMENTS_API_URL}migratory/`
   )()
 
 export const setMapCurrentIndex = createAction(
