@@ -7,15 +7,15 @@ import {
 
 const migratoryData = {
   nodes: {
-    'newOrleansPd': {
+    newOrleansPd: {
       name: 'New Orleans Police Department',
       location: [-90.0701, 29.9499],
     },
-    'southernBrUniversityPd': {
+    southernBrUniversityPd: {
       name: 'Southern - Br University PD',
       location: [-91.191113, 30.5255956],
     },
-    'newOrleansHarborPd': {
+    newOrleansHarborPd: {
       name: 'New Orleans Harbor PD',
       location: [-90.07642, 29.92065],
     },
@@ -66,9 +66,18 @@ describe('#departmentCoordinatesSelector', () => {
       const data = departmentCoordinatesSelector(state)
 
       expect(data).toStrictEqual([
-        [-90.0701, 29.9499],
-        [-91.191113, 30.5255956],
-        [-90.07642, 29.92065],
+        {
+          name: 'New Orleans Police Department',
+          coordinates: [-90.0701, 29.9499],
+        },
+        {
+          name: 'Southern - Br University PD',
+          coordinates: [-91.191113, 30.5255956],
+        },
+        {
+          name: 'New Orleans Harbor PD',
+          coordinates: [-90.07642, 29.92065],
+        },
       ])
     })
   })
@@ -166,20 +175,18 @@ describe('#migrationDetailsSelector', () => {
       const state = {
         frontPage: {
           migratoryData: migratoryData,
-          mapCurrentIndex: 0
+          mapCurrentIndex: 0,
         },
       }
 
       const data = migrationDetailsSelector(state)
 
-      expect(data).toStrictEqual(
-        {
-          startDepartment: 'New Orleans Police Department',
-          endDepartment: 'Southern - Br University PD',
-          officerName: 'Tonya Johnese',
-          date: 'Jun 21, 1999',
-        }
-      )
+      expect(data).toStrictEqual({
+        startDepartment: 'New Orleans Police Department',
+        endDepartment: 'Southern - Br University PD',
+        officerName: 'Tonya Johnese',
+        date: 'Jun 21, 1999',
+      })
     })
   })
 

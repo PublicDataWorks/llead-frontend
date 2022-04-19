@@ -1,24 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Layer, Source } from 'react-mapbox-gl'
+import { Layer, Source, Popup } from 'react-mapbox-gl'
 import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 
 import { BASE_CIRCLE_RADIUS } from 'constants/common'
 
 const DepartmentPoints = (props) => {
   const { departmentCoordinates } = props
 
-  const features = map(departmentCoordinates, (coordinate) => ({
+  const [hoveredDepartment, setHoveredDepartment] = useState({})
+
+  const features = map(departmentCoordinates, (department) => ({
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordinates: coordinate,
+      coordinates: department.coordinates,
+    },
+    properties: {
+      name: department.name,
     },
   }))
 
   let geojson = {
     type: 'FeatureCollection',
     features,
+  }
+
+  const handleMouseEnter = (e) => {
+    const coordinates = e.features[0].geometry.coordinates.slice()
+    const name = e.features[0].properties.name
+
+    setHoveredDepartment({
+      coordinates,
+      name,
+    })
   }
 
   return (
@@ -31,8 +47,17 @@ const DepartmentPoints = (props) => {
         id='department-point-inner-circle-layer'
         type='circle'
         sourceId='department-location-data'
-        paint={{ 'circle-radius': BASE_CIRCLE_RADIUS, 'circle-color': '#231f20' }}
+        paint={{
+          'circle-radius': BASE_CIRCLE_RADIUS,
+          'circle-color': '#231f20',
+        }}
+        onMouseEnter={handleMouseEnter}
       />
+      {!isEmpty(hoveredDepartment) && (
+        <Popup coordinates={hoveredDepartment.coordinates}>
+          {hoveredDepartment.name}
+        </Popup>
+      )}
     </>
   )
 }

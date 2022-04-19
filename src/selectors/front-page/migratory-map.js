@@ -18,11 +18,13 @@ const getMapCurrentIndex = (state) => get(state, 'frontPage.mapCurrentIndex', 0)
 export const departmentCoordinatesSelector = createSelector(
   getDepartmentNodes,
   (departmentNodes) => {
-    const coordinates = map(departmentNodes, (node) => {
-      return get(node, 'location')
+    const departments = map(departmentNodes, (node) => {
+      return {
+        name: get(node, 'name'),
+        coordinates: get(node, 'location'),
+      }
     })
-
-    return coordinates
+    return departments
   }
 )
 
