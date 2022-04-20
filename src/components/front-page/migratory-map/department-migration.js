@@ -26,7 +26,6 @@ const DepartmentMigration = (props) => {
             coordinates: curvedLine.geometry.coordinates,
           },
           properties: {
-            officerName: obj.officerName,
             count: obj.count,
           },
         }

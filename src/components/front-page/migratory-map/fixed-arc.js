@@ -1,25 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Layer, Source } from 'react-mapbox-gl'
-import { length, along } from '@turf/turf'
 
 const FixedArc = (props) => {
   const { lines, currentIndex } = props
 
   const lineFeatures = lines.slice(0, currentIndex + 1)
-
-  const line = lines[currentIndex]
-
-  const officerData = {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: along(line, length(line) / 2).geometry.coordinates,
-    },
-    properties: {
-      officerName: currentIndex < 5 ? line.properties.officerName : '',
-    },
-  }
 
   const stableLineData = {
     type: 'FeatureCollection',
@@ -43,26 +29,6 @@ const FixedArc = (props) => {
           'line-opacity': 0.2,
         }}
       />
-      {currentIndex < 5 && (
-        <Source
-          id='officer-name'
-          geoJsonSource={{ type: 'geojson', data: officerData }}
-        />
-      )}
-
-      {currentIndex < 5 && (
-        <Layer
-          id='officer-layer'
-          type='symbol'
-          sourceId='officer-name'
-          layout={{
-            'symbol-placement': 'point',
-            'text-anchor': 'center',
-            'text-field': '{officerName}',
-            'text-size': 14,
-          }}
-        />
-      )}
     </>
   )
 }

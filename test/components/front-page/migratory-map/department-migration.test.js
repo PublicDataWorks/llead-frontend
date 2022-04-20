@@ -144,7 +144,7 @@ describe('department migration component', () => {
     )
 
     act(() => {
-      clock.tick(1500*6 + 100)
+      clock.tick(1500 * 6 + 100)
     })
 
     expect(mockSetMapCurrentIndex).toHaveBeenCalled()
@@ -158,10 +158,12 @@ describe('department migration component', () => {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: createCurvedLine(graphs[0].startLocation, graphs[0].endLocation).geometry.coordinates,
+            coordinates: createCurvedLine(
+              graphs[0].startLocation,
+              graphs[0].endLocation
+            ).geometry.coordinates,
           },
           properties: {
-            officerName: 'Tonya Johnese',
             count: 1,
           },
         },
@@ -169,56 +171,66 @@ describe('department migration component', () => {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: createCurvedLine(graphs[1].startLocation, graphs[1].endLocation).geometry.coordinates,
+            coordinates: createCurvedLine(
+              graphs[1].startLocation,
+              graphs[1].endLocation
+            ).geometry.coordinates,
           },
           properties: {
-            officerName: 'Tony Parker',
             count: 2,
-          }
+          },
         },
         {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: createCurvedLine(graphs[1].startLocation, graphs[1].endLocation).geometry.coordinates,
+            coordinates: createCurvedLine(
+              graphs[1].startLocation,
+              graphs[1].endLocation
+            ).geometry.coordinates,
           },
           properties: {
-            officerName: 'Tony Parker',
             count: 2,
-          }
+          },
         },
         {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: createCurvedLine(graphs[1].startLocation, graphs[1].endLocation).geometry.coordinates,
+            coordinates: createCurvedLine(
+              graphs[1].startLocation,
+              graphs[1].endLocation
+            ).geometry.coordinates,
           },
           properties: {
-            officerName: 'Tony Parker',
             count: 2,
-          }
+          },
         },
         {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: createCurvedLine(graphs[1].startLocation, graphs[1].endLocation).geometry.coordinates,
+            coordinates: createCurvedLine(
+              graphs[1].startLocation,
+              graphs[1].endLocation
+            ).geometry.coordinates,
           },
           properties: {
-            officerName: 'Tony Parker',
             count: 2,
-          }
+          },
         },
         {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: createCurvedLine(graphs[1].startLocation, graphs[1].endLocation).geometry.coordinates,
+            coordinates: createCurvedLine(
+              graphs[1].startLocation,
+              graphs[1].endLocation
+            ).geometry.coordinates,
           },
           properties: {
-            officerName: 'Tony Parker',
             count: 2,
-          }
+          },
         },
       ],
       currentIndex: 0,
@@ -229,10 +241,12 @@ describe('department migration component', () => {
         type: 'Feature',
         geometry: {
           type: 'LineString',
-          coordinates: createCurvedLine(graphs[0].startLocation, graphs[0].endLocation).geometry.coordinates,
+          coordinates: createCurvedLine(
+            graphs[0].startLocation,
+            graphs[0].endLocation
+          ).geometry.coordinates,
         },
         properties: {
-          officerName: 'Tonya Johnese',
           count: 1,
         },
       },
