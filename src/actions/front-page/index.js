@@ -1,3 +1,5 @@
+import { createAction } from 'redux-actions'
+
 import * as actionTypes from 'action-types/front-page'
 import { get } from 'utils/api'
 
@@ -69,3 +71,17 @@ export const fetchFrontPageOrders = () =>
     ],
     FRONT_PAGE_ORDERS_API_URL
   )()
+
+export const fetchMigratoryData = () =>
+  get(
+    [
+      actionTypes.MIGRATORY_DATA_FETCH_START,
+      actionTypes.MIGRATORY_DATA_FETCH_SUCCESS,
+      actionTypes.MIGRATORY_DATA_FETCH_FAILURE,
+    ],
+    `${DEPARTMENTS_API_URL}migratory/`
+  )()
+
+export const setMapCurrentIndex = createAction(
+  actionTypes.SET_MAP_CURRENT_INDEX
+)

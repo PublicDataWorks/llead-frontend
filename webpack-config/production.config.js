@@ -13,6 +13,7 @@ let config = Object.assign({}, baseConfig, {
       'process.env.GA_MEASUREMENT_ID': JSON.stringify(
         process.env.GA_MEASUREMENT_ID
       ),
+      'process.env.MAPBOX_KEY': JSON.stringify(process.env.MAPBOX_KEY),
     }),
   ],
   optimization: {

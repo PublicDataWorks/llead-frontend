@@ -20,6 +20,7 @@ import {
   fetchDocuments,
   fetchNewsArticles,
   fetchFrontPageOrders,
+  fetchMigratoryData,
 } from 'actions/front-page'
 import { saveRecentItem, removeRecentItem } from 'actions/common/recent-items'
 
@@ -41,6 +42,7 @@ const mapDispatchToProps = {
   fetchDocuments,
   fetchNewsArticles,
   fetchFrontPageOrders,
+  fetchMigratoryData,
   saveRecentItem,
   removeRecentItem,
   changeSearchQuery,
