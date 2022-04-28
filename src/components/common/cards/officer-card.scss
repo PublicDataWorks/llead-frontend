@@ -15,8 +15,9 @@
     box-sizing: border-box;
     padding: $v-margin $h-card-margin 0 $h-card-margin;
 
-    .officer-type {
+    .officer-rank {
       @include small-text;
+      height: 21px;
       color: $boulder-color;
       margin-bottom: $v-small-margin;
     }

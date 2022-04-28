@@ -152,6 +152,7 @@ describe('#featuredOfficersSelector', () => {
           complaintsCount: 84,
           useOfForcesCount: 0,
           departments: ['Department'],
+          latestRank: 'senior',
         },
         {
           id: 2436,
@@ -161,6 +162,7 @@ describe('#featuredOfficersSelector', () => {
           complaintsCount: 80,
           useOfForcesCount: 15,
           departments: ['Department'],
+          latestRank: 'junior',
         },
       ]
       const state = {
@@ -180,6 +182,7 @@ describe('#featuredOfficersSelector', () => {
           complaintsCount: 84,
           useOfForcesCount: 0,
           department: 'Department',
+          latestRank: 'senior',
         },
         {
           id: 2436,
@@ -189,6 +192,7 @@ describe('#featuredOfficersSelector', () => {
           complaintsCount: 80,
           useOfForcesCount: 15,
           department: 'Department',
+          latestRank: 'junior',
         },
       ])
     })

@@ -24,7 +24,7 @@
     box-sizing: border-box;
     background-color: $white-color;
 
-    .officer-title {
+    .officer-rank {
       @include small-text;
       color: $boulder-color;
       margin: 0 $h-card-margin;

@@ -40,6 +40,7 @@ const Officer = (props) => {
     name,
     departments,
     badges,
+    latestRank,
     description,
     salary,
     documentsCount,
@@ -119,7 +120,7 @@ const Officer = (props) => {
           </div>
         )}
         <div className='officer-basic-info'>
-          <div className='officer-title'>Police Officer</div>
+          <div className='officer-rank'>{startCase(latestRank)}</div>
           <div className='officer-name'>{startCase(name)}</div>
           {!isEmpty(badges) && (
             <div className='officer-basic-info-row'>

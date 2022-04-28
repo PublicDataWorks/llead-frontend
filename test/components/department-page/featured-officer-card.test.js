@@ -25,6 +25,7 @@ describe('Featured officer card component', () => {
       isStarred: true,
       complaintsCount: 84,
       useOfForcesCount: 0,
+      latestRank: 'senior',
     }
     const props = {
       item: officerData,
@@ -47,6 +48,8 @@ describe('Featured officer card component', () => {
     expect(
       officerCard.getElementsByClassName('star-corner')[0].classList.length
     ).toEqual(1)
+
+    expect(getByText('Senior').className).toEqual('officer-rank')
 
     expect(getByText('Jayson Germann').className).toEqual('officer-name')
     expect(
@@ -80,6 +83,7 @@ describe('Featured officer card component', () => {
       isStarred: true,
       complaintsCount: 0,
       useOfForcesCount: 10,
+      latestRank: 'senior',
     }
     const props = {
       item: officerData,
@@ -102,6 +106,8 @@ describe('Featured officer card component', () => {
     expect(
       officerCard.getElementsByClassName('star-corner')[0].classList.length
     ).toEqual(1)
+
+    expect(getByText('Senior').className).toEqual('officer-rank')
 
     expect(getByText('Jayson Germann').className).toEqual('officer-name')
     expect(
