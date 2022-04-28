@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactMapboxGl from 'react-mapbox-gl'
+import ReactMapboxGl, { RotationControl, ZoomControl } from 'react-mapbox-gl'
 import config from 'config'
 import { isMobile, isTablet } from 'react-device-detect'
 
@@ -13,7 +13,6 @@ const MigratoryMap = () => {
   const Map = ReactMapboxGl({
     accessToken: mapboxKey,
     scrollZoom: false,
-    interactive: false,
     attributionControl: false,
   })
 
@@ -30,6 +29,8 @@ const MigratoryMap = () => {
       >
         <DepartmentMigration />
         <DepartmentPoints />
+        <ZoomControl position='top-left' />
+        <RotationControl position='top-left' style={{ borderTopWidth: 0 }} />
       </Map>
     </div>
   )
