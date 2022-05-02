@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import toNumber from 'lodash/toNumber'
 import isNaN from 'lodash/isNaN'
 import startCase from 'lodash/startCase'
+import isInteger from 'lodash/isInteger'
 
 import './officer-page.scss'
 import OfficerBadges from 'components/common/items/officer-badges'
@@ -114,7 +115,8 @@ const Officer = (props) => {
       <div className='officer-page'>
         {!isEmpty(timelinePeriod) && (
           <div className='officer-period'>
-            Data for this officer is limited to the years&nbsp;
+            Data for this officer is limited to the&nbsp;
+            {isInteger(toNumber(timelinePeriod)) ? 'year' : 'years'}&nbsp;
             {timelinePeriod}
           </div>
         )}
