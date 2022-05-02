@@ -74,7 +74,7 @@ export const TIMELINE_FILTERS = {
     kinds: [TIMELINE_KINDS.NEWS_ARTICLE],
   },
   RANKS_AND_UNITS: {
-    title: 'Rank/unit',
+    title: 'Rank/Unit',
     kinds: [TIMELINE_KINDS.RANK_CHANGE, TIMELINE_KINDS.UNIT_CHANGE],
   },
   UOF: {
