@@ -175,7 +175,7 @@ describe('Officer component', () => {
     expect(
       baseElement.getElementsByClassName('officer-period')[0].textContent
     ).toEqual(
-      'Data for this officer is limited to the years\u00A02012 and 2018-2020'
+      'Data for this officer is limited to the\u00A0years\u00A02012 and 2018-2020'
     )
 
     expect(
@@ -201,6 +201,39 @@ describe('Officer component', () => {
     expect(
       baseElement.getElementsByClassName('officer-summary-info')[0].textContent
     ).toEqual('Officer Name is named in\u00A01 document.')
+  })
+
+  it('renders correctly with the timeline of single year', () => {
+    const officerData = {
+      salary: '$57,123,72/year',
+      badges: ['123', '456'],
+      complaintsCount: 0,
+      departments: [
+        {
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
+        },
+      ],
+      description: 'age-year-old race gender',
+      documentsCount: 1,
+      name: 'officer name',
+    }
+    const timelinePeriod = '2012'
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['officers/1']}>
+          <Route path='officers/:id'>
+            <Officer officer={officerData} timelinePeriod={timelinePeriod} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('officer-period')[0].textContent
+    ).toEqual('Data for this officer is limited to the\u00A0year\u00A02012')
   })
 
   it('renders multi departments correctly', () => {
@@ -239,7 +272,7 @@ describe('Officer component', () => {
     expect(
       baseElement.getElementsByClassName('officer-period')[0].textContent
     ).toEqual(
-      'Data for this officer is limited to the years\u00A02012 and 2018-2020'
+      'Data for this officer is limited to the\u00A0years\u00A02012 and 2018-2020'
     )
 
     expect(
