@@ -42,6 +42,8 @@ describe('department migration component', () => {
   const mockReactMapbox = jest.fn(({ children }) => (
     <div>Map Box {children}</div>
   ))
+  const mockZoomControl = jest.fn(() => <div>Zoom Control</div>)
+  const mockRotationControl = jest.fn(() => <div>Rotation Control</div>)
 
   beforeAll(() => {
     DepartmentPoints.mockImplementation(MockDepartmentPointsComponent)
@@ -51,11 +53,15 @@ describe('department migration component', () => {
 
   beforeEach(() => {
     mockReactMapbox.mockClear()
+    mockZoomControl.mockClear()
+    mockRotationControl.mockClear()
     DepartmentPoints.mockClear()
     DepartmentMigration.mockClear()
     MigrationDetailsBox.mockClear()
 
     sinon.stub(ReactMapboxGl, 'default').returns(mockReactMapbox)
+    sinon.stub(ReactMapboxGl, 'ZoomControl').value(mockZoomControl)
+    sinon.stub(ReactMapboxGl, 'RotationControl').value(mockRotationControl)
   })
   it('renders correctly', () => {
     render(<MigratoryMap />)
@@ -67,6 +73,13 @@ describe('department migration component', () => {
       center: [-91.798844, 31.158971],
       zoom: [6.6],
       children: expect.any(Array),
+    })
+    expect(mockZoomControl.mock.calls[0][0]).toEqual({
+      position: 'top-left',
+    })
+    expect(mockRotationControl.mock.calls[0][0]).toEqual({
+      position: 'top-left',
+      style: { borderTopWidth: 0 },
     })
 
     expect(DepartmentMigration).toHaveBeenCalled()
