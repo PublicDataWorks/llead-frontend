@@ -948,7 +948,7 @@ describe('#timelineFilterGroupsSelector', () => {
       },
       {
         filterGroupKey: 'RANKS_AND_UNITS',
-        title: 'Rank/unit',
+        title: 'Rank/Unit',
         count: 3,
       },
     ]

@@ -21,7 +21,7 @@ describe('TimelineFilters component', () => {
     },
     {
       filterGroupKey: 'RANKS_AND_UNITS',
-      title: 'Rank/unit',
+      title: 'Rank/Unit',
       count: 1,
     },
   ]
@@ -51,7 +51,7 @@ describe('TimelineFilters component', () => {
     expect(filterDocuments).toBeTruthy()
     expect(filterDocuments.className).not.toContain('filter-item-selected')
 
-    const filterRanksAndUnits = queryByText('Rank/unit (1)')
+    const filterRanksAndUnits = queryByText('Rank/Unit (1)')
     expect(filterRanksAndUnits).toBeTruthy()
     expect(filterRanksAndUnits.className).not.toContain('filter-item-selected')
   })
@@ -96,7 +96,7 @@ describe('TimelineFilters component', () => {
     expect(filterDocuments).toBeTruthy()
     expect(filterDocuments.className).not.toContain('filter-item-selected')
 
-    const filterRanksAndUnits = queryByText('Rank/unit (1)')
+    const filterRanksAndUnits = queryByText('Rank/Unit (1)')
     expect(filterRanksAndUnits).toBeTruthy()
     expect(filterRanksAndUnits.className).not.toContain('filter-item-selected')
   })
