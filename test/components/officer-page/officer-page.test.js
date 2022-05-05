@@ -157,6 +157,7 @@ describe('Officer component', () => {
       description: 'age-year-old race gender',
       documentsCount: 1,
       name: 'officer name',
+      latestRank: 'Lieutenant',
     }
     const timelinePeriod = '2012 and 2018-2020'
     const container = render(
@@ -178,8 +179,8 @@ describe('Officer component', () => {
     )
 
     expect(
-      baseElement.getElementsByClassName('officer-title')[0].textContent
-    ).toEqual('Police Officer')
+      baseElement.getElementsByClassName('officer-rank')[0].textContent
+    ).toEqual('Lieutenant')
     expect(
       baseElement.getElementsByClassName('officer-name')[0].textContent
     ).toEqual('Officer Name')
@@ -220,6 +221,7 @@ describe('Officer component', () => {
       description: 'age-year-old race gender',
       documentsCount: 1,
       name: 'officer name',
+      latestRank: 'Lieutenant',
     }
     const timelinePeriod = '2012 and 2018-2020'
     const container = render(
@@ -241,8 +243,8 @@ describe('Officer component', () => {
     )
 
     expect(
-      baseElement.getElementsByClassName('officer-title')[0].textContent
-    ).toEqual('Police Officer')
+      baseElement.getElementsByClassName('officer-rank')[0].textContent
+    ).toEqual('Lieutenant')
     expect(
       baseElement.getElementsByClassName('officer-name')[0].textContent
     ).toEqual('Officer Name')

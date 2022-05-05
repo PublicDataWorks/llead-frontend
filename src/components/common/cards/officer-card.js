@@ -16,6 +16,7 @@ const OfficerCard = (props) => {
     id,
     name,
     badges,
+    latestRank,
     department,
     className,
     onItemClick,
@@ -34,7 +35,7 @@ const OfficerCard = (props) => {
       }}
     >
       <div className='officer-info'>
-        <div className='officer-type'>Police Officer</div>
+        <div className='officer-rank'>{startCase(latestRank)}</div>
         <div className='officer-name'>{startCase(name)}</div>
         <OfficerBadges badges={badges} />
       </div>
@@ -51,6 +52,7 @@ OfficerCard.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   badges: PropTypes.array,
+  latestRank: PropTypes.string,
   department: PropTypes.object,
   className: PropTypes.string,
   onItemClick: PropTypes.func,

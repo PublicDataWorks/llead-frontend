@@ -17,6 +17,7 @@ const featuredOfficerFormatter = (featuredOfficer) => {
     'useOfForcesCount',
     'badges',
     'complaintsCount',
+    'latestRank',
   ]
 
   return {
@@ -71,6 +72,7 @@ const searchOfficerFormatter = (Officer) => {
     'useOfForcesCount',
     'badges',
     'complaintsCount',
+    'latestRank',
   ]
 
   return pick(Officer, OfficerAttributes)

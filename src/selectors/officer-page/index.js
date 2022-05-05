@@ -35,6 +35,7 @@ const officerDetailsFormatter = (officer) => {
     'id',
     'name',
     'badges',
+    'latestRank',
     'documentsCount',
     'complaintsCount',
   ]
@@ -69,7 +70,7 @@ export const officerSelector = createSelector(
 )
 
 const recentOfficerFormatter = (officer) => {
-  const officerAttributes = ['id', 'name', 'badges']
+  const officerAttributes = ['id', 'name', 'badges', 'latestRank']
 
   const rawDepartment = get(officer, 'departments.0')
   const department = pick(rawDepartment, ['id', 'name'])

@@ -15,6 +15,7 @@ describe('#recentItemsSelector', () => {
             id: 'north-paulaberg-department',
             name: 'North Paulaberg Department',
           },
+          latestRank: 'senior',
           extraField: 'data',
         },
       },
@@ -82,6 +83,7 @@ describe('#recentItemsSelector', () => {
           id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
+        latestRank: 'senior',
       },
       {
         type: RECENT_ITEM_TYPES.DEPARTMENT,

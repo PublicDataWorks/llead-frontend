@@ -112,6 +112,7 @@ describe('#officersSelector', () => {
           id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
+        latestRank: 'senior',
         extraField: 'data',
       },
       {
@@ -119,6 +120,7 @@ describe('#officersSelector', () => {
         name: 'Eric Patel',
         badges: ['12345'],
         department: null,
+        latestRank: 'junior',
         extraField: 'data',
       },
     ]
@@ -132,12 +134,14 @@ describe('#officersSelector', () => {
           id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
+        latestRank: 'senior',
       },
       {
         id: 22,
         name: 'Eric Patel',
         badges: ['12345'],
         department: {},
+        latestRank: 'junior',
       },
     ]
 

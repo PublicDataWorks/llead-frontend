@@ -41,6 +41,7 @@ describe('#officerSelector', () => {
         documentsCount: 1,
         complaintsCount: 2,
         extraField: 'should not be included',
+        latestRank: 'senior',
       }
       const state = {
         officerPage: {
@@ -65,6 +66,7 @@ describe('#officerSelector', () => {
             name: 'Department Name',
           },
         ],
+        latestRank: 'senior',
       })
     })
 
@@ -93,6 +95,7 @@ describe('#officerSelector', () => {
         documentsCount: 1,
         complaintsCount: 2,
         extraField: 'should not be included',
+        latestRank: 'senior',
       }
       const state = {
         officerPage: {
@@ -121,6 +124,7 @@ describe('#officerSelector', () => {
             name: 'Related Department Name',
           },
         ],
+        latestRank: 'senior',
       })
     })
 
@@ -270,6 +274,7 @@ describe('#officerRecentDataSelector', () => {
           extraDepartmentField: 'should not be included',
         },
       ],
+      latestRank: 'senior',
       extraField: 'field',
     }
     const state = {
@@ -288,6 +293,7 @@ describe('#officerRecentDataSelector', () => {
         id: 'department-name',
         name: 'Department Name',
       },
+      latestRank: 'senior',
     })
   })
 })

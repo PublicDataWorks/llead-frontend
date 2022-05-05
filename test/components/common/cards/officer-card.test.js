@@ -24,6 +24,7 @@ describe('Officer card component', () => {
       id: 1,
       name: 'mark carlson',
       badges: ['12435', '612'],
+      latestRank: 'senior',
       department: {
         id: 'baton-rouge-pd',
         name: 'Baton Rouge PD',
@@ -39,10 +40,11 @@ describe('Officer card component', () => {
         </Route>
       </MemoryRouter>
     )
-    const { baseElement } = container
+    const { baseElement, getByText } = container
     const officerCard = baseElement.getElementsByClassName('officer-card')[0]
 
     expect(officerCard.classList.value).toContain('custom-class-name')
+    expect(getByText('Senior').className).toEqual('officer-rank')
     expect(officerCard.textContent.includes('Mark Carlson')).toBe(true)
     expect(officerCard.textContent.includes(props.badges[0])).toBe(true)
     expect(officerCard.textContent.includes(props.badges[1])).toBe(true)

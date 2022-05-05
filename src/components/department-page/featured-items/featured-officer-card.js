@@ -19,6 +19,7 @@ const FeaturedOfficerCard = (props) => {
     badges,
     complaintsCount,
     useOfForcesCount,
+    latestRank,
   } = officer
 
   return (
@@ -28,7 +29,7 @@ const FeaturedOfficerCard = (props) => {
     >
       {isStarred && <div className='star-corner'></div>}
       <div className='officer-info'>
-        <div className='officer-type'>Police Officer</div>
+        <div className='officer-rank'>{startCase(latestRank)}</div>
         <div className='officer-name'>{startCase(name)}</div>
         <OfficerBadges badges={badges} isFeaturedOfficer={true} />
       </div>
