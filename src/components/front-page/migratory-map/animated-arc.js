@@ -43,6 +43,8 @@ const AnimatedArc = (props) => {
   useEffect(() => {
     if (lineIndex === currentIndex) {
       setShouldRun(true)
+      setFirstIndex(0)
+      setSecondIndex(0)
     }
   }, [currentIndex])
 
@@ -80,7 +82,10 @@ AnimatedArc.defaultProps = {
 }
 
 function areEqual(prevProps, nextProps) {
-  if (nextProps.currentIndex === nextProps.lineIndex) {
+  if (
+    nextProps.currentIndex === nextProps.lineIndex ||
+    nextProps.currentIndex === 0
+  ) {
     return false
   }
 

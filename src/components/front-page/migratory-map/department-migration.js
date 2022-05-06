@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import noop from 'lodash/noop'
 
+import './department-migration.scss'
 import { MAP_BASE_INTERVAL } from 'constants/common'
 import AnimatedArc from './animated-arc'
 import FixedArc from './fixed-arc'
@@ -51,8 +52,14 @@ const DepartmentMigration = (props) => {
     }
   }, [currentIndex, mappedData])
 
+  const handleReplayButton = () => {
+    setCurrentIndex(0)
+    setMapCurrentIndex(0)
+  }
+
   return (
     <>
+      <button className='replay-button' onClick={handleReplayButton} />
       {mappedData.map((line, index) => (
         <AnimatedArc
           key={index}
