@@ -15,6 +15,7 @@ const MigratoryMap = () => {
     scrollZoom: false,
     attributionControl: false,
     interactive: isDesktop,
+    logoPosition: 'bottom-right',
   })
 
   const mapHeight = isMobile ? 500 : isTablet ? 700 : 640
