@@ -68,7 +68,7 @@ describe('department migration component', () => {
 
     expect(MigrationDetailsBox).toHaveBeenCalled()
     expect(mockReactMapbox.mock.calls[0][0]).toMatchObject({
-      style: 'mapbox://styles/mapbox/light-v10',
+      style: 'mapbox://styles/llead/cl2pmpqb4005p14nybpstbchj',
       containerStyle: { height: '640px' },
       center: [-91.798844, 31.158971],
       zoom: [6.6],
