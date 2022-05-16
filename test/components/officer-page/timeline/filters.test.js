@@ -24,6 +24,11 @@ describe('TimelineFilters component', () => {
       title: 'Rank/Unit',
       count: 1,
     },
+    {
+      filterGroupKey: 'UOF',
+      title: 'Use of Force',
+      count: 5,
+    },
   ]
 
   it('renders all timeline filters', () => {
@@ -37,7 +42,7 @@ describe('TimelineFilters component', () => {
     const { baseElement, queryByText } = container
 
     const filterItems = baseElement.getElementsByClassName('filter-item')
-    expect(filterItems.length).toEqual(4)
+    expect(filterItems.length).toEqual(5)
 
     const filterAll = queryByText('All')
     expect(filterAll).toBeTruthy()
@@ -54,6 +59,10 @@ describe('TimelineFilters component', () => {
     const filterRanksAndUnits = queryByText('Rank/Unit (1)')
     expect(filterRanksAndUnits).toBeTruthy()
     expect(filterRanksAndUnits.className).not.toContain('filter-item-selected')
+
+    const filterUseOfForce = queryByText('Use of Force (5)')
+    expect(filterUseOfForce).toBeTruthy()
+    expect(filterUseOfForce.className).not.toContain('filter-item-selected')
   })
 
   it('changes filter group key when click on item', () => {
@@ -99,5 +108,9 @@ describe('TimelineFilters component', () => {
     const filterRanksAndUnits = queryByText('Rank/Unit (1)')
     expect(filterRanksAndUnits).toBeTruthy()
     expect(filterRanksAndUnits.className).not.toContain('filter-item-selected')
+
+    const filterUseOfForce = queryByText('Use of Force (5)')
+    expect(filterUseOfForce).toBeTruthy()
+    expect(filterUseOfForce.className).not.toContain('filter-item-selected')
   })
 })

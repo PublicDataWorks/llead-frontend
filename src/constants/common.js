@@ -78,7 +78,7 @@ export const TIMELINE_FILTERS = {
     kinds: [TIMELINE_KINDS.RANK_CHANGE, TIMELINE_KINDS.UNIT_CHANGE],
   },
   UOF: {
-    title: 'Use of force',
+    title: 'Use of Force',
     kinds: [TIMELINE_KINDS.UOF],
   },
   APPEAL: {
