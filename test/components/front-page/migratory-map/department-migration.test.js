@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, act } from '@testing-library/react'
+import { render, act, fireEvent } from '@testing-library/react'
 import sinon from 'sinon'
 
 import DepartmentPulses from 'containers/front-page/migratory-map/department-pulses'
@@ -136,18 +136,22 @@ describe('department migration component', () => {
       },
     ]
 
-    render(
+    const container = render(
       <DepartmentMigration
         graphs={graphs}
         setMapCurrentIndex={mockSetMapCurrentIndex}
       />
     )
 
+    const { baseElement } = container
+
+    const replayButton = baseElement.getElementsByClassName('replay-button')
+
     act(() => {
       clock.tick(1500 * 6 + 100)
     })
 
-    expect(mockSetMapCurrentIndex).toHaveBeenCalled()
+    expect(mockSetMapCurrentIndex).toHaveBeenCalledWith(5)
     expect(DepartmentPulses.mock.calls[0][0]).toEqual({
       currentIndex: 0,
     })
@@ -253,5 +257,8 @@ describe('department migration component', () => {
       currentIndex: 0,
       lineIndex: 0,
     })
+
+    fireEvent.click(replayButton[0])
+    expect(mockSetMapCurrentIndex).toHaveBeenCalledWith(0)
   })
 })

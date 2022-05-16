@@ -1,0 +1,16 @@
+.mapboxgl-map {
+  .replay-button {
+    position: absolute;
+    left: 9px;
+    bottom: 30px;
+    height: 40px;
+    width: 40px;
+    border: 0;
+    background-image: url('assets/icons/replay.svg');
+    background-color: transparent;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
