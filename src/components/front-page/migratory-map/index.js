@@ -19,6 +19,11 @@ const MigratoryMap = () => {
   })
 
   const mapHeight = isMobile ? 500 : isTablet ? 700 : 640
+  const mapCenter = isMobile
+    ? [-91.798844, 30.758971]
+    : isTablet
+    ? [-91.798844, 31.158971]
+    : [-90.798844, 31.158971]
   const zoom = isMobile ? 5.8 : 6.6
 
   return (
@@ -27,7 +32,7 @@ const MigratoryMap = () => {
       <Map
         style='mapbox://styles/llead/cl2pmpqb4005p14nybpstbchj'
         containerStyle={{ height: `${mapHeight}px` }}
-        center={[-91.798844, 31.158971]}
+        center={mapCenter}
         zoom={[zoom]}
       >
         <DepartmentMigration />
