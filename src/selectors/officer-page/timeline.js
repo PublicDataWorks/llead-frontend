@@ -6,7 +6,6 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
-import join from 'lodash/join'
 import lowerCase from 'lodash/lowerCase'
 import map from 'lodash/map'
 import mapValues from 'lodash/mapValues'
@@ -50,23 +49,20 @@ const complaintTimelineItemFormatter = (item) => {
 }
 
 const useOfForceTimelineItemFormatter = (item) => {
-  const attributes = ['kind', 'uofTrackingNumber', 'id']
+  const attributes = ['kind', 'trackingId', 'id', 'citizenInformation']
 
   const upperFirstAttributes = [
-    'citizenInvolvement',
+    'useOfForceDescription',
+    'useOfForceReason',
     'disposition',
-    'forceDescription',
-    'forceReason',
-    'forceType',
     'serviceType',
   ]
 
   const detailAttributes = [
     'citizenArrested',
-    'citizenHospitalized',
     'citizenInjured',
+    'citizenHospitalized',
     'officerInjured',
-    'trafficStop',
   ]
 
   const details = map(
@@ -74,21 +70,9 @@ const useOfForceTimelineItemFormatter = (item) => {
     lowerCase
   )
 
-  const { citizenAge, citizenRace, citizenSex } = pick(item, [
-    'citizenAge',
-    'citizenRace',
-    'citizenSex',
-  ])
-
-  const citizenInformation = join(
-    compact([citizenAge && `${citizenAge}-year-old`, citizenRace, citizenSex]),
-    ' '
-  )
-
   return {
     ...pick(item, attributes),
     ...mapValues(pick(item, upperFirstAttributes), upperFirst),
-    citizenInformation,
     details,
   }
 }

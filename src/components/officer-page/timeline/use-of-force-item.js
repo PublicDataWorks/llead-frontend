@@ -24,14 +24,12 @@ const UseOfForceItem = (props) => {
     className,
     highlight,
     showEventDetails,
-    forceType,
-    forceDescription,
-    forceReason,
+    useOfForceDescription,
+    useOfForceReason,
     disposition,
     serviceType,
-    citizenInvolvement,
+    trackingId,
     citizenInformation,
-    uofTrackingNumber,
     details,
   } = props
 
@@ -77,12 +75,8 @@ const UseOfForceItem = (props) => {
 
   const useOfForceData = [
     {
-      title: 'Force Description',
-      content: forceDescription,
-    },
-    {
       title: 'Force Reason',
-      content: forceReason,
+      content: useOfForceReason,
     },
     {
       title: 'Disposition',
@@ -93,16 +87,12 @@ const UseOfForceItem = (props) => {
       content: serviceType,
     },
     {
-      title: 'Citizen Involvement',
-      content: citizenInvolvement,
-    },
-    {
       title: 'Citizen Information',
       content: citizenInformation,
     },
     {
       title: 'Tracking ID',
-      content: uofTrackingNumber,
+      content: trackingId,
     },
   ]
 
@@ -126,7 +116,7 @@ const UseOfForceItem = (props) => {
         <div className='uof-item-title'>
           Used <span>force</span>
         </div>
-        <div className='uof-item-subtitle'>{forceType}</div>
+        <div className='uof-item-subtitle'>{useOfForceDescription}</div>
         <div
           className={cx('uof-item-expand-icon', {
             'expanded-icon': expanded,
@@ -146,9 +136,17 @@ const UseOfForceItem = (props) => {
               element.content && (
                 <div className='uof-item-info-row' key={element.title}>
                   <div className='uof-item-info-row-title'>{element.title}</div>
-                  <div className='uof-item-info-row-value'>
-                    {element.content}
-                  </div>
+                  {element.title === 'Citizen Information' &&
+                    element.content.map((citizenInformation, index) => (
+                      <div key={index} className='uof-item-info-row-value'>
+                        {citizenInformation}
+                      </div>
+                    ))}
+                  {element.title !== 'Citizen Information' && (
+                    <div className='uof-item-info-row-value'>
+                      {element.content}
+                    </div>
+                  )}
                 </div>
               )
           )}
@@ -188,14 +186,12 @@ UseOfForceItem.propTypes = {
   officerId: PropTypes.string,
   highlight: PropTypes.bool,
   showEventDetails: PropTypes.bool,
-  forceType: PropTypes.string,
-  forceDescription: PropTypes.string,
-  forceReason: PropTypes.string,
+  useOfForceDescription: PropTypes.string,
+  useOfForceReason: PropTypes.string,
   disposition: PropTypes.string,
   serviceType: PropTypes.string,
-  citizenInvolvement: PropTypes.string,
-  citizenInformation: PropTypes.string,
-  uofTrackingNumber: PropTypes.string,
+  citizenInformation: PropTypes.array,
+  trackingId: PropTypes.string,
   details: PropTypes.array,
 }
 

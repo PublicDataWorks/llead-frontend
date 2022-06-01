@@ -23,14 +23,15 @@ describe('UseOfForceItem component', () => {
     const uofData = {
       kind: 'UOF',
       id: 1,
-      forceType: 'Takedown (w/injury)',
-      forceDescription: 'L2-Takedown (w/injury)',
-      forceReason: 'Resisting lawful arrest',
+      useOfForceDescription: 'L2-Takedown (w/injury)',
+      useOfForceReason: 'Resisting lawful arrest',
       disposition: 'UOF Justified',
       serviceType: 'Call for service',
-      citizenInvolvement: 'Complainant',
-      citizenInformation: '26-year-old white female',
-      uofTrackingNumber: 'Complainant',
+      citizenInformation: [
+        '26-year-old white female',
+        '42-year-old asian male',
+      ],
+      trackingId: 'Complainant',
       details: [
         'citizen arrested',
         'citizen injured',
@@ -50,7 +51,7 @@ describe('UseOfForceItem component', () => {
     const uofItemSubtitle = baseElement.getElementsByClassName(
       'uof-item-subtitle'
     )[0]
-    expect(uofItemSubtitle.textContent).toEqual('Takedown (w/injury)')
+    expect(uofItemSubtitle.textContent).toEqual('L2-Takedown (w/injury)')
 
     expect(getByTestId('test--uof-animation').style['height']).toEqual('0px')
 
@@ -67,53 +68,45 @@ describe('UseOfForceItem component', () => {
       'uof-item-content'
     )[0]
 
-    const uofForceDescription = uofItemContent.getElementsByClassName(
-      'uof-item-info-row-value'
-    )[0]
-    expect(uofForceDescription.textContent).toEqual('L2-Takedown (w/injury)')
-
     const uofForceReason = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
-    )[1]
+    )[0]
     expect(uofForceReason.textContent).toEqual('Resisting lawful arrest')
 
     const uofDisposition = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
-    )[2]
+    )[1]
     expect(uofDisposition.textContent).toEqual('UOF Justified')
 
     const uofServiceType = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
-    )[3]
+    )[2]
     expect(uofServiceType.textContent).toEqual('Call for service')
 
-    const uofCitizenInvolvement = uofItemContent.getElementsByClassName(
+    const citizenInformation1 = uofItemContent.getElementsByClassName(
+      'uof-item-info-row-value'
+    )[3]
+    expect(citizenInformation1.textContent).toEqual('26-year-old white female')
+
+    const citizenInformation2 = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
     )[4]
-    expect(uofCitizenInvolvement.textContent).toEqual('Complainant')
-
-    const uofCitizenInformation = uofItemContent.getElementsByClassName(
-      'uof-item-info-row-value'
-    )[5]
-    expect(uofCitizenInformation.textContent).toEqual(
-      '26-year-old white female'
-    )
+    expect(citizenInformation2.textContent).toEqual('42-year-old asian male')
 
     const uofTrackingID = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
-    )[6]
+    )[5]
     expect(uofTrackingID.textContent).toEqual('Complainant')
 
     const uofDetails = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
-    )[7]
+    )[6]
     const uofDetailItems = uofDetails.getElementsByClassName(
       'uof-item-detail-element'
     )
     expect(uofDetailItems[0].textContent).toEqual('citizen arrested')
     expect(uofDetailItems[1].textContent).toEqual('citizen injured')
     expect(uofDetailItems[2].textContent).toEqual('officer injured')
-    expect(uofDetailItems[3].textContent).toEqual('traffic stop')
 
     const uofCopyLink = uofItemContent.getElementsByClassName(
       'uof-item-copy-link'
@@ -125,12 +118,12 @@ describe('UseOfForceItem component', () => {
     const uofData = {
       kind: 'UOF',
       id: 1,
-      forceType: 'Takedown (w/injury)',
-      forceDescription: 'L2-Takedown (w/injury)',
+      useOfForceDescription: 'L2-Takedown (w/injury)',
+      useOfForceReason: 'Resisting lawful arrest',
       disposition: 'UOF Justified',
       serviceType: 'Call for service',
-      citizenInvolvement: 'Complainant',
-      uofTrackingNumber: 'Complainant',
+      citizenInformation: ['26-year-old white female'],
+      trackingId: 'Complainant',
       showEventDetails: false,
     }
 
@@ -147,10 +140,10 @@ describe('UseOfForceItem component', () => {
       'uof-item-content'
     )[0]
 
-    const uofForceDescription = uofItemContent.getElementsByClassName(
+    const useOfForceReason = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
     )[0]
-    expect(uofForceDescription.textContent).toEqual('L2-Takedown (w/injury)')
+    expect(useOfForceReason.textContent).toEqual('Resisting lawful arrest')
 
     const uofDisposition = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
@@ -162,10 +155,10 @@ describe('UseOfForceItem component', () => {
     )[2]
     expect(uofServiceType.textContent).toEqual('Call for service')
 
-    const uofCitizenInvolvement = uofItemContent.getElementsByClassName(
+    const citizenInformation = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
     )[3]
-    expect(uofCitizenInvolvement.textContent).toEqual('Complainant')
+    expect(citizenInformation.textContent).toEqual('26-year-old white female')
 
     const uofTrackingID = uofItemContent.getElementsByClassName(
       'uof-item-info-row-value'
@@ -185,14 +178,12 @@ describe('UseOfForceItem component', () => {
     const uofData = {
       kind: 'UOF',
       id: 1,
-      forceType: 'Takedown (w/injury)',
-      forceDescription: 'L2-Takedown (w/injury)',
-      forceReason: 'Resisting lawful arrest',
+      useOfForceDescription: 'L2-Takedown (w/injury)',
+      useOfForceReason: 'Resisting lawful arrest',
       disposition: 'UOF Justified',
       serviceType: 'Call for service',
-      citizenInvolvement: 'Complainant',
-      citizenInformation: '26-year-old white female',
-      uofTrackingNumber: 'Complainant',
+      citizenInformation: ['26-year-old white female'],
+      trackingId: 'Complainant',
       details: [
         'citizen arrested',
         'citizen injured',
@@ -233,14 +224,12 @@ describe('UseOfForceItem component', () => {
     const uofData = {
       id: uofId,
       officerId,
-      forceType: 'Takedown (w/injury)',
-      forceDescription: 'L2-Takedown (w/injury)',
-      forceReason: 'Resisting lawful arrest',
+      useOfForceDescription: 'L2-Takedown (w/injury)',
+      useOfForceReason: 'Resisting lawful arrest',
       disposition: 'UOF Justified',
       serviceType: 'Call for service',
-      citizenInvolvement: 'Complainant',
-      citizenInformation: '26-year-old white female',
-      uofTrackingNumber: 'Complainant',
+      citizenInformation: ['26-year-old white female'],
+      trackingId: 'Complainant',
       highlight: true,
       showEventDetails: true,
     }
@@ -273,14 +262,12 @@ describe('UseOfForceItem component', () => {
 
   it('shows uof component when showEventDetails is true', () => {
     const uofData = {
-      forceType: 'Takedown (w/injury)',
-      forceDescription: 'L2-Takedown (w/injury)',
-      forceReason: 'Resisting lawful arrest',
+      useOfForceDescription: 'L2-Takedown (w/injury)',
+      useOfForceReason: 'Resisting lawful arrest',
       disposition: 'UOF Justified',
       serviceType: 'Call for service',
-      citizenInvolvement: 'Complainant',
-      citizenInformation: '26-year-old white female',
-      uofTrackingNumber: 'Complainant',
+      citizenInformation: ['26-year-old white female'],
+      trackingId: 'Complainant',
       highlight: false,
       showEventDetails: true,
     }
