@@ -24,7 +24,9 @@ const IntroCard = (props) => {
     departmentsCount,
   } = analyticSummary
 
-  const today = new Date().toISOString().slice(0, 10)
+  const today = new Date()
+    .toLocaleString('en-CA', { timeZone: 'America/Chicago' })
+    .slice(0, 10)
   const listIndex = [...Array(lastCardIndex + 1).keys()]
 
   const handleClick = (index) => {
