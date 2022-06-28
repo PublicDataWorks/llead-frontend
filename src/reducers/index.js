@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import appConfigReducer from 'reducers/app-config-reducer'
+import aboutPageReducer from 'reducers/about-page'
 import departmentPageReducer from 'reducers/department-page'
 import forgotPasswordPageReducer from 'reducers/forgot-password-page'
 import forgotPasswordConfirmPageReducer from 'reducers/forgot-password-confirm-page'
@@ -15,6 +16,7 @@ import documentHeadReducer from './document-head-reducer'
 
 export default combineReducers({
   appConfig: appConfigReducer,
+  aboutPage: aboutPageReducer,
   departmentPage: departmentPageReducer,
   forgotPasswordPage: forgotPasswordPageReducer,
   forgotPasswordConfirmPage: forgotPasswordConfirmPageReducer,

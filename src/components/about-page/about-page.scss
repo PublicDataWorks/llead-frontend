@@ -1,0 +1,48 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.about-page {
+  display: flex;
+  flex-flow: column;
+  background-color: $mercury-color;
+
+  .summary {
+    padding: 37px 15px;
+    text-align: center;
+    color: $alabaster-color;
+    background: $cod-gray-color url('assets/icons/about-page.svg');
+
+    .title {
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 48px;
+    }
+  }
+
+  .section {
+    padding: 50px 15px 0 15px;
+
+    .section-name {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 64px;
+    }
+
+    .question {
+      margin-top: $v-mid-margin;
+      border: 1px solid $alto-color;
+      border-radius: 8px;
+      background-color: $white-color;
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .about-page {
+    .section {
+      width: 858px;
+      margin: 0 auto;
+    }
+  }
+}
