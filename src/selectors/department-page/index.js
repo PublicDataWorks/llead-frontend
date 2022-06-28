@@ -18,12 +18,10 @@ const featuredOfficerFormatter = (featuredOfficer) => {
     'badges',
     'complaintsCount',
     'latestRank',
+    'department',
   ]
 
-  return {
-    ...pick(featuredOfficer, featuredOfficerAttributes),
-    department: get(featuredOfficer, 'departments[0]', []),
-  }
+  return pick(featuredOfficer, featuredOfficerAttributes)
 }
 
 const featuredDocumentFormatter = (featuredDocument) => {

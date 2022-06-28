@@ -151,7 +151,7 @@ describe('#featuredOfficersSelector', () => {
           isStarred: true,
           complaintsCount: 84,
           useOfForcesCount: 0,
-          departments: ['Department'],
+          department: 'Department',
           latestRank: 'senior',
         },
         {
@@ -161,7 +161,7 @@ describe('#featuredOfficersSelector', () => {
           isStarred: false,
           complaintsCount: 80,
           useOfForcesCount: 15,
-          departments: ['Department'],
+          department: 'Department',
           latestRank: 'junior',
         },
       ]
