@@ -1,55 +1,10 @@
 import {
-  analyticSummarySelector,
   departmentsSelector,
   documentsSelector,
   officersSelector,
   newsArticlesSelector,
   frontPageOrdersSelector,
 } from 'selectors/front-page'
-
-describe('#analyticSummarySelector', () => {
-  describe('has data', () => {
-    it('returns analytic summary data', () => {
-      const rawAnalyticSummary = {
-        departmentsCount: 4,
-        officersCount: 5,
-        documentsCount: 6,
-        recentDays: 30,
-        recentDepartmentsCount: 1,
-        recentOfficersCount: 2,
-        recentDocumentsCount: 3,
-      }
-
-      const expectedAnalyticSummary = {
-        departmentsCount: 4,
-        officersCount: 5,
-        documentsCount: 6,
-        recentDays: 30,
-        recentDepartmentsCount: 1,
-        recentOfficersCount: 2,
-        recentDocumentsCount: 3,
-      }
-
-      const state = {
-        frontPage: {
-          analyticSummary: rawAnalyticSummary,
-        },
-      }
-
-      const analyticSummary = analyticSummarySelector(state)
-
-      expect(analyticSummary).toStrictEqual(expectedAnalyticSummary)
-    })
-  })
-
-  describe('does not have data', () => {
-    it('returns empty data', () => {
-      const analyticSummary = analyticSummarySelector({})
-
-      expect(analyticSummary).toStrictEqual({})
-    })
-  })
-})
 
 describe('#departmentsSelector', () => {
   it('returns department data', () => {

@@ -7,6 +7,7 @@ import {
   fetchDocuments,
   fetchNewsArticles,
   fetchFrontPageOrders,
+  fetchFrontPageCards,
   fetchMigratoryData,
   setMapCurrentIndex,
 } from 'actions/front-page'
@@ -19,6 +20,7 @@ import {
   DOCUMENTS_API_URL,
   NEWS_ARTICLES_API_URL,
   FRONT_PAGE_ORDERS_API_URL,
+  FRONT_PAGE_CARDS_API_URL,
 } from 'constants/api'
 
 describe('#fetchAnalyticSummary', () => {
@@ -136,6 +138,26 @@ describe('#fetchFrontPageOrders', () => {
         actionTypes.FRONT_PAGE_ORDERS_FETCH_FAILURE,
       ],
       FRONT_PAGE_ORDERS_API_URL
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchFrontPageCards', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchFrontPageCards()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.FRONT_PAGE_CARDS_FETCH_START,
+        actionTypes.FRONT_PAGE_CARDS_FETCH_SUCCESS,
+        actionTypes.FRONT_PAGE_CARDS_FETCH_FAILURE,
+      ],
+      FRONT_PAGE_CARDS_API_URL
     )
     expect(getFunc).toHaveBeenCalled()
   })

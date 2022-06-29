@@ -10,6 +10,7 @@ import {
   DOCUMENTS_API_URL,
   NEWS_ARTICLES_API_URL,
   FRONT_PAGE_ORDERS_API_URL,
+  FRONT_PAGE_CARDS_API_URL,
 } from 'constants/api'
 
 export const fetchAnalyticSummary = () =>
@@ -70,6 +71,16 @@ export const fetchFrontPageOrders = () =>
       actionTypes.FRONT_PAGE_ORDERS_FETCH_FAILURE,
     ],
     FRONT_PAGE_ORDERS_API_URL
+  )()
+  
+export const fetchFrontPageCards = () =>
+  get(
+    [
+      actionTypes.FRONT_PAGE_CARDS_FETCH_START,
+      actionTypes.FRONT_PAGE_CARDS_FETCH_SUCCESS,
+      actionTypes.FRONT_PAGE_CARDS_FETCH_FAILURE,
+    ],
+    FRONT_PAGE_CARDS_API_URL
   )()
 
 export const fetchMigratoryData = () =>

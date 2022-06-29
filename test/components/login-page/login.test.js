@@ -7,6 +7,25 @@ import MockStore from 'redux-mock-store'
 
 import LogIn from 'components/login-page/login'
 import FrontPage from 'components/front-page'
+import introSection from 'containers/front-page/intro-section'
+
+jest.mock('containers/front-page/intro-section', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockIntroSectionComponent = () => {
+  return <div>Intro Section</div>
+}
+
+beforeAll(() => {
+  introSection.mockImplementation(MockIntroSectionComponent)
+})
+
+beforeEach(() => {
+  introSection.mockClear()
+})
 
 describe('Login component', () => {
   it('should render LOG IN page when user have not loged in', async () => {
@@ -34,7 +53,7 @@ describe('Login component', () => {
     expect(emailContainer.className).not.toContain('error')
     expect(passwordContainer.className).not.toContain('error')
     expect(baseElement.textContent).toContain(
-      "Forgot your password? Click\u00A0here to reset your password"
+      'Forgot your password? Click\u00A0here to reset your password'
     )
 
     const credentials = {
@@ -112,7 +131,11 @@ describe('Login component', () => {
         <Provider store={MockStore()()}>
           <MemoryRouter initialEntries={['login/']}>
             <Route path='login/' history={history}>
-              <LogIn isLoggedIn={true} performLogin={performLogin} previousLocation={ { pathname: '/departments/1/' } } />
+              <LogIn
+                isLoggedIn={true}
+                performLogin={performLogin}
+                previousLocation={{ pathname: '/departments/1/' }}
+              />
             </Route>
             <Route path='/departments/:id/' history={history}>
               <div className='department-page'>Department Page</div>
@@ -122,7 +145,9 @@ describe('Login component', () => {
       )
       const { baseElement } = container
 
-      expect(baseElement.getElementsByClassName('department-page').length).toEqual(1)
+      expect(
+        baseElement.getElementsByClassName('department-page').length
+      ).toEqual(1)
     })
   })
 })

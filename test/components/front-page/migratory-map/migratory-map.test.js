@@ -70,7 +70,7 @@ describe('department migration component', () => {
     expect(mockReactMapbox.mock.calls[0][0]).toMatchObject({
       style: 'mapbox://styles/llead/cl2pmpqb4005p14nybpstbchj',
       containerStyle: { height: '640px' },
-      center: [-91.798844, 31.158971],
+      center: [-90.798844, 31.158971],
       zoom: [6.6],
       children: expect.any(Array),
     })
