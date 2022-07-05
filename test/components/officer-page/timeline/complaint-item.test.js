@@ -23,7 +23,7 @@ describe('ComplaintItem component', () => {
     const complaintData = {
       disposition: 'Disposition',
       action: 'Action',
-      trackingNumber: '123-456',
+      trackingId: '123-456',
       showEventDetails: false,
       allegation: 'Allegation title',
       allegationDesc: 'Description',
@@ -83,10 +83,10 @@ describe('ComplaintItem component', () => {
     )[3]
     expect(complaintAction.textContent).toEqual('Action')
 
-    const complaintTrackingNumber = complaintItemContent.getElementsByClassName(
+    const complainttrackingId = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[4]
-    expect(complaintTrackingNumber.textContent).toEqual('123-456')
+    expect(complainttrackingId.textContent).toEqual('123-456')
 
     const complaintCopyLink = complaintItemContent.getElementsByClassName(
       'complaint-item-copy-link'
@@ -106,7 +106,7 @@ describe('ComplaintItem component', () => {
     const complaintData = {
       disposition: null,
       action: 'Action',
-      trackingNumber: '123-456',
+      trackingId: '123-456',
       showEventDetails: false,
       details: ['citizen arrested'],
     }
@@ -129,10 +129,10 @@ describe('ComplaintItem component', () => {
     )[0]
     expect(complaintAction.textContent).toEqual('Action')
 
-    const complaintTrackingNumber = complaintItemContent.getElementsByClassName(
+    const complainttrackingId = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[1]
-    expect(complaintTrackingNumber.textContent).toEqual('123-456')
+    expect(complainttrackingId.textContent).toEqual('123-456')
 
     expect(getByText('citizen arrested').className).toEqual(
       'complaint-item-detail-element'
@@ -148,7 +148,7 @@ describe('ComplaintItem component', () => {
     const complaintData = {
       disposition: 'Disposition',
       action: 'Action',
-      trackingNumber: '123-456',
+      trackingId: '123-456',
       highlight: true,
       showEventDetails: false,
     }
@@ -187,7 +187,7 @@ describe('ComplaintItem component', () => {
       officerId,
       disposition: 'Disposition',
       action: 'Action',
-      trackingNumber: '123-456',
+      trackingId: '123-456',
       highlight: true,
       showEventDetails: true,
     }
@@ -222,7 +222,7 @@ describe('ComplaintItem component', () => {
     const complaintData = {
       disposition: 'Disposition',
       action: 'Action',
-      trackingNumber: '123-456',
+      trackingId: '123-456',
       highlight: false,
       showEventDetails: true,
     }
@@ -247,7 +247,7 @@ describe('ComplaintItem component', () => {
       id: complaintId,
       disposition: 'Disposition',
       action: 'Action',
-      trackingNumber: '123-456',
+      trackingId: '123-456',
       highlight: false,
     }
 
@@ -281,7 +281,7 @@ describe('ComplaintItem component', () => {
       id: complaintId,
       disposition: 'Disposition',
       action: 'Action',
-      trackingNumber: '123-456',
+      trackingId: '123-456',
       highlight: false,
     }
 
