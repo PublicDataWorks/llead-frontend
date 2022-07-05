@@ -5,6 +5,7 @@
 .about-page {
   display: flex;
   flex-flow: column;
+  padding-bottom: 100px;
   background-color: $mercury-color;
 
   .summary {
@@ -40,6 +41,15 @@
 
 @media only screen and (min-width: $laptop-breakpoint) {
   .about-page {
+    padding-bottom: 217px;
+
+    .summary {
+      .content {
+        margin: auto;
+        width: 858px;
+      }
+    }
+
     .section {
       width: 858px;
       margin: 0 auto;
