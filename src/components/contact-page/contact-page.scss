@@ -1,0 +1,113 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.contact-page {
+  background-color: $mercury-color;
+  padding: 33px 16px 100px 16px;
+
+  .contact-form {
+    display: flex;
+    flex-flow: column;
+
+    .contact-title {
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 64px;
+    }
+
+    .contact-email {
+      @include small-text;
+      height: 48px;
+      margin-top: 27px;
+      padding-left: 13px;
+      border: 1px solid $alto-color;
+      border-radius: 2px;
+      box-sizing: border-box;
+
+      &.warning {
+        border-color: $dark-burgundy;
+      }
+
+      &::placeholder {
+        @include small-text;
+      }
+    }
+
+    .warning-message {
+      @include small-text;
+      padding: 13px;
+      margin-top: 10px;
+      background-color: #fda4af;
+
+      .caution-icon {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .caution-message {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 20px;
+        color: $dark-burgundy;
+      }
+    }
+
+    .contact-message {
+      @include small-text;
+      margin-top: 21px;
+      padding: 12px 0 0 13px;
+      border: 1px solid $alto-color;
+      border-radius: 2px;
+      box-sizing: border-box;
+
+      &.warning {
+        border-color: $dark-burgundy;
+      }
+
+      &::placeholder {
+        @include small-text;
+      }
+    }
+
+    .contact-submit {
+      text-align: right;
+      margin-top: 21px;
+
+      .submit-button {
+        @include body-text;
+        background-color: $thunder-color;
+        height: 48px;
+        width: 100%;
+        color: $white-color;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+          background: $emperor-color;
+          border: 3px solid $emperor-color;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .contact-page {
+    padding-top: 55px;
+
+    .contact-form {
+      .contact-submit {
+        .submit-button {
+          width: 118px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .contact-page {
+    padding: 55px 220px 61px 220px;
+  }
+}

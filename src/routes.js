@@ -16,6 +16,7 @@ const ForgotPasswordConfirmPageContainer = lazy(() =>
 )
 const SearchPageContainer = lazy(() => import('containers/search-page'))
 const AboutPageContainer = lazy(() => import('containers/about-page'))
+const ContactPageContainer = lazy(() => import('containers/contact-page'))
 
 import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
@@ -96,6 +97,12 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
           path={paths.ABOUT_PATH}
           exact
           component={AboutPageContainer}
+        />
+        <PrivateRoute
+          {...privateRouteAttributes}
+          path={paths.CONTACT_PATH}
+          exact
+          component={ContactPageContainer}
         />
       </Switch>
     </Suspense>
