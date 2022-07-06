@@ -53,7 +53,7 @@ const ContactPage = (props) => {
           </div>
         )}
         <div className='contact-submit'>
-          <input className='submit-button' type='submit' value='Submit' />
+          <input className='submit-button' type='submit' value='Send' />
           {!isEmpty(sendMessageResponse) && (
             <div>{sendMessageResponse.detail}</div>
           )}
