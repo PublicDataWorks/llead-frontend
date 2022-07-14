@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import AnimateHeight from 'react-animate-height'
-import join from 'lodash/join'
-import compact from 'lodash/compact'
+import isEmpty from 'lodash/isEmpty'
 
 import './complaint-item.scss'
 import { complaintItemUrl } from 'utils/urls'
@@ -21,10 +20,7 @@ import {
 const ComplaintItem = (props) => {
   const {
     className,
-    ruleCode,
-    ruleViolation,
-    paragraphCode,
-    paragraphViolation,
+    allegation,
     allegationDesc,
     disposition,
     action,
@@ -33,6 +29,7 @@ const ComplaintItem = (props) => {
     showEventDetails,
     officerId,
     id,
+    details,
   } = props
 
   const [expanded, setExpanded] = useState(false)
@@ -76,15 +73,11 @@ const ComplaintItem = (props) => {
 
   const complaintData = [
     {
-      title: 'Rule Violation',
-      content: join(compact([ruleCode, ruleViolation]), ' - '),
-    },
-    {
-      title: 'Paragraph Violation',
-      content: join(compact([paragraphCode, paragraphViolation]), ' - '),
-    },
-    {
       title: 'Allegation',
+      content: allegation,
+    },
+    {
+      title: 'Allegation Description',
       content: allegationDesc,
     },
     {
@@ -149,6 +142,18 @@ const ComplaintItem = (props) => {
                 </div>
               )
           )}
+          {!isEmpty(details) && (
+            <div className='complaint-item-info-row'>
+              <div className='complaint-item-info-row-title'>Details</div>
+              <div className='complaint-item-info-row-value'>
+                {details.map((element, index) => (
+                  <div className='complaint-item-detail-element' key={index}>
+                    {element}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <CopyToClipboard
             text={complaintItemUrl(officerId, id)}
@@ -170,8 +175,7 @@ const ComplaintItem = (props) => {
 ComplaintItem.propTypes = {
   className: PropTypes.string,
   id: PropTypes.number,
-  ruleViolation: PropTypes.string,
-  paragraphViolation: PropTypes.string,
+  allegation: PropTypes.string,
   allegationDesc: PropTypes.string,
   disposition: PropTypes.string,
   action: PropTypes.string,
@@ -179,8 +183,7 @@ ComplaintItem.propTypes = {
   highlight: PropTypes.bool,
   showEventDetails: PropTypes.bool,
   officerId: PropTypes.string,
-  ruleCode: PropTypes.string,
-  paragraphCode: PropTypes.string,
+  details: PropTypes.array,
 }
 
 ComplaintItem.defaultProps = {

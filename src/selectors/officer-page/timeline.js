@@ -29,22 +29,27 @@ import {
 const baseTimelineItemFormatter = (item) => pick(item, ['kind', 'department'])
 
 const complaintTimelineItemFormatter = (item) => {
-  const attributes = ['kind', 'trackingNumber', 'id', 'allegationDesc']
-
-  const capitalizeAttributes = [
-    'ruleViolation',
-    'paragraphViolation',
-    'disposition',
-    'action',
-    'ruleCode',
-    'paragraphCode',
-    'allegationFinding',
-    'allegationClass',
+  const attributes = [
+    'kind',
+    'trackingNumber',
+    'id',
+    'allegation',
+    'allegationDesc',
   ]
+
+  const capitalizeAttributes = ['disposition', 'action']
+
+  const detailAttributes = ['citizenArrested', 'trafficStop']
+
+  const details = map(
+    filter(detailAttributes, (attribute) => get(item, attribute) === 'yes'),
+    lowerCase
+  )
 
   return {
     ...pick(item, attributes),
     ...mapValues(pick(item, capitalizeAttributes), capitalize),
+    details,
   }
 }
 
