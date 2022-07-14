@@ -40,7 +40,7 @@ const OfficerCard = (props) => {
         <OfficerBadges badges={badges} />
       </div>
       <div className='officer-card-footer'>
-        {!isEmpty(department) && (
+        {!isEmpty(department) && !isEmpty(department.id) && (
           <div className='officer-department-name'>{department.name}</div>
         )}
       </div>
