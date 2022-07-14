@@ -1,0 +1,46 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.accordion {
+  & + .accordion {
+    border-top: 1px solid $alto-color;
+  }
+
+  .accordion-item {
+    padding: 24px 20px 34px 16px;
+
+    .accordion-title {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 21px;
+      cursor: pointer;
+
+      .title,
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .title {
+        width: calc(100% - 14px);
+      }
+
+      .icon {
+        background-image: url('assets/icons/plus.svg');
+        height: $h-side-tag;
+        width: $h-side-tag;
+
+        &.expanded {
+          transform: rotate(45deg);
+        }
+      }
+    }
+
+    .accordion-content {
+      @include small-text;
+      margin-top: 18px;
+      color: $boulder-color;
+    }
+  }
+}

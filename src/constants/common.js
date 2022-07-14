@@ -1,11 +1,15 @@
 export const CMS_SECTIONS = {
   FRONT_PAGE: 'FRONT_PAGE',
+  ABOUT_PAGE: 'ABOUT_PAGE',
   FOOTER: 'FOOTER',
 }
 
 export const CMS_KEYS = {
   [CMS_SECTIONS.FRONT_PAGE]: {
     summary: 'frontPageSummary',
+  },
+  [CMS_SECTIONS.ABOUT_PAGE]: {
+    summary: 'aboutPageSummary',
   },
   [CMS_SECTIONS.FOOTER]: {
     text: 'footerText',
