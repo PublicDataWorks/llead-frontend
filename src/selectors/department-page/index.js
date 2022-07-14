@@ -3,6 +3,8 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
+import split from 'lodash/split'
+import includes from 'lodash/includes'
 
 import { departmentFormatter } from 'selectors/common'
 import { formatDate } from 'utils/formatter'
@@ -15,6 +17,8 @@ const featuredOfficerFormatter = (featuredOfficer) => {
     'useOfForcesCount',
     'badges',
     'complaintsCount',
+    'latestRank',
+    'department',
   ]
 
   return pick(featuredOfficer, featuredOfficerAttributes)
@@ -29,22 +33,20 @@ const featuredDocumentFormatter = (featuredDocument) => {
     'incidentDate',
     'previewImageUrl',
     'pagesCount',
+    'departments',
   ]
 
   return pick(featuredDocument, featuredDocumentAttributes)
 }
 
 const featuredNewsArticleFormatter = (featuredNewsArticle) => {
-  const featuredNewsArticleAttributes = [
-    'id',
-    'title',
-    'isStarred',
-    'url',
-    'publishedDate',
-    'sourceDisplayName',
-  ]
+  const featuredNewsArticleAttributes = ['id', 'title', 'isStarred', 'url']
 
-  return pick(featuredNewsArticle, featuredNewsArticleAttributes)
+  return {
+    ...pick(featuredNewsArticle, featuredNewsArticleAttributes),
+    publishedDate: formatDate(featuredNewsArticle.publishedDate),
+    sourceName: featuredNewsArticle.sourceDisplayName,
+  }
 }
 
 const datasetFormatter = (dataset) => {
@@ -68,6 +70,7 @@ const searchOfficerFormatter = (Officer) => {
     'useOfForcesCount',
     'badges',
     'complaintsCount',
+    'latestRank',
   ]
 
   return pick(Officer, OfficerAttributes)
@@ -96,7 +99,6 @@ export const searchDocumentFormatter = (document) => {
     'id',
     'title',
     'url',
-    'documentType',
     'departments',
     'textContent',
     'textContentHighlight',
@@ -104,9 +106,14 @@ export const searchDocumentFormatter = (document) => {
     'pagesCount',
   ]
 
+  const documentUrl = get(document, 'url')
+  const filename = split(documentUrl, '/').pop()
+  const documentType = includes(filename, '.') ? split(filename, '.').pop() : ''
+
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDate(document.incidentDate),
+    documentType,
   }
 }
 

@@ -21,20 +21,18 @@ describe('ComplaintItem component', () => {
     const clock = sinon.useFakeTimers()
 
     const complaintData = {
-      ruleCode: 'Rule_code',
-      ruleViolation: 'Rule Vialation',
-      paragraphCode: 'Paragraph_code',
-      paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
       trackingNumber: '123-456',
       showEventDetails: false,
+      allegation: 'Allegation title',
       allegationDesc: 'Description',
+      details: ['citizen arrested', 'traffic stop'],
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
 
-    const { baseElement, getByTestId } = container
+    const { baseElement, getByTestId, getByText } = container
 
     const complaintItemTitle = baseElement.getElementsByClassName(
       'complaint-item-title'
@@ -65,60 +63,57 @@ describe('ComplaintItem component', () => {
       'complaint-item-content'
     )[0]
 
-    const complaintRuleViolation = complaintItemContent.getElementsByClassName(
+    const allegation = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[0]
-    expect(complaintRuleViolation.textContent).toEqual(
-      'Rule_code - Rule Vialation'
-    )
+    expect(allegation.textContent).toEqual('Allegation title')
 
-    const complaintParagraphViolation = complaintItemContent.getElementsByClassName(
+    const complaintDescription = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
     )[1]
-    expect(complaintParagraphViolation.textContent).toEqual(
-      'Paragraph_code - Paragraph Violation'
-    )
-
-    const complaintDesc = complaintItemContent.getElementsByClassName(
-      'complaint-item-info-row-value'
-    )[2]
-    expect(complaintDesc.textContent).toEqual('Description')
+    expect(complaintDescription.textContent).toEqual('Description')
 
     const complaintDisposition = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
-    )[3]
+    )[2]
     expect(complaintDisposition.textContent).toEqual('Disposition')
 
     const complaintAction = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
-    )[4]
+    )[3]
     expect(complaintAction.textContent).toEqual('Action')
 
     const complaintTrackingNumber = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
-    )[5]
+    )[4]
     expect(complaintTrackingNumber.textContent).toEqual('123-456')
 
     const complaintCopyLink = complaintItemContent.getElementsByClassName(
       'complaint-item-copy-link'
     )[0]
     expect(complaintCopyLink.textContent).toEqual('Copy link')
+
+    expect(getByText('citizen arrested').className).toEqual(
+      'complaint-item-detail-element'
+    )
+
+    expect(getByText('traffic stop').className).toEqual(
+      'complaint-item-detail-element'
+    )
   })
 
   it('renders complaint component when missing some data', () => {
     const complaintData = {
-      ruleCode: 'Rule_code',
-      ruleViolation: 'Rule Vialation',
-      paragraphViolation: null,
       disposition: null,
       action: 'Action',
       trackingNumber: '123-456',
       showEventDetails: false,
+      details: ['citizen arrested'],
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
 
-    const { baseElement } = container
+    const { baseElement, getByText, queryByText } = container
 
     const complaintItemHeader = baseElement.getElementsByClassName(
       'complaint-item-header'
@@ -129,22 +124,21 @@ describe('ComplaintItem component', () => {
       'complaint-item-content'
     )[0]
 
-    const complaintRuleViolation = complaintItemContent.getElementsByClassName(
-      'complaint-item-info-row-value'
-    )[0]
-    expect(complaintRuleViolation.textContent).toEqual(
-      'Rule_code - Rule Vialation'
-    )
-
     const complaintAction = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
-    )[1]
+    )[0]
     expect(complaintAction.textContent).toEqual('Action')
 
     const complaintTrackingNumber = complaintItemContent.getElementsByClassName(
       'complaint-item-info-row-value'
-    )[2]
+    )[1]
     expect(complaintTrackingNumber.textContent).toEqual('123-456')
+
+    expect(getByText('citizen arrested').className).toEqual(
+      'complaint-item-detail-element'
+    )
+
+    expect(queryByText('traffic stop')).toBeFalsy()
   })
 
   it('highlights complaint if it is the hightlighted item', () => {
@@ -152,8 +146,6 @@ describe('ComplaintItem component', () => {
     window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView
 
     const complaintData = {
-      ruleViolation: 'Rule Vialation',
-      paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
       trackingNumber: '123-456',
@@ -193,8 +185,6 @@ describe('ComplaintItem component', () => {
     const complaintData = {
       id: complaintId,
       officerId,
-      ruleViolation: 'Rule Vialation',
-      paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
       trackingNumber: '123-456',
@@ -230,8 +220,6 @@ describe('ComplaintItem component', () => {
 
   it('shows complaint component when showEventDetails is true', () => {
     const complaintData = {
-      ruleViolation: 'Rule Vialation',
-      paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
       trackingNumber: '123-456',
@@ -257,8 +245,6 @@ describe('ComplaintItem component', () => {
 
     const complaintData = {
       id: complaintId,
-      ruleViolation: 'Rule Vialation',
-      paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
       trackingNumber: '123-456',
@@ -293,8 +279,6 @@ describe('ComplaintItem component', () => {
 
     const complaintData = {
       id: complaintId,
-      ruleViolation: 'Rule Vialation',
-      paragraphViolation: 'Paragraph Violation',
       disposition: 'Disposition',
       action: 'Action',
       trackingNumber: '123-456',

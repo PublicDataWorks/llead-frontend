@@ -1,55 +1,10 @@
 import {
-  analyticSummarySelector,
   departmentsSelector,
   documentsSelector,
   officersSelector,
   newsArticlesSelector,
   frontPageOrdersSelector,
 } from 'selectors/front-page'
-
-describe('#analyticSummarySelector', () => {
-  describe('has data', () => {
-    it('returns analytic summary data', () => {
-      const rawAnalyticSummary = {
-        departmentsCount: 4,
-        officersCount: 5,
-        documentsCount: 6,
-        recentDays: 30,
-        recentDepartmentsCount: 1,
-        recentOfficersCount: 2,
-        recentDocumentsCount: 3,
-      }
-
-      const expectedAnalyticSummary = {
-        departmentsCount: 4,
-        officersCount: 5,
-        documentsCount: 6,
-        recentDays: 30,
-        recentDepartmentsCount: 1,
-        recentOfficersCount: 2,
-        recentDocumentsCount: 3,
-      }
-
-      const state = {
-        frontPage: {
-          analyticSummary: rawAnalyticSummary,
-        },
-      }
-
-      const analyticSummary = analyticSummarySelector(state)
-
-      expect(analyticSummary).toStrictEqual(expectedAnalyticSummary)
-    })
-  })
-
-  describe('does not have data', () => {
-    it('returns empty data', () => {
-      const analyticSummary = analyticSummarySelector({})
-
-      expect(analyticSummary).toStrictEqual({})
-    })
-  })
-})
 
 describe('#departmentsSelector', () => {
   it('returns department data', () => {
@@ -112,6 +67,7 @@ describe('#officersSelector', () => {
           id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
+        latestRank: 'senior',
         extraField: 'data',
       },
       {
@@ -119,6 +75,7 @@ describe('#officersSelector', () => {
         name: 'Eric Patel',
         badges: ['12345'],
         department: null,
+        latestRank: 'junior',
         extraField: 'data',
       },
     ]
@@ -132,12 +89,14 @@ describe('#officersSelector', () => {
           id: 'north-paulaberg-department',
           name: 'North Paulaberg Department',
         },
+        latestRank: 'senior',
       },
       {
         id: 22,
         name: 'Eric Patel',
         badges: ['12345'],
         department: {},
+        latestRank: 'junior',
       },
     ]
 
@@ -263,6 +222,7 @@ describe('#newsArticlesSelector', () => {
         url: 'https://i.imgur.com/news-article1.pdf',
         title: 'news-article-1',
         publishedDate: 'Nov 9, 2020',
+        date: 'Nov 9, 2020',
       },
       {
         id: 2,
@@ -270,6 +230,7 @@ describe('#newsArticlesSelector', () => {
         url: 'https://i.imgur.com/news-article2.pdf',
         title: 'news-article-2',
         publishedDate: 'Nov 10, 2020',
+        date: 'Nov 10, 2020',
       },
     ]
 

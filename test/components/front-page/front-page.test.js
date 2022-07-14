@@ -7,10 +7,28 @@ import MockStore from 'redux-mock-store'
 
 import FrontPage from 'components/front-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
+import IntroSection from 'containers/front-page/intro-section'
+
+jest.mock('containers/front-page/intro-section', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockIntroSectionComponent = () => {
+  return <div>Intro Section</div>
+}
+
+beforeAll(() => {
+  IntroSection.mockImplementation(MockIntroSectionComponent)
+})
+
+beforeEach(() => {
+  IntroSection.mockClear()
+})
 
 describe('FrontPage component', () => {
   it('should fetch data', () => {
-    const fetchAnalyticSummarySpy = sinon.spy()
     const fetchDepartmentsSpy = sinon.spy()
     const fetchOfficersSpy = sinon.spy()
     const fetchDocumentsSpy = sinon.spy()
@@ -22,7 +40,6 @@ describe('FrontPage component', () => {
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
             <FrontPage
-              fetchAnalyticSummary={fetchAnalyticSummarySpy}
               fetchDepartments={fetchDepartmentsSpy}
               fetchOfficers={fetchOfficersSpy}
               fetchDocuments={fetchDocumentsSpy}
@@ -34,16 +51,15 @@ describe('FrontPage component', () => {
       </Provider>
     )
 
-    expect(fetchAnalyticSummarySpy).toHaveBeenCalled()
     expect(fetchDepartmentsSpy).toHaveBeenCalled()
     expect(fetchOfficersSpy).toHaveBeenCalled()
     expect(fetchDocumentsSpy).toHaveBeenCalled()
     expect(fetchNewsArticlesSpy).toHaveBeenCalled()
     expect(fetchFrontPageOrdersSpy).toHaveBeenCalled()
+    expect(IntroSection).toHaveBeenCalled()
   })
 
   it('clear search query on enter homepage', () => {
-    const fetchAnalyticSummarySpy = sinon.spy()
     const fetchDepartmentsSpy = sinon.spy()
     const fetchOfficersSpy = sinon.spy()
     const fetchDocumentsSpy = sinon.spy()
@@ -57,7 +73,6 @@ describe('FrontPage component', () => {
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
             <FrontPage
-              fetchAnalyticSummary={fetchAnalyticSummarySpy}
               fetchDepartments={fetchDepartmentsSpy}
               fetchOfficers={fetchOfficersSpy}
               fetchDocuments={fetchDocumentsSpy}
@@ -71,7 +86,6 @@ describe('FrontPage component', () => {
       </Provider>
     )
 
-    expect(fetchAnalyticSummarySpy).toHaveBeenCalled()
     expect(fetchDepartmentsSpy).toHaveBeenCalled()
     expect(fetchOfficersSpy).toHaveBeenCalled()
     expect(fetchDocumentsSpy).toHaveBeenCalled()

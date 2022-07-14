@@ -6,6 +6,8 @@ import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
 import slice from 'lodash/slice'
+import split from 'lodash/split'
+import includes from 'lodash/includes'
 
 import { MAX_SEARCH_QUERY_SUGGESTIONS } from 'constants/common'
 import { formatDate } from 'utils/formatter'
@@ -17,13 +19,16 @@ export const documentFormatter = (document) => {
     'id',
     'title',
     'url',
-    'documentType',
     'departments',
     'textContent',
     'textContentHighlight',
     'previewImageUrl',
     'pagesCount',
   ]
+  const documentUrl = get(document, 'url')
+  const filename = split(documentUrl, '/').pop()
+  const documentType = includes(filename, '.') ? split(filename, '.').pop() : ''
+
   const rawDepartments = get(document, 'departments')
   const departments = map(rawDepartments, (department) =>
     pick(department, ['id', 'name'])
@@ -32,6 +37,7 @@ export const documentFormatter = (document) => {
   return {
     ...pick(document, documentAttributes),
     incidentDate: formatDate(document.incidentDate),
+    documentType,
     departments,
   }
 }

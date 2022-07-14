@@ -3,7 +3,6 @@ import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import indexOf from 'lodash/indexOf'
-import { isMobile } from 'react-device-detect'
 
 import './wrgl-file.scss'
 
@@ -20,6 +19,7 @@ const WRGLFile = (props) => {
   const [isExpanded, setExpanded] = useState(false)
   const [isDescriptionExpanded, setDescriptionExpanded] = useState(false)
   const [isDescriptionExpandable, setDescriptionExpandable] = useState(false)
+  const [iframeSrc, setIframeSrc] = useState(null)
   let descriptionRef = useRef()
 
   const handleClick = () => {
@@ -43,6 +43,12 @@ const WRGLFile = (props) => {
     }
   }, [description, descriptionRef.current, isExpanded])
 
+  useEffect(() => {
+    if (isExpanded && !iframeSrc) {
+      setIframeSrc(url)
+    }
+  }, [isExpanded])
+
   return (
     <div className={cx('wrgl-container', { 'wrgl-expanded': isExpanded })}>
       <div
@@ -57,7 +63,7 @@ const WRGLFile = (props) => {
           className='wrgl-download'
           onClick={(event) => event.stopPropagation()}
         >
-          {isMobile ? '' : 'Download .csv'}
+          <div className='download-text'>Download .csv</div>
         </a>
       </div>
       <div className='wrgl-content'>
@@ -74,7 +80,7 @@ const WRGLFile = (props) => {
             ...<span>more</span>
           </a>
         </div>
-        <iframe className='wrgl-embed' src={url} />
+        <iframe className='wrgl-embed' src={iframeSrc} loading='lazy' />
       </div>
     </div>
   )

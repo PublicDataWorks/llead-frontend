@@ -1,11 +1,15 @@
 export const CMS_SECTIONS = {
   FRONT_PAGE: 'FRONT_PAGE',
+  ABOUT_PAGE: 'ABOUT_PAGE',
   FOOTER: 'FOOTER',
 }
 
 export const CMS_KEYS = {
   [CMS_SECTIONS.FRONT_PAGE]: {
     summary: 'frontPageSummary',
+  },
+  [CMS_SECTIONS.ABOUT_PAGE]: {
+    summary: 'aboutPageSummary',
   },
   [CMS_SECTIONS.FOOTER]: {
     text: 'footerText',
@@ -42,8 +46,9 @@ export const TIMELINE_KIND_ORDERS = {
   SALARY_CHANGE: 5,
   COMPLAINT: 6,
   UOF: 7,
-  DOCUMENT: 8,
-  NEWS_ARTICLE: 9,
+  APPEAL: 8,
+  DOCUMENT: 9,
+  NEWS_ARTICLE: 10,
 }
 
 export const TIMELINE_KINDS = {
@@ -56,6 +61,7 @@ export const TIMELINE_KINDS = {
   RANK_CHANGE: 'RANK_CHANGE',
   UNIT_CHANGE: 'UNIT_CHANGE',
   NEWS_ARTICLE: 'NEWS_ARTICLE',
+  APPEAL: 'APPEAL',
 }
 
 export const TIMELINE_FILTERS = {
@@ -72,12 +78,16 @@ export const TIMELINE_FILTERS = {
     kinds: [TIMELINE_KINDS.NEWS_ARTICLE],
   },
   RANKS_AND_UNITS: {
-    title: 'Rank/unit',
+    title: 'Rank/Unit',
     kinds: [TIMELINE_KINDS.RANK_CHANGE, TIMELINE_KINDS.UNIT_CHANGE],
   },
   UOF: {
-    title: 'Use of force',
+    title: 'Use of Force',
     kinds: [TIMELINE_KINDS.UOF],
+  },
+  APPEAL: {
+    title: 'Appeals',
+    kinds: [TIMELINE_KINDS.APPEAL],
   },
 }
 
@@ -87,6 +97,7 @@ export const ANIMATION_DURATION = 1500
 export const TRACK_ITEM_TYPES = {
   COMPLAINT: 'complaint',
   UOF: 'use of force',
+  APPEAL: 'appeal',
 }
 
 export const EVENT_TYPES = {
@@ -128,3 +139,13 @@ export const DOCUMENTS_SHOW_MORE_LIMIT = 5
 export const NEWS_ARTICLES_SHOW_MORE_LIMIT = 5
 
 export const NEWS_TYPE = 'news'
+
+export const RADIUS = 20
+export const NUM_OF_POINTS = 501
+export const RADIAN_VALUE = (RADIUS * Math.PI) / 180
+
+export const MAP_BASE_INTERVAL = 1500
+export const BASE_CIRCLE_RADIUS = 3
+export const RADIUS_THRESHOLD_RATIO = 1 / 4
+export const MAXIMUM_PULSING_RATIO = 1.5
+export const PULSING_STEP = 1.1

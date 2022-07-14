@@ -2,14 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { sanitize } from 'dompurify'
 import isEmpty from 'lodash/isEmpty'
+import noop from 'lodash/noop'
 
 import './search-news-articles-item.scss'
 import OuterLink from 'components/common/links/outer-link'
-import { EVENT_TYPES, NEWS_TYPE } from 'constants/common'
+import { EVENT_TYPES, NEWS_TYPE, RECENT_ITEM_TYPES } from 'constants/common'
 import { analyzeAction } from 'utils/google-analytics'
 
 const SearchNewsArticleItem = (props) => {
-  const { item: newsArticle } = props
+  const { item: newsArticle, saveRecentItem } = props
 
   const {
     id,
@@ -31,6 +32,11 @@ const SearchNewsArticleItem = (props) => {
   const santinizedHTML = sanitize(`${authorStr}  ${contentStr}`)
 
   const handleClick = () => {
+    saveRecentItem({
+      type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      id: id,
+      data: newsArticle,
+    })
     analyzeAction({
       type: EVENT_TYPES.OPEN_ARTICLE,
       data: { article_id: id },
@@ -67,10 +73,12 @@ const SearchNewsArticleItem = (props) => {
 
 SearchNewsArticleItem.propTypes = {
   item: PropTypes.object,
+  saveRecentItem: PropTypes.func,
 }
 
 SearchNewsArticleItem.defaultProps = {
   item: {},
+  saveRecentItem: noop,
 }
 
 export default SearchNewsArticleItem

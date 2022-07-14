@@ -5,7 +5,6 @@ import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
 import mapValues from 'lodash/mapValues'
 
-import AnalyticSummary from './analytic-summary'
 import './front-page.scss'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
@@ -13,17 +12,18 @@ import DocumentsCarousel from 'components/common/carousel/documents-carousel'
 import NewsArticlesCarousel from 'components/common/carousel/news-articles-carousel'
 import RecentItemsCarousel from './recent-items-carousel'
 import { FRONT_PAGE_SECTIONS } from 'constants/common'
+import MigratoryPatternMap from './migratory-map'
+import IntroSection from 'containers/front-page/intro-section'
 
 const FrontPage = (props) => {
   const {
     cms,
-    fetchAnalyticSummary,
     fetchDepartments,
     fetchOfficers,
     fetchDocuments,
     fetchNewsArticles,
     fetchFrontPageOrders,
-    analyticSummary,
+    fetchMigratoryData,
     departments,
     officers,
     documents,
@@ -44,11 +44,11 @@ const FrontPage = (props) => {
     changeSearchQuery('')
     changeSearchDepartment({})
     fetchFrontPageOrders()
-    fetchAnalyticSummary()
     fetchDepartments()
     fetchOfficers()
     fetchDocuments()
     fetchNewsArticles()
+    fetchMigratoryData()
   }, [])
 
   const frontPageOrderClasses = mapValues(
@@ -59,12 +59,8 @@ const FrontPage = (props) => {
   return (
     <div className='front-page'>
       <ReactMarkdown className='summary'>{cms.summary}</ReactMarkdown>
-      <AnalyticSummary
-        analyticSummary={analyticSummary}
-        departmentRef={departmentRef}
-        officerRef={officerRef}
-        documentRef={documentRef}
-      />
+      <MigratoryPatternMap />
+      <IntroSection />
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
           items={recentItems}
@@ -123,19 +119,18 @@ const FrontPage = (props) => {
 
 FrontPage.propTypes = {
   cms: PropTypes.object,
-  analyticSummary: PropTypes.object,
   departments: PropTypes.array,
   officers: PropTypes.array,
   documents: PropTypes.array,
   newsArticles: PropTypes.array,
   recentItems: PropTypes.array,
   frontPageOrders: PropTypes.object,
-  fetchAnalyticSummary: PropTypes.func,
   fetchDepartments: PropTypes.func,
   fetchOfficers: PropTypes.func,
   fetchDocuments: PropTypes.func,
   fetchNewsArticles: PropTypes.func,
   fetchFrontPageOrders: PropTypes.func,
+  fetchMigratoryData: PropTypes.func,
   saveRecentItem: PropTypes.func,
   removeRecentItem: PropTypes.func,
   changeSearchQuery: PropTypes.func,
@@ -144,19 +139,18 @@ FrontPage.propTypes = {
 
 FrontPage.defaultProps = {
   cms: {},
-  analyticSummary: {},
   departments: [],
   officers: [],
   documents: [],
   newsArticles: [],
   recentItems: [],
   frontPageOrders: {},
-  fetchAnalyticSummary: noop,
   fetchDepartments: noop,
   fetchOfficers: noop,
   fetchDocuments: noop,
   fetchNewsArticles: noop,
   fetchFrontPageOrders: noop,
+  fetchMigratoryData: noop,
   saveRecentItem: noop,
   changeSearchQuery: noop,
   changeSearchDepartment: noop,

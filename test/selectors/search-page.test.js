@@ -155,7 +155,7 @@ describe('#searchResultsSelector', () => {
         results: [
           {
             id: 22,
-            documentType: 'css',
+            documentType: 'pdf',
             title: 'Especially sense available best.',
             url: 'http://documents.com/hundred/work.pdf',
             incidentDate: 'Jan 6, 2020',
@@ -195,6 +195,184 @@ describe('#searchResultsSelector', () => {
         count: 2,
         limit: 1,
         offset: 1,
+        q: 'key',
+      },
+    }
+
+    expect(results).toStrictEqual(expectedResults)
+  })
+
+  it('returns documentType corresponding to url', () => {
+    const rawResults = {
+      documents: {
+        results: [
+          {
+            id: 22,
+            documentType: 'application/pdf',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.pdf',
+            incidentDate: '2020-01-06',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+          {
+            id: 23,
+            documentType: 'application/msword',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.doc',
+            incidentDate: '2020-01-06',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+          {
+            id: 24,
+            documentType: 'application/xml',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.docx',
+            incidentDate: '2020-01-06',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+          {
+            id: 25,
+            documentType: 'application/xml',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work',
+            incidentDate: '2020-01-06',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+        ],
+        previous: null,
+        next: 'http://ipno.com/pagination/?offset=0&limit=4&q=key',
+        count: 4,
+      },
+    }
+    const state = {
+      searchPage: {
+        searchResults: rawResults,
+      },
+    }
+
+    const results = searchResultsSelector(state)
+
+    const expectedResults = {
+      officers: {
+        results: [],
+      },
+      departments: {
+        results: [],
+      },
+      articles: {
+        results: [],
+      },
+      documents: {
+        results: [
+          {
+            id: 22,
+            documentType: 'pdf',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.pdf',
+            incidentDate: 'Jan 6, 2020',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+          {
+            id: 23,
+            documentType: 'doc',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.doc',
+            incidentDate: 'Jan 6, 2020',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+          {
+            id: 24,
+            documentType: 'docx',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work.docx',
+            incidentDate: 'Jan 6, 2020',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+          {
+            id: 25,
+            documentType: '',
+            title: 'Especially sense available best.',
+            url: 'http://documents.com/hundred/work',
+            incidentDate: 'Jan 6, 2020',
+            departments: [
+              {
+                id: 'petersonmouth-department',
+                name: 'Petersonmouth Department',
+              },
+            ],
+            textContent: 'Text content',
+            textContentHighlight: 'Text content <em>highlight</em>',
+            previewImageUrl: 'http://documents.com/preview',
+            pagesCount: 5,
+          },
+        ],
+        previous: null,
+        count: 4,
+        limit: 4,
+        offset: 0,
         q: 'key',
       },
     }

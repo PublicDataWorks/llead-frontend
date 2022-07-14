@@ -24,6 +24,7 @@ import {
 } from 'constants/common'
 import { analyzeAction } from 'utils/google-analytics'
 import NewsArticleCard from './news-article-card'
+import AppealItem from './appeal-item'
 
 const TIMELINE_COMPONENTS_MAPPING = {
   [TIMELINE_KINDS.JOINED]: { component: MainItem },
@@ -33,6 +34,9 @@ const TIMELINE_COMPONENTS_MAPPING = {
   },
   [TIMELINE_KINDS.UOF]: {
     component: UseOfForceItem,
+  },
+  [TIMELINE_KINDS.APPEAL]: {
+    component: AppealItem,
   },
   [TIMELINE_KINDS.DOCUMENT]: {
     component: DocumentCard,
@@ -78,13 +82,20 @@ const Timeline = (props) => {
 
   useEffect(() => {
     const search = qs.parse(location.search, { ignoreQueryPrefix: true })
-    const { complaint_id: complaintId, uof_id: uofId } = search
+    const {
+      complaint_id: complaintId,
+      uof_id: uofId,
+      appeal_id: appealId,
+    } = search
     if (complaintId) {
       setHighlightItemId(complaintId)
       setHighlightItemKind(TIMELINE_KINDS.COMPLAINT)
     } else if (uofId) {
       setHighlightItemId(uofId)
       setHighlightItemKind(TIMELINE_KINDS.UOF)
+    } else if (appealId) {
+      setHighlightItemId(appealId)
+      setHighlightItemKind(TIMELINE_KINDS.APPEAL)
     }
     const setHighlightItemIdTimeoutId = setTimeout(
       () => setHighlightItemId(null),
@@ -173,7 +184,9 @@ const Timeline = (props) => {
             {showHeaderActionsButton && (
               <div className='timeline-header-actions-container'>
                 <div
-                  className='timeline-header-actions-btn'
+                  className={cx('timeline-header-actions-btn', {
+                    'active-btn': showActionsPanel,
+                  })}
                   onClick={() => setShowActionsPanel(!showActionsPanel)}
                 />
                 {showActionsPanel && (
@@ -203,9 +216,13 @@ const Timeline = (props) => {
             )}
             <BrowserView className='timeline-header-download-container'>
               <div
-                className={cx('timeline-download-btn', {
-                  'timeline-download-btn-disable': isDownloadingFile,
-                })}
+                className={cx(
+                  'timeline-download-btn',
+                  {
+                    'timeline-download-btn-disable': isDownloadingFile,
+                  },
+                  { 'active-btn': showDownloadPanel }
+                )}
                 onClick={() => setShowDownloadPanel(!showDownloadPanel)}
               />
               {showDownloadPanel && (

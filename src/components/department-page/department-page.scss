@@ -88,7 +88,6 @@
         .summary-item {
           display: flex;
           flex-flow: column nowrap;
-          flex-basis: calc(50% - 0.5px);
           padding: 0px $h-small-thumbnail-back;
           height: 180px;
           background-color: $thunder-color;
@@ -115,6 +114,22 @@
 
         .summary-incidents {
           color: $manhattan-color;
+        }
+
+        .summary-item-1,
+        .summary-item-2,
+        .summary-item-3 {
+          flex-basis: 100%;
+        }
+
+        .summary-item-4,
+        .summary-item-5,
+        .summary-item-6 {
+          flex-basis: calc(100% / 2 - 0.5px);
+        }
+
+        .summary-item-mobile-stretch.summary-item-5 {
+          flex-basis: 100%;
         }
       }
     }
@@ -188,32 +203,60 @@
         .department-summary {
           flex-direction: row;
 
-          .summary-item {
+          .summary-item-1 {
+            flex-basis: 100%;
+          }
+
+          .summary-item-2,
+          .summary-item-4 {
+            flex-basis: calc(100% / 2 - 0.5px);
+          }
+
+          .summary-item-3,
+          .summary-item-5,
+          .summary-item-6 {
             flex-basis: calc(100% / 3 - 0.67px);
           }
+
+          .summary-item-stretch.summary-item-5 {
+            flex-basis: calc(100% / 2 - 0.5px);
+          }
+
+          .summary-item-shrink.summary-item-5 {
+            flex-basis: calc(100% / 3 - 0.67px);
+          }
+
+          .count-2 {
+            flex-basis: calc(100% / 2 - 1px);
+          }
+
+          .count-1 {
+            flex-basis: 100%;
+          }
+
 
           .summary-officers {
             order: 1;
           }
 
           .summary-datasets {
-            order: 4;
+            order: 6;
           }
 
           .summary-news-articles {
-            order: 2;
-          }
-
-          .summary-allegations {
             order: 5;
           }
 
+          .summary-allegations {
+            order: 2;
+          }
+
           .summary-documents {
-            order: 3;
+            order: 4;
           }
 
           .summary-incidents {
-            order: 6;
+            order: 3;
           }
         }
       }

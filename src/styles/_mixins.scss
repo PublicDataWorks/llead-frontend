@@ -29,3 +29,9 @@
   font-size: 16px;
   line-height: 21px;
 }
+
+@mixin intro-text {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+}

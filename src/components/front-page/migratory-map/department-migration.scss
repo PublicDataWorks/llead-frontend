@@ -1,0 +1,38 @@
+@import 'styles/variables';
+
+.mapboxgl-map {
+  .mapboxgl-control-container {
+    .mapboxgl-ctrl-bottom-right {
+      bottom: 60px;
+    }
+  }
+
+  .replay-button {
+    position: absolute;
+    left: 9px;
+    bottom: 60px;
+    height: 40px;
+    width: 40px;
+    border: 0;
+    background-image: url('assets/icons/replay.svg');
+    background-color: transparent;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .mapboxgl-map {
+    .mapboxgl-control-container {
+      .mapboxgl-ctrl-bottom-right {
+        bottom: 0;
+      }
+    }
+
+    .replay-button {
+      bottom: 20px;
+    }
+  }
+}

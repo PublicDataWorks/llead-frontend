@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
+import { isMobile } from 'react-device-detect'
 import pluralize from 'pluralize'
 import qs from 'qs'
 import PropTypes from 'prop-types'
@@ -11,6 +12,7 @@ import compact from 'lodash/compact'
 import filter from 'lodash/filter'
 import concat from 'lodash/concat'
 import some from 'lodash/some'
+import cx from 'classnames'
 
 import './department-page.scss'
 import WRGLFile from './wrgl-file'
@@ -45,6 +47,7 @@ const Department = (props) => {
 
   const [expandedCsvFiles, setExpandedCsvFiles] = useState([])
   const [itemType, setItemType] = useState('')
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
   const location = useLocation()
   const history = useHistory()
 
@@ -89,6 +92,15 @@ const Department = (props) => {
     dataPeriod,
   } = department
 
+  const summarySectionCount = [
+    officersCount,
+    complaintsCount,
+    incidentForceCount,
+    documentsCount,
+    newsArticlesCount,
+    datasetsCount,
+  ].filter((count) => count > 0).length
+
   const mapElementStyles = isEmpty(locationMapUrl)
     ? {}
     : { backgroundImage: `url(${locationMapUrl})` }
@@ -96,6 +108,41 @@ const Department = (props) => {
   const joinedDataPeriod = useMemo(() => formatDataPeriods(dataPeriod), [
     dataPeriod,
   ])
+
+  const updateExpandedCsvFiles = (slug, isExpanded) => {
+    const parsedSearch = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+      comma: true,
+    })
+
+    let newExpandedCsvFiles
+    if (isExpanded) {
+      newExpandedCsvFiles = compact(
+        filter(expandedCsvFiles, (item) => item !== slug)
+      )
+    } else {
+      newExpandedCsvFiles = compact(concat(expandedCsvFiles, [slug]))
+    }
+    history.replace({
+      search: qs.stringify(
+        { ...parsedSearch, csv: newExpandedCsvFiles },
+        { arrayFormat: 'comma', encode: false }
+      ),
+    })
+    setExpandedCsvFiles(newExpandedCsvFiles)
+  }
+
+  const openSearchModal = () => {
+    setIsSearchModalOpen(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeSearchModal = () => {
+    setIsSearchModalOpen(false)
+    document.body.style.overflow = 'unset'
+  }
+
+  const isLocationShow = some([locationMapUrl, city, parish, address, phone])
 
   useEffect(() => {
     fetchDepartment(departmentId)
@@ -155,42 +202,9 @@ const Department = (props) => {
     return () => clearDocumentHead()
   }, [name, setDocumentHead])
 
-  const updateExpandedCsvFiles = (slug, isExpanded) => {
-    const parsedSearch = qs.parse(location.search, {
-      ignoreQueryPrefix: true,
-      comma: true,
-    })
-
-    let newExpandedCsvFiles
-    if (isExpanded) {
-      newExpandedCsvFiles = compact(
-        filter(expandedCsvFiles, (item) => item !== slug)
-      )
-    } else {
-      newExpandedCsvFiles = compact(concat(expandedCsvFiles, [slug]))
-    }
-    history.replace({
-      search: qs.stringify(
-        { ...parsedSearch, csv: newExpandedCsvFiles },
-        { arrayFormat: 'comma', encode: false }
-      ),
-    })
-    setExpandedCsvFiles(newExpandedCsvFiles)
-  }
-
-  const [isSearchModalOpen, setIsSearchModalOpen] = React.useState(false)
-
-  const openSearchModal = () => {
-    setIsSearchModalOpen(true)
-    document.body.style.overflow = 'hidden'
-  }
-
-  const closeSearchModal = () => {
-    setIsSearchModalOpen(false)
-    document.body.style.overflow = 'unset'
-  }
-
-  const isLocationShow = some([locationMapUrl, city, parish, address, phone])
+  useEffect(() => {
+    return () => closeSearchModal()
+  }, [departmentId])
 
   return (
     !isRequesting &&
@@ -234,67 +248,126 @@ const Department = (props) => {
             )}
 
             <div className='department-summary'>
-              <div className='summary-item summary-officers'>
-                <div className='summary-item-count'>
-                  {formatNumber(officersCount)}
+              {officersCount > 0 && (
+                <div
+                  className={cx(
+                    'summary-officers',
+                    'summary-item',
+                    `summary-item-${summarySectionCount}`,
+                    'summary-item-mobile-stretch',
+                    'summary-item-stretch'
+                  )}
+                >
+                  <div className='summary-item-count'>
+                    {formatNumber(officersCount)}
+                  </div>
+                  <div className='summary-item-title'>
+                    {pluralize('officer', officersCount)}
+                  </div>
                 </div>
-                <div className='summary-item-title'>
-                  {pluralize('officer', officersCount)}
+              )}
+              {datasetsCount > 0 && (
+                <div
+                  className={cx(
+                    'summary-datasets',
+                    'summary-item',
+                    `summary-item-${summarySectionCount}`,
+                    {
+                      'summary-item-mobile-stretch':
+                        officersCount === 0 && isMobile,
+                    }
+                  )}
+                >
+                  <div className='summary-item-count'>
+                    {formatNumber(datasetsCount)}
+                  </div>
+                  <div className='summary-item-title'>
+                    {pluralize('dataset', datasetsCount)}
+                  </div>
+                  <div className='recent-summary-item'>
+                    +{recentDatasetsCount} in the past 30 days
+                  </div>
                 </div>
-              </div>
-              <div className='summary-item  summary-datasets'>
-                <div className='summary-item-count'>
-                  {formatNumber(datasetsCount)}
+              )}
+              {newsArticlesCount > 0 && (
+                <div
+                  className={cx(
+                    'summary-news-articles',
+                    'summary-item',
+                    `summary-item-${summarySectionCount}`
+                  )}
+                >
+                  <div className='summary-item-count'>
+                    {formatNumber(newsArticlesCount)}
+                  </div>
+                  <div className='summary-item-title'>
+                    {pluralize('news article', newsArticlesCount)}
+                  </div>
+                  <div className='recent-summary-item'>
+                    +{recentNewsArticlesCount} in the past 30 days
+                  </div>
                 </div>
-                <div className='summary-item-title'>
-                  {pluralize('dataset', datasetsCount)}
+              )}
+              {complaintsCount > 0 && (
+                <div
+                  className={cx(
+                    'summary-allegations',
+                    'summary-item',
+                    `summary-item-${summarySectionCount}`,
+                    'summary-item-stretch'
+                  )}
+                >
+                  <div className='summary-item-count'>
+                    {formatNumber(complaintsCount)}
+                  </div>
+                  <div className='summary-item-title'>
+                    {pluralize('allegation', complaintsCount)}
+                  </div>
+                  <div className='recent-summary-item'>
+                    {sustainedComplaintPercentage}% sustained allegations
+                  </div>
                 </div>
-                <div className='recent-summary-item'>
-                  +{recentDatasetsCount} in the past 30 days
+              )}
+              {documentsCount > 0 && (
+                <div
+                  className={cx(
+                    'summary-documents',
+                    'summary-item',
+                    `summary-item-${summarySectionCount}`
+                  )}
+                >
+                  <div className='summary-item-count'>
+                    {formatNumber(documentsCount)}
+                  </div>
+                  <div className='summary-item-title'>
+                    {pluralize('document', documentsCount)}
+                  </div>
+                  <div className='recent-summary-item'>
+                    +{recentDocumentsCount} in the past 30 days
+                  </div>
                 </div>
-              </div>
-              <div className='summary-item summary-news-articles'>
-                <div className='summary-item-count'>
-                  {formatNumber(newsArticlesCount)}
+              )}
+              {incidentForceCount > 0 && (
+                <div
+                  className={cx(
+                    'summary-incidents',
+                    'summary-item',
+                    `summary-item-${summarySectionCount}`,
+                    'summary-item-stretch',
+                    {
+                      'summary-item-shrink':
+                        officersCount > 0 && complaintsCount > 0,
+                    }
+                  )}
+                >
+                  <div className='summary-item-count'>
+                    {formatNumber(incidentForceCount)}
+                  </div>
+                  <div className='summary-item-title'>
+                    {pluralize('force incident', incidentForceCount)}
+                  </div>
                 </div>
-                <div className='summary-item-title'>
-                  {pluralize('news article', newsArticlesCount)}
-                </div>
-                <div className='recent-summary-item'>
-                  +{recentNewsArticlesCount} in the past 30 days
-                </div>
-              </div>
-              <div className='summary-item summary-allegations'>
-                <div className='summary-item-count'>
-                  {formatNumber(complaintsCount)}
-                </div>
-                <div className='summary-item-title'>
-                  {pluralize('allegation', complaintsCount)}
-                </div>
-                <div className='recent-summary-item'>
-                  {sustainedComplaintPercentage}% sustained allegations
-                </div>
-              </div>
-              <div className='summary-item summary-documents'>
-                <div className='summary-item-count'>
-                  {formatNumber(documentsCount)}
-                </div>
-                <div className='summary-item-title'>
-                  {pluralize('document', documentsCount)}
-                </div>
-                <div className='recent-summary-item'>
-                  +{recentDocumentsCount} in the past 30 days
-                </div>
-              </div>
-
-              <div className='summary-item summary-incidents'>
-                <div className='summary-item-count'>
-                  {formatNumber(incidentForceCount)}
-                </div>
-                <div className='summary-item-title'>
-                  {pluralize('force incident', incidentForceCount)}
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -309,6 +382,7 @@ const Department = (props) => {
                 searchModalOnOpen={openSearchModal}
                 setItemType={setItemType}
                 section={section}
+                saveRecentItem={saveRecentItem}
               />
             )
         )}
@@ -333,6 +407,7 @@ const Department = (props) => {
           departmentId={departmentId}
           departmentName={name}
           itemType={itemType}
+          saveRecentItem={saveRecentItem}
         />
       </div>
     )

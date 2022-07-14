@@ -7,19 +7,21 @@
   top: 100px;
   left: 50%;
   transform: translate(-50%, 0);
-  width: 286px;
+  width: 292px;
   background-color: $white-color;
+  border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   z-index: 30;
-  animation: slide-down 300ms ease-out forwards;
 
   .featured-search-header {
     border: 1px solid #dbdbdb;
+    border-radius: 8px;
     box-sizing: border-box;
 
     .search-icon {
       width: $v-header-margin;
       height: $v-header-margin;
+      border-radius: 8px;
       background: $white-color url('assets/icons/search.svg') center no-repeat;
       display: inline-block;
       vertical-align: middle;
@@ -43,6 +45,7 @@
     .close-icon {
       width: $v-header-margin;
       height: $v-header-margin;
+      border-radius: 8px;
       background: $white-color url('assets/icons/remove.svg') center no-repeat;
       display: inline-block;
       vertical-align: middle;
@@ -56,6 +59,7 @@
 
     .search-result-count {
       @include strong-text;
+      white-space: pre;
     }
 
     .search-result-department {
@@ -71,13 +75,10 @@
     .infinity-scroll {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: left;
+      gap: 8px;
       padding-left: $h-side-frame;
       padding-right: 28px;
-
-      .featured-officer-card {
-        margin-bottom: 8px;
-      }
     }
   }
 }
@@ -94,7 +95,7 @@
 
 @media only screen and (min-width: $mobile-breakpoint) {
   .featured-search-modal {
-    width: 552px;
+    width: 548px;
 
     .search-result {
       .search-result-count {
@@ -110,16 +111,13 @@
 
 @media only screen and (min-width: $desktop-breakpoint) {
   .featured-search-modal {
-    width: 1080px;
+    width: 1088px;
 
     .card-collection {
       .infinity-scroll {
         padding-left: 18px;
         padding-right: 30px;
-
-        .featured-officer-card {
-          margin-bottom: $v-frame-margin;
-        }
+        gap: $v-frame-margin;
       }
     }
   }

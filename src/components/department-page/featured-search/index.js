@@ -26,6 +26,7 @@ const FeaturedSearch = (props) => {
     searchItems,
     fetchSearchItems,
     clearDepartmentSearchResults,
+    saveRecentItem,
   } = props
 
   const componentMapping = {
@@ -40,7 +41,7 @@ const FeaturedSearch = (props) => {
     documents: {
       Card: SearchDocumentItem,
       title: 'documents',
-    }
+    },
   }
 
   const { Card, title } = get(componentMapping, itemType, {})
@@ -69,6 +70,7 @@ const FeaturedSearch = (props) => {
 
   return (
     <Modal
+      closeTimeoutMS={150}
       isOpen={isSearchModalOpen}
       onRequestClose={searchModalOnClose}
       className='featured-search-modal'
@@ -80,7 +82,7 @@ const FeaturedSearch = (props) => {
           <input
             name='searchInput'
             className='transparent-input'
-            style={{ fontStyle: searchQuery ? '' : 'italic' }}
+            autoFocus
             placeholder={`Search ${title} in ${departmentName}`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -92,7 +94,7 @@ const FeaturedSearch = (props) => {
         <div className='search-result'>
           <div className='search-result-count'>{`${count} Search results for "${searchQuery}" `}</div>
           <div className='search-result-department'>
-            {isMobile ? departmentName : ` | ${departmentName}`}
+            {isMobile ? departmentName : `| ${departmentName}`}
           </div>
         </div>
       )}
@@ -106,7 +108,7 @@ const FeaturedSearch = (props) => {
             useWindow={false}
           >
             {map(searchItems, (item) => (
-              <Card key={item.id} item={item} />
+              <Card key={item.id} item={item} saveRecentItem={saveRecentItem} />
             ))}
           </InfiniteScroll>
         </div>
@@ -127,14 +129,17 @@ FeaturedSearch.propTypes = {
   limit: PropTypes.number,
   offset: PropTypes.number,
   clearDepartmentSearchResults: PropTypes.func,
+  saveRecentItem: PropTypes.func,
 }
 
 FeaturedSearch.defaultProps = {
+  departmentId: '',
   searchItems: [],
   isSearchModalOpen: false,
   searchModalOnClose: noop,
   fetchSearchItems: noop,
   clearDepartmentSearchResults: noop,
+  saveRecentItem: noop,
 }
 
 export default FeaturedSearch

@@ -6,7 +6,6 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
-import join from 'lodash/join'
 import lowerCase from 'lodash/lowerCase'
 import map from 'lodash/map'
 import mapValues from 'lodash/mapValues'
@@ -20,7 +19,7 @@ import forEach from 'lodash/forEach'
 
 import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter, newsArticleFormatter } from 'selectors/common'
-import { formatDataPeriods, formatSalary } from 'utils/formatter'
+import { formatDataPeriods, formatSalary, formatDate } from 'utils/formatter'
 import {
   TIMELINE_FILTERS,
   TIMELINE_KINDS,
@@ -30,43 +29,45 @@ import {
 const baseTimelineItemFormatter = (item) => pick(item, ['kind', 'department'])
 
 const complaintTimelineItemFormatter = (item) => {
-  const attributes = ['kind', 'trackingNumber', 'id', 'allegationDesc']
-
-  const capitalizeAttributes = [
-    'ruleViolation',
-    'paragraphViolation',
-    'disposition',
-    'action',
-    'ruleCode',
-    'paragraphCode',
-    'allegationFinding',
-    'allegationClass',
+  const attributes = [
+    'kind',
+    'trackingNumber',
+    'id',
+    'allegation',
+    'allegationDesc',
   ]
+
+  const capitalizeAttributes = ['disposition', 'action']
+
+  const detailAttributes = ['citizenArrested', 'trafficStop']
+
+  const details = map(
+    filter(detailAttributes, (attribute) => get(item, attribute) === 'yes'),
+    lowerCase
+  )
 
   return {
     ...pick(item, attributes),
     ...mapValues(pick(item, capitalizeAttributes), capitalize),
+    details,
   }
 }
 
 const useOfForceTimelineItemFormatter = (item) => {
-  const attributes = ['kind', 'uofTrackingNumber', 'id']
+  const attributes = ['kind', 'trackingId', 'id', 'citizenInformation']
 
   const upperFirstAttributes = [
-    'citizenInvolvement',
+    'useOfForceDescription',
+    'useOfForceReason',
     'disposition',
-    'forceDescription',
-    'forceReason',
-    'forceType',
     'serviceType',
   ]
 
   const detailAttributes = [
     'citizenArrested',
-    'citizenHospitalized',
     'citizenInjured',
+    'citizenHospitalized',
     'officerInjured',
-    'trafficStop',
   ]
 
   const details = map(
@@ -74,22 +75,30 @@ const useOfForceTimelineItemFormatter = (item) => {
     lowerCase
   )
 
-  const { citizenAge, citizenRace, citizenSex } = pick(item, [
-    'citizenAge',
-    'citizenRace',
-    'citizenSex',
-  ])
-
-  const citizenInformation = join(
-    compact([citizenAge && `${citizenAge}-year-old`, citizenRace, citizenSex]),
-    ' '
-  )
-
   return {
     ...pick(item, attributes),
     ...mapValues(pick(item, upperFirstAttributes), upperFirst),
-    citizenInformation,
     details,
+  }
+}
+
+const appealTimelineItemFormatter = (item) => {
+  const attributes = [
+    'id',
+    'kind',
+    'year',
+    'docketNo',
+    'counsel',
+    'chargingSupervisor',
+    'actionAppealed',
+    'motions',
+    'department',
+  ]
+
+  return {
+    ...pick(item, attributes),
+    appealDisposition: capitalize(item.appealDisposition),
+    date: formatDate(item.date),
   }
 }
 
@@ -109,7 +118,6 @@ const newsArticleTimelineItemFormatter = (news_article) => {
     ...formattedNewsArticle,
     recentData: {
       ...formattedNewsArticle,
-      date: formattedNewsArticle.publishedDate,
     },
   }
 }
@@ -162,6 +170,7 @@ const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.RANK_CHANGE]: rankChangeTimelineItemFormatter,
   [TIMELINE_KINDS.UNIT_CHANGE]: unitChangeTimelineItemFormatter,
   [TIMELINE_KINDS.NEWS_ARTICLE]: newsArticleTimelineItemFormatter,
+  [TIMELINE_KINDS.APPEAL]: appealTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {

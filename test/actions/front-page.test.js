@@ -7,6 +7,9 @@ import {
   fetchDocuments,
   fetchNewsArticles,
   fetchFrontPageOrders,
+  fetchFrontPageCards,
+  fetchMigratoryData,
+  setMapCurrentIndex,
 } from 'actions/front-page'
 import * as actionTypes from 'action-types/front-page'
 import * as ServiceApi from 'utils/api'
@@ -17,6 +20,7 @@ import {
   DOCUMENTS_API_URL,
   NEWS_ARTICLES_API_URL,
   FRONT_PAGE_ORDERS_API_URL,
+  FRONT_PAGE_CARDS_API_URL,
 } from 'constants/api'
 
 describe('#fetchAnalyticSummary', () => {
@@ -136,5 +140,53 @@ describe('#fetchFrontPageOrders', () => {
       FRONT_PAGE_ORDERS_API_URL
     )
     expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchFrontPageCards', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchFrontPageCards()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.FRONT_PAGE_CARDS_FETCH_START,
+        actionTypes.FRONT_PAGE_CARDS_FETCH_SUCCESS,
+        actionTypes.FRONT_PAGE_CARDS_FETCH_FAILURE,
+      ],
+      FRONT_PAGE_CARDS_API_URL
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchMigratoryData', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchMigratoryData()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.MIGRATORY_DATA_FETCH_START,
+        actionTypes.MIGRATORY_DATA_FETCH_SUCCESS,
+        actionTypes.MIGRATORY_DATA_FETCH_FAILURE,
+      ],
+      `${DEPARTMENTS_API_URL}migratory/`
+    )
+    expect(getFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#setMapCurrentIndex', () => {
+  it('sets the current index for the map', () => {
+    expect(setMapCurrentIndex()).toEqual({
+      type: actionTypes.SET_MAP_CURRENT_INDEX,
+    })
   })
 })

@@ -15,7 +15,7 @@ export const departmentFormatter = (department) => {
 }
 
 export const officerFormatter = (officer) => {
-  const officerAttributes = ['id', 'name', 'badges']
+  const officerAttributes = ['id', 'name', 'badges', 'latestRank']
 
   const rawDepartment = get(officer, 'department')
   const department = pick(rawDepartment, ['id', 'name'])
@@ -54,6 +54,7 @@ export const newsArticleFormatter = (news_article) => {
   return {
     ...pick(news_article, news_articleAttributes),
     publishedDate: formatDate(news_article.date),
+    date: formatDate(news_article.date),
   }
 }
 

@@ -19,6 +19,10 @@
     display: inline-block;
     cursor: pointer;
 
+    &:not(.filter-item-selected):hover {
+      color: $blue-ribbon-color;
+    }
+
     &.filter-item-selected {
       background-color: $alto-color;
     }

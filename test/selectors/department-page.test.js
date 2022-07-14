@@ -151,6 +151,8 @@ describe('#featuredOfficersSelector', () => {
           isStarred: true,
           complaintsCount: 84,
           useOfForcesCount: 0,
+          department: 'Department',
+          latestRank: 'senior',
         },
         {
           id: 2436,
@@ -159,6 +161,8 @@ describe('#featuredOfficersSelector', () => {
           isStarred: false,
           complaintsCount: 80,
           useOfForcesCount: 15,
+          department: 'Department',
+          latestRank: 'junior',
         },
       ]
       const state = {
@@ -177,6 +181,8 @@ describe('#featuredOfficersSelector', () => {
           isStarred: true,
           complaintsCount: 84,
           useOfForcesCount: 0,
+          department: 'Department',
+          latestRank: 'senior',
         },
         {
           id: 2436,
@@ -185,6 +191,8 @@ describe('#featuredOfficersSelector', () => {
           isStarred: false,
           complaintsCount: 80,
           useOfForcesCount: 15,
+          department: 'Department',
+          latestRank: 'junior',
         },
       ])
     })
@@ -302,16 +310,16 @@ describe('#featuredNewsArticlesSelector', () => {
         title: 'Appeal hearing: Eric Curlee  on 2020-3-12',
         url: 'https://i.imgur.com/nHTFohI.csv',
         isStarred: true,
-        publishedDate: '2020-03-12',
-        sourceDisplayName: 'The lens',
+        publishedDate: 'Mar 12, 2020',
+        sourceName: 'The lens',
       },
       {
         id: 770,
         title: 'Appeal hearing: Santiago St. Clair  on 2020-12-10',
         url: 'https://i.imgur.com/nHTFohI.csv',
         isStarred: false,
-        publishedDate: '2020-12-10',
-        sourceDisplayName: 'The lens',
+        publishedDate: 'Dec 10, 2020',
+        sourceName: 'The lens',
       },
     ])
   })
@@ -464,6 +472,57 @@ describe('#searchItemsSelector', () => {
         previewImageUrl: 'http://documents.com/preview',
         pagesCount: 5,
       },
+      {
+        id: 23,
+        documentType: 'application/msword',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.doc',
+        incidentDate: '2020-01-06',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 24,
+        documentType: 'application/xml',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.docx',
+        incidentDate: '2020-01-06',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 25,
+        documentType: 'application/xml',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work',
+        incidentDate: '2020-01-06',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
     ]
 
     const state = {
@@ -480,9 +539,60 @@ describe('#searchItemsSelector', () => {
     expect(document).toStrictEqual([
       {
         id: 22,
-        documentType: 'css',
+        documentType: 'pdf',
         title: 'Especially sense available best.',
         url: 'http://documents.com/hundred/work.pdf',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 23,
+        documentType: 'doc',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.doc',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 24,
+        documentType: 'docx',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work.docx',
+        incidentDate: 'Jan 6, 2020',
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+        textContent: 'Text content',
+        textContentHighlight: 'Text content <em>highlight</em>',
+        previewImageUrl: 'http://documents.com/preview',
+        pagesCount: 5,
+      },
+      {
+        id: 25,
+        documentType: '',
+        title: 'Especially sense available best.',
+        url: 'http://documents.com/hundred/work',
         incidentDate: 'Jan 6, 2020',
         departments: [
           {

@@ -11,3 +11,16 @@ body {
 .clearfix {
   clear: both;
 }
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: all 150ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}

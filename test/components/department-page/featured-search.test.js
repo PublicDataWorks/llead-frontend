@@ -18,6 +18,7 @@ describe('featured search component', () => {
         badges: ['84'],
         complaintsCount: 84,
         useOfForcesCount: 0,
+        latestRank: 'Lieutenant',
       },
       {
         id: 2436,
@@ -25,6 +26,7 @@ describe('featured search component', () => {
         badges: ['85'],
         complaintsCount: 80,
         useOfForcesCount: 15,
+        latestRank: 'Police',
       },
     ]
 
@@ -70,7 +72,8 @@ describe('featured search component', () => {
     expect(
       featuredSearchModal.getElementsByClassName('card-collection')[0]
     ).toBeTruthy()
-    expect(getAllByText('Police Officer')).toBeTruthy()
+    expect(getAllByText('Lieutenant')).toBeTruthy()
+    expect(getAllByText('Police')).toBeTruthy()
     expect(getByText('Jayson Germann').className).toEqual('officer-name')
     expect(getByText('Derrick Burmaster').className).toEqual('officer-name')
   })
