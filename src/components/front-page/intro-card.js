@@ -52,7 +52,9 @@ const IntroCard = (props) => {
           ))}
         </div>
         {!isEmpty(content) && (
-          <ReactMarkdown className='content'>{content}</ReactMarkdown>
+          <div className='content' onClick={() => handleClick(cardIndex + 1)}>
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </div>
         )}
         {!isEmpty(analyticSummary) && cardIndex === lastCardIndex && (
           <div className='overview'>
