@@ -14,6 +14,37 @@ const client = axios.create()
 
 const REQUEST_WAITING_TIME = 5
 
+let refreshTokenPromise
+
+const getNewToken = () => {
+  if (!refreshTokenPromise) {
+    refreshTokenPromise = new Promise((resolve) => {
+      const refreshToken = getRefreshToken(store.getState())
+
+      if (!isEmpty(refreshToken)) {
+        axios
+          .post(REFRESH_TOKEN_API_URL, { refresh: refreshToken })
+          .then((response) => {
+            const newToken = response.data.access
+            store.dispatch(updateToken(newToken))
+            refreshTokenPromise = null
+            return resolve(newToken)
+          })
+          .catch((error) => {
+            const status = get(error, 'response.status')
+            if (status === HTTP_STATUS_CODES.UNAUTHORIZED) {
+              store.dispatch(removeToken())
+            }
+            return resolve(null)
+          })
+      } else {
+        return resolve(null)
+      }
+    })
+  }
+  return refreshTokenPromise
+}
+
 client.interceptors.request.use(function (config) {
   const accessToken = getAccessToken(store.getState())
 
@@ -33,27 +64,9 @@ client.interceptors.request.use(function (config) {
       !decoded || current_time + REQUEST_WAITING_TIME > decoded.exp
 
     if (isTokenExpired) {
-      return new Promise((resolve) => {
-        const refreshToken = getRefreshToken(store.getState())
-
-        if (!isEmpty(refreshToken)) {
-          axios
-            .post(REFRESH_TOKEN_API_URL, { refresh: refreshToken })
-            .then((response) => {
-              const newToken = response.data.access
-              config.headers.Authorization = `Bearer ${newToken}`
-              store.dispatch(updateToken(newToken))
-
-              return resolve(config)
-            })
-            .catch((error) => {
-              const status = get(error, 'response.status')
-              if (status === HTTP_STATUS_CODES.UNAUTHORIZED) {
-                store.dispatch(removeToken())
-              }
-              return resolve(config)
-            })
-        }
+      return getNewToken().then((newToken) => {
+        config.headers.Authorization = `Bearer ${newToken}`
+        return config
       })
     }
 
