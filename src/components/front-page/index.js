@@ -17,6 +17,7 @@ import IntroSection from 'containers/front-page/intro-section'
 
 const FrontPage = (props) => {
   const {
+    isAdmin,
     cms,
     fetchDepartments,
     fetchOfficers,
@@ -34,6 +35,7 @@ const FrontPage = (props) => {
     frontPageOrders,
     changeSearchQuery,
     changeSearchDepartment,
+    hideNewsArticle,
   } = props
 
   const departmentRef = useRef(null)
@@ -99,6 +101,8 @@ const FrontPage = (props) => {
             saveRecentItem={saveRecentItem}
             sortedField='most recently added'
             className='front-page-carousel'
+            isAdmin={isAdmin}
+            hideNewsArticle={hideNewsArticle}
           />
         </div>
       )}
@@ -118,6 +122,7 @@ const FrontPage = (props) => {
 }
 
 FrontPage.propTypes = {
+  isAdmin: PropTypes.bool,
   cms: PropTypes.object,
   departments: PropTypes.array,
   officers: PropTypes.array,
@@ -135,9 +140,11 @@ FrontPage.propTypes = {
   removeRecentItem: PropTypes.func,
   changeSearchQuery: PropTypes.func,
   changeSearchDepartment: PropTypes.func,
+  hideNewsArticle: PropTypes.func,
 }
 
 FrontPage.defaultProps = {
+  isAdmin: false,
   cms: {},
   departments: [],
   officers: [],
@@ -154,6 +161,7 @@ FrontPage.defaultProps = {
   saveRecentItem: noop,
   changeSearchQuery: noop,
   changeSearchDepartment: noop,
+  hideNewsArticle: noop,
 }
 
 export default FrontPage

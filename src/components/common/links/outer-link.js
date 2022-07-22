@@ -12,12 +12,15 @@ const OuterLink = ({
   onClick,
   removeRecentItem,
   removeData,
+  isDisabled,
   ...rest
 }) => {
   const handleClick = (event) => {
-    event.stopPropagation()
-    onClick()
-    window.open(href, '_blank', 'noopener noreferrer')
+    if (!isDisabled) {
+      event.stopPropagation()
+      onClick()
+      window.open(href, '_blank', 'noopener noreferrer')
+    }
   }
 
   const handleRemove = (event) => {
@@ -41,11 +44,13 @@ OuterLink.propTypes = {
   onClick: PropTypes.func,
   removeRecentItem: PropTypes.func,
   removeData: PropTypes.object,
+  isDisabled: PropTypes.bool,
 }
 
 OuterLink.defaultProps = {
   onClick: noop,
   removeData: {},
+  isDisabled: false,
 }
 
 export default OuterLink

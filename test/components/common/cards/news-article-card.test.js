@@ -20,6 +20,7 @@ describe('News article card component', () => {
       title: 'news-article-1',
       publishedDate: 'Nov 9, 2020',
       className: 'custom-class-name',
+      hidable: true,
     }
 
     const container = render(
@@ -38,6 +39,7 @@ describe('News article card component', () => {
     expect(newsArticleCard.textContent.includes(props.sourceName)).toBe(true)
     expect(newsArticleCard.textContent.includes(props.title)).toBe(true)
     expect(newsArticleCard.textContent.includes(props.publishedDate)).toBe(true)
+    expect(newsArticleCard.getElementsByClassName('hide-btn')).toBeTruthy()
   })
 
   it('should remove correctly', () => {
@@ -111,5 +113,80 @@ describe('News article card component', () => {
       id: 1,
       data: { ...newsArticleData, date: newsArticleData.publishedDate },
     })
+  })
+
+  it('toggle hide confirmation', () => {
+    const hideNewsArticleSpy = sinon.spy()
+    const newsArticleData = {
+      id: 1,
+      sourceName: 'The lens',
+      url: 'https://i.imgur.com/news-article1.pdf',
+      title: 'news-article-1',
+      publishedDate: 'Nov 9, 2020',
+      className: 'custom-class-name',
+      hidable: true,
+    }
+    const props = {
+      ...newsArticleData,
+      hideNewsArticle: hideNewsArticleSpy,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <NewsArticleCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement, getByText } = container
+
+    const hideBtn = baseElement.getElementsByClassName('hide-btn')[0]
+    fireEvent.click(hideBtn)
+
+    expect(
+      getByText('Are you sure you want to delete this article?').className
+    ).toEqual('confirmation-text')
+    expect(getByText('Cancel').className).toEqual('cancel-btn')
+    expect(getByText('Delete').className).toEqual('delete-btn')
+
+    expect(windowOpenStub).not.toHaveBeenCalled()
+    expect(hideNewsArticleSpy).not.toHaveBeenCalled()
+  })
+
+  it('confirms hiding card', () => {
+    const hideNewsArticleSpy = sinon.spy()
+    const newsArticleData = {
+      id: 1,
+      sourceName: 'The lens',
+      url: 'https://i.imgur.com/news-article1.pdf',
+      title: 'news-article-1',
+      publishedDate: 'Nov 9, 2020',
+      className: 'custom-class-name',
+      hidable: true,
+    }
+    const props = {
+      ...newsArticleData,
+      hideNewsArticle: hideNewsArticleSpy,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <NewsArticleCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    const hideBtn = baseElement.getElementsByClassName('hide-btn')[0]
+    fireEvent.click(hideBtn)
+
+    const deleteBtn = baseElement.getElementsByClassName('delete-btn')[0]
+    fireEvent.click(deleteBtn)
+
+    expect(hideNewsArticleSpy).toHaveBeenCalledWith(1)
+    expect(
+      baseElement.getElementsByClassName('news-article-card')[0].classList
+    ).toContain('hidden')
   })
 })

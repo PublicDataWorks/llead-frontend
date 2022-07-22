@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions'
 
 import * as actionTypes from 'action-types/front-page'
-import { get } from 'utils/api'
+import { get, post } from 'utils/api'
 
 import {
   ANALYTIC_SUMMARY_API_URL,
@@ -96,3 +96,13 @@ export const fetchMigratoryData = () =>
 export const setMapCurrentIndex = createAction(
   actionTypes.SET_MAP_CURRENT_INDEX
 )
+
+export const hideNewsArticle = (id) =>
+  post(
+    [
+      actionTypes.NEWS_ARTICLE_HIDE_START,
+      actionTypes.NEWS_ARTICLE_HIDE_SUCCESS,
+      actionTypes.NEWS_ARTICLE_HIDE_FAILURE,
+    ],
+    `${NEWS_ARTICLES_API_URL}${id}/hide/`
+  )()

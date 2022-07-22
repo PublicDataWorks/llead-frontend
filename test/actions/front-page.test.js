@@ -10,6 +10,7 @@ import {
   fetchFrontPageCards,
   fetchMigratoryData,
   setMapCurrentIndex,
+  hideNewsArticle,
 } from 'actions/front-page'
 import * as actionTypes from 'action-types/front-page'
 import * as ServiceApi from 'utils/api'
@@ -188,5 +189,25 @@ describe('#setMapCurrentIndex', () => {
     expect(setMapCurrentIndex()).toEqual({
       type: actionTypes.SET_MAP_CURRENT_INDEX,
     })
+  })
+})
+
+describe('#hideNewsArticle', () => {
+  it('calls post Api', () => {
+    const postStub = sinon.stub(ServiceApi, 'post')
+    const postFunc = sinon.stub()
+    postStub.returns(postFunc)
+
+    hideNewsArticle(1)
+
+    expect(postStub).toHaveBeenCalledWith(
+      [
+        actionTypes.NEWS_ARTICLE_HIDE_START,
+        actionTypes.NEWS_ARTICLE_HIDE_SUCCESS,
+        actionTypes.NEWS_ARTICLE_HIDE_FAILURE,
+      ],
+      `${NEWS_ARTICLES_API_URL}${1}/hide/`
+    )
+    expect(postFunc).toHaveBeenCalled()
   })
 })

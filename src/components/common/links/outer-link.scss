@@ -9,4 +9,8 @@
     right: $v-top-remove-btn;
     top: $v-top-remove-btn;
   }
+
+  &.hidden {
+    display: none;
+  }
 }
