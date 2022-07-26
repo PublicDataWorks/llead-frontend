@@ -58,6 +58,18 @@
 
       .complaint-item-info-row-value {
         color: $thunder-color;
+
+        .complaint-item-detail-element {
+          margin-top: 9px;
+          display: inline-block;
+          background: $white-color;
+          box-sizing: border-box;
+          border: 1px solid $alto-color;
+          border-radius: 2px;
+          padding: 6px 6px 5px 8px;
+          color: $thunder-color;
+          margin-right: 13px;
+        }
       }
     }
 

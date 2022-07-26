@@ -291,7 +291,7 @@ describe('UseOfForceItem component', () => {
     const uofData = {
       id: uofId,
       forceType: 'Takedown (w/injury)',
-      uofTrackingNumber: 'uof tracking number',
+      uoftrackingId: 'uof tracking number',
       highlight: false,
     }
 
@@ -323,7 +323,7 @@ describe('UseOfForceItem component', () => {
     const uofData = {
       id: uofId,
       forceType: 'Takedown (w/injury)',
-      uofTrackingNumber: 'uof tracking number',
+      uoftrackingId: 'uof tracking number',
       highlight: false,
     }
 

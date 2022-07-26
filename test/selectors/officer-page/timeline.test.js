@@ -26,7 +26,7 @@ describe('#timelineSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
-        trackingNumber: '13-06',
+        trackingId: '13-06',
         allegation: 'rule 01',
         allegationDesc:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -66,7 +66,7 @@ describe('#timelineSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-03-10',
         action: 'officer action 2019-03-10',
-        trackingNumber: '10-03',
+        trackingId: '10-03',
         allegation: 'rule 01',
         allegationDesc:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -87,7 +87,7 @@ describe('#timelineSelector', () => {
         year: 2018,
         disposition: 'officer dispostion 2018-10-20',
         action: 'officer action 2018-10-20',
-        trackingNumber: '20-10',
+        trackingId: '20-10',
       },
       {
         kind: 'SALARY_CHANGE',
@@ -103,7 +103,7 @@ describe('#timelineSelector', () => {
         year: null,
         disposition: 'officer dispostion of unknowed time',
         action: 'officer action of unknowed time',
-        trackingNumber: '123-456',
+        trackingId: '123-456',
         citizenArrested: null,
         trafficStop: null,
       },
@@ -114,7 +114,7 @@ describe('#timelineSelector', () => {
         year: 2018,
         disposition: 'officer dispostion year 2018',
         action: 'officer action year 2018',
-        trackingNumber: '2018',
+        trackingId: '2018',
         citizenArrested: 'yes',
         trafficStop: null,
       },
@@ -125,7 +125,7 @@ describe('#timelineSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-03-10 no1',
         action: 'officer action 2019-03-10 no1',
-        trackingNumber: '10-03-1',
+        trackingId: '10-03-1',
         citizenArrested: null,
         trafficStop: 'yes',
       },
@@ -252,7 +252,7 @@ describe('#timelineSelector', () => {
             kind: 'COMPLAINT',
             disposition: 'Officer dispostion 2019-06-13',
             action: 'Officer action 2019-06-13',
-            trackingNumber: '13-06',
+            trackingId: '13-06',
             allegation: 'rule 01',
             allegationDesc:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -267,11 +267,7 @@ describe('#timelineSelector', () => {
             serviceType: 'Call for service',
             citizenInformation: '26-year-old white female',
             trackingId: 'Complainant',
-            details: [
-              'citizen arrested',
-              'citizen injured',
-              'officer injured',
-            ],
+            details: ['citizen arrested', 'citizen injured', 'officer injured'],
           },
           {
             id: 1,
@@ -344,7 +340,7 @@ describe('#timelineSelector', () => {
           {
             id: '124',
             kind: 'COMPLAINT',
-            trackingNumber: '10-03',
+            trackingId: '10-03',
             disposition: 'Officer dispostion 2019-03-10',
             action: 'Officer action 2019-03-10',
             allegation: 'rule 01',
@@ -355,7 +351,7 @@ describe('#timelineSelector', () => {
           {
             id: '128',
             kind: 'COMPLAINT',
-            trackingNumber: '10-03-1',
+            trackingId: '10-03-1',
             disposition: 'Officer dispostion 2019-03-10 no1',
             action: 'Officer action 2019-03-10 no1',
             details: ['traffic stop'],
@@ -412,7 +408,7 @@ describe('#timelineSelector', () => {
           {
             id: '127',
             kind: 'COMPLAINT',
-            trackingNumber: '2018',
+            trackingId: '2018',
             disposition: 'Officer dispostion year 2018',
             action: 'Officer action year 2018',
             details: ['citizen arrested'],
@@ -435,7 +431,7 @@ describe('#timelineSelector', () => {
           {
             id: '125',
             kind: 'COMPLAINT',
-            trackingNumber: '20-10',
+            trackingId: '20-10',
             disposition: 'Officer dispostion 2018-10-20',
             action: 'Officer action 2018-10-20',
             details: [],
@@ -451,7 +447,7 @@ describe('#timelineSelector', () => {
           {
             id: '126',
             kind: 'COMPLAINT',
-            trackingNumber: '123-456',
+            trackingId: '123-456',
             disposition: 'Officer dispostion of unknowed time',
             action: 'Officer action of unknowed time',
             details: [],
@@ -526,7 +522,7 @@ describe('#timelineSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
-        trackingNumber: '13-06',
+        trackingId: '13-06',
         allegationDesc:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
@@ -565,7 +561,7 @@ describe('#timelineSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-03-10',
         action: 'officer action 2019-03-10',
-        trackingNumber: '10-03',
+        trackingId: '10-03',
       },
       {
         kind: 'SALARY_CHANGE',
@@ -581,7 +577,7 @@ describe('#timelineSelector', () => {
         year: 2018,
         disposition: 'officer dispostion 2018-10-20',
         action: 'officer action 2018-10-20',
-        trackingNumber: '20-10',
+        trackingId: '20-10',
       },
       {
         id: '126',
@@ -590,7 +586,7 @@ describe('#timelineSelector', () => {
         year: null,
         disposition: 'officer dispostion of unknowed time',
         action: 'officer action of unknowed time',
-        trackingNumber: '123-456',
+        trackingId: '123-456',
       },
       {
         id: '127',
@@ -599,7 +595,7 @@ describe('#timelineSelector', () => {
         year: 2018,
         disposition: 'officer dispostion year 2018',
         action: 'officer action year 2018',
-        trackingNumber: '2018',
+        trackingId: '2018',
       },
       {
         id: '128',
@@ -608,7 +604,7 @@ describe('#timelineSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-03-10 no1',
         action: 'officer action 2019-03-10 no1',
-        trackingNumber: '10-03-1',
+        trackingId: '10-03-1',
       },
       {
         kind: 'JOINED',
@@ -741,7 +737,7 @@ describe('#timelineFilterGroupsSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
-        trackingNumber: '13-06',
+        trackingId: '13-06',
         allegationDesc:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
@@ -780,7 +776,7 @@ describe('#timelineFilterGroupsSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-03-10',
         action: 'officer action 2019-03-10',
-        trackingNumber: '10-03',
+        trackingId: '10-03',
       },
       {
         kind: 'SALARY_CHANGE',
@@ -796,7 +792,7 @@ describe('#timelineFilterGroupsSelector', () => {
         year: 2018,
         disposition: 'officer dispostion 2018-10-20',
         action: 'officer action 2018-10-20',
-        trackingNumber: '20-10',
+        trackingId: '20-10',
       },
       {
         id: '126',
@@ -805,7 +801,7 @@ describe('#timelineFilterGroupsSelector', () => {
         year: null,
         disposition: 'officer dispostion of unknowed time',
         action: 'officer action of unknowed time',
-        trackingNumber: '123-456',
+        trackingId: '123-456',
       },
       {
         id: '127',
@@ -814,7 +810,7 @@ describe('#timelineFilterGroupsSelector', () => {
         year: 2018,
         disposition: 'officer dispostion year 2018',
         action: 'officer action year 2018',
-        trackingNumber: '2018',
+        trackingId: '2018',
       },
       {
         id: '128',
@@ -823,7 +819,7 @@ describe('#timelineFilterGroupsSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-03-10 no1',
         action: 'officer action 2019-03-10 no1',
-        trackingNumber: '10-03-1',
+        trackingId: '10-03-1',
       },
       {
         kind: 'JOINED',
@@ -954,7 +950,7 @@ describe('#hasEventDetailsSelector', () => {
         year: 2019,
         disposition: 'officer dispostion 2019-06-13',
         action: 'officer action 2019-06-13',
-        trackingNumber: '13-06',
+        trackingId: '13-06',
         allegationDesc:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       },
@@ -992,7 +988,7 @@ describe('#hasEventDetailsSelector', () => {
         citizenAge: 26,
         citizenRace: 'white',
         citizenSex: 'female',
-        uofTrackingNumber: 'Complainant',
+        uoftrackingId: 'Complainant',
         citizenArrested: 'yes',
         citizenInjured: 'yes',
         citizenHospitalized: 'no',

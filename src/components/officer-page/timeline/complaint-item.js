@@ -4,6 +4,8 @@ import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import AnimateHeight from 'react-animate-height'
 import isEmpty from 'lodash/isEmpty'
+import upperFirst from 'lodash/upperFirst'
+import trim from 'lodash/trim'
 
 import './complaint-item.scss'
 import { complaintItemUrl } from 'utils/urls'
@@ -24,7 +26,7 @@ const ComplaintItem = (props) => {
     allegationDesc,
     disposition,
     action,
-    trackingNumber,
+    trackingId,
     highlight,
     showEventDetails,
     officerId,
@@ -90,7 +92,7 @@ const ComplaintItem = (props) => {
     },
     {
       title: 'Tracking ID',
-      content: trackingNumber,
+      content: trackingId,
     },
   ]
 
@@ -137,7 +139,7 @@ const ComplaintItem = (props) => {
                     {element.title}
                   </div>
                   <div className='complaint-item-info-row-value'>
-                    {element.content}
+                    {upperFirst(trim(element.content, '.'))}
                   </div>
                 </div>
               )
@@ -179,7 +181,7 @@ ComplaintItem.propTypes = {
   allegationDesc: PropTypes.string,
   disposition: PropTypes.string,
   action: PropTypes.string,
-  trackingNumber: PropTypes.string,
+  trackingId: PropTypes.string,
   highlight: PropTypes.bool,
   showEventDetails: PropTypes.bool,
   officerId: PropTypes.string,

@@ -31,7 +31,7 @@ const baseTimelineItemFormatter = (item) => pick(item, ['kind', 'department'])
 const complaintTimelineItemFormatter = (item) => {
   const attributes = [
     'kind',
-    'trackingNumber',
+    'trackingId',
     'id',
     'allegation',
     'allegationDesc',

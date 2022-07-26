@@ -145,7 +145,7 @@ describe('Timeline component', () => {
         items: [
           {
             kind: 'COMPLAINT',
-            trackingNumber: '10-03',
+            trackingId: '10-03',
             ruleViolation: 'Officer rule violation 2019-03-10',
             paragraphViolation: 'Officer paragraph violation 2019-03-10',
             disposition: 'Officer dispostion 2019-03-10',
@@ -153,7 +153,7 @@ describe('Timeline component', () => {
           },
           {
             kind: 'COMPLAINT',
-            trackingNumber: '10-03-1',
+            trackingId: '10-03-1',
             ruleViolation: 'Officer rule violation 2019-03-10 no1',
             paragraphViolation: 'Officer paragraph violation 2019-03-10 no1',
             disposition: 'Officer dispostion 2019-03-10 no1',
@@ -168,7 +168,7 @@ describe('Timeline component', () => {
         items: [
           {
             kind: 'COMPLAINT',
-            trackingNumber: '2018',
+            trackingId: '2018',
             ruleViolation: 'Officer rule violation year 2018',
             paragraphViolation: 'Officer paragraph violation year 2018',
             disposition: 'Officer dispostion year 2018',
@@ -242,7 +242,7 @@ describe('Timeline component', () => {
     expect(secondGroupItem0Line.length).toEqual(1)
     expect(ComplaintItem.mock.calls[0][0]).toStrictEqual({
       kind: 'COMPLAINT',
-      trackingNumber: '10-03',
+      trackingId: '10-03',
       ruleViolation: 'Officer rule violation 2019-03-10',
       paragraphViolation: 'Officer paragraph violation 2019-03-10',
       disposition: 'Officer dispostion 2019-03-10',
@@ -258,7 +258,7 @@ describe('Timeline component', () => {
     expect(secondGroupItem1Line.length).toEqual(1)
     expect(ComplaintItem.mock.calls[1][0]).toStrictEqual({
       kind: 'COMPLAINT',
-      trackingNumber: '10-03-1',
+      trackingId: '10-03-1',
       ruleViolation: 'Officer rule violation 2019-03-10 no1',
       paragraphViolation: 'Officer paragraph violation 2019-03-10 no1',
       disposition: 'Officer dispostion 2019-03-10 no1',
@@ -285,7 +285,7 @@ describe('Timeline component', () => {
     expect(thirdGroupItem0Line.length).toEqual(0)
     expect(ComplaintItem.mock.calls[2][0]).toStrictEqual({
       kind: 'COMPLAINT',
-      trackingNumber: '2018',
+      trackingId: '2018',
       ruleViolation: 'Officer rule violation year 2018',
       paragraphViolation: 'Officer paragraph violation year 2018',
       disposition: 'Officer dispostion year 2018',
@@ -440,7 +440,7 @@ describe('Timeline component', () => {
             {
               id: 123,
               kind: 'COMPLAINT',
-              trackingNumber: '10-03',
+              trackingId: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
               paragraphViolation: 'Officer paragraph violation 2019-03-10',
               disposition: 'Officer dispostion 2019-03-10',
@@ -489,7 +489,7 @@ describe('Timeline component', () => {
             {
               id: 123,
               kind: 'COMPLAINT',
-              trackingNumber: '10-03',
+              trackingId: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
               paragraphViolation: 'Officer paragraph violation 2019-03-10',
               disposition: 'Officer dispostion 2019-03-10',
@@ -551,7 +551,7 @@ describe('Timeline component', () => {
           {
             id: 123,
             kind: 'COMPLAINT',
-            trackingNumber: '10-03',
+            trackingId: '10-03',
             ruleViolation: 'Officer rule violation 2019-03-10',
             paragraphViolation: 'Officer paragraph violation 2019-03-10',
             disposition: 'Officer dispostion 2019-03-10',
@@ -613,7 +613,7 @@ describe('Timeline component', () => {
             {
               id: 123,
               kind: 'COMPLAINT',
-              trackingNumber: '10-03',
+              trackingId: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
               paragraphViolation: 'Officer paragraph violation 2019-03-10',
               disposition: 'Officer dispostion 2019-03-10',
@@ -639,7 +639,7 @@ describe('Timeline component', () => {
       expect(ComplaintItem.mock.calls[0][0]).toStrictEqual({
         id: 123,
         kind: 'COMPLAINT',
-        trackingNumber: '10-03',
+        trackingId: '10-03',
         ruleViolation: 'Officer rule violation 2019-03-10',
         paragraphViolation: 'Officer paragraph violation 2019-03-10',
         disposition: 'Officer dispostion 2019-03-10',
@@ -663,7 +663,7 @@ describe('Timeline component', () => {
             {
               id: 123,
               kind: 'COMPLAINT',
-              trackingNumber: '10-03',
+              trackingId: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
               paragraphViolation: 'Officer paragraph violation 2019-03-10',
               disposition: 'Officer dispostion 2019-03-10',
@@ -696,7 +696,7 @@ describe('Timeline component', () => {
       expect(ComplaintItem.mock.calls[1][0]).toStrictEqual({
         id: 123,
         kind: 'COMPLAINT',
-        trackingNumber: '10-03',
+        trackingId: '10-03',
         ruleViolation: 'Officer rule violation 2019-03-10',
         paragraphViolation: 'Officer paragraph violation 2019-03-10',
         disposition: 'Officer dispostion 2019-03-10',
@@ -717,7 +717,7 @@ describe('Timeline component', () => {
       expect(ComplaintItem.mock.calls[0][0]).toStrictEqual({
         id: 123,
         kind: 'COMPLAINT',
-        trackingNumber: '10-03',
+        trackingId: '10-03',
         ruleViolation: 'Officer rule violation 2019-03-10',
         paragraphViolation: 'Officer paragraph violation 2019-03-10',
         disposition: 'Officer dispostion 2019-03-10',
@@ -748,7 +748,7 @@ describe('Timeline component', () => {
               serviceType: 'Call for service',
               citizenInvolvement: 'Complainant',
               citizenInformation: '26-year-old white female',
-              uofTrackingNumber: 'Complainant',
+              uoftrackingId: 'Complainant',
               details: [
                 'citizen arrested',
                 'citizen injured',
@@ -788,7 +788,7 @@ describe('Timeline component', () => {
         serviceType: 'Call for service',
         citizenInvolvement: 'Complainant',
         citizenInformation: '26-year-old white female',
-        uofTrackingNumber: 'Complainant',
+        uoftrackingId: 'Complainant',
         details: [
           'citizen arrested',
           'citizen injured',
@@ -816,7 +816,7 @@ describe('Timeline component', () => {
               serviceType: 'Call for service',
               citizenInvolvement: 'Complainant',
               citizenInformation: '26-year-old white female',
-              uofTrackingNumber: 'Complainant',
+              uoftrackingId: 'Complainant',
               details: [
                 'citizen arrested',
                 'citizen injured',
@@ -860,7 +860,7 @@ describe('Timeline component', () => {
         serviceType: 'Call for service',
         citizenInvolvement: 'Complainant',
         citizenInformation: '26-year-old white female',
-        uofTrackingNumber: 'Complainant',
+        uoftrackingId: 'Complainant',
         details: [
           'citizen arrested',
           'citizen injured',
@@ -890,7 +890,7 @@ describe('Timeline component', () => {
         serviceType: 'Call for service',
         citizenInvolvement: 'Complainant',
         citizenInformation: '26-year-old white female',
-        uofTrackingNumber: 'Complainant',
+        uoftrackingId: 'Complainant',
         details: [
           'citizen arrested',
           'citizen injured',
@@ -1055,7 +1055,7 @@ describe('Timeline component', () => {
           {
             id: 123,
             kind: 'COMPLAINT',
-            trackingNumber: '10-03',
+            trackingId: '10-03',
             ruleViolation: 'Officer rule violation 2019-03-10',
             paragraphViolation: 'Officer paragraph violation 2019-03-10',
             disposition: 'Officer dispostion 2019-03-10',
@@ -1355,7 +1355,7 @@ describe('Timeline component', () => {
             {
               id: 123,
               kind: 'COMPLAINT',
-              trackingNumber: '10-03',
+              trackingId: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
               paragraphViolation: 'Officer paragraph violation 2019-03-10',
               disposition: 'Officer dispostion 2019-03-10',
@@ -1392,7 +1392,7 @@ describe('Timeline component', () => {
             {
               id: 123,
               kind: 'COMPLAINT',
-              trackingNumber: '10-03',
+              trackingId: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
               paragraphViolation: 'Officer paragraph violation 2019-03-10',
               disposition: 'Officer dispostion 2019-03-10',
