@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import FrontPage from 'components/front-page'
-import { cmsSelector } from 'selectors/common'
+import { cmsSelector, getIsAdmin } from 'selectors/common'
 import {
   departmentsSelector,
   officersSelector,
@@ -19,6 +19,7 @@ import {
   fetchNewsArticles,
   fetchFrontPageOrders,
   fetchMigratoryData,
+  hideNewsArticle,
 } from 'actions/front-page'
 import { saveRecentItem, removeRecentItem } from 'actions/common/recent-items'
 
@@ -30,6 +31,7 @@ const mapStateToProps = (state) => ({
   newsArticles: newsArticlesSelector(state),
   recentItems: recentItemsSelector(state),
   frontPageOrders: frontPageOrdersSelector(state),
+  isAdmin: getIsAdmin(state),
 })
 
 const mapDispatchToProps = {
@@ -43,6 +45,7 @@ const mapDispatchToProps = {
   removeRecentItem,
   changeSearchQuery,
   changeSearchDepartment,
+  hideNewsArticle,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FrontPage)

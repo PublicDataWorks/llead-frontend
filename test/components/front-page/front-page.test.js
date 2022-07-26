@@ -1,6 +1,6 @@
 import React from 'react'
 import sinon from 'sinon'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, act } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
@@ -396,5 +396,63 @@ describe('FrontPage component', () => {
     fireEvent.click(removeBtn)
 
     expect(removeRecentItemStub).toHaveBeenCalled()
+  })
+
+  it('hides news article when confirming deletion ', async () => {
+    const hideNewsArticleStub = sinon.stub()
+
+    const cmsData = {
+      summary: '**Front page** summary.',
+    }
+    const newsArticlesData = [
+      {
+        id: 1,
+        sourceName: 'The lens',
+        url: 'https://i.imgur.com/news-article1.pdf',
+        title: 'news-article-1',
+        publishedDate: 'Nov 9, 2020',
+      },
+    ]
+
+    const ordersData = {
+      DEPARTMENT: 3,
+      OFFICER: 2,
+      NEWS_ARTICLE: 1,
+      DOCUMENT: 4,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <FrontPage
+              cms={cmsData}
+              newsArticles={newsArticlesData}
+              frontPageOrders={ordersData}
+              hideNewsArticle={hideNewsArticleStub}
+              isAdmin={true}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    const summarySection = baseElement.getElementsByClassName('summary')[0]
+    expect(summarySection.textContent).toEqual('Front page summary.')
+    expect(
+      summarySection.getElementsByTagName('strong')[0].textContent
+    ).toEqual('Front page')
+
+    const hideBtn = baseElement.getElementsByClassName('hide-btn')[0]
+    fireEvent.click(hideBtn)
+
+    const deleteBtn = baseElement.getElementsByClassName('delete-btn')[0]
+
+    await act(async () => {
+      fireEvent.click(deleteBtn)
+    })
+
+    expect(hideNewsArticleStub).toHaveBeenCalledWith(1)
   })
 })
