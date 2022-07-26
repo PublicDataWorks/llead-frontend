@@ -141,6 +141,33 @@ describe('IntroCard component', () => {
     expect(setCardIndexStub).toHaveBeenCalledWith(2)
   })
 
+  it('triggers to next index when clicking the card', () => {
+    const analyticSummary = {
+      departmentsCount: 45,
+      documentsCount: 669,
+      newsArticlesCount: 37390,
+      officersCount: 65871,
+    }
+
+    const setCardIndexStub = sinon.stub()
+
+    const props = {
+      cardIndex: 1,
+      content: 'Content 1',
+      setCardIndex: setCardIndexStub,
+      analyticSummary: analyticSummary,
+      lastCardIndex: 3,
+    }
+
+    const container = render(<IntroCard {...props} />)
+    const { baseElement } = container
+
+    const content = baseElement.getElementsByClassName('content')[0]
+    fireEvent.click(content)
+
+    expect(setCardIndexStub).toHaveBeenCalledWith(2)
+  })
+
   it('triggers to previous index when clicking previous button', () => {
     const analyticSummary = {
       departmentsCount: 45,
