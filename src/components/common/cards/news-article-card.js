@@ -6,7 +6,7 @@ import noop from 'lodash/noop'
 import './news-article-card.scss'
 import OuterLink from 'components/common/links/outer-link'
 import { RECENT_ITEM_TYPES } from 'constants/common'
-import hideSVG from 'assets/icons/remove-circle.svg'
+import RemoveSVG from 'assets/icons/remove.svg'
 
 const NewsArticleCard = (props) => {
   const {
@@ -64,7 +64,7 @@ const NewsArticleCard = (props) => {
         {hidable && (
           <img
             className='hide-btn'
-            src={hideSVG}
+            src={RemoveSVG}
             onClick={toggleHideConfirmation}
           />
         )}
