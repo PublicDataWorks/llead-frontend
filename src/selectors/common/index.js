@@ -77,3 +77,7 @@ export const cmsSelector = (state, section) =>
 export const getUserInfo = (state) => get(state, 'userInfo', {})
 
 export const getDocumentHead = (state) => get(state, 'documentHead')
+
+export const getIsAdmin = (state) => {
+  return get(state, 'userInfo.isAdmin', false)
+}

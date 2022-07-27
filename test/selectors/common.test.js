@@ -6,6 +6,7 @@ import {
   getUserInfo,
   isAppConfigFetchedSelector,
   isLoggedInSelector,
+  getIsAdmin,
 } from 'selectors/common'
 import { CMS_SECTIONS } from 'constants/common'
 
@@ -139,5 +140,27 @@ describe('#getDocumentHead', () => {
     const documentHead = getDocumentHead(state)
 
     expect(documentHead).toEqual(documentHeadData)
+  })
+})
+
+describe('#getAdmin', () => {
+  it('returns isAdmin', () => {
+    const userInfoData = {
+      email: 'user@mail.com',
+      isAdmin: true,
+    }
+    const state = {
+      userInfo: userInfoData,
+    }
+
+    const isAdmin = getIsAdmin(state)
+
+    expect(isAdmin).toEqual(true)
+  })
+
+  it('returns default false', () => {
+    const isAdmin = getIsAdmin()
+
+    expect(isAdmin).toEqual(false)
   })
 })

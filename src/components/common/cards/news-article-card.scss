@@ -22,6 +22,12 @@
       margin-bottom: $v-small-margin;
     }
 
+    .hide-btn {
+      position: absolute;
+      top: $v-frame-margin;
+      right: 19px;
+    }
+
     .news-article-title {
       @include small-text;
       height: 2 * $h-card-content;
@@ -49,6 +55,52 @@
     margin-top: 16px;
     padding: 0 $v-margin $h-card-margin $h-card-margin;
     color: $boulder-color;
+  }
+
+  .hide-backdrop {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $alto-60-color;
+
+    .hide-comfirmation {
+      position: absolute;
+      bottom: 0;
+      height: 50%;
+      width: 100%;
+      background-color: $alto-color;
+      border: 1px solid $alto-color;
+      border-radius: 8px;
+
+      .confirmation-text {
+        padding: $v-mid-margin 36px $v-mid-margin 45px;
+      }
+
+      .btn-group {
+        padding: 0 34px;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+
+        .cancel-btn,
+        .delete-btn {
+          display: inline-block;
+          padding: 2px 17px 4px 17px;
+          border-radius: 8px;
+        }
+
+        .cancel-btn {
+          color: $boulder-color;
+          background-color: $white-color;
+        }
+
+        .delete-btn {
+          color: $white-color;
+          background-color: $rustic-red-color;
+        }
+      }
+    }
   }
 
   &:hover {

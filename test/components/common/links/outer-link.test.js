@@ -48,4 +48,22 @@ describe('OuterLink component', () => {
 
     expect(removeRecentItemStub).toHaveBeenCalledWith(removeData)
   })
+
+  it('handles disabling correctly', () => {
+    const windowOpenStub = sinon.stub(window, 'open')
+    const onClickSpy = sinon.spy()
+    const link = '/link'
+    const container = render(
+      <OuterLink href={link} onClick={onClickSpy} isDisabled={true}>
+        Outer Link
+      </OuterLink>
+    )
+
+    const { getByText } = container
+    const outerLinkElement = getByText('Outer Link')
+    fireEvent.click(outerLinkElement)
+
+    expect(windowOpenStub).not.toHaveBeenCalled()
+    expect(onClickSpy).not.toHaveBeenCalled()
+  })
 })

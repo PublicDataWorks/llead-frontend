@@ -432,7 +432,7 @@ describe('Officer component', () => {
           items: [
             {
               kind: 'COMPLAINT',
-              trackingNumber: '10-03',
+              trackingId: '10-03',
               ruleViolation: 'Officer rule violation 2019-03-10',
               paragraphViolation: 'Officer paragraph violation 2019-03-10',
               disposition: 'Officer dispostion 2019-03-10',
