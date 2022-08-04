@@ -17,7 +17,7 @@ const OfficerCard = (props) => {
     name,
     badges,
     latestRank,
-    department,
+    departments,
     className,
     onItemClick,
     removeRecentItem,
@@ -40,8 +40,13 @@ const OfficerCard = (props) => {
         <OfficerBadges badges={badges} />
       </div>
       <div className='officer-card-footer'>
-        {!isEmpty(department) && !isEmpty(department.id) && (
-          <div className='officer-department-name'>{department.name}</div>
+        {!isEmpty(departments) && (
+          <div className='officer-department'>{departments[0].name}</div>
+        )}
+        {departments.length > 1 && (
+          <div className='officer-department'>
+            +{departments.length - 1} more
+          </div>
         )}
       </div>
     </CustomLink>
@@ -53,7 +58,7 @@ OfficerCard.propTypes = {
   name: PropTypes.string.isRequired,
   badges: PropTypes.array,
   latestRank: PropTypes.string,
-  department: PropTypes.object,
+  departments: PropTypes.array,
   className: PropTypes.string,
   onItemClick: PropTypes.func,
   removeRecentItem: PropTypes.func,
@@ -61,7 +66,7 @@ OfficerCard.propTypes = {
 
 OfficerCard.defaultProps = {
   badges: [],
-  department: {},
+  department: [],
   className: '',
   onItemClick: noop,
 }

@@ -63,10 +63,16 @@ describe('#officersSelector', () => {
         id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
-        department: {
-          id: 'north-paulaberg-department',
-          name: 'North Paulaberg Department',
-        },
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+          {
+            id: 'harmonbury-department',
+            name: 'Harmonbury Department',
+          },
+        ],
         latestRank: 'senior',
         extraField: 'data',
       },
@@ -74,7 +80,7 @@ describe('#officersSelector', () => {
         id: 22,
         name: 'Eric Patel',
         badges: ['12345'],
-        department: null,
+        departments: [],
         latestRank: 'junior',
         extraField: 'data',
       },
@@ -85,17 +91,23 @@ describe('#officersSelector', () => {
         id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
-        department: {
-          id: 'north-paulaberg-department',
-          name: 'North Paulaberg Department',
-        },
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+          {
+            id: 'harmonbury-department',
+            name: 'Harmonbury Department',
+          },
+        ],
         latestRank: 'senior',
       },
       {
         id: 22,
         name: 'Eric Patel',
         badges: ['12345'],
-        department: {},
+        departments: [],
         latestRank: 'junior',
       },
     ]

@@ -35,10 +35,12 @@ describe('Recent Items carousel', () => {
         type: RECENT_ITEM_TYPES.OFFICER,
         name: 'Mark Carlson',
         badges: ['12435', '612'],
-        department: {
-          id: 'baton-rouge-pd',
-          name: 'Baton Rouge PD',
-        },
+        departments: [
+          {
+            id: 'baton-rouge-pd',
+            name: 'Baton Rouge PD',
+          },
+        ],
       },
       {
         id: 1,

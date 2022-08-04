@@ -53,9 +53,8 @@
       text-decoration: none;
       color: $thunder-color;
       box-sizing: border-box;
-      padding: 13px $h-side-frame 14px $h-side-frame;
-      border: 1px solid $alto-color;
-      border-radius: 2px;
+      padding: $v-tinier-margin 6px;
+      border-radius: 4px;
       background-color: $wild-sand-color;
 
       & + .document-department-name {

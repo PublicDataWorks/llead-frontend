@@ -11,10 +11,12 @@ describe('#recentItemsSelector', () => {
           id: 1,
           name: 'officer 1',
           badges: ['12345', '567'],
-          department: {
-            id: 'north-paulaberg-department',
-            name: 'North Paulaberg Department',
-          },
+          departments: [
+            {
+              id: 'north-paulaberg-department',
+              name: 'North Paulaberg Department',
+            },
+          ],
           latestRank: 'senior',
           extraField: 'data',
         },
@@ -79,10 +81,12 @@ describe('#recentItemsSelector', () => {
         id: 1,
         name: 'officer 1',
         badges: ['12345', '567'],
-        department: {
-          id: 'north-paulaberg-department',
-          name: 'North Paulaberg Department',
-        },
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+        ],
         latestRank: 'senior',
       },
       {
@@ -102,7 +106,7 @@ describe('#recentItemsSelector', () => {
         type: RECENT_ITEM_TYPES.OFFICER,
         id: 3,
         name: 'officer 3',
-        department: {},
+        departments: [],
       },
       {
         type: RECENT_ITEM_TYPES.DOCUMENT,
