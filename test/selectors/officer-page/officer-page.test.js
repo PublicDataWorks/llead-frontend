@@ -269,8 +269,13 @@ describe('#officerRecentDataSelector', () => {
       badges: ['12345'],
       departments: [
         {
-          id: 'department-name',
-          name: 'Department Name',
+          id: 'department-name-1',
+          name: 'Department Name 1',
+          extraDepartmentField: 'should not be included',
+        },
+        {
+          id: 'department-name-2',
+          name: 'Department Name 2',
           extraDepartmentField: 'should not be included',
         },
       ],
@@ -289,10 +294,16 @@ describe('#officerRecentDataSelector', () => {
       id: 1,
       name: 'Officer Name',
       badges: ['12345'],
-      department: {
-        id: 'department-name',
-        name: 'Department Name',
-      },
+      departments: [
+        {
+          id: 'department-name-1',
+          name: 'Department Name 1',
+        },
+        {
+          id: 'department-name-2',
+          name: 'Department Name 2',
+        },
+      ],
       latestRank: 'senior',
     })
   })
