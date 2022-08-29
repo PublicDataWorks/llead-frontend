@@ -1,0 +1,35 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.department-item {
+  @include small-text;
+  padding: 10px 0;
+  border-bottom: 1px solid $alto-color;
+
+  .department-item-parish {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    padding-bottom: 4px;
+    color: $boulder-color;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .department-item-name {
+    @include strong-text;
+    color: $thunder-color;
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .department-item {
+    padding: 16px 0px 8px;
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+}

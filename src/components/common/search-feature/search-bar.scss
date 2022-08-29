@@ -1,0 +1,99 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.search-bar-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  .swiper {
+    width: calc(100% - 60px);
+    margin: auto;
+
+    .swiper-container {
+      .swiper-wrapper {
+        .swiper-slide {
+          padding: 17px 0px;
+          color: $thunder-color;
+          width: auto;
+          cursor: pointer;
+
+          .title {
+            display: inline-block;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 26px;
+            vertical-align: middle;
+
+            &.is-active {
+              color: #005ef4;
+            }
+          }
+
+          .count {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 18px;
+            display: inline-block;
+            width: fit-content;
+            margin-left: 8px;
+            padding: 0px 6px;
+            background-color: #eaeaea;
+            vertical-align: middle;
+            border-radius: 4px;
+
+            &.is-active {
+              color: #005ef4;
+              background-color: $malibu-20-color;
+            }
+          }
+
+          &.is-active {
+            border-bottom: 3px solid #005ef4;
+          }
+        }
+      }
+    }
+  }
+
+  .carousel-next,
+  .carousel-prev {
+    width: 10px;
+    height: 16px;
+    padding: 0px 10px;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .carousel-next {
+    background: url('assets/icons/right-disclosure-indicator-blue.svg') center
+      no-repeat;
+
+    &.carousel-disabled {
+      pointer-events: none;
+      background: url('assets/icons/right-disclosure-indicator.svg') center
+        no-repeat;
+    }
+  }
+
+  .carousel-prev {
+    background: url('assets/icons/left-disclosure-indicator-blue.svg') center
+      no-repeat;
+
+    &.carousel-disabled {
+      pointer-events: none;
+      background: url('assets/icons/left-disclosure-indicator.svg') center
+        no-repeat;
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .search-bar-container {
+    .carousel-next,
+    .carousel-prev {
+      display: none;
+    }
+  }
+}

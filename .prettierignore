@@ -1,0 +1,11 @@
+.git
+.svn
+.hg
+node_modules
+
+dist
+coverage
+.idea
+
+docs/
+integration-tests/

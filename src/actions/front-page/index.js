@@ -72,7 +72,7 @@ export const fetchFrontPageOrders = () =>
     ],
     FRONT_PAGE_ORDERS_API_URL
   )()
-  
+
 export const fetchFrontPageCards = () =>
   get(
     [

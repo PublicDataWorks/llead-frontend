@@ -1,7 +1,6 @@
 import { setPreviousLocation } from 'actions/common/private-route'
 import * as actionTypes from 'action-types/common/private-route'
 
-
 describe('#setPreviousLocation', () => {
   it('returns the right action', () => {
     const location = {

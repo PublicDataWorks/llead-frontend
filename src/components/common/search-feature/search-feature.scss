@@ -1,0 +1,72 @@
+@import 'styles/colors';
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.search-modal {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 343px;
+  background-color: $white-color;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px $black-25-color;
+  z-index: 30;
+
+  .search-input-wrapper {
+    .search-input-container {
+      .search-input-with-suggestions {
+        .search-input {
+          .input-field.has-icon {
+            background-color: $white-color;
+            border-radius: 8px;
+          }
+        }
+      }
+
+      &.show-suggestion {
+        .search-input-with-suggestions {
+          .search-input {
+            .input-field.has-icon {
+              border: 3px solid $blue-ribbon-50-color;
+              border-radius: 2px;
+            }
+          }
+        }
+
+        .close-btn-container {
+          .close-btn {
+            border: solid $blue-ribbon-50-color;
+            border-top-width: 1px;
+            border-bottom-width: 1px;
+            border-right-width: 3px;
+            border-left: 1px solid $alto-color;
+            border-radius: 0px 2px 2px 0px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.featured-search-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 20;
+  background-color: $black-75-color;
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .search-modal {
+    width: 568px;
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .search-modal {
+    width: 1000px;
+  }
+}

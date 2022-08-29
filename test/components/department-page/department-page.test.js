@@ -8,7 +8,7 @@ import qs from 'qs'
 
 import Department from 'components/department-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
-import FeaturedSearch from 'containers/department-page/featured-search'
+import SearchFeature from 'containers/common/search-feature'
 
 const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -18,23 +18,23 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
-jest.mock('containers/department-page/featured-search', () => ({
+jest.mock('containers/common/search-feature', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
 }))
 
-const MockFeaturedSearchComponent = () => {
-  return <div>Featured Search</div>
+const MockSearchFeatureComponent = () => {
+  return <div>Search Feature</div>
 }
 
 beforeAll(() => {
-  FeaturedSearch.mockImplementation(MockFeaturedSearchComponent)
+  SearchFeature.mockImplementation(MockSearchFeatureComponent)
 })
 
 beforeEach(() => {
   mockHistoryReplace.mockClear()
-  FeaturedSearch.mockClear()
+  SearchFeature.mockClear()
 })
 
 describe('Department component', () => {
@@ -1157,37 +1157,6 @@ describe('Department component', () => {
     expect(clearDocumentHeadStub).toHaveBeenCalled()
   })
 
-  describe('change search department', () => {
-    it('should change search department', () => {
-      const changeSearchDepartment = sinon.spy()
-
-      const departmentData = {
-        id: 'baton-rouge-pd',
-        name: 'Baton Rouge PD',
-        city: 'department city',
-        locationMapUrl: null,
-        parish: 'department parish',
-      }
-      render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department
-                department={departmentData}
-                changeSearchDepartment={changeSearchDepartment}
-              />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      expect(changeSearchDepartment).toHaveBeenCalledWith({
-        name: departmentData.name,
-        id: departmentData.id,
-      })
-    })
-  })
-
   describe('render featured officers', () => {
     it('renders featured officers correctly', () => {
       const departmentData = {
@@ -1463,217 +1432,74 @@ describe('Department component', () => {
     })
   })
 
-  describe('render search modal', () => {
-    it('renders search modal correctly', () => {
+  describe('searchFeature component', () => {
+    it('renders correctly', () => {
       const departmentData = {
-        id: 1,
-        name: 'department name',
+        id: 'baton-rouge-pd',
+        name: 'Baton Rouge PD',
+        city: 'department city',
+        locationMapUrl: null,
+        parish: 'department parish',
       }
 
-      render(
+      const featuredOfficers = [
+        {
+          id: 15248,
+          name: 'Jayson Germann',
+          badges: ['84'],
+          isStarred: true,
+          complaintsCount: 84,
+          useOfForcesCount: 0,
+        },
+        {
+          id: 2436,
+          name: 'Derrick Burmaster',
+          badges: ['85'],
+          isStarred: false,
+          complaintsCount: 80,
+          useOfForcesCount: 15,
+        },
+      ]
+
+      const container = render(
         <Provider store={MockStore()()}>
           <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
             <Route path='dept/:id'>
-              <Department department={departmentData} />
+              <Department
+                isRequesting={false}
+                department={departmentData}
+                featuredOfficers={featuredOfficers}
+              />
             </Route>
           </MemoryRouter>
         </Provider>
       )
 
-      expect(FeaturedSearch.mock.calls[0][0]).toStrictEqual({
-        departmentId: 'baton-rouge-pd',
-        departmentName: 'department name',
-        isSearchModalOpen: false,
-        saveRecentItem: expect.anything(),
-        searchModalOnClose: expect.anything(),
+      const { baseElement } = container
+
+      const featuredSearchIcon = baseElement.getElementsByClassName(
+        'search-icon'
+      )[0]
+
+      fireEvent.click(featuredSearchIcon)
+
+      const allSearchFeatureCalls = SearchFeature.mock.calls
+      const initSearchFeature = allSearchFeatureCalls[0][0]
+      expect(initSearchFeature).toEqual({
         itemType: '',
+        isSearchModalOpen: false,
+        searchModalOnClose: expect.any(Function),
+        department: departmentData,
       })
-    })
 
-    it('opens search officers modal correctly', () => {
-      const departmentData = {
-        id: 1,
-        name: 'department name',
-      }
-
-      const featuredOfficers = [
-        {
-          id: 15248,
-          name: 'Jayson Germann',
-          badges: ['84'],
-          isStarred: true,
-          complaintsCount: 84,
-          useOfForcesCount: 0,
-        },
-      ]
-
-      const fetchFeaturedOfficerSpy = sinon.spy()
-
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department
-                department={departmentData}
-                featuredOfficers={featuredOfficers}
-                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
-              />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { baseElement } = container
-
-      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
-
-      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
-      fireEvent.click(searchButton)
-
-      const numOfRenders = FeaturedSearch.mock.calls.length
-
-      expect(
-        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
-      ).toEqual(true)
-    })
-
-    it('opens search news aticles modal correctly', () => {
-      const departmentData = {
-        id: 1,
-        name: 'department name',
-      }
-
-      const featuredNewsAticles = [
-        {
-          id: 15248,
-          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
-          url: 'https://i.imgur.com/nHTFohI.csv',
-          isStarred: true,
-          publishedDate: '2020-03-12',
-          sourceDisplayName: 'The lens 1',
-        },
-      ]
-
-      const fetchFeaturedNewsArticlesSpy = sinon.spy()
-
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department
-                department={departmentData}
-                featuredNewsArticles={featuredNewsAticles}
-                fetchFeaturedNewsArticles={fetchFeaturedNewsArticlesSpy}
-              />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { baseElement } = container
-
-      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
-
-      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
-      fireEvent.click(searchButton)
-
-      const numOfRenders = FeaturedSearch.mock.calls.length
-
-      expect(
-        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
-      ).toEqual(true)
-    })
-
-    it('opens search document modal correctly', () => {
-      const departmentData = {
-        id: 1,
-        name: 'department name',
-      }
-
-      const featuredDocuments = [
-        {
-          id: 15248,
-          title: 'Appeal hearing: Eric Curlee on 2020-3-12',
-          url: 'https://i.imgur.com/nHTFohI.csv',
-          isStarred: true,
-          incidentDate: '2020-03-12',
-          previewImageUrl: 'https://i.imgur.com/nHTFohI.png',
-          pagesCount: 5,
-        },
-      ]
-
-      const fetchFeaturedDocumentsSpy = sinon.spy()
-
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department
-                department={departmentData}
-                featuredNewsArticles={featuredDocuments}
-                fetchFeaturedNewsArticles={fetchFeaturedDocumentsSpy}
-              />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { baseElement } = container
-
-      expect(FeaturedSearch.mock.calls[0][0].isSearchModalOpen).toEqual(false)
-
-      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
-      fireEvent.click(searchButton)
-
-      const numOfRenders = FeaturedSearch.mock.calls.length
-
-      expect(
-        FeaturedSearch.mock.calls[numOfRenders - 1][0].isSearchModalOpen
-      ).toEqual(true)
-    })
-
-    it('closes modal when unmount', () => {
-      const departmentData = {
-        id: 1,
-        name: 'department name',
-      }
-
-      const featuredOfficers = [
-        {
-          id: 15248,
-          name: 'Jayson Germann',
-          badges: ['84'],
-          isStarred: true,
-          complaintsCount: 84,
-          useOfForcesCount: 0,
-        },
-      ]
-
-      const fetchFeaturedOfficerSpy = sinon.spy()
-
-      const container = render(
-        <Provider store={MockStore()()}>
-          <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-            <Route path='dept/:id'>
-              <Department
-                department={departmentData}
-                featuredOfficers={featuredOfficers}
-                fetchFeaturedOfficers={fetchFeaturedOfficerSpy}
-              />
-            </Route>
-          </MemoryRouter>
-        </Provider>
-      )
-
-      const { baseElement, unmount } = container
-
-      const searchButton = baseElement.getElementsByClassName('search-icon')[0]
-      fireEvent.click(searchButton)
-
-      expect(baseElement.style).toHaveProperty('overflow', 'hidden')
-
-      unmount()
-      expect(baseElement.style).toHaveProperty('overflow', 'unset')
+      const searchFeatureAfterClickSearch =
+        allSearchFeatureCalls[allSearchFeatureCalls.length - 1][0]
+      expect(searchFeatureAfterClickSearch).toEqual({
+        itemType: 'officers',
+        isSearchModalOpen: true,
+        searchModalOnClose: expect.any(Function),
+        department: departmentData,
+      })
     })
   })
 })

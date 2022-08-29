@@ -31,6 +31,24 @@
     padding: $v-small-margin $h-side-frame $v-margin $h-side-frame;
   }
 
+  .search-container {
+    width: 100%;
+    padding: 55px 35px;
+    background-color: $thunder-color;
+    box-sizing: border-box;
+
+    .search-input {
+      width: 100%;
+
+      .input-field {
+        &:focus {
+          border-color: transparent;
+          border-radius: 0;
+        }
+      }
+    }
+  }
+
   .section-anchor {
     height: 0px;
   }
@@ -46,6 +64,18 @@
   .front-page {
     .summary {
       width: 50%;
+    }
+
+    .search-container {
+      padding: 55px 19px;
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .front-page {
+    .search-container {
+      padding: 55px 35px;
     }
   }
 }

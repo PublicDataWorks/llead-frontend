@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import 'swiper/swiper.scss'
 
 import App from 'components/app'
 import { fetchAppConfig } from 'actions/common/app-config'

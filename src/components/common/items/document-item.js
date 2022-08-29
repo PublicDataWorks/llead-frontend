@@ -49,12 +49,13 @@ const DocumentItem = (props) => {
 
   return (
     <OuterLink className='document-item' href={url} onClick={handleClick}>
+      <div className='document-item-department'>
+        Documents {!isEmpty(items) ? '|' : ''}{' '}
+        <ArrayWithSeparator items={items} separator=',&nbsp;' />
+      </div>
       <div className='document-item-title'>
         <div className='document-item-type'>{documentType}</div>
         <div className='document-item-name'>{title}</div>
-        <div className='document-item-department-name'>
-          <ArrayWithSeparator items={items} separator=',&nbsp;' />
-        </div>
       </div>
       <div className='document-item-subtitle'>
         {incidentDate && (

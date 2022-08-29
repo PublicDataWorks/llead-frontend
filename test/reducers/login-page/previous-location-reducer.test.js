@@ -9,7 +9,7 @@ describe('#previousLocationReducer', () => {
 
   it('should handle SET_PREVIOUS_LOCATION', () => {
     const previousLocation = {
-      pathname: '/departments/1/'
+      pathname: '/departments/1/',
     }
     const result = previousLocationReducer(null, {
       type: SET_PREVIOUS_LOCATION,

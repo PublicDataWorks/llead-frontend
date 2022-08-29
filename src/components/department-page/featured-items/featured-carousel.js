@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Swiper from 'react-id-swiper'
-import 'swiper/swiper.scss'
 
 import './featured-carousel.scss'
 

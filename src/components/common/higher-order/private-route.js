@@ -7,14 +7,19 @@ import pick from 'lodash/pick'
 
 import { LOGIN_PATH } from 'constants/paths'
 
-const PrivateRoute = ({ component: Component, isLoggedIn, setPreviousLocation, ...rest }) => {
+const PrivateRoute = ({
+  component: Component,
+  isLoggedIn,
+  setPreviousLocation,
+  ...rest
+}) => {
   if (isLoggedIn) {
     return <Route component={Component} {...rest} />
   } else {
     const location = useLocation()
     const previousLocation = pick(location, 'pathname', 'search')
     setPreviousLocation(previousLocation)
-    return <Redirect to={LOGIN_PATH}/>
+    return <Redirect to={LOGIN_PATH} />
   }
 }
 

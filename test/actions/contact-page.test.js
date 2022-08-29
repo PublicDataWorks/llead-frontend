@@ -13,7 +13,7 @@ describe('#saveFeedback', () => {
 
     const data = {
       email: 'mail@mail.com',
-      message: 'Test message'
+      message: 'Test message',
     }
 
     saveFeedback(data)

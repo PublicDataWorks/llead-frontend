@@ -7,7 +7,9 @@ export default {
     return (state) => ({
       token: state.token,
       recentItems: state.recentItems,
-      searchPage: { searchQueries: get(state.searchPage, 'searchQueries') },
+      searchFeature: {
+        searchQueries: get(state.searchFeature, 'searchQueries'),
+      },
     })
   },
 }

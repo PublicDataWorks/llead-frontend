@@ -1,0 +1,22 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.officer-item {
+  @include small-text;
+  padding: $v-small-margin 0;
+  border-bottom: 1px solid $alto-color;
+
+  .officer-item-department {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    padding-bottom: 4px;
+    color: $boulder-color;
+  }
+
+  .officer-item-name {
+    @include strong-text;
+    color: $thunder-color;
+  }
+}
