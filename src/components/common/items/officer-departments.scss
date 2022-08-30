@@ -9,5 +9,9 @@
 
   .officer-department {
     display: inline-block;
+
+    &.canonical-department {
+      font-weight: 500;
+    }
   }
 }
