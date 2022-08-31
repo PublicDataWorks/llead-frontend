@@ -7,6 +7,7 @@ import FixedArc from 'components/front-page/migratory-map/fixed-arc'
 import AnimatedArc from 'components/front-page/migratory-map/animated-arc'
 import DepartmentMigration from 'components/front-page/migratory-map/department-migration'
 import { createCurvedLine } from 'utils/curved-line'
+import { MAP_HIGHLIGHTED_LINE_COLOR, MAP_LINE_COLOR } from 'constants/common'
 
 jest.mock('containers/front-page/migratory-map/department-pulses', () => ({
   __esModule: true,
@@ -68,6 +69,7 @@ describe('department migration component', () => {
         startLocation: [-90.0701, 29.9499],
         startNode: 'new-orleans-pd',
         year: 1999,
+        leftReason: 'Retired',
       },
       {
         count: 2,
@@ -81,6 +83,7 @@ describe('department migration component', () => {
         startLocation: [-90.0701, 29.9499],
         startNode: 'new-orleans-pd',
         year: 2000,
+        leftReason: '',
       },
       {
         count: 2,
@@ -94,6 +97,7 @@ describe('department migration component', () => {
         startLocation: [-90.0701, 29.9499],
         startNode: 'new-orleans-pd',
         year: 2001,
+        leftReason: 'Resignation',
       },
       {
         count: 2,
@@ -107,6 +111,7 @@ describe('department migration component', () => {
         startLocation: [-90.0701, 29.9499],
         startNode: 'new-orleans-pd',
         year: 2002,
+        leftReason: '',
       },
       {
         count: 2,
@@ -120,6 +125,7 @@ describe('department migration component', () => {
         startLocation: [-90.0701, 29.9499],
         startNode: 'new-orleans-pd',
         year: 2003,
+        leftReason: '',
       },
       {
         count: 2,
@@ -133,6 +139,7 @@ describe('department migration component', () => {
         startLocation: [-90.0701, 29.9499],
         startNode: 'new-orleans-pd',
         year: 2004,
+        leftReason: '',
       },
     ]
 
@@ -169,6 +176,7 @@ describe('department migration component', () => {
           },
           properties: {
             count: 1,
+            color: MAP_HIGHLIGHTED_LINE_COLOR,
           },
         },
         {
@@ -182,6 +190,7 @@ describe('department migration component', () => {
           },
           properties: {
             count: 2,
+            color: MAP_LINE_COLOR,
           },
         },
         {
@@ -195,6 +204,7 @@ describe('department migration component', () => {
           },
           properties: {
             count: 2,
+            color: MAP_HIGHLIGHTED_LINE_COLOR,
           },
         },
         {
@@ -208,6 +218,7 @@ describe('department migration component', () => {
           },
           properties: {
             count: 2,
+            color: MAP_LINE_COLOR,
           },
         },
         {
@@ -221,6 +232,7 @@ describe('department migration component', () => {
           },
           properties: {
             count: 2,
+            color: MAP_LINE_COLOR,
           },
         },
         {
@@ -234,6 +246,7 @@ describe('department migration component', () => {
           },
           properties: {
             count: 2,
+            color: MAP_LINE_COLOR,
           },
         },
       ],
@@ -252,6 +265,7 @@ describe('department migration component', () => {
         },
         properties: {
           count: 1,
+          color: MAP_HIGHLIGHTED_LINE_COLOR,
         },
       },
       currentIndex: 0,

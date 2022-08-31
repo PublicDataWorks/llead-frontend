@@ -5,6 +5,7 @@ import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 import pick from 'lodash/pick'
 import camelCase from 'lodash/camelCase'
+import upperFirst from 'lodash/upperFirst'
 import { formatDate } from 'utils/formatter'
 
 const getDepartmentNodes = (state) =>
@@ -86,12 +87,14 @@ export const migrationDetailsSelector = createSelector(
       'endDepartment',
       'officerName',
       'date',
+      'leftReason',
     ]
 
     forEach(departmentGraphs, (obj) => {
       obj.startDepartment = departmentNodes[camelCase(obj.startNode)].name
       obj.endDepartment = departmentNodes[camelCase(obj.endNode)].name
       obj.date = formatDate(obj.date)
+      obj.leftReason = upperFirst(obj.leftReason)
     })
 
     return pick(get(departmentGraphs, currentIndex), attributes)

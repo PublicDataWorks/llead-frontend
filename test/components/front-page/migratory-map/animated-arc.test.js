@@ -3,7 +3,9 @@ import { render, act } from '@testing-library/react'
 import { lineString } from '@turf/turf'
 import sinon from 'sinon'
 import * as ReactMapboxGl from 'react-mapbox-gl'
-import AnimatedArc from 'components/front-page/migratory-map/animated-arc'
+import AnimatedArc, {
+  areEqual,
+} from 'components/front-page/migratory-map/animated-arc'
 
 describe('animated arc component', () => {
   const mockSource = jest.fn(() => <div>Source</div>)
@@ -56,7 +58,7 @@ describe('animated arc component', () => {
         'line-join': 'round',
       },
       paint: {
-        'line-color': '#005ef4',
+        'line-color': ['get', 'color'],
         'line-width': ['get', 'count'],
         'line-opacity': 0.7,
       },
@@ -81,5 +83,46 @@ describe('animated arc component', () => {
 
     expect(mockSource.mock.calls[0]).toBeFalsy()
     expect(mockLayer.mock.calls[0]).toBeFalsy()
+  })
+})
+
+describe('Animated Arc memo check test suite', () => {
+  it('returns true when currentIndex equal to 0', () => {
+    const prevProps = {
+      otherProps: 'any',
+    }
+    const nextProps = {
+      otherProps: 'any',
+      currentIndex: 0,
+      lineIndex: 1,
+    }
+
+    expect(areEqual(prevProps, nextProps)).toBe(false)
+  })
+
+  it('returns true when currentIndex equal to lineIndex', () => {
+    const prevProps = {
+      otherProps: 'any',
+    }
+    const nextProps = {
+      otherProps: 'any',
+      currentIndex: 1,
+      lineIndex: 1,
+    }
+
+    expect(areEqual(prevProps, nextProps)).toBe(false)
+  })
+
+  it('returns false', () => {
+    const prevProps = {
+      otherProps: 'any',
+    }
+    const nextProps = {
+      otherProps: 'any',
+      currentIndex: 2,
+      lineIndex: 1,
+    }
+
+    expect(areEqual(prevProps, nextProps)).toBe(true)
   })
 })
