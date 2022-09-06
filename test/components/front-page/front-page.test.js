@@ -160,10 +160,12 @@ describe('FrontPage component', () => {
         id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
-        department: {
-          id: 'north-paulaberg-department',
-          name: 'North Paulaberg Department',
-        },
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+        ],
       },
     ]
     const departmentsData = [
@@ -298,10 +300,12 @@ describe('FrontPage component', () => {
         id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
-        department: {
-          id: 'north-paulaberg-department',
-          name: 'North Paulaberg Department',
-        },
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+        ],
       },
     ]
     const departmentsData = [

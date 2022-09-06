@@ -17,12 +17,15 @@ export const departmentFormatter = (department) => {
 export const officerFormatter = (officer) => {
   const officerAttributes = ['id', 'name', 'badges', 'latestRank']
 
-  const rawDepartment = get(officer, 'department')
-  const department = pick(rawDepartment, ['id', 'name'])
+  const rawDepartments = get(officer, 'departments', [])
+
+  const departments = map(rawDepartments, (department) =>
+    pick(department, ['id', 'name'])
+  )
 
   return {
     ...pick(officer, officerAttributes),
-    department,
+    departments,
   }
 }
 

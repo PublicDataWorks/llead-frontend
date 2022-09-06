@@ -25,10 +25,12 @@ describe('Officer card component', () => {
       name: 'mark carlson',
       badges: ['12435', '612'],
       latestRank: 'senior',
-      department: {
-        id: 'baton-rouge-pd',
-        name: 'Baton Rouge PD',
-      },
+      departments: [
+        {
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
+        },
+      ],
       className: 'custom-class-name',
       onItemClick: onItemClickStub,
     }
@@ -48,7 +50,9 @@ describe('Officer card component', () => {
     expect(officerCard.textContent.includes('Mark Carlson')).toBe(true)
     expect(officerCard.textContent.includes(props.badges[0])).toBe(true)
     expect(officerCard.textContent.includes(props.badges[1])).toBe(true)
-    expect(officerCard.textContent.includes(props.department.name)).toBe(true)
+    expect(officerCard.textContent.includes(props.departments[0].name)).toBe(
+      true
+    )
 
     const officerCardLink = baseElement.getElementsByClassName('custom-link')[0]
 
@@ -57,16 +61,56 @@ describe('Officer card component', () => {
     expect(mockHistoryPush).toHaveBeenCalledWith('/officers/1/mark-carlson')
   })
 
+  it('renders if officer has more than 1 deparment', () => {
+    const onItemClickStub = jest.fn()
+    const props = {
+      id: 1,
+      name: 'mark carlson',
+      badges: ['12435', '612'],
+      latestRank: 'senior',
+      departments: [
+        {
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
+        },
+        {
+          id: 'harmonbury-department',
+          name: 'Harmonbury Department',
+        },
+      ],
+      className: 'custom-class-name',
+      onItemClick: onItemClickStub,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <OfficerCard {...props} />
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+    const officerCard = baseElement.getElementsByClassName('officer-card')[0]
+
+    expect(officerCard.textContent.includes('Mark Carlson')).toBe(true)
+    expect(officerCard.textContent.includes(props.departments[0].name)).toBe(
+      true
+    )
+    expect(officerCard.textContent.includes('+1 more')).toBe(true)
+  })
+
   it('should remove correctly', () => {
     const removeRecentItemStub = sinon.stub()
     const props = {
       id: 1,
       name: 'mark carlson',
       badges: ['12435', '612'],
-      department: {
-        id: 'baton-rouge-pd',
-        name: 'Baton Rouge PD',
-      },
+      departments: [
+        {
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
+        },
+      ],
       className: 'custom-class-name',
       removeRecentItem: removeRecentItemStub,
     }
