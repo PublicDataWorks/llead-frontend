@@ -132,6 +132,54 @@ describe('ParticularSearch component', () => {
     expect(baseElement.getElementsByClassName('officer-item').length).toEqual(1)
   })
 
+  it('renders officers within department', () => {
+    const saveRecentItemSpy = sinon.spy()
+    const onItemClickSpy = sinon.spy()
+    const performSearchSpy = sinon.spy()
+
+    const results = [
+      {
+        id: 9,
+        name: 'Robert Craig',
+        badges: ['12345'],
+        departments: [
+          {
+            id: 'petersonmouth-department',
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+    ]
+
+    const container = render(
+      <ParticularSearch
+        count={1}
+        limit={5}
+        docType='officers'
+        offset={10}
+        results={results}
+        searchQuery={'test'}
+        performSearch={performSearchSpy}
+        saveRecentItem={saveRecentItemSpy}
+        onItemClick={onItemClickSpy}
+        department={{
+          id: 'new-orleans-pd',
+          name: 'New Orleans Police Department',
+        }}
+      />
+    )
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('search-title')[0].textContent
+    ).toEqual(
+      '1 results for\u00A0\u201Ctest\u201D\u00A0in\u00A0New Orleans Police Department'
+    )
+
+    expect(baseElement.getElementsByClassName('officer-item').length).toEqual(1)
+  })
+
   it('renders documents', () => {
     const saveRecentItemSpy = sinon.spy()
     const onItemClickSpy = sinon.spy()

@@ -59,7 +59,9 @@ const ParticularSearch = (props) => {
           <span className='search-count'>{count}</span> results for&nbsp;
           <span className='search-string'>&ldquo;{searchQuery}&rdquo;</span>
           &nbsp;in&nbsp;
-          <span className='search-section'>{docType}</span>
+          <span className='search-section'>
+            {isEmpty(department) ? docType : department.name}
+          </span>
         </div>
       )}
 
