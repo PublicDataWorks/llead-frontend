@@ -25,9 +25,10 @@ describe('PrivateRoute higher-order component', () => {
 
     expect(baseElement.textContent.includes('FrontPage')).toBe(false)
     expect(baseElement.textContent.includes('Login')).toBe(true)
-    expect(setPreviousLocation).toHaveBeenCalledWith(
-      { pathname: '/departments/1/', search: '' }
-    )
+    expect(setPreviousLocation).toHaveBeenCalledWith({
+      pathname: '/departments/1/',
+      search: '',
+    })
   })
 
   it('should render component when logged in', () => {

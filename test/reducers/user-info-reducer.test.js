@@ -8,7 +8,7 @@ describe('#userInfoReducer', () => {
   })
 
   it('should handle USER_INFO_FETCH_SUCCESS', () => {
-    const userInfo = { email: 'user@mail.com'}
+    const userInfo = { email: 'user@mail.com' }
 
     const result = userInfoReducer(
       {},

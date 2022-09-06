@@ -11,31 +11,22 @@ describe('#departmentsReducer', () => {
     const data = {
       nodes: {
         '22nd-district-attorney': {
-            name: '22nd District Attorney',
-            location: [
-                -90.09622,
-                30.48031
-            ]
+          name: '22nd District Attorney',
+          location: [-90.09622, 30.48031],
         },
       },
       graphs: [
         {
           start_node: 'new-orleans-pd',
           end_node: 'southern-br-university-pd',
-          start_location: [
-              -90.0701,
-              29.9499
-          ],
-          end_location: [
-              -91.191113,
-              30.5255956
-          ],
+          start_location: [-90.0701, 29.9499],
+          end_location: [-91.191113, 30.5255956],
           year: 1999,
           date: '1999-06-21',
           officer_name: 'Tonya Johnese',
-          officer_id: 1529
-        }
-      ]
+          officer_id: 1529,
+        },
+      ],
     }
 
     const result = migratoryDataReducer(

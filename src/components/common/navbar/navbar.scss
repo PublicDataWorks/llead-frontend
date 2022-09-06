@@ -1,0 +1,31 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.navbar {
+  display: none;
+  padding: 0px 25px;
+
+  .about,
+  .contact {
+    @include body-text;
+    font-size: 20px;
+    display: inline-block;
+    padding: 25px;
+    color: $thunder-color;
+    text-decoration: none;
+  }
+
+  .about.is-active,
+  .contact.is-active {
+    font-weight: 500;
+    border-bottom: 3px solid $thunder-color;
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .navbar {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

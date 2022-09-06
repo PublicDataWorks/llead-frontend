@@ -18,9 +18,7 @@ describe('UnitChangeItem component', () => {
 
     const { baseElement } = container
 
-    expect(baseElement.textContent).toContain(
-      'Leave Unit 100 - left unit desc'
-    )
+    expect(baseElement.textContent).toContain('Leave Unit 100 - left unit desc')
     expect(baseElement.textContent).toContain(
       'Joined\u00A0Unit 101 - joined unit desc'
     )

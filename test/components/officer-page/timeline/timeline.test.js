@@ -1223,6 +1223,9 @@ describe('Timeline component', () => {
       previewImageUrl: 'previewImageUrl',
       pagesCount: 3,
     }
+
+    const mockSaveRecentItem = jest.fn()
+
     const timelineData = [
       {
         groupName: 'Apr 1, 2018',
@@ -1237,7 +1240,6 @@ describe('Timeline component', () => {
         leftGroup: true,
       },
     ]
-    const mockSaveRecentItem = jest.fn()
 
     render(
       <MemoryRouter initialEntries={['officers/1']}>

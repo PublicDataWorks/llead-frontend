@@ -14,7 +14,6 @@ const ForgotPasswordPageContainer = lazy(() =>
 const ForgotPasswordConfirmPageContainer = lazy(() =>
   import('containers/forgot-password-confirm-page')
 )
-const SearchPageContainer = lazy(() => import('containers/search-page'))
 const AboutPageContainer = lazy(() => import('containers/about-page'))
 const ContactPageContainer = lazy(() => import('containers/contact-page'))
 
@@ -70,12 +69,6 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
           path={paths.FRONT_PAGE_PATH}
           exact
           component={FrontPageContainer}
-        />
-        <PrivateRoute
-          {...privateRouteAttributes}
-          path={paths.SEARCH_PATH}
-          exact
-          component={SearchPageContainer}
         />
         <PrivateRoute
           {...privateRouteAttributes}

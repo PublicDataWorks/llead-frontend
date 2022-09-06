@@ -6,5 +6,5 @@ export default handleActions(
   {
     [SET_PREVIOUS_LOCATION]: (state, action) => action.payload,
   },
-   null
+  null
 )

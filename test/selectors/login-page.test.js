@@ -28,15 +28,14 @@ describe('#getPreviousLocation', () => {
     const state = {
       loginPage: {
         previousLocation: {
-          location: '/departments/1'
+          location: '/departments/1',
         },
       },
     }
 
     const previousLocation = getPreviousLocation(state)
     expect(previousLocation).toEqual({
-      location: '/departments/1'
+      location: '/departments/1',
     })
   })
 })
-

@@ -153,6 +153,10 @@ const Timeline = (props) => {
     )
   }
 
+  const hideActionsPanel = () => {
+    setShowActionsPanel(false)
+  }
+
   const handleShowEventDetails = () => {
     setShowEventDetails(!showEventDetails)
     hideActionsPanel()
@@ -166,10 +170,6 @@ const Timeline = (props) => {
       type: EVENT_TYPES.DOWNLOAD_SPREADSHEET,
       data: { officer_id: officerId },
     })
-  }
-
-  const hideActionsPanel = () => {
-    setShowActionsPanel(false)
   }
 
   const showHeaderActionsButton =

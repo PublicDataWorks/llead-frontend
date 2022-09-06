@@ -17,7 +17,6 @@ import {
   fetchFeaturedNewsArticles,
   fetchDatasets,
 } from 'actions/department-page'
-import { changeSearchDepartment } from 'actions/search-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 import {
   clearDocumentHead,
@@ -43,7 +42,6 @@ const mapDispatchToProps = {
   saveRecentItem,
   setDocumentHead,
   clearDocumentHead,
-  changeSearchDepartment,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Department)

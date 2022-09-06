@@ -1,0 +1,37 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.particular-search {
+  @include small-text;
+  height: 500px;
+  overflow: auto;
+  padding: 20px 10px 20px;
+  box-sizing: border-box;
+
+  .search-title {
+    color: $thunder-color;
+  }
+
+  .search-count,
+  .search-string {
+    @include strong-text;
+  }
+
+  .search-section {
+    font-style: italic;
+    color: $boulder-color;
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .particular-search {
+    padding: 20px 24px 0px;
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .particular-search {
+    padding: 20px 41px 0px 24px;
+  }
+}

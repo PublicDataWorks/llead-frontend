@@ -10,7 +10,7 @@ import frontPageReducer from 'reducers/front-page'
 import loginPageReducer from 'reducers/login-page'
 import officerPageReducer from 'reducers/officer-page'
 import recentItemsReducer from 'reducers/recent-items-reducer'
-import searchPageReducer from 'reducers/search-page'
+import searchFeatureReducer from 'reducers/search-feature'
 import tokenReducer from 'reducers/token-reducer'
 import userInfoReducer from './user-info-reducer'
 import documentHeadReducer from './document-head-reducer'
@@ -26,7 +26,7 @@ export default combineReducers({
   loginPage: loginPageReducer,
   officerPage: officerPageReducer,
   recentItems: recentItemsReducer,
-  searchPage: searchPageReducer,
+  searchFeature: searchFeatureReducer,
   token: tokenReducer,
   userInfo: userInfoReducer,
   documentHead: documentHeadReducer,

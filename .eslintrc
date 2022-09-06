@@ -19,7 +19,15 @@
   },
   "plugins": ["react", "jest", "cypress"],
   "rules": {
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": true,
+        "classes": true,
+        "variables": true
+      }
+    ]
   },
   "ignorePatterns": ["cypress/", "dist/"],
   "settings": {

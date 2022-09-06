@@ -11,9 +11,12 @@ describe('#departmentReducer', () => {
   })
 
   it('should handle DEPARTMENT_FETCH_START', () => {
-    const result = departmentReducer({ id: 1 }, {
-      type: DEPARTMENT_FETCH_START,
-    })
+    const result = departmentReducer(
+      { id: 1 },
+      {
+        type: DEPARTMENT_FETCH_START,
+      }
+    )
 
     expect(result).toStrictEqual({})
   })

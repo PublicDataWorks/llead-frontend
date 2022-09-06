@@ -12,4 +12,7 @@ const mapDispatchToProps = {
   performForgotPasswordConfirm,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordConfirm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ForgotPasswordConfirm)
