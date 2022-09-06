@@ -5,7 +5,6 @@ import axios from 'axios'
 import axiosClient from 'utils/axios-client'
 import { REFRESH_TOKEN_API_URL } from 'constants/api'
 import * as authenticationActions from 'actions/authentication'
-import { HTTP_STATUS_CODES } from 'constants/common'
 
 describe('axios-client request interceptors', () => {
   describe('token is empty', () => {
@@ -68,12 +67,30 @@ describe('axios-client request interceptors', () => {
         })
       })
 
-      it('requests new token unsuccessfully', async () => {
+      it('prevents multiple refresh token requests', () => {
         sinon.useFakeTimers(new Date(2021, 1, 20, 16, 50, 10))
 
-        sinon
-          .stub(axios, 'post')
-          .rejects({ response: { status: HTTP_STATUS_CODES.UNAUTHORIZED } })
+        sinon.stub(axios, 'post').resolves({ data: { access: 'newToken' } })
+        axiosClient.interceptors.request.handlers[0].fulfilled({
+          headers: { responseType: 'json' },
+        })
+
+        axiosClient.interceptors.request.handlers[0].fulfilled({
+          headers: { responseType: 'json' },
+        })
+
+        expect(axios.post).toHaveBeenCalledWith(REFRESH_TOKEN_API_URL, {
+          refresh: 'refreshToken',
+        })
+
+        expect(axios.post).toHaveBeenCalledTimes(1)
+      })
+
+      it('requests new token unsuccessfully and store does not removeToken', async () => {
+        sinon.useFakeTimers(new Date(2021, 1, 20, 16, 50, 10))
+
+        sinon.stub(axios, 'post').rejects({ response: { status: null } })
+
         const requestConfig = await axiosClient.interceptors.request.handlers[0].fulfilled(
           { headers: { responseType: 'json' } }
         )
@@ -81,11 +98,9 @@ describe('axios-client request interceptors', () => {
         expect(axios.post).toHaveBeenCalledWith(REFRESH_TOKEN_API_URL, {
           refresh: 'refreshToken',
         })
-        expect(store.dispatch).toHaveBeenCalledWith(
-          authenticationActions.removeToken()
-        )
+        expect(store.dispatch).not.toHaveBeenCalled()
         expect(requestConfig).toStrictEqual({
-          headers: { responseType: 'json' },
+          headers: { Authorization: 'Bearer null', responseType: 'json' },
         })
       })
     })
@@ -93,11 +108,11 @@ describe('axios-client request interceptors', () => {
 })
 
 describe('axios-client response interceptors', () => {
-  it('transforms response data if return type is json', () => {
+  it('transforms response data if return type is json', async () => {
     const camelCasedData = {
       'camel-case': 'value',
     }
-    const responseConfig = axiosClient.interceptors.response.handlers[0].fulfilled(
+    const responseConfig = await axiosClient.interceptors.response.handlers[0].fulfilled(
       { headers: { 'content-type': 'application/json' }, data: camelCasedData }
     )
 
@@ -109,11 +124,11 @@ describe('axios-client response interceptors', () => {
     })
   })
 
-  it('keeps response data if return type is not json', () => {
+  it('keeps response data if return type is not json', async () => {
     const camelCasedData = {
       'camel-case': 'value',
     }
-    const responseConfig = axiosClient.interceptors.response.handlers[0].fulfilled(
+    const responseConfig = await axiosClient.interceptors.response.handlers[0].fulfilled(
       { headers: { 'content-type': 'other' }, data: camelCasedData }
     )
 
