@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createCachedSelector } from 're-reselect'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import pick from 'lodash/pick'
@@ -70,12 +70,11 @@ export const isLoggedInSelector = (state) => !isEmpty(getAccessToken(state))
 export const isAppConfigFetchedSelector = (state) =>
   !isEmpty(getAppConfig(state))
 
-export const cmsSelector = (state, section) =>
-  createSelector(getCMS, (cms) => {
-    const cmsKeys = get(CMS_KEYS, section, {})
-
-    return mapValues(cmsKeys, (cms_key) => get(cms, cms_key, ''))
-  })(state)
+export const cmsSelector = createCachedSelector(
+  (state) => getCMS(state),
+  (_state, section) => get(CMS_KEYS, section, {}),
+  (cms, cmsKeys) => mapValues(cmsKeys, (cms_key) => get(cms, cms_key, ''))
+)((_state, section) => section)
 
 export const getUserInfo = (state) => get(state, 'userInfo', {})
 
