@@ -19,6 +19,7 @@ import { FRONT_PAGE_SECTIONS } from 'constants/common'
 
 const FrontPage = (props) => {
   const {
+    isLoggedIn,
     isAdmin,
     cms,
     fetchDepartments,
@@ -80,6 +81,7 @@ const FrontPage = (props) => {
       </div>
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
+          isLoggedIn={isLoggedIn}
           items={recentItems}
           saveRecentItem={saveRecentItem}
           removeRecentItem={removeRecentItem}
@@ -137,6 +139,7 @@ const FrontPage = (props) => {
 }
 
 FrontPage.propTypes = {
+  isLoggedIn: PropTypes.bool,
   isAdmin: PropTypes.bool,
   cms: PropTypes.object,
   departments: PropTypes.array,

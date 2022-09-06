@@ -35,6 +35,7 @@ describe('OuterLink component', () => {
     const container = render(
       <OuterLink
         href={link}
+        isLoggedIn={true}
         removeRecentItem={removeRecentItemStub}
         removeData={removeData}
       >
@@ -47,6 +48,27 @@ describe('OuterLink component', () => {
     fireEvent.click(removeIconItem)
 
     expect(removeRecentItemStub).toHaveBeenCalledWith(removeData)
+  })
+
+  it('does not show remove button if anonymous user', () => {
+    const link = '/link'
+    const removeRecentItemStub = sinon.stub()
+    sinon.stub(window, 'open')
+    const removeData = { abc: '123' }
+    const container = render(
+      <OuterLink
+        href={link}
+        isLoggedIn={false}
+        removeRecentItem={removeRecentItemStub}
+        removeData={removeData}
+      >
+        Outer Link
+      </OuterLink>
+    )
+
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
   })
 
   it('handles disabling correctly', () => {

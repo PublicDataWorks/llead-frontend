@@ -1,9 +1,10 @@
 import { saveAs } from 'file-saver'
 import lodashGet from 'lodash/get'
 
-import axiosClient from 'utils/axios-client'
+import { anonymousClient, authClient, inferClient } from 'utils/axios-client'
 
-export const get = (actionTypes, url, cancelToken) => {
+const baseGet = (getClient) => (actionTypes, url, cancelToken) => {
+  const client = getClient()
   const actionStarted = (request) => ({
     type: actionTypes[0],
     request,
@@ -29,7 +30,7 @@ export const get = (actionTypes, url, cancelToken) => {
     return (dispatch) => {
       dispatch(actionStarted(requestData))
 
-      return axiosClient
+      return client
         .get(url, { params, cancelToken })
         .then((res) => {
           dispatch(actionSuccess(requestData, res.data))
@@ -41,7 +42,8 @@ export const get = (actionTypes, url, cancelToken) => {
   }
 }
 
-export const post = (actionTypes, url, cancelToken) => {
+const basePost = (getClient) => (actionTypes, url, cancelToken) => {
+  const client = getClient()
   const actionStarted = (request) => ({
     type: actionTypes[0],
     request,
@@ -68,7 +70,7 @@ export const post = (actionTypes, url, cancelToken) => {
     return (dispatch) => {
       dispatch(actionStarted(requestData))
 
-      return axiosClient
+      return client
         .post(url, data, { params, cancelToken })
         .then((res) => {
           dispatch(actionSuccess(requestData, res.data))
@@ -80,7 +82,8 @@ export const post = (actionTypes, url, cancelToken) => {
   }
 }
 
-export const deleteApi = (actionTypes, url, cancelToken) => {
+const baseDeleteApi = (getClient) => (actionTypes, url, cancelToken) => {
+  const client = getClient()
   const actionStarted = (request) => ({
     type: actionTypes[0],
     request,
@@ -107,7 +110,7 @@ export const deleteApi = (actionTypes, url, cancelToken) => {
     return (dispatch) => {
       dispatch(actionStarted(requestData))
 
-      return axiosClient
+      return client
         .delete(url, { params, cancelToken })
         .then((res) => {
           dispatch(actionSuccess(requestData, res.data))
@@ -119,7 +122,8 @@ export const deleteApi = (actionTypes, url, cancelToken) => {
   }
 }
 
-export const download = (actionTypes, url, cancelToken) => {
+const baseDownload = (getClient) => (actionTypes, url, cancelToken) => {
+  const client = getClient()
   const actionStarted = (request) => ({
     type: actionTypes[0],
     request,
@@ -145,7 +149,7 @@ export const download = (actionTypes, url, cancelToken) => {
     return async (dispatch) => {
       dispatch(actionStarted(requestData))
 
-      return axiosClient
+      return client
         .get(url, { responseType: 'blob', params: requestParams, cancelToken })
         .then((res) => {
           const blob = new Blob([res.data], {
@@ -161,3 +165,20 @@ export const download = (actionTypes, url, cancelToken) => {
     }
   }
 }
+
+const getAnonymousClient = () => anonymousClient
+export const get = baseGet(getAnonymousClient)
+export const post = basePost(getAnonymousClient)
+export const deleteApi = baseDeleteApi(getAnonymousClient)
+export const download = baseDownload(getAnonymousClient)
+
+const getAuthClient = () => authClient
+export const authGet = baseGet(getAuthClient)
+export const authPost = basePost(getAuthClient)
+export const authDelete = baseDeleteApi(getAuthClient)
+export const authDownload = baseDownload(getAuthClient)
+
+export const inferGet = baseGet(inferClient)
+export const inferPost = basePost(inferClient)
+export const inferDelete = baseDeleteApi(inferClient)
+export const inferDownload = baseDownload(inferClient)

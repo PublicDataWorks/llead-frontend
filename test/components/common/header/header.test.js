@@ -73,7 +73,7 @@ describe('Header component', () => {
 
       expect(getByText('About').className).toEqual('about')
       expect(getByText('Contact').className).toEqual('contact')
-      expect(queryByText('Search Feature')).toBeFalsy()
+      expect(queryByText('User Panel')).toBeFalsy()
     })
   })
 

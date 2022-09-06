@@ -9,9 +9,26 @@ import * as ScrollToTop from 'components/common/higher-order/scroll-to-top'
 import * as DocumentHead from 'containers/common/document-head'
 import * as googleAnalytics from 'utils/google-analytics'
 import { EVENT_TYPES } from 'constants/common'
+import FrontPage from 'containers/front-page'
+
+jest.mock('containers/front-page', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockFrontPageComponent = () => {
+  return <div>Front Page</div>
+}
 
 describe('App component', () => {
+  beforeAll(() => {
+    FrontPage.mockImplementation(MockFrontPageComponent)
+  })
+
   beforeEach(() => {
+    FrontPage.mockClear()
+
     const mockScrollToTopComponent = () => <>ScrollToTop</>
     sinon.stub(ScrollToTop, 'default').get(() => mockScrollToTopComponent)
 
@@ -45,7 +62,7 @@ describe('App component', () => {
 
       expect(googleAnalytics.analyzeAction).toHaveBeenCalledWith({
         type: EVENT_TYPES.ACCESS_PAGE,
-        data: { page: '/login/' },
+        data: { page: '/' },
       })
     })
 

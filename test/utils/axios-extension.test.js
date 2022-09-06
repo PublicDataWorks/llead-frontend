@@ -19,10 +19,10 @@ describe('axios-client request interceptors more cases', () => {
     })
 
     it('requests new token unsuccessfully due to unauthorized', async () => {
-      let axiosClient
+      let authClient
       let authenticationActions
       jest.isolateModules(() => {
-        axiosClient = require('utils/axios-client').default
+        authClient = require('utils/axios-client').authClient
         authenticationActions = require('actions/authentication')
       })
       sinon.useFakeTimers(new Date(2021, 1, 20, 16, 50, 10))
@@ -30,7 +30,7 @@ describe('axios-client request interceptors more cases', () => {
       sinon
         .stub(axios, 'post')
         .rejects({ response: { status: HTTP_STATUS_CODES.UNAUTHORIZED } })
-      const requestConfig = await axiosClient.interceptors.request.handlers[0].fulfilled(
+      const requestConfig = await authClient.interceptors.request.handlers[0].fulfilled(
         { headers: { responseType: 'json' } }
       )
 
@@ -53,15 +53,15 @@ describe('axios-client request interceptors more cases', () => {
         token: { access: accessToken },
       })
 
-      let axiosClient
+      let authClient
       jest.isolateModules(() => {
-        axiosClient = require('utils/axios-client').default
+        authClient = require('utils/axios-client').authClient
       })
 
       sinon.useFakeTimers(new Date(2021, 1, 20, 16, 50, 10))
 
       sinon.stub(axios, 'post').resolves({ data: { access: 'newToken' } })
-      const requestConfig = await axiosClient.interceptors.request.handlers[0].fulfilled(
+      const requestConfig = await authClient.interceptors.request.handlers[0].fulfilled(
         {
           headers: { responseType: 'json' },
         }

@@ -7,7 +7,7 @@ import { USER_INFO_API_URL } from 'constants/api'
 
 describe('#fetchUserInfo', () => {
   it('calls get Api', () => {
-    const getStub = sinon.stub(ServiceApi, 'get')
+    const getStub = sinon.stub(ServiceApi, 'authGet')
     const getFuncStub = sinon.stub()
     getStub.returns(getFuncStub)
 

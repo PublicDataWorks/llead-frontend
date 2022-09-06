@@ -46,6 +46,7 @@ describe('News article card component', () => {
     const removeRecentItemStub = sinon.stub()
     const saveRecentItemSpy = sinon.spy()
     const props = {
+      isLoggedIn: true,
       id: 1,
       sourceName: 'The lens',
       url: 'https://i.imgur.com/news-article1.pdf',
@@ -71,6 +72,33 @@ describe('News article card component', () => {
       id: 1,
       type: 'NEWS_ARTICLE',
     })
+  })
+
+  it('does not show remove button if anonymous user', () => {
+    const removeRecentItemStub = sinon.stub()
+    const saveRecentItemSpy = sinon.spy()
+    const props = {
+      isLoggedIn: false,
+      id: 1,
+      sourceName: 'The lens',
+      url: 'https://i.imgur.com/news-article1.pdf',
+      title: 'news-article-1',
+      publishedDate: 'Nov 9, 2020',
+      className: 'custom-class-name',
+      removeRecentItem: removeRecentItemStub,
+      saveRecentItem: saveRecentItemSpy,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <NewsArticleCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
   })
 
   it('should handle click on news article card', () => {

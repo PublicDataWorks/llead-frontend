@@ -37,6 +37,7 @@ describe('Department card component', () => {
   it('should remove correctly', () => {
     const removeRecentItemStub = sinon.stub()
     const props = {
+      isLoggedIn: true,
       id: 'department-name',
       city: 'city',
       name: 'department name',
@@ -54,5 +55,24 @@ describe('Department card component', () => {
       id: 'department-name',
       type: 'DEPARTMENT',
     })
+  })
+
+  it('does not show remove button if anonymous user', () => {
+    const removeRecentItemStub = sinon.stub()
+    const props = {
+      isLoggedIn: false,
+      id: 'department-name',
+      city: 'city',
+      name: 'department name',
+      parish: 'parish',
+      className: 'custom-class-name',
+      removeRecentItem: removeRecentItemStub,
+    }
+
+    const container = render(<DepartmentCard {...props} />)
+
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
   })
 })

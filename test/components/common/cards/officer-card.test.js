@@ -102,6 +102,7 @@ describe('Officer card component', () => {
   it('should remove correctly', () => {
     const removeRecentItemStub = sinon.stub()
     const props = {
+      isLoggedIn: true,
       id: 1,
       name: 'mark carlson',
       badges: ['12435', '612'],
@@ -130,5 +131,34 @@ describe('Officer card component', () => {
       id: 1,
       type: 'OFFICER',
     })
+  })
+
+  it('does not show remove button if anonymous user', () => {
+    const removeRecentItemStub = sinon.stub()
+    const props = {
+      isLoggedIn: false,
+      id: 1,
+      name: 'mark carlson',
+      badges: ['12435', '612'],
+      departments: [
+        {
+          id: 'baton-rouge-pd',
+          name: 'Baton Rouge PD',
+        },
+      ],
+      className: 'custom-class-name',
+      removeRecentItem: removeRecentItemStub,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <OfficerCard {...props} />
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
   })
 })

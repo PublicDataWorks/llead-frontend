@@ -49,6 +49,7 @@ describe('CustomLink component', () => {
         <Route path='/'>
           <CustomLink
             to={link}
+            isLoggedIn={true}
             removeRecentItem={removeRecentItemStub}
             removeData={removeData}
           >
@@ -63,5 +64,29 @@ describe('CustomLink component', () => {
     fireEvent.click(removeIconItem)
 
     expect(removeRecentItemStub).toHaveBeenCalledWith(removeData)
+  })
+
+  it('does not show remove button if anonymous user', () => {
+    const link = '/link'
+    const removeRecentItemStub = sinon.stub()
+    const removeData = { abc: '123' }
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <CustomLink
+            to={link}
+            isLoggedIn={false}
+            removeRecentItem={removeRecentItemStub}
+            removeData={removeData}
+          >
+            Custom Link
+          </CustomLink>
+        </Route>
+      </MemoryRouter>
+    )
+
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
   })
 })

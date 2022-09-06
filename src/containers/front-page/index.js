@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import FrontPage from 'components/front-page'
-import { cmsSelector, getIsAdmin } from 'selectors/common'
+import { cmsSelector, getIsAdmin, isLoggedInSelector } from 'selectors/common'
 import {
   departmentsSelector,
   officersSelector,
@@ -33,6 +33,7 @@ const mapStateToProps = (state) => ({
   recentItems: recentItemsSelector(state),
   frontPageOrders: frontPageOrdersSelector(state),
   isAdmin: getIsAdmin(state),
+  isLoggedIn: isLoggedInSelector(state),
 })
 
 const mapDispatchToProps = {
