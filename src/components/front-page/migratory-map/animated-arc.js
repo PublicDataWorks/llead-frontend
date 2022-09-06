@@ -61,7 +61,7 @@ const AnimatedArc = (props) => {
           sourceId={`animated-line-${lineIndex}`}
           layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           paint={{
-            'line-color': '#005ef4',
+            'line-color': ['get', 'color'],
             'line-width': ['get', 'count'],
             'line-opacity': 0.7,
           }}
@@ -81,7 +81,7 @@ AnimatedArc.defaultProps = {
   line: {},
 }
 
-function areEqual(prevProps, nextProps) {
+export function areEqual(prevProps, nextProps) {
   if (
     nextProps.currentIndex === nextProps.lineIndex ||
     nextProps.currentIndex === 0

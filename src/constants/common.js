@@ -150,3 +150,6 @@ export const BASE_CIRCLE_RADIUS = 3
 export const RADIUS_THRESHOLD_RATIO = 1 / 4
 export const MAXIMUM_PULSING_RATIO = 1.5
 export const PULSING_STEP = 1.1
+
+export const MAP_LINE_COLOR = '#005ef4'
+export const MAP_HIGHLIGHTED_LINE_COLOR = '#860505'

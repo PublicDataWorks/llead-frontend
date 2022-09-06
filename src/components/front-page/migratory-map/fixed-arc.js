@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Layer, Source } from 'react-mapbox-gl'
+import { MAP_LINE_COLOR } from 'constants/common'
 
 const FixedArc = (props) => {
   const { lines, currentIndex } = props
@@ -24,7 +25,7 @@ const FixedArc = (props) => {
         sourceId={`stable-lines`}
         layout={{ 'line-cap': 'round', 'line-join': 'round' }}
         paint={{
-          'line-color': '#005ef4',
+          'line-color': MAP_LINE_COLOR,
           'line-width': ['get', 'count'],
           'line-opacity': 0.2,
         }}

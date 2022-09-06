@@ -75,7 +75,7 @@
       }
     }
 
-    .officer-name {
+    .officer {
       font-weight: 400;
       font-size: 10px;
       line-height: 13px;
@@ -92,7 +92,6 @@
         content: '';
         position: absolute;
         display: inline-block;
-
         width: 0;
         height: 0;
         left: -5px;
@@ -100,6 +99,19 @@
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
         border-right: 5px solid $boulder-40-color;
+      }
+
+      &.highlighted {
+        background-color: $white-color;
+        color: $thunder-color;
+
+        &::before {
+          border-right: 5px solid $white-color;
+        }
+
+        .officer-left-reason {
+          color: $dark-burgundy-color;
+        }
       }
     }
   }
@@ -142,7 +154,7 @@
         }
       }
 
-      .officer-name {
+      .officer {
         font-weight: 400;
         font-size: 12px;
         line-height: 16px;
