@@ -77,7 +77,7 @@ describe('Department item component', () => {
 
     const item = baseElement.getElementsByClassName('custom-link')[0]
     fireEvent.click(item)
-    const link = '/dept/new-orleans-pd/'
+    const link = '/agency/new-orleans-pd/'
     expect(mockHistoryPush).toHaveBeenCalledWith(link)
   })
 })
