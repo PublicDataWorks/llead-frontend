@@ -329,6 +329,7 @@ describe('FrontPage component', () => {
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
             <FrontPage
+              isLoggedIn={true}
               cms={cmsData}
               departments={departmentsData}
               officers={officersData}
@@ -401,6 +402,97 @@ describe('FrontPage component', () => {
     fireEvent.click(removeBtn)
 
     expect(removeRecentItemStub).toHaveBeenCalled()
+  })
+
+  it('does not show close button of recent items if anonymous user', () => {
+    const removeRecentItemStub = sinon.stub()
+    sinon.stub(window, 'open')
+    const cmsData = {
+      summary: '**Front page** summary.',
+    }
+    const newsArticlesData = [
+      {
+        id: 1,
+        sourceName: 'The lens',
+        url: 'https://i.imgur.com/news-article1.pdf',
+        title: 'news-article-1',
+        publishedDate: 'Nov 9, 2020',
+      },
+    ]
+    const recentItemsData = [
+      {
+        ...newsArticlesData[0],
+        type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      },
+    ]
+    const documentsData = [
+      {
+        id: 36,
+        documentType: 'csv',
+        title: 'Her hard step sea.',
+        url: 'http://documents.com/century/five.pdf',
+        previewImageUrl: '/cell/least.jpg',
+        incidentDate: 'Jan 6, 2020',
+        pagesCount: 5,
+        departments: [
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+    ]
+    const officersData = [
+      {
+        id: 23,
+        name: 'Mark Carlson',
+        badges: ['12345', '567'],
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+        ],
+      },
+    ]
+    const departmentsData = [
+      {
+        id: '1',
+        name: 'Baton Rouge Department',
+        city: 'Baton Rouge',
+        parish: 'East Baton Rouge',
+        locationMapUrl: 'http://mapurl.com/department1',
+      },
+    ]
+    const ordersData = {
+      DEPARTMENT: 3,
+      OFFICER: 2,
+      NEWS_ARTICLE: 1,
+      DOCUMENT: 4,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <FrontPage
+              isLoggedIn={false}
+              cms={cmsData}
+              departments={departmentsData}
+              officers={officersData}
+              newsArticles={newsArticlesData}
+              documents={documentsData}
+              recentItems={recentItemsData}
+              frontPageOrders={ordersData}
+              removeRecentItem={removeRecentItemStub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
   })
 
   it('hides news article when confirming deletion ', async () => {

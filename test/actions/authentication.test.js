@@ -18,7 +18,7 @@ describe('#updateToken', () => {
 
 describe('#logOut', () => {
   it('calls post Api', () => {
-    const postStub = sinon.stub(ServiceApi, 'post')
+    const postStub = sinon.stub(ServiceApi, 'authPost')
     const postFuncStub = sinon.stub()
     postStub.returns(postFuncStub)
 

@@ -10,7 +10,9 @@ import { getAccessToken, getRefreshToken } from 'selectors/common'
 import { updateToken, removeToken } from 'actions/authentication'
 import { snakeToCamel } from 'utils/tools'
 
-const client = axios.create()
+const authClient = axios.create()
+
+const anonymousClient = axios.create()
 
 const REQUEST_WAITING_TIME = 5
 
@@ -45,7 +47,7 @@ const getNewToken = () => {
   return refreshTokenPromise
 }
 
-client.interceptors.request.use(function (config) {
+authClient.interceptors.request.use(function (config) {
   const accessToken = getAccessToken(store.getState())
 
   if (!isEmpty(accessToken)) {
@@ -75,13 +77,23 @@ client.interceptors.request.use(function (config) {
   return config
 })
 
-client.interceptors.response.use(({ data, ...response }) => {
+const camelCaseResponse = ({ data, ...response }) => {
   const contentType = get(response, 'headers.content-type')
 
   return {
     ...response,
     data: contentType === CONTENT_TYPES.JSON ? snakeToCamel(data) : data,
   }
-})
+}
 
-export default client
+authClient.interceptors.response.use(camelCaseResponse)
+
+anonymousClient.interceptors.response.use(camelCaseResponse)
+
+function inferClient() {
+  const hasToken = !isEmpty(getRefreshToken(store.getState()))
+
+  return hasToken ? authClient : anonymousClient
+}
+
+export { anonymousClient, authClient, inferClient }

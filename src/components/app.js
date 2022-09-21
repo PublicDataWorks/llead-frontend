@@ -27,9 +27,7 @@ const App = (props) => {
   }, [isAppConfigFetched])
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchRecentItems()
-    }
+    fetchRecentItems()
   }, [isLoggedIn])
 
   return (

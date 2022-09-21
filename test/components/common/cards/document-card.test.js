@@ -54,6 +54,7 @@ describe('Document card component', () => {
   it('should remove correctly', () => {
     const removeRecentItemStub = sinon.stub()
     const props = {
+      isLoggedIn: true,
       id: 1,
       documentType: 'csv',
       url: 'https://i.imgur.com/nHTFohI.csv',
@@ -85,6 +86,38 @@ describe('Document card component', () => {
       id: 1,
       type: 'DOCUMENT',
     })
+  })
+
+  it('does not show remove button if anonymous user', () => {
+    const removeRecentItemStub = sinon.stub()
+    const props = {
+      isLoggedIn: false,
+      id: 1,
+      documentType: 'csv',
+      url: 'https://i.imgur.com/nHTFohI.csv',
+      title: 'document-2',
+      previewImageUrl: 'previewImageUrl-2',
+      incidentDate: 'Dec 1, 2020',
+      departments: [
+        {
+          id: 10,
+          name: 'department-2',
+        },
+      ],
+      className: 'custom-class-name',
+      removeRecentItem: removeRecentItemStub,
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
   })
 
   it('should handle click on document card', () => {

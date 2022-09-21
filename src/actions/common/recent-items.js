@@ -1,10 +1,10 @@
 import * as actionTypes from 'action-types/common/recent-items'
 
-import { get, post, deleteApi } from 'utils/api'
+import { inferGet, inferPost, authDelete } from 'utils/api'
 import { RECENT_ITEMS_API_URL } from 'constants/api'
 
 export const saveRecentItem = (recentItem) =>
-  post(
+  inferPost(
     [
       actionTypes.SAVE_RECENT_ITEM_START,
       actionTypes.SAVE_RECENT_ITEM_SUCCESS,
@@ -14,7 +14,7 @@ export const saveRecentItem = (recentItem) =>
   )(recentItem)
 
 export const removeRecentItem = (recentItem) =>
-  deleteApi(
+  authDelete(
     [
       actionTypes.REMOVE_RECENT_ITEM_START,
       actionTypes.REMOVE_RECENT_ITEM_SUCCESS,
@@ -24,7 +24,7 @@ export const removeRecentItem = (recentItem) =>
   )(recentItem)
 
 export const fetchRecentItems = () =>
-  get(
+  inferGet(
     [
       actionTypes.RECENT_ITEMS_FETCH_START,
       actionTypes.RECENT_ITEMS_FETCH_SUCCESS,

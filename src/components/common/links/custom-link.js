@@ -9,6 +9,7 @@ import './custom-link.scss'
 
 const CustomLink = ({
   to,
+  isLoggedIn,
   className,
   onClick,
   removeRecentItem,
@@ -29,7 +30,7 @@ const CustomLink = ({
   return (
     <div className={cx('custom-link-wrapper', className)}>
       <div onClick={handleClick} className='custom-link' {...rest} />
-      {removeRecentItem && (
+      {isLoggedIn && removeRecentItem && (
         <img className='remove-btn' src={RemoveSVG} onClick={handleRemove} />
       )}
     </div>
@@ -38,6 +39,7 @@ const CustomLink = ({
 
 CustomLink.propTypes = {
   to: PropTypes.string.isRequired,
+  isLoggedIn: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
   removeRecentItem: PropTypes.func,

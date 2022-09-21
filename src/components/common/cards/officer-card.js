@@ -13,6 +13,7 @@ import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const OfficerCard = (props) => {
   const {
+    isLoggedIn,
     id,
     name,
     badges,
@@ -26,6 +27,7 @@ const OfficerCard = (props) => {
   return (
     <CustomLink
       className={cx('officer-card', className)}
+      isLoggedIn={isLoggedIn}
       to={officerPath(id, name)}
       onClick={onItemClick}
       removeRecentItem={removeRecentItem}
@@ -54,6 +56,7 @@ const OfficerCard = (props) => {
 }
 
 OfficerCard.propTypes = {
+  isLoggedIn: PropTypes.bool,
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   badges: PropTypes.array,

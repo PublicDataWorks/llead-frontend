@@ -8,6 +8,7 @@ import './outer-link.scss'
 
 const OuterLink = ({
   href,
+  isLoggedIn,
   className,
   onClick,
   removeRecentItem,
@@ -31,7 +32,7 @@ const OuterLink = ({
   return (
     <div onClick={handleClick} className={cx('outer-link-wrapper', className)}>
       <div {...rest} />
-      {removeRecentItem && (
+      {isLoggedIn && removeRecentItem && (
         <img className='remove-btn' src={RemoveSVG} onClick={handleRemove} />
       )}
     </div>
@@ -40,6 +41,7 @@ const OuterLink = ({
 
 OuterLink.propTypes = {
   href: PropTypes.string.isRequired,
+  isLoggedIn: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
   removeRecentItem: PropTypes.func,

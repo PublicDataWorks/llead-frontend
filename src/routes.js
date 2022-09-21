@@ -19,7 +19,6 @@ const ContactPageContainer = lazy(() => import('containers/contact-page'))
 
 import { isLoggedInSelector } from 'selectors/common'
 import * as paths from 'constants/paths'
-import PrivateRoute from 'components/common/higher-order/private-route'
 import { setPreviousLocation } from 'actions/common/private-route'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 import { analyzeAction } from 'utils/google-analytics'
@@ -35,12 +34,7 @@ const mapDispatchToProps = {
   setPreviousLocation,
 }
 
-const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
-  const privateRouteAttributes = {
-    isLoggedIn,
-    setPreviousLocation,
-  }
-
+const AppRoutes = () => {
   const location = useLocation()
 
   useEffect(() => {
@@ -64,20 +58,17 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
           component={ForgotPasswordConfirmPageContainer}
           exacts
         />
-        <PrivateRoute
-          {...privateRouteAttributes}
+        <Route
           path={paths.FRONT_PAGE_PATH}
           exact
           component={FrontPageContainer}
         />
-        <PrivateRoute
-          {...privateRouteAttributes}
+        <Route
           path={`${paths.DEPARTMENTS_PATH}:id/`}
           component={DepartmentPageContainer}
           exact
         />
-        <PrivateRoute
-          {...privateRouteAttributes}
+        <Route
           path={[
             `${paths.OFFICERS_PATH}:id/`,
             `${paths.OFFICERS_PATH}:id/:officerName`,
@@ -85,14 +76,8 @@ const AppRoutes = ({ isLoggedIn, setPreviousLocation }) => {
           component={OfficerPageContainer}
           exact
         />
-        <PrivateRoute
-          {...privateRouteAttributes}
-          path={paths.ABOUT_PATH}
-          exact
-          component={AboutPageContainer}
-        />
-        <PrivateRoute
-          {...privateRouteAttributes}
+        <Route path={paths.ABOUT_PATH} exact component={AboutPageContainer} />
+        <Route
           path={paths.CONTACT_PATH}
           exact
           component={ContactPageContainer}
