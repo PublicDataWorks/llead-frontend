@@ -131,12 +131,13 @@ export const FRONT_PAGE_SECTIONS = {
 }
 
 export const QUERY_DOCTYPE_MAPPING = {
+  department: 'departments',
+  officer: 'officers',
   document: 'documents',
   article: 'articles',
 }
 
-export const DOCUMENTS_SHOW_MORE_LIMIT = 5
-export const NEWS_ARTICLES_SHOW_MORE_LIMIT = 5
+export const SHOW_MORE_LIMIT = 5
 
 export const NEWS_TYPE = 'news'
 
@@ -149,3 +150,6 @@ export const BASE_CIRCLE_RADIUS = 3
 export const RADIUS_THRESHOLD_RATIO = 1 / 4
 export const MAXIMUM_PULSING_RATIO = 1.5
 export const PULSING_STEP = 1.1
+
+export const MAP_LINE_COLOR = '#005ef4'
+export const MAP_HIGHLIGHTED_LINE_COLOR = '#860505'

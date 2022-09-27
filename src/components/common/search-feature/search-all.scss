@@ -1,0 +1,54 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.search-all {
+  @include small-text;
+  height: 500px;
+  overflow: auto;
+  box-sizing: border-box;
+
+  .search-result {
+    padding: 20px 10px 0px;
+
+    .search-title {
+      color: $thunder-color;
+    }
+
+    .search-count,
+    .search-string {
+      @include strong-text;
+    }
+
+    .search-section {
+      font-style: italic;
+      color: $boulder-color;
+    }
+  }
+
+  .search-more {
+    padding: 10px 0px;
+    color: $blue-ribbon-color;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .search-all {
+    .search-result {
+      padding: 20px 24px 0px;
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .search-all {
+    .search-result {
+      padding: 20px 41px 0px 24px;
+    }
+  }
+}

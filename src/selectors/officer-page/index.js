@@ -9,6 +9,7 @@ import trim from 'lodash/trim'
 import map from 'lodash/map'
 
 import { formatSalary } from 'utils/formatter'
+import { officerFormatter } from 'selectors/common'
 
 const formatOfficerDescription = (officer) => {
   const birthYear = trim(get(officer, 'birthYear'))
@@ -69,19 +70,7 @@ export const officerSelector = createSelector(
   officerDetailsFormatter
 )
 
-const recentOfficerFormatter = (officer) => {
-  const officerAttributes = ['id', 'name', 'badges', 'latestRank']
-
-  const rawDepartment = get(officer, 'departments.0')
-  const department = pick(rawDepartment, ['id', 'name'])
-
-  return {
-    ...pick(officer, officerAttributes),
-    department,
-  }
-}
-
 export const officerRecentDataSelector = createSelector(
   getOfficer,
-  recentOfficerFormatter
+  officerFormatter
 )

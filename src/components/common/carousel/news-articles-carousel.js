@@ -8,7 +8,14 @@ import Carousel from 'components/common/carousel'
 import NewsArticleCard from 'components/common/cards/news-article-card'
 
 const NewsArticlesCarousel = (props) => {
-  const { items, sortedField, className, saveRecentItem, isAdmin, hideNewsArticle } = props
+  const {
+    items,
+    sortedField,
+    className,
+    saveRecentItem,
+    isAdmin,
+    hideNewsArticle,
+  } = props
 
   const cards = map(items, (news_article) => (
     <NewsArticleCard

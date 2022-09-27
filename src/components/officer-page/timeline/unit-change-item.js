@@ -25,7 +25,8 @@ const UnitChangeItem = (props) => {
       </div>
       {(prevDepartmentCode || prevDepartmentDesc) && (
         <div className={cx('timeline-unit-change-row', className)}>
-          Leave Unit {join(compact([prevDepartmentCode, prevDepartmentDesc]), ' - ')}
+          Leave Unit{' '}
+          {join(compact([prevDepartmentCode, prevDepartmentDesc]), ' - ')}
         </div>
       )}
     </div>

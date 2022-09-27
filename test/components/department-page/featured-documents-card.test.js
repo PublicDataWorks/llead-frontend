@@ -84,7 +84,7 @@ describe('Document card component', () => {
     const documentData = { id: 1, url: 'https://i.imgur.com/nHTFohI.csv' }
     const props = {
       item: documentData,
-      saveRecentItem: saveRecentItemSpy
+      saveRecentItem: saveRecentItemSpy,
     }
 
     const container = render(

@@ -19,6 +19,7 @@
     "pluralize": "^8.0.0",
     "prop-types": "^15.7.2",
     "qs": "^6.9.6",
+    "re-reselect": "^4.0.1",
     "react": "^17.0.1",
     "react-animate-height": "^2.0.23",
     "react-copy-to-clipboard": "^5.0.3",
@@ -37,7 +38,7 @@
     "redux-actions": "^2.6.5",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0",
+    "reselect": "^4.1.6",
     "smoothscroll-polyfill": "^0.4.4",
     "style-loader": "^2.0.0",
     "swiper": "^5.2.0"
@@ -53,7 +54,8 @@
     "coveralls": "coveralls < coverage/lcov.info",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "lint": "eslint .",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint --fix  . && prettier --write .",
     "itest": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'yarn cypress:run --browser chrome --headless'",
     "itest:debug": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'DEBUG=cypress:server:browsers:electron* yarn cypress:run'",
     "itest:open": "start-server-and-test 'yarn start-test-server' http-get://localhost:9090 'yarn cypress:open'"

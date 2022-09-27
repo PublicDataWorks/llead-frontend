@@ -10,13 +10,16 @@ import DepartmentsCarousel from 'components/common/carousel/departments-carousel
 import OfficersCarousel from 'components/common/carousel/officers-carousel'
 import DocumentsCarousel from 'components/common/carousel/documents-carousel'
 import NewsArticlesCarousel from 'components/common/carousel/news-articles-carousel'
+import Input from 'components/common/inputs/input'
 import RecentItemsCarousel from './recent-items-carousel'
-import { FRONT_PAGE_SECTIONS } from 'constants/common'
 import MigratoryPatternMap from './migratory-map'
 import IntroSection from 'containers/front-page/intro-section'
+import SearchSVG from 'assets/icons/search.svg'
+import { FRONT_PAGE_SECTIONS } from 'constants/common'
 
 const FrontPage = (props) => {
   const {
+    isLoggedIn,
     isAdmin,
     cms,
     fetchDepartments,
@@ -34,8 +37,8 @@ const FrontPage = (props) => {
     recentItems,
     frontPageOrders,
     changeSearchQuery,
-    changeSearchDepartment,
     hideNewsArticle,
+    toggleSearchModal,
   } = props
 
   const departmentRef = useRef(null)
@@ -44,7 +47,6 @@ const FrontPage = (props) => {
 
   useEffect(() => {
     changeSearchQuery('')
-    changeSearchDepartment({})
     fetchFrontPageOrders()
     fetchDepartments()
     fetchOfficers()
@@ -58,13 +60,28 @@ const FrontPage = (props) => {
     (value) => `front-order-10${value}`
   )
 
+  const openSearchModal = () => {
+    toggleSearchModal(true)
+    document.body.style.overflow = 'hidden'
+  }
+
   return (
     <div className='front-page'>
       <ReactMarkdown className='summary'>{cms.summary}</ReactMarkdown>
       <MigratoryPatternMap />
       <IntroSection />
+      <div className='search-container'>
+        <Input
+          iconSrc={SearchSVG}
+          placeholder='Search by name, department, or keyword'
+          className='search-input'
+          onClick={openSearchModal}
+          readOnly
+        />
+      </div>
       {!isEmpty(recentItems) && (
         <RecentItemsCarousel
+          isLoggedIn={isLoggedIn}
           items={recentItems}
           saveRecentItem={saveRecentItem}
           removeRecentItem={removeRecentItem}
@@ -122,6 +139,7 @@ const FrontPage = (props) => {
 }
 
 FrontPage.propTypes = {
+  isLoggedIn: PropTypes.bool,
   isAdmin: PropTypes.bool,
   cms: PropTypes.object,
   departments: PropTypes.array,
@@ -139,8 +157,8 @@ FrontPage.propTypes = {
   saveRecentItem: PropTypes.func,
   removeRecentItem: PropTypes.func,
   changeSearchQuery: PropTypes.func,
-  changeSearchDepartment: PropTypes.func,
   hideNewsArticle: PropTypes.func,
+  toggleSearchModal: PropTypes.func,
 }
 
 FrontPage.defaultProps = {
@@ -160,8 +178,8 @@ FrontPage.defaultProps = {
   fetchMigratoryData: noop,
   saveRecentItem: noop,
   changeSearchQuery: noop,
-  changeSearchDepartment: noop,
   hideNewsArticle: noop,
+  toggleSearchModal: noop,
 }
 
 export default FrontPage

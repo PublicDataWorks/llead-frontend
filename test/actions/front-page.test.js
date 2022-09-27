@@ -194,7 +194,7 @@ describe('#setMapCurrentIndex', () => {
 
 describe('#hideNewsArticle', () => {
   it('calls post Api', () => {
-    const postStub = sinon.stub(ServiceApi, 'post')
+    const postStub = sinon.stub(ServiceApi, 'authPost')
     const postFunc = sinon.stub()
     postStub.returns(postFunc)
 

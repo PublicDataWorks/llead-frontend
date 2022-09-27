@@ -22,7 +22,7 @@ import DepartmentSection from './featured-items/department-section'
 import FeaturedOfficerCard from './featured-items/featured-officer-card'
 import FeaturedDocumentCard from './featured-items/featured-document-card'
 import FeaturedNewsArticleCard from './featured-items/featured-news-article-card'
-import FeaturedSearch from 'containers/department-page/featured-search'
+import SearchFeature from 'containers/common/search-feature'
 
 const Department = (props) => {
   const {
@@ -41,7 +41,6 @@ const Department = (props) => {
     fetchFeaturedDocuments,
     fetchFeaturedNewsArticles,
     fetchDatasets,
-    changeSearchDepartment,
   } = props
   const { id: departmentId } = useParams()
 
@@ -68,7 +67,7 @@ const Department = (props) => {
       title: 'Featured news',
       cardComponent: FeaturedNewsArticleCard,
       items: featuredNewsArticles,
-      section: 'news_articles',
+      section: 'articles',
     },
   ]
 
@@ -151,12 +150,6 @@ const Department = (props) => {
     fetchFeaturedNewsArticles(departmentId)
     fetchDatasets(departmentId)
   }, [departmentId])
-
-  useEffect(() => {
-    if (name) {
-      changeSearchDepartment({ name, id: departmentId })
-    }
-  }, [name])
 
   useEffect(() => {
     if (
@@ -401,13 +394,11 @@ const Department = (props) => {
             </div>
           </div>
         )}
-        <FeaturedSearch
+        <SearchFeature
+          itemType={itemType}
           isSearchModalOpen={isSearchModalOpen}
           searchModalOnClose={closeSearchModal}
-          departmentId={departmentId}
-          departmentName={name}
-          itemType={itemType}
-          saveRecentItem={saveRecentItem}
+          department={department}
         />
       </div>
     )
@@ -432,7 +423,6 @@ Department.propTypes = {
   recentData: PropTypes.object,
   saveRecentItem: PropTypes.func,
   setDocumentHead: PropTypes.func,
-  changeSearchDepartment: PropTypes.func,
 }
 
 Department.defaultProps = {
@@ -453,7 +443,6 @@ Department.defaultProps = {
   recentData: {},
   saveRecentItem: noop,
   setDocumentHead: noop,
-  changeSearchDepartment: noop,
 }
 
 export default Department

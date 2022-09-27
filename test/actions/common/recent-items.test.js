@@ -11,7 +11,7 @@ import { RECENT_ITEMS_API_URL } from 'constants/api'
 
 describe('#saveRecentItem', () => {
   it('calls post Api', () => {
-    const postStub = sinon.stub(ServiceApi, 'post')
+    const postStub = sinon.stub(ServiceApi, 'inferPost')
     const postFuncStub = sinon.stub()
     postStub.returns(postFuncStub)
 
@@ -36,7 +36,7 @@ describe('#saveRecentItem', () => {
 
 describe('#removeRecentItem', () => {
   it('calls delete Api', () => {
-    const deleteStub = sinon.stub(ServiceApi, 'deleteApi')
+    const deleteStub = sinon.stub(ServiceApi, 'authDelete')
     const deleteFuncStub = sinon.stub()
     deleteStub.returns(deleteFuncStub)
 
@@ -61,7 +61,7 @@ describe('#removeRecentItem', () => {
 
 describe('#fetchRecentItems', () => {
   it('calls get Api', () => {
-    const getStub = sinon.stub(ServiceApi, 'get')
+    const getStub = sinon.stub(ServiceApi, 'inferGet')
     const getFunc = sinon.stub()
     getStub.returns(getFunc)
 

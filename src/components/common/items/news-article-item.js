@@ -47,10 +47,12 @@ const NewsArticleItem = (props) => {
 
   return (
     <OuterLink className='news-article-item' href={url} onClick={handleClick}>
+      <div className='news-article-item-source-name'>
+        News Articles {sourceName ? '|' : ''} <span>{sourceName}</span>
+      </div>
       <div className='news-article-item-title'>
         <div className='news-article-item-type'>{NEWS_TYPE}</div>
         <div className='news-article-item-name'>{title}</div>
-        <div className='news-article-item-source-name'>{sourceName}</div>
       </div>
       <div className='news-article-item-subtitle'>
         {publishedDate && (

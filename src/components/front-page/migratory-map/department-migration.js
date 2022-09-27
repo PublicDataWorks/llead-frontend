@@ -2,9 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import noop from 'lodash/noop'
+import isEmpty from 'lodash/isEmpty'
 
 import './department-migration.scss'
-import { MAP_BASE_INTERVAL } from 'constants/common'
+import {
+  MAP_BASE_INTERVAL,
+  MAP_HIGHLIGHTED_LINE_COLOR,
+  MAP_LINE_COLOR,
+} from 'constants/common'
 import AnimatedArc from './animated-arc'
 import FixedArc from './fixed-arc'
 import DepartmentPulses from 'containers/front-page/migratory-map/department-pulses'
@@ -28,6 +33,9 @@ const DepartmentMigration = (props) => {
           },
           properties: {
             count: obj.count,
+            color: isEmpty(obj.leftReason)
+              ? MAP_LINE_COLOR
+              : MAP_HIGHLIGHTED_LINE_COLOR,
           },
         }
       }),

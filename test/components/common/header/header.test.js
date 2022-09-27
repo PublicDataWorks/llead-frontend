@@ -2,11 +2,11 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
-import qs from 'qs'
 
 import Header from 'components/common/header'
-import * as UserPanel from 'containers/common/header/user-panel'
-import { FRONT_PAGE_PATH, SEARCH_PATH } from 'constants/paths'
+import UserPanel from 'containers/common/header/user-panel'
+import SearchFeature from 'containers/common/search-feature'
+import { CONTACT_PATH } from 'constants/paths'
 
 const mockHistoryPush = jest.fn()
 const mockHistoryReplace = jest.fn()
@@ -19,229 +19,204 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
-beforeEach(() => {
-  mockHistoryPush.mockClear()
-  mockHistoryReplace.mockClear()
-})
+jest.mock('containers/common/search-feature', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+jest.mock('containers/common/header/user-panel', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
 
 describe('Header component', () => {
-  const MockUserPanelComponent = 'User Panel'
+  const mockcloseSearchModal = jest.fn()
+
+  // eslint-disable-next-line react/prop-types
+  const MockSearchFeatureContainer = ({ searchModalOnClose }) => {
+    mockcloseSearchModal.mockImplementation(() => {
+      searchModalOnClose()
+    })
+    return <div>Search Feature</div>
+  }
+
+  const MockUserPanelContainer = () => {
+    return <div>User Panel</div>
+  }
+
+  beforeAll(() => {
+    SearchFeature.mockImplementation(MockSearchFeatureContainer)
+    UserPanel.mockImplementation(MockUserPanelContainer)
+  })
 
   beforeEach(() => {
-    // eslint-disable-next-line react/display-name
-    sinon.stub(UserPanel, 'default').get(() => () => {
-      return <div>{MockUserPanelComponent}</div>
-    })
+    mockHistoryPush.mockClear()
+    mockHistoryReplace.mockClear()
+    SearchFeature.mockClear()
+    UserPanel.mockClear()
   })
 
   describe('user is not logged in', () => {
-    it('should render correctly', () => {
+    it('renders correctly', () => {
       const container = render(
-        <MemoryRouter initialEntries={['/search']}>
-          <Route path='/search'>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
             <Header />
           </Route>
         </MemoryRouter>
       )
-      const { baseElement } = container
+      const { baseElement, getByText, queryByText } = container
+
       expect(baseElement.textContent.includes('LLEAD')).toBe(true)
 
-      expect(baseElement.getElementsByClassName('logout-btn').length).toEqual(0)
+      expect(getByText('About').className).toEqual('about')
+      expect(getByText('Contact').className).toEqual('contact')
+      expect(queryByText('User Panel')).toBeFalsy()
     })
   })
 
   describe('user is logged in', () => {
-    it('should render with user panel', () => {
+    it('renders in front page', () => {
       const logOutSpy = sinon.spy()
-      const refreshToken = 'refreshToken'
       const container = render(
-        <MemoryRouter initialEntries={['/search']}>
-          <Route path='/search'>
-            <Header
-              isLoggedIn={true}
-              logOut={logOutSpy}
-              refreshToken={refreshToken}
-            />
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <Header isLoggedIn={true} logOut={logOutSpy} />
           </Route>
         </MemoryRouter>
       )
-      const { baseElement, getByText } = container
+      const { baseElement, queryByText } = container
+
       expect(baseElement.textContent.includes('LLEAD')).toBe(true)
 
-      expect(getByText(MockUserPanelComponent)).toBeTruthy()
+      expect(queryByText('Search Feature')).toBeTruthy()
+      expect(baseElement.getElementsByClassName('search-icon').length).toEqual(
+        0
+      )
+      expect(
+        baseElement.getElementsByClassName('search-container').length
+      ).toEqual(0)
+      expect(queryByText('User Panel')).toBeTruthy()
     })
-  })
 
-  describe('search query of the search box', () => {
-    it('does nothing on not search pathname', () => {
-      const changeSearchQueryStub = sinon.stub()
-      const changeSearchDepartmentStub = sinon.stub()
-      const query = qs.stringify({ q: 'query' }, { addQueryPrefix: true })
-      render(
-        <MemoryRouter initialEntries={[{ pathname: '/', search: query }]}>
-          <Route path='/'>
-            <Header
-              isLoggedIn={true}
-              changeSearchQuery={changeSearchQueryStub}
-              changeSearchDepartment={changeSearchDepartmentStub}
-            />
+    it('renders in another page', () => {
+      const logOutSpy = sinon.spy()
+      const container = render(
+        <MemoryRouter initialEntries={[CONTACT_PATH]}>
+          <Route path={CONTACT_PATH}>
+            <Header isLoggedIn={true} logOut={logOutSpy} />
           </Route>
         </MemoryRouter>
       )
+      const { baseElement, queryByText } = container
 
-      expect(changeSearchQueryStub).not.toHaveBeenCalled()
-      expect(changeSearchDepartmentStub).not.toHaveBeenCalled()
-    })
-    it('does call change search query on search pathname', () => {
-      const changeSearchQueryStub = sinon.stub()
-      const changeSearchDepartmentStub = sinon.stub()
-      const query = qs.stringify({ q: 'query' }, { addQueryPrefix: true })
-      render(
-        <MemoryRouter initialEntries={[{ pathname: '/search', search: query }]}>
-          <Route path='/search'>
-            <Header
-              isLoggedIn={true}
-              changeSearchQuery={changeSearchQueryStub}
-              changeSearchDepartment={changeSearchDepartmentStub}
-            />
-          </Route>
-        </MemoryRouter>
+      expect(baseElement.textContent.includes('LLEAD')).toBe(true)
+
+      expect(queryByText('Search Feature')).toBeTruthy()
+      expect(baseElement.getElementsByClassName('search-icon').length).toEqual(
+        1
       )
-
-      expect(changeSearchQueryStub).toHaveBeenCalled()
-      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
+      expect(
+        baseElement.getElementsByClassName('search-container').length
+      ).toEqual(1)
+      expect(queryByText('User Panel')).toBeTruthy()
     })
   })
 
-  describe('handleSearch when user input', () => {
-    it('replace current location', () => {
-      const changeSearchQueryStub = sinon.stub()
-      const changeSearchDepartmentStub = sinon.stub()
+  describe('toggle search modal', () => {
+    it('opens search modal when triggering search icon', () => {
+      const toggleSearchModalStub = sinon.stub()
 
       const container = render(
-        <MemoryRouter initialEntries={['/search']}>
-          <Route path='/search' exact>
-            <div>
-              <Header
-                isLoggedIn={true}
-                changeSearchQuery={changeSearchQueryStub}
-                changeSearchDepartment={changeSearchDepartmentStub}
-              />
-              <div>Search Page</div>
-            </div>
-          </Route>
-          <Route path='/' exact>
-            <div>
-              <Header
-                isLoggedIn={true}
-                changeSearchQuery={changeSearchQueryStub}
-              />
-              <div>Another Page</div>
-            </div>
+        <MemoryRouter initialEntries={[CONTACT_PATH]}>
+          <Route path={CONTACT_PATH}>
+            <Header
+              isLoggedIn={true}
+              isSearchModalOpen={false}
+              toggleSearchModal={toggleSearchModalStub}
+            />
           </Route>
         </MemoryRouter>
       )
 
-      const { getByPlaceholderText, baseElement } = container
-      const searchInput = getByPlaceholderText(
-        'Search by name, department, or keyword'
-      )
-      fireEvent.change(searchInput, { target: { value: 'any' } })
+      const { baseElement } = container
 
-      expect(changeSearchQueryStub).toHaveBeenCalledWith('any')
-      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
-      expect(baseElement.textContent.includes('Search Page')).toBe(true)
-      expect(baseElement.textContent.includes('Another Page')).toBe(false)
-      expect(mockHistoryReplace).toHaveBeenCalledWith({
-        pathname: SEARCH_PATH,
-        search: qs.stringify({ q: 'any' }, { addQueryPrefix: true }),
-      })
-      expect(mockHistoryPush).not.toHaveBeenCalled()
+      const searchIcon = baseElement.getElementsByClassName('search-icon')[0]
+      fireEvent.click(searchIcon)
+
+      expect(toggleSearchModalStub).toHaveBeenCalledWith(true)
     })
 
-    it('push new location', () => {
-      const changeSearchQueryStub = sinon.stub()
-      const changeSearchDepartmentStub = sinon.stub()
+    it('opens search modal when triggering search input', () => {
+      const toggleSearchModalStub = sinon.stub()
+
+      const container = render(
+        <MemoryRouter initialEntries={[CONTACT_PATH]}>
+          <Route path={CONTACT_PATH}>
+            <Header
+              isLoggedIn={true}
+              isSearchModalOpen={false}
+              toggleSearchModal={toggleSearchModalStub}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      const { baseElement } = container
+
+      const searchInput = baseElement.getElementsByClassName('input-field')[0]
+      fireEvent.click(searchInput)
+
+      expect(toggleSearchModalStub).toHaveBeenCalledWith(true)
+    })
+
+    it('closes search modal', () => {
+      const toggleSearchModalStub = sinon.stub()
+
+      render(
+        <MemoryRouter initialEntries={[CONTACT_PATH]}>
+          <Route path={CONTACT_PATH}>
+            <Header
+              isLoggedIn={true}
+              isSearchModalOpen={true}
+              toggleSearchModal={toggleSearchModalStub}
+            />
+          </Route>
+        </MemoryRouter>
+      )
+
+      mockcloseSearchModal()
+
+      expect(toggleSearchModalStub).toHaveBeenCalledWith(false)
+    })
+  })
+
+  describe('toggle menu', () => {
+    it('opens menu', () => {
+      const toggleSearchModalStub = sinon.stub()
 
       const container = render(
         <MemoryRouter initialEntries={['/']}>
-          <Route path='/search' exact>
-            <div>
-              <Header
-                isLoggedIn={true}
-                changeSearchQuery={changeSearchQueryStub}
-                changeSearchDepartment={changeSearchDepartmentStub}
-              />
-              <div>Search Page</div>
-            </div>
-          </Route>
-          <Route path='/' exact>
-            <div>
-              <Header
-                isLoggedIn={true}
-                changeSearchQuery={changeSearchQueryStub}
-                changeSearchDepartment={changeSearchDepartmentStub}
-              />
-              <div>Another Page</div>
-            </div>
+          <Route path='/'>
+            <Header
+              isLoggedIn={true}
+              isSearchModalOpen={false}
+              toggleSearchModal={toggleSearchModalStub}
+            />
           </Route>
         </MemoryRouter>
       )
 
-      const { getByPlaceholderText, baseElement } = container
-      const searchInput = getByPlaceholderText(
-        'Search by name, department, or keyword'
-      )
-      fireEvent.change(searchInput, { target: { value: 'any' } })
+      const { baseElement } = container
 
-      expect(changeSearchQueryStub).toHaveBeenCalledWith('any')
-      expect(changeSearchDepartmentStub).not.toHaveBeenCalled()
-      expect(baseElement.textContent.includes('Search Page')).toBe(false)
-      expect(baseElement.textContent.includes('Another Page')).toBe(true)
-      expect(mockHistoryPush).toHaveBeenCalledWith({
-        pathname: SEARCH_PATH,
-        search: qs.stringify({ q: 'any' }, { addQueryPrefix: true }),
-      })
-      expect(mockHistoryReplace).not.toHaveBeenCalled()
-    })
-  })
-  describe('clearSearch when user click on close button', () => {
-    it('clear search box and redirect to Home', () => {
-      const changeSearchQueryStub = sinon.stub()
-      const changeSearchDepartmentStub = sinon.stub()
+      const hamburgerBtn = baseElement.getElementsByClassName(
+        'hamburger-button'
+      )[0]
+      fireEvent.click(hamburgerBtn)
 
-      const container = render(
-        <MemoryRouter initialEntries={['/search']}>
-          <Route path='/search' exact>
-            <div>
-              <Header
-                isLoggedIn={true}
-                changeSearchQuery={changeSearchQueryStub}
-                changeSearchDepartment={changeSearchDepartmentStub}
-                searchQuery='any'
-              />
-              <div>Search Page</div>
-            </div>
-          </Route>
-          <Route path='/' exact>
-            <div>
-              <Header
-                isLoggedIn={true}
-                changeSearchQuery={changeSearchQueryStub}
-              />
-              <div>Another Page</div>
-            </div>
-          </Route>
-        </MemoryRouter>
-      )
-
-      const { getByTestId } = container
-
-      const closeButton = getByTestId('test--close-btn')
-      fireEvent.click(closeButton)
-      expect(changeSearchQueryStub).toHaveBeenCalledWith('')
-      expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
-      expect(mockHistoryPush).toHaveBeenCalledWith(FRONT_PAGE_PATH)
+      expect(baseElement.getElementsByClassName('menu')).toBeTruthy()
     })
   })
 })

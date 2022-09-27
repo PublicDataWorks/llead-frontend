@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
+import cx from 'classnames'
 
 import './officer-departments.scss'
 import ArrayWithSeparator from 'components/common/array-with-separator'
@@ -10,9 +11,11 @@ import { departmentPath } from 'utils/paths'
 const OfficerDepartments = (props) => {
   const { departments } = props
 
-  const officerDepartments = map(departments, (department) => (
+  const officerDepartments = map(departments, (department, index) => (
     <CustomLink
-      className='officer-department'
+      className={cx('officer-department', {
+        'canonical-department': index === 0,
+      })}
       to={departmentPath(department.id)}
       key={department.id}
     >

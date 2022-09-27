@@ -66,7 +66,6 @@ describe('FrontPage component', () => {
     const fetchNewsArticlesSpy = sinon.spy()
     const fetchFrontPageOrdersSpy = sinon.spy()
     const changeSearchQueryStub = sinon.stub()
-    const changeSearchDepartmentStub = sinon.stub()
 
     render(
       <Provider store={MockStore()()}>
@@ -79,7 +78,6 @@ describe('FrontPage component', () => {
               fetchNewsArticles={fetchNewsArticlesSpy}
               fetchFrontPageOrders={fetchFrontPageOrdersSpy}
               changeSearchQuery={changeSearchQueryStub}
-              changeSearchDepartment={changeSearchDepartmentStub}
             />
           </Route>
         </MemoryRouter>
@@ -92,7 +90,6 @@ describe('FrontPage component', () => {
     expect(fetchNewsArticlesSpy).toHaveBeenCalled()
     expect(fetchFrontPageOrdersSpy).toHaveBeenCalled()
     expect(changeSearchQueryStub).toHaveBeenCalledWith('')
-    expect(changeSearchDepartmentStub).toHaveBeenCalledWith({})
   })
 
   it('should render correctly', () => {
@@ -109,13 +106,17 @@ describe('FrontPage component', () => {
         </MemoryRouter>
       </Provider>
     )
-    const { baseElement } = container
+    const { baseElement, getByPlaceholderText } = container
 
     const summarySection = baseElement.getElementsByClassName('summary')[0]
     expect(summarySection.textContent).toEqual('Front page summary.')
     expect(
       summarySection.getElementsByTagName('strong')[0].textContent
     ).toEqual('Front page')
+
+    expect(
+      getByPlaceholderText('Search by name, department, or keyword').className
+    ).toEqual('input-field')
   })
 
   it('should render multi data correctly', () => {
@@ -159,10 +160,12 @@ describe('FrontPage component', () => {
         id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
-        department: {
-          id: 'north-paulaberg-department',
-          name: 'North Paulaberg Department',
-        },
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+        ],
       },
     ]
     const departmentsData = [
@@ -297,10 +300,12 @@ describe('FrontPage component', () => {
         id: 23,
         name: 'Mark Carlson',
         badges: ['12345', '567'],
-        department: {
-          id: 'north-paulaberg-department',
-          name: 'North Paulaberg Department',
-        },
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+        ],
       },
     ]
     const departmentsData = [
@@ -324,6 +329,7 @@ describe('FrontPage component', () => {
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
             <FrontPage
+              isLoggedIn={true}
               cms={cmsData}
               departments={departmentsData}
               officers={officersData}
@@ -398,6 +404,97 @@ describe('FrontPage component', () => {
     expect(removeRecentItemStub).toHaveBeenCalled()
   })
 
+  it('does not show close button of recent items if anonymous user', () => {
+    const removeRecentItemStub = sinon.stub()
+    sinon.stub(window, 'open')
+    const cmsData = {
+      summary: '**Front page** summary.',
+    }
+    const newsArticlesData = [
+      {
+        id: 1,
+        sourceName: 'The lens',
+        url: 'https://i.imgur.com/news-article1.pdf',
+        title: 'news-article-1',
+        publishedDate: 'Nov 9, 2020',
+      },
+    ]
+    const recentItemsData = [
+      {
+        ...newsArticlesData[0],
+        type: RECENT_ITEM_TYPES.NEWS_ARTICLE,
+      },
+    ]
+    const documentsData = [
+      {
+        id: 36,
+        documentType: 'csv',
+        title: 'Her hard step sea.',
+        url: 'http://documents.com/century/five.pdf',
+        previewImageUrl: '/cell/least.jpg',
+        incidentDate: 'Jan 6, 2020',
+        pagesCount: 5,
+        departments: [
+          {
+            id: 22,
+            name: 'Petersonmouth Department',
+          },
+        ],
+      },
+    ]
+    const officersData = [
+      {
+        id: 23,
+        name: 'Mark Carlson',
+        badges: ['12345', '567'],
+        departments: [
+          {
+            id: 'north-paulaberg-department',
+            name: 'North Paulaberg Department',
+          },
+        ],
+      },
+    ]
+    const departmentsData = [
+      {
+        id: '1',
+        name: 'Baton Rouge Department',
+        city: 'Baton Rouge',
+        parish: 'East Baton Rouge',
+        locationMapUrl: 'http://mapurl.com/department1',
+      },
+    ]
+    const ordersData = {
+      DEPARTMENT: 3,
+      OFFICER: 2,
+      NEWS_ARTICLE: 1,
+      DOCUMENT: 4,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <FrontPage
+              isLoggedIn={false}
+              cms={cmsData}
+              departments={departmentsData}
+              officers={officersData}
+              newsArticles={newsArticlesData}
+              documents={documentsData}
+              recentItems={recentItemsData}
+              frontPageOrders={ordersData}
+              removeRecentItem={removeRecentItemStub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    expect(baseElement.getElementsByClassName('remove-btn').length).toEqual(0)
+  })
+
   it('hides news article when confirming deletion ', async () => {
     const hideNewsArticleStub = sinon.stub()
 
@@ -454,5 +551,35 @@ describe('FrontPage component', () => {
     })
 
     expect(hideNewsArticleStub).toHaveBeenCalledWith(1)
+  })
+
+  it('toggles search modal', async () => {
+    const toggleSearchModalstub = sinon.stub()
+
+    const cmsData = {
+      summary: '**Front page** summary.',
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['/']}>
+          <Route path='/'>
+            <FrontPage
+              cms={cmsData}
+              toggleSearchModal={toggleSearchModalstub}
+            />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+    const { baseElement } = container
+
+    const searchInput = baseElement.getElementsByClassName('input-field')[0]
+
+    await act(async () => {
+      fireEvent.click(searchInput)
+    })
+
+    expect(toggleSearchModalstub).toHaveBeenCalledWith(true)
   })
 })

@@ -36,9 +36,21 @@ describe('OfficerDepartments item component', () => {
 
     expect(baseElement.textContent).toEqual('New Orleans PD, Dummy')
 
-    const firstDepartment = baseElement.getElementsByClassName('custom-link')[0]
-    fireEvent.click(firstDepartment)
-    const link = '/dept/new-orleans-pd/'
+    const firstDepartment = baseElement.getElementsByClassName(
+      'officer-department'
+    )[0]
+    const secondDepartment = baseElement.getElementsByClassName(
+      'officer-department'
+    )[1]
+
+    expect(firstDepartment.classList).toContain('canonical-department')
+    expect(secondDepartment.classList).not.toContain('canonical-department')
+
+    const firstDepartmentLink = baseElement.getElementsByClassName(
+      'custom-link'
+    )[0]
+    fireEvent.click(firstDepartmentLink)
+    const link = '/agency/new-orleans-pd/'
     expect(mockHistoryPush).toHaveBeenCalledWith(link)
   })
 })

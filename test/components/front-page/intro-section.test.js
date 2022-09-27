@@ -53,7 +53,7 @@ describe('FrontPage component', () => {
       />
     )
     const { baseElement } = container
-    
+
     expect(baseElement.getElementsByClassName('intro-card').length).toEqual(1)
   })
 
@@ -74,7 +74,7 @@ describe('FrontPage component', () => {
       />
     )
     const { baseElement } = container
-    
+
     expect(baseElement.getElementsByClassName('intro-card').length).toEqual(1)
   })
 

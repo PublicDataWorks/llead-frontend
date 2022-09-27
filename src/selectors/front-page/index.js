@@ -10,26 +10,30 @@ import {
   newsArticleFormatter,
 } from 'selectors/common'
 
-const getDepartments = (state) => get(state.frontPage, 'departments', [])
+const getDepartments = (state) => get(state, 'frontPage.departments', [])
 const getOfficers = (state) => get(state.frontPage, 'officers', [])
 const getDocuments = (state) => get(state.frontPage, 'documents', [])
 const getNewsArticles = (state) => get(state.frontPage, 'newsArticles', [])
 const getFrontPageOrders = (state) =>
   get(state.frontPage, 'frontPageOrders', [])
 
-export const departmentsSelector = (state) =>
-  map(getDepartments(state), departmentFormatter)
+export const departmentsSelector = createSelector(
+  getDepartments,
+  (departments) => map(departments, departmentFormatter)
+)
 
-export const officersSelector = (state) =>
-  map(getOfficers(state), officerFormatter)
+export const officersSelector = createSelector(getOfficers, (officers) =>
+  map(officers, officerFormatter)
+)
 
-export const documentsSelector = (state) => {
-  return map(getDocuments(state), documentFormatter)
-}
+export const documentsSelector = createSelector(getDocuments, (documents) =>
+  map(documents, documentFormatter)
+)
 
-export const newsArticlesSelector = (state) => {
-  return map(getNewsArticles(state), newsArticleFormatter)
-}
+export const newsArticlesSelector = createSelector(
+  getNewsArticles,
+  (articles) => map(articles, newsArticleFormatter)
+)
 
 export const frontPageOrdersSelector = createSelector(
   getFrontPageOrders,

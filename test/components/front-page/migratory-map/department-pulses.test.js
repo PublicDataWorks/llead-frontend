@@ -42,23 +42,25 @@ describe('fixed arc component', () => {
     })
 
     expect(mockSource.mock.calls[0][0]).toEqual({
-      id: 'dot-point', 
+      id: 'dot-point',
       geoJsonSource: {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [-91.191113, 30.5255956],
+          features: [
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [-91.191113, 30.5255956],
+              },
+              properties: {
+                radius: 3.25,
+              },
             },
-            properties: {
-              radius: 3.25
-            }
-          }],
+          ],
         },
-      }
+      },
     })
     expect(mockLayer.mock.calls[0][0]).toEqual({
       id: 'layer-with-pulsing-dot',
@@ -68,7 +70,7 @@ describe('fixed arc component', () => {
         'circle-color': '#fc8b24',
         'circle-opacity': 0.8,
         'circle-radius': ['*', ['get', 'radius'], 1],
-      }
+      },
     })
   })
 })

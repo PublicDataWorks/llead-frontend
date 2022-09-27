@@ -10,11 +10,44 @@ import { getAccessToken, getRefreshToken } from 'selectors/common'
 import { updateToken, removeToken } from 'actions/authentication'
 import { snakeToCamel } from 'utils/tools'
 
-const client = axios.create()
+const authClient = axios.create()
+
+const anonymousClient = axios.create()
 
 const REQUEST_WAITING_TIME = 5
 
-client.interceptors.request.use(function (config) {
+let refreshTokenPromise
+
+const getNewToken = () => {
+  if (!refreshTokenPromise) {
+    refreshTokenPromise = new Promise((resolve) => {
+      const refreshToken = getRefreshToken(store.getState())
+
+      if (!isEmpty(refreshToken)) {
+        axios
+          .post(REFRESH_TOKEN_API_URL, { refresh: refreshToken })
+          .then((response) => {
+            const newToken = response.data.access
+            store.dispatch(updateToken(newToken))
+            refreshTokenPromise = null
+            return resolve(newToken)
+          })
+          .catch((error) => {
+            const status = get(error, 'response.status')
+            if (status === HTTP_STATUS_CODES.UNAUTHORIZED) {
+              store.dispatch(removeToken())
+            }
+            return resolve(null)
+          })
+      } else {
+        return resolve(null)
+      }
+    })
+  }
+  return refreshTokenPromise
+}
+
+authClient.interceptors.request.use(function (config) {
   const accessToken = getAccessToken(store.getState())
 
   if (!isEmpty(accessToken)) {
@@ -33,27 +66,9 @@ client.interceptors.request.use(function (config) {
       !decoded || current_time + REQUEST_WAITING_TIME > decoded.exp
 
     if (isTokenExpired) {
-      return new Promise((resolve) => {
-        const refreshToken = getRefreshToken(store.getState())
-
-        if (!isEmpty(refreshToken)) {
-          axios
-            .post(REFRESH_TOKEN_API_URL, { refresh: refreshToken })
-            .then((response) => {
-              const newToken = response.data.access
-              config.headers.Authorization = `Bearer ${newToken}`
-              store.dispatch(updateToken(newToken))
-
-              return resolve(config)
-            })
-            .catch((error) => {
-              const status = get(error, 'response.status')
-              if (status === HTTP_STATUS_CODES.UNAUTHORIZED) {
-                store.dispatch(removeToken())
-              }
-              return resolve(config)
-            })
-        }
+      return getNewToken().then((newToken) => {
+        config.headers.Authorization = `Bearer ${newToken}`
+        return config
       })
     }
 
@@ -62,13 +77,23 @@ client.interceptors.request.use(function (config) {
   return config
 })
 
-client.interceptors.response.use(({ data, ...response }) => {
+const camelCaseResponse = ({ data, ...response }) => {
   const contentType = get(response, 'headers.content-type')
 
   return {
     ...response,
     data: contentType === CONTENT_TYPES.JSON ? snakeToCamel(data) : data,
   }
-})
+}
 
-export default client
+authClient.interceptors.response.use(camelCaseResponse)
+
+anonymousClient.interceptors.response.use(camelCaseResponse)
+
+function inferClient() {
+  const hasToken = !isEmpty(getRefreshToken(store.getState()))
+
+  return hasToken ? authClient : anonymousClient
+}
+
+export { anonymousClient, authClient, inferClient }

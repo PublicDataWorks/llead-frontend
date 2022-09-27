@@ -30,21 +30,23 @@
   }
 
   .officer-card-footer {
-    box-sizing: border-box;
-    padding: 0 $h-card-margin;
-    overflow: auto;
     position: absolute;
-    bottom: $v-frame-margin;
+    top: 232px;
+    left: 15px;
+    box-sizing: border-box;
 
-    .officer-department-name {
+    .officer-department {
+      @include intro-text;
       display: block;
+      width: fit-content;
+      max-width: 218px;
       text-decoration: none;
       box-sizing: border-box;
-      padding: 13px $h-side-frame 14px $h-side-frame;
+      padding: $v-tinier-margin 6px;
       color: $thunder-color;
-      border: 1px solid $alto-color;
-      border-radius: 2px;
+      border-radius: 4px;
       background-color: $wild-sand-color;
+      margin-bottom: $v-tinier-margin;
     }
   }
 

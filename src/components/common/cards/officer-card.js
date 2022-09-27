@@ -13,11 +13,12 @@ import { RECENT_ITEM_TYPES } from 'constants/common'
 
 const OfficerCard = (props) => {
   const {
+    isLoggedIn,
     id,
     name,
     badges,
     latestRank,
-    department,
+    departments,
     className,
     onItemClick,
     removeRecentItem,
@@ -26,6 +27,7 @@ const OfficerCard = (props) => {
   return (
     <CustomLink
       className={cx('officer-card', className)}
+      isLoggedIn={isLoggedIn}
       to={officerPath(id, name)}
       onClick={onItemClick}
       removeRecentItem={removeRecentItem}
@@ -40,8 +42,13 @@ const OfficerCard = (props) => {
         <OfficerBadges badges={badges} />
       </div>
       <div className='officer-card-footer'>
-        {!isEmpty(department) && !isEmpty(department.id) && (
-          <div className='officer-department-name'>{department.name}</div>
+        {!isEmpty(departments) && (
+          <div className='officer-department'>{departments[0].name}</div>
+        )}
+        {departments.length > 1 && (
+          <div className='officer-department'>
+            +{departments.length - 1} more
+          </div>
         )}
       </div>
     </CustomLink>
@@ -49,11 +56,12 @@ const OfficerCard = (props) => {
 }
 
 OfficerCard.propTypes = {
+  isLoggedIn: PropTypes.bool,
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   badges: PropTypes.array,
   latestRank: PropTypes.string,
-  department: PropTypes.object,
+  departments: PropTypes.array,
   className: PropTypes.string,
   onItemClick: PropTypes.func,
   removeRecentItem: PropTypes.func,
@@ -61,7 +69,7 @@ OfficerCard.propTypes = {
 
 OfficerCard.defaultProps = {
   badges: [],
-  department: {},
+  department: [],
   className: '',
   onItemClick: noop,
 }

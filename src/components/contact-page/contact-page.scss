@@ -26,7 +26,7 @@
       box-sizing: border-box;
 
       &.warning {
-        border-color: $dark-burgundy;
+        border-color: $dark-burgundy-color;
       }
 
       &::placeholder {
@@ -49,7 +49,7 @@
         display: inline-block;
         vertical-align: middle;
         margin-left: 20px;
-        color: $dark-burgundy;
+        color: $dark-burgundy-color;
       }
     }
 
@@ -62,7 +62,7 @@
       box-sizing: border-box;
 
       &.warning {
-        border-color: $dark-burgundy;
+        border-color: $dark-burgundy-color;
       }
 
       &::placeholder {

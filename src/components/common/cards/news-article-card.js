@@ -10,6 +10,7 @@ import RemoveSVG from 'assets/icons/remove.svg'
 
 const NewsArticleCard = (props) => {
   const {
+    isLoggedIn,
     id,
     title,
     url,
@@ -48,6 +49,7 @@ const NewsArticleCard = (props) => {
   return (
     <OuterLink
       href={url}
+      isLoggedIn={isLoggedIn}
       className={cx('news-article-card', className, {
         hidden: isCardHidden,
       })}
@@ -99,6 +101,7 @@ const NewsArticleCard = (props) => {
 }
 
 NewsArticleCard.propTypes = {
+  isLoggedIn: PropTypes.bool,
   id: PropTypes.number.isRequired,
   url: PropTypes.string.isRequired,
   title: PropTypes.string,

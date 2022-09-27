@@ -30,6 +30,7 @@ const migratoryData = {
       date: '1999-06-21',
       officerName: 'Tonya Johnese',
       officerId: 1529,
+      leftReason: 'Retired',
     },
     {
       startNode: 'new-orleans-pd',
@@ -40,6 +41,7 @@ const migratoryData = {
       date: '1999-09-13',
       officerName: 'Michael Allsbrook',
       officerId: 2148,
+      leftReason: 'Resignation',
     },
     {
       startNode: 'new-orleans-pd',
@@ -50,6 +52,7 @@ const migratoryData = {
       date: '2009-09-13',
       officerName: 'Michael Jordan',
       officerId: 2149,
+      leftReason: '',
     },
   ],
 }
@@ -186,6 +189,7 @@ describe('#migrationDetailsSelector', () => {
         endDepartment: 'Southern - Br University PD',
         officerName: 'Tonya Johnese',
         date: 'Jun 21, 1999',
+        leftReason: 'Retired',
       })
     })
   })

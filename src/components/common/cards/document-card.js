@@ -15,6 +15,7 @@ import { analyzeAction } from 'utils/google-analytics'
 
 const DocumentCard = (props) => {
   const {
+    isLoggedIn,
     id,
     departments,
     previewImageUrl,
@@ -33,6 +34,7 @@ const DocumentCard = (props) => {
     (department) => (
       <CustomLink
         to={departmentPath(department.id)}
+        isLoggedIn={isLoggedIn}
         key={department.id}
         className='document-department-name'
       >
@@ -57,6 +59,7 @@ const DocumentCard = (props) => {
   return (
     <OuterLink
       href={url}
+      isLoggedIn={isLoggedIn}
       className={cx('document-card', className)}
       onClick={handleClick}
       removeRecentItem={removeRecentItem}
@@ -82,6 +85,7 @@ const DocumentCard = (props) => {
 }
 
 DocumentCard.propTypes = {
+  isLoggedIn: PropTypes.bool,
   id: PropTypes.number.isRequired,
   url: PropTypes.string.isRequired,
   title: PropTypes.string,

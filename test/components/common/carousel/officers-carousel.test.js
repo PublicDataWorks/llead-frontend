@@ -11,16 +11,18 @@ describe('Officers carousel', () => {
         id: 1,
         name: 'Mark Carlson',
         badges: ['12435', '612'],
-        department: {
-          id: 'baton-rouge-pd',
-          name: 'Baton Rouge PD',
-        },
+        departments: [
+          {
+            id: 'baton-rouge-pd',
+            name: 'Baton Rouge PD',
+          },
+        ],
       },
       {
         id: 9,
         name: 'Eric Patel',
         badges: [],
-        department: null,
+        departments: [],
       },
     ]
     const container = render(
