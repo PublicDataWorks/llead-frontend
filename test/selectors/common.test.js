@@ -1,5 +1,4 @@
 import {
-  cmsSelector,
   getAccessToken,
   getDocumentHead,
   getRefreshToken,
@@ -8,7 +7,6 @@ import {
   isLoggedInSelector,
   getIsAdmin,
 } from 'selectors/common'
-import { CMS_SECTIONS } from 'constants/common'
 
 describe('#getAccessToken', () => {
   it('returns access token', () => {
@@ -87,23 +85,6 @@ describe('#isAppConfigFetchedSelector', () => {
 
       expect(isAppConfigFetched).toBe(false)
     })
-  })
-})
-
-describe('#cmsSelector', () => {
-  it('returns cms data', () => {
-    const appConfig = {
-      cms: {
-        frontPageSummary: 'Front page summary.',
-      },
-    }
-    const state = {
-      appConfig,
-    }
-
-    const frontPageCMS = cmsSelector(state, CMS_SECTIONS.FRONT_PAGE)
-
-    expect(frontPageCMS).toEqual({ summary: 'Front page summary.' })
   })
 })
 

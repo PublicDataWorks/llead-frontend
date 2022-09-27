@@ -93,26 +93,16 @@ describe('FrontPage component', () => {
   })
 
   it('should render correctly', () => {
-    const cmsData = {
-      summary: '**Front page** summary.',
-    }
-
     const container = render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
-            <FrontPage cms={cmsData} />
+            <FrontPage />
           </Route>
         </MemoryRouter>
       </Provider>
     )
-    const { baseElement, getByPlaceholderText } = container
-
-    const summarySection = baseElement.getElementsByClassName('summary')[0]
-    expect(summarySection.textContent).toEqual('Front page summary.')
-    expect(
-      summarySection.getElementsByTagName('strong')[0].textContent
-    ).toEqual('Front page')
+    const { getByPlaceholderText } = container
 
     expect(
       getByPlaceholderText('Search by name, department, or keyword').className
@@ -120,9 +110,6 @@ describe('FrontPage component', () => {
   })
 
   it('should render multi data correctly', () => {
-    const cmsData = {
-      summary: '**Front page** summary.',
-    }
     const newsArticlesData = [
       {
         id: 1,
@@ -189,7 +176,6 @@ describe('FrontPage component', () => {
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
             <FrontPage
-              cms={cmsData}
               departments={departmentsData}
               officers={officersData}
               newsArticles={newsArticlesData}
@@ -202,12 +188,6 @@ describe('FrontPage component', () => {
       </Provider>
     )
     const { baseElement } = container
-
-    const summarySection = baseElement.getElementsByClassName('summary')[0]
-    expect(summarySection.textContent).toEqual('Front page summary.')
-    expect(
-      summarySection.getElementsByTagName('strong')[0].textContent
-    ).toEqual('Front page')
 
     const recentItemSection = baseElement.getElementsByClassName(
       'recent-items-carousel'
@@ -260,9 +240,6 @@ describe('FrontPage component', () => {
   it('render close recent items correctly', () => {
     const removeRecentItemStub = sinon.stub()
     sinon.stub(window, 'open')
-    const cmsData = {
-      summary: '**Front page** summary.',
-    }
     const newsArticlesData = [
       {
         id: 1,
@@ -330,7 +307,6 @@ describe('FrontPage component', () => {
           <Route path='/'>
             <FrontPage
               isLoggedIn={true}
-              cms={cmsData}
               departments={departmentsData}
               officers={officersData}
               newsArticles={newsArticlesData}
@@ -344,12 +320,6 @@ describe('FrontPage component', () => {
       </Provider>
     )
     const { baseElement } = container
-
-    const summarySection = baseElement.getElementsByClassName('summary')[0]
-    expect(summarySection.textContent).toEqual('Front page summary.')
-    expect(
-      summarySection.getElementsByTagName('strong')[0].textContent
-    ).toEqual('Front page')
 
     const recentItemSection = baseElement.getElementsByClassName(
       'recent-items-carousel'
@@ -407,9 +377,6 @@ describe('FrontPage component', () => {
   it('does not show close button of recent items if anonymous user', () => {
     const removeRecentItemStub = sinon.stub()
     sinon.stub(window, 'open')
-    const cmsData = {
-      summary: '**Front page** summary.',
-    }
     const newsArticlesData = [
       {
         id: 1,
@@ -477,7 +444,6 @@ describe('FrontPage component', () => {
           <Route path='/'>
             <FrontPage
               isLoggedIn={false}
-              cms={cmsData}
               departments={departmentsData}
               officers={officersData}
               newsArticles={newsArticlesData}
@@ -498,9 +464,6 @@ describe('FrontPage component', () => {
   it('hides news article when confirming deletion ', async () => {
     const hideNewsArticleStub = sinon.stub()
 
-    const cmsData = {
-      summary: '**Front page** summary.',
-    }
     const newsArticlesData = [
       {
         id: 1,
@@ -523,7 +486,6 @@ describe('FrontPage component', () => {
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
             <FrontPage
-              cms={cmsData}
               newsArticles={newsArticlesData}
               frontPageOrders={ordersData}
               hideNewsArticle={hideNewsArticleStub}
@@ -534,12 +496,6 @@ describe('FrontPage component', () => {
       </Provider>
     )
     const { baseElement } = container
-
-    const summarySection = baseElement.getElementsByClassName('summary')[0]
-    expect(summarySection.textContent).toEqual('Front page summary.')
-    expect(
-      summarySection.getElementsByTagName('strong')[0].textContent
-    ).toEqual('Front page')
 
     const hideBtn = baseElement.getElementsByClassName('hide-btn')[0]
     fireEvent.click(hideBtn)
@@ -556,18 +512,11 @@ describe('FrontPage component', () => {
   it('toggles search modal', async () => {
     const toggleSearchModalstub = sinon.stub()
 
-    const cmsData = {
-      summary: '**Front page** summary.',
-    }
-
     const container = render(
       <Provider store={MockStore()()}>
         <MemoryRouter initialEntries={['/']}>
           <Route path='/'>
-            <FrontPage
-              cms={cmsData}
-              toggleSearchModal={toggleSearchModalstub}
-            />
+            <FrontPage toggleSearchModal={toggleSearchModalstub} />
           </Route>
         </MemoryRouter>
       </Provider>
