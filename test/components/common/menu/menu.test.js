@@ -23,7 +23,7 @@ describe('Menu component', () => {
     expect(getByText('Contact').className).toEqual('contact')
   })
 
-  it('triggers closeMenu', () => {
+  it('triggers closeMenu when click X button', () => {
     const closeMenuStub = sinon.stub()
 
     const container = render(
@@ -38,6 +38,25 @@ describe('Menu component', () => {
     const closeBtn = baseElement.getElementsByClassName('close-btn')[0]
 
     fireEvent.click(closeBtn)
+    expect(closeMenuStub).toHaveBeenCalled()
+  })
+
+  it('triggers closeMenu when click outside menu', () => {
+    const closeMenuStub = sinon.stub()
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <Menu closeMenu={closeMenuStub} />
+          <div className='front-page'>Front Page</div>
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+
+    const frontPage = baseElement.getElementsByClassName('front-page')[0]
+
+    fireEvent.click(frontPage)
     expect(closeMenuStub).toHaveBeenCalled()
   })
 
@@ -60,6 +79,7 @@ describe('Menu component', () => {
     fireEvent.click(aboutBtn)
 
     expect(baseElement.getElementsByClassName('about-page').length).toEqual(1)
+    expect(closeMenuStub).toHaveBeenCalled()
   })
 
   it('redirects to contact page', () => {
@@ -81,5 +101,6 @@ describe('Menu component', () => {
     fireEvent.click(aboutBtn)
 
     expect(baseElement.getElementsByClassName('contact-page').length).toEqual(1)
+    expect(closeMenuStub).toHaveBeenCalled()
   })
 })
