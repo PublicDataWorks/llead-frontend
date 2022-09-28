@@ -718,6 +718,31 @@ describe('Department component', () => {
     })
   })
 
+  it('hides sustained allegations if there data is zero', () => {
+    const departmentData = {
+      id: 1,
+      documentsCount: 0,
+      datasetsCount: 0,
+      officersCount: 0,
+      newsArticlesCount: 0,
+      complaintsCount: 1,
+      sustainedComplaintPercentage: 0,
+    }
+
+    const container = render(
+      <Provider store={MockStore()()}>
+        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
+          <Route path='dept/:id'>
+            <Department department={departmentData} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    const { queryByText } = container
+    expect(queryByText('sustained allegations')).toBeFalsy()
+  })
+
   describe('render with datasets', () => {
     it('set default expanded csv files if csv params is null', () => {
       const departmentData = {

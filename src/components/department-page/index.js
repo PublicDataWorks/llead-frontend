@@ -316,9 +316,11 @@ const Department = (props) => {
                   <div className='summary-item-title'>
                     {pluralize('allegation', complaintsCount)}
                   </div>
-                  <div className='recent-summary-item'>
-                    {sustainedComplaintPercentage}% sustained allegations
-                  </div>
+                  {sustainedComplaintPercentage > 0 && (
+                    <div className='recent-summary-item'>
+                      {sustainedComplaintPercentage}% sustained allegations
+                    </div>
+                  )}
                 </div>
               )}
               {documentsCount > 0 && (
