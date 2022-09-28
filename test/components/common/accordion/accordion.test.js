@@ -7,7 +7,8 @@ describe('Accordion component', () => {
   it('renders correctly', () => {
     const qAndA = {
       question: 'Mauris id nibh eu fermentum?',
-      answer: 'Nibh quisque suscipit fermentum netus nulla cras',
+      answer:
+        '[**Innocence Project New Orleans**](https://ip-no.org) in collaboration with [**Public Data Works**](https://publicdata.works)',
     }
 
     const container = render(
@@ -18,9 +19,11 @@ describe('Accordion component', () => {
     const icon = baseElement.getElementsByClassName('icon')[0]
 
     expect(getByText('Mauris id nibh eu fermentum?').className).toEqual('title')
-    expect(
-      getByText('Nibh quisque suscipit fermentum netus nulla cras').className
-    ).toEqual('accordion-content')
+
+    const IPNOLink = getByText('Innocence Project New Orleans')
+    expect(IPNOLink).toBeTruthy()
+    expect(IPNOLink.nodeName).toEqual('STRONG')
+    expect(IPNOLink.parentElement.nodeName).toEqual('A')
 
     expect(icon.classList.length).toEqual(1)
     expect(icon.classList.value).not.toContain('expanded')
