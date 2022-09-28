@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import ReactMarkdown from 'react-markdown'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
 import mapValues from 'lodash/mapValues'
@@ -21,7 +20,6 @@ const FrontPage = (props) => {
   const {
     isLoggedIn,
     isAdmin,
-    cms,
     fetchDepartments,
     fetchOfficers,
     fetchDocuments,
@@ -67,7 +65,6 @@ const FrontPage = (props) => {
 
   return (
     <div className='front-page'>
-      <ReactMarkdown className='summary'>{cms.summary}</ReactMarkdown>
       <MigratoryPatternMap />
       <IntroSection />
       <div className='search-container'>

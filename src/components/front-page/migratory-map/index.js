@@ -18,7 +18,7 @@ const MigratoryMap = () => {
     logoPosition: 'bottom-right',
   })
 
-  const mapHeight = isMobile ? 500 : isTablet ? 700 : 640
+  const mapHeight = isMobile ? 458 : isTablet ? 706 : 638
   const mapCenter = isMobile
     ? [-91.798844, 30.758971]
     : isTablet
