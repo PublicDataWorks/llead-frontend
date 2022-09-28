@@ -4,7 +4,7 @@
 
 .intro-card {
   position: relative;
-  height: 360px;
+  height: 410px;
   background-color: $wild-sand-color;
 
   .layer1 {
@@ -12,13 +12,14 @@
     left: 50%;
     bottom: 30px;
     transform: translate(-50%, 0);
-    height: 360px;
-    width: 330px;
+    height: 100%;
+    width: 340px;
     background-color: $white-color;
     opacity: 0.9;
     border: 1px solid $alto-color;
     border-radius: 8px;
     z-index: 3;
+    box-sizing: border-box;
 
     .navigation-bar {
       display: flex;
@@ -39,8 +40,8 @@
     }
 
     .content {
-      @include intro-text;
-      height: 270px;
+      @include small-text;
+      height: 320px;
       margin: $v-mid-margin;
       overflow-y: auto;
       cursor: pointer;
@@ -102,8 +103,8 @@
     left: 50%;
     bottom: 37px;
     transform: translate(-50%, 0);
-    height: 360px;
-    width: 310px;
+    height: 100%;
+    width: 320px;
     background-color: $white-color;
     opacity: 0.9;
     border: 1px solid $alto-color;
@@ -116,8 +117,8 @@
     left: 50%;
     bottom: 44px;
     transform: translate(-50%, 0);
-    height: 360px;
-    width: 290px;
+    height: 100%;
+    width: 300px;
     background-color: $white-color;
     opacity: 0.9;
     border: 1px solid $alto-color;
@@ -128,24 +129,21 @@
 
 @media only screen and (min-width: $mobile-breakpoint) {
   .intro-card {
-    height: 400px;
+    height: 350px;
 
     .layer1 {
-      height: 400px;
       width: 568px;
 
       .content {
-        height: 300px;
+        height: 270px;
       }
     }
 
     .layer2 {
-      height: 400px;
       width: 538px;
     }
 
     .layer3 {
-      height: 400px;
       width: 506px;
     }
   }
@@ -154,32 +152,30 @@
 @media only screen and (min-width: $laptop-breakpoint) {
   .intro-card {
     position: absolute;
-    top: 400px;
+    top: 320px;
     right: 30px;
-    height: 360px;
-    width: 330px;
+    height: 410px;
+    width: 340px;
+    border-radius: 8px 8px 0 0;
 
     .layer1 {
       bottom: 0;
-      height: 360px;
-      width: 330px;
+      width: 100%;
       border-radius: 8px 8px 0 0;
 
       .content {
-        height: 270px;
+        height: 320px;
       }
     }
 
     .layer2 {
       bottom: 7px;
-      height: 360px;
-      width: 310px;
+      width: calc(100% - 20px);
     }
 
     .layer3 {
       bottom: 14px;
-      height: 360px;
-      width: 290px;
+      width: calc(100% - 40px);
     }
   }
 }
