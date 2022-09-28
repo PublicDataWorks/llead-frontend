@@ -4,6 +4,7 @@
 .front-page {
   display: flex;
   flex-flow: column nowrap;
+  position: relative;
 
   > * {
     order: 1;
@@ -20,15 +21,6 @@
   }
   .front-order-104 {
     order: 104;
-  }
-
-  .summary {
-    p {
-      margin: 0;
-    }
-
-    box-sizing: border-box;
-    padding: $v-small-margin $h-side-frame $v-margin $h-side-frame;
   }
 
   .search-container {
@@ -62,10 +54,6 @@
 
 @media only screen and (min-width: $mobile-breakpoint) {
   .front-page {
-    .summary {
-      width: 50%;
-    }
-
     .search-container {
       padding: 55px 19px;
     }
