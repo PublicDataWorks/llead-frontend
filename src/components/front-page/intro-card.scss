@@ -41,9 +41,11 @@
 
     .content {
       @include small-text;
+      line-height: 19.5px;
       height: 320px;
-      margin: $v-mid-margin;
+      margin: 15px;
       overflow-y: auto;
+      box-sizing: border-box;
       cursor: pointer;
     }
 
