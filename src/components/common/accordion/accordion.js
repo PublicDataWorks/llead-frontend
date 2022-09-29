@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import AnimateHeight from 'react-animate-height'
 import cx from 'classnames'
+import ReactMarkdown from 'react-markdown'
 
 import './accordion.scss'
 import { QUICK_ANIMATION_DURATION } from 'constants/common'
@@ -22,7 +23,7 @@ const Accordion = (props) => {
           duration={QUICK_ANIMATION_DURATION}
           height={isActive ? 'auto' : 0}
         >
-          <div className='accordion-content'>{content}</div>
+          <ReactMarkdown className='accordion-content'>{content}</ReactMarkdown>
         </AnimateHeight>
       </div>
     </div>
