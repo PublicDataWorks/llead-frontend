@@ -15,7 +15,52 @@ describe('Document card component', () => {
     windowOpenStub = sinon.stub(window, 'open')
   })
 
-  it('should render correctly', () => {
+  it('renders correctly', () => {
+    const props = {
+      id: 1,
+      documentType: 'csv',
+      url: 'https://i.imgur.com/nHTFohI.csv',
+      title: 'document-2',
+      previewImageUrl: 'previewImageUrl-2',
+      incidentDate: 'Dec 1, 2020',
+      departments: [
+        {
+          id: 10,
+          name: 'department-2',
+        },
+        {
+          id: 11,
+          name: 'department-3',
+        },
+        {
+          id: 12,
+          name: 'department-4',
+        },
+      ],
+      className: 'custom-class-name',
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <DocumentCard {...props} />)
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement, queryByText } = container
+    const documentCard = baseElement.getElementsByClassName('document-card')[0]
+
+    expect(documentCard.classList.value).toContain('custom-class-name')
+    expect(documentCard.textContent.includes(CARD_TYPES.DOCUMENT)).toBe(true)
+    expect(documentCard.textContent.includes(props.title)).toBe(true)
+    expect(documentCard.textContent.includes(props.incidentDate)).toBe(true)
+    expect(documentCard.textContent.includes(props.departments[0].name)).toBe(
+      true
+    )
+    expect(queryByText('+2 more').className).toEqual('document-department-name')
+  })
+
+  it('renders one department', () => {
     const props = {
       id: 1,
       documentType: 'csv',
@@ -49,6 +94,9 @@ describe('Document card component', () => {
     expect(documentCard.textContent.includes(props.departments[0].name)).toBe(
       true
     )
+    expect(
+      baseElement.getElementsByClassName('document-department-name').length
+    ).toEqual(1)
   })
 
   it('should remove correctly', () => {
