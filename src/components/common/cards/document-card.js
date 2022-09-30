@@ -29,21 +29,6 @@ const DocumentCard = (props) => {
     recentData,
   } = props
 
-  const departmentsList = map(
-    departments,
-    (department) => (
-      <CustomLink
-        to={departmentPath(department.id)}
-        isLoggedIn={isLoggedIn}
-        key={department.id}
-        className='document-department-name'
-      >
-        {department.name}
-      </CustomLink>
-    ),
-    []
-  )
-
   const handleClick = () => {
     analyzeAction({
       type: EVENT_TYPES.OPEN_DOCUMENT,
@@ -77,9 +62,22 @@ const DocumentCard = (props) => {
         <div className='document-title'>{title}</div>
         <div className='document-subtitle'>{incidentDate}</div>
       </div>
-      {!isEmpty(departmentsList) && (
-        <div className='document-card-footer'>{departmentsList}</div>
-      )}
+      <div className='document-card-footer'>
+        {!isEmpty(departments) && (
+          <CustomLink
+            to={departmentPath(departments[0].id)}
+            isLoggedIn={isLoggedIn}
+            className='document-department-name'
+          >
+            {departments[0].name}
+          </CustomLink>
+        )}
+        {departments.length > 1 && (
+          <div className='document-department-name'>
+            +{departments.length - 1} more
+          </div>
+        )}
+      </div>
     </OuterLink>
   )
 }
