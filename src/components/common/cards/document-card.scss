@@ -43,12 +43,11 @@
   .document-card-footer {
     box-sizing: border-box;
     padding: 0 $h-card-margin;
-    overflow: auto;
     position: absolute;
-    bottom: $v-frame-margin;
-    max-height: 71px - $v-frame-margin;
+    top: 235px;
 
     .document-department-name {
+      @include intro-text;
       display: block;
       text-decoration: none;
       color: $thunder-color;
@@ -58,7 +57,7 @@
       background-color: $wild-sand-color;
 
       & + .document-department-name {
-        margin-top: $v-tiny-margin;
+        margin-top: $v-tinier-margin;
       }
     }
   }

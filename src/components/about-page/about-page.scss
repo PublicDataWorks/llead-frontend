@@ -10,9 +10,8 @@
 
   .summary {
     padding: 37px 15px;
-    text-align: center;
     color: $alabaster-color;
-    background: $cod-gray-color url('assets/icons/about-page.svg');
+    background-color: $cod-gray-color;
 
     .title {
       font-weight: 700;
@@ -39,14 +38,31 @@
   }
 }
 
+@media only screen and (min-width: $mobile-breakpoint) {
+  .about-page {
+    .summary {
+      padding: 64px 30px;
+
+      .title {
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 64px;
+        padding-bottom: 76px;
+      }
+    }
+  }
+}
+
 @media only screen and (min-width: $laptop-breakpoint) {
   .about-page {
     padding-bottom: 217px;
 
     .summary {
-      .content {
-        margin: auto;
-        width: 858px;
+      padding: 130px calc((100% - 858px) / 2);
+
+      .title {
+        font-size: 96px;
+        padding-bottom: 54px;
       }
     }
 
