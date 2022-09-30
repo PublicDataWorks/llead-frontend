@@ -73,6 +73,13 @@ describe('Header component', () => {
 
       expect(getByText('About').className).toEqual('about')
       expect(getByText('Contact').className).toEqual('contact')
+      expect(queryByText('Search Feature')).toBeTruthy()
+      expect(baseElement.getElementsByClassName('search-icon').length).toEqual(
+        1
+      )
+      expect(
+        baseElement.getElementsByClassName('search-container').length
+      ).toEqual(1)
       expect(queryByText('User Panel')).toBeFalsy()
     })
   })
@@ -93,11 +100,11 @@ describe('Header component', () => {
 
       expect(queryByText('Search Feature')).toBeTruthy()
       expect(baseElement.getElementsByClassName('search-icon').length).toEqual(
-        0
+        1
       )
       expect(
         baseElement.getElementsByClassName('search-container').length
-      ).toEqual(0)
+      ).toEqual(1)
       expect(queryByText('User Panel')).toBeTruthy()
     })
 

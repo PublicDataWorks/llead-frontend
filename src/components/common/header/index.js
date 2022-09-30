@@ -49,20 +49,17 @@ const Header = (props) => {
         itemType='all'
       />
       <div className='search-and-logout'>
-        {location.pathname !== FRONT_PAGE_PATH && (
-          <>
-            <div className='search-icon' onClick={openSearchModal} />
-            <div className='search-container'>
-              <Input
-                iconSrc={SearchSVG}
-                placeholder='Search name, department, or keywords'
-                className='search-input'
-                onClick={openSearchModal}
-                readOnly
-              />
-            </div>
-          </>
-        )}
+        <div className='search-icon' onClick={openSearchModal} />
+        <div className='search-container'>
+          <Input
+            iconSrc={SearchSVG}
+            placeholder='Search name, department, or keywords'
+            className='search-input'
+            onClick={openSearchModal}
+            readOnly
+          />
+        </div>
+
         {isLoggedIn && <UserPanel />}
       </div>
     </div>
