@@ -34,12 +34,14 @@ const SearchAll = (props) => {
     const Component = componentMapping[docType]
 
     return (
-      <Component
-        key={docType + item.id}
-        {...item}
-        saveRecentItem={saveRecentItem}
-        onItemClick={onItemClick}
-      />
+      <div key={docType + item.id} className='component-wrapper'>
+        <Component
+          key={docType + item.id}
+          {...item}
+          saveRecentItem={saveRecentItem}
+          onItemClick={onItemClick}
+        />
+      </div>
     )
   }
 
