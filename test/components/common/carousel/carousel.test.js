@@ -13,7 +13,6 @@ describe('Carousel', () => {
       <Carousel
         className='departments-carousel'
         title='Departments Carousel'
-        sortedField='size'
         cards={items}
       />
     )
@@ -21,13 +20,9 @@ describe('Carousel', () => {
 
     const title = baseElement.getElementsByClassName('carousel-title')[0]
       .textContent
-    const sortedInfo = baseElement.getElementsByClassName(
-      'carousel-sorted-info'
-    )[0].textContent
     const carouselItems = baseElement.getElementsByClassName('swiper-slide')
 
     expect(title).toEqual('Departments Carousel')
-    expect(sortedInfo.includes('size')).toBe(true)
     expect(carouselItems.length).toEqual(2)
     expect(carouselItems[0].textContent).toEqual('Department 1')
     expect(carouselItems[1].textContent).toEqual('Department 2')

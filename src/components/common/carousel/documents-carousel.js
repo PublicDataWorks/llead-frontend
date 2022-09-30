@@ -8,7 +8,7 @@ import Carousel from 'components/common/carousel'
 import DocumentCard from 'components/common/cards/document-card'
 
 const DocumentsCarousel = (props) => {
-  const { items, sortedField, className, saveRecentItem } = props
+  const { items, className, saveRecentItem } = props
 
   const cards = map(items, (document) => (
     <DocumentCard
@@ -24,7 +24,6 @@ const DocumentsCarousel = (props) => {
     <Carousel
       className={cx('documents-carousel', className)}
       title='Documents'
-      sortedField={sortedField}
       cards={cards}
     />
   )
@@ -32,7 +31,6 @@ const DocumentsCarousel = (props) => {
 
 DocumentsCarousel.propTypes = {
   items: PropTypes.array,
-  sortedField: PropTypes.string,
   className: PropTypes.string,
   saveRecentItem: PropTypes.func,
 }

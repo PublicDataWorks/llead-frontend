@@ -6,7 +6,7 @@ import Swiper from 'react-id-swiper'
 import './carousel.scss'
 
 const Carousel = (props) => {
-  const { className, title, sortedField, cards } = props
+  const { className, title, cards } = props
 
   const settings = {
     spaceBetween: 8,
@@ -25,12 +25,6 @@ const Carousel = (props) => {
     <div className={cx('carousel-container', className)}>
       <div className='carousel-title-container'>
         <div className='carousel-title'>{title}</div>
-        {sortedField && (
-          <div className='carousel-sorted-info'>
-            Sorted by&nbsp;
-            <span className='sorted-by'>{sortedField}</span>
-          </div>
-        )}
       </div>
       {<Swiper {...settings}>{cards}</Swiper>}
     </div>
@@ -40,14 +34,12 @@ const Carousel = (props) => {
 Carousel.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
-  sortedField: PropTypes.string,
   cards: PropTypes.array,
 }
 
 Carousel.defaultProps = {
   className: '',
   title: '',
-  sortedField: '',
   cards: [],
 }
 

@@ -8,14 +8,7 @@ import Carousel from 'components/common/carousel'
 import NewsArticleCard from 'components/common/cards/news-article-card'
 
 const NewsArticlesCarousel = (props) => {
-  const {
-    items,
-    sortedField,
-    className,
-    saveRecentItem,
-    isAdmin,
-    hideNewsArticle,
-  } = props
+  const { items, className, saveRecentItem, isAdmin, hideNewsArticle } = props
 
   const cards = map(items, (news_article) => (
     <NewsArticleCard
@@ -36,7 +29,6 @@ const NewsArticlesCarousel = (props) => {
     <Carousel
       className={cx('news-articles-carousel', className)}
       title='News'
-      sortedField={sortedField}
       cards={cards}
     />
   )
@@ -45,7 +37,6 @@ const NewsArticlesCarousel = (props) => {
 NewsArticlesCarousel.propTypes = {
   isAdmin: PropTypes.bool,
   items: PropTypes.array,
-  sortedField: PropTypes.string,
   className: PropTypes.string,
   saveRecentItem: PropTypes.func,
   hideNewsArticle: PropTypes.func,

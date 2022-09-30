@@ -8,7 +8,7 @@ import Carousel from 'components/common/carousel'
 import DepartmentCard from 'components/common/cards/department-card'
 
 const DepartmentsCarousel = (props) => {
-  const { items, sortedField, className, onItemClick } = props
+  const { items, className, onItemClick } = props
 
   const cards = map(items, (department) => (
     <DepartmentCard
@@ -23,7 +23,6 @@ const DepartmentsCarousel = (props) => {
     <Carousel
       className={cx('departments-carousel', className)}
       title='Departments'
-      sortedField={sortedField}
       cards={cards}
     />
   )
@@ -31,7 +30,6 @@ const DepartmentsCarousel = (props) => {
 
 DepartmentsCarousel.propTypes = {
   items: PropTypes.array,
-  sortedField: PropTypes.string,
   className: PropTypes.string,
   onItemClick: PropTypes.func,
 }

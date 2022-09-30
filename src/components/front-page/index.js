@@ -93,7 +93,6 @@ const FrontPage = (props) => {
           <div className='section-anchor' ref={departmentRef} />
           <DepartmentsCarousel
             items={departments}
-            sortedField='size'
             className='front-page-carousel'
           />
         </div>
@@ -101,11 +100,7 @@ const FrontPage = (props) => {
       {!isEmpty(officers) && (
         <div className={frontPageOrderClasses[FRONT_PAGE_SECTIONS.OFFICER]}>
           <div className='section-anchor' ref={officerRef} />
-          <OfficersCarousel
-            items={officers}
-            sortedField='most allegations'
-            className='front-page-carousel'
-          />
+          <OfficersCarousel items={officers} className='front-page-carousel' />
         </div>
       )}
       {!isEmpty(newsArticles) && (
@@ -116,7 +111,6 @@ const FrontPage = (props) => {
           <NewsArticlesCarousel
             items={newsArticles}
             saveRecentItem={saveRecentItem}
-            sortedField='most recently added'
             className='front-page-carousel'
             isAdmin={isAdmin}
             hideNewsArticle={hideNewsArticle}
@@ -129,7 +123,6 @@ const FrontPage = (props) => {
           <DocumentsCarousel
             items={documents}
             saveRecentItem={saveRecentItem}
-            sortedField='most recently added'
             className='front-page-carousel'
           />
         </div>
