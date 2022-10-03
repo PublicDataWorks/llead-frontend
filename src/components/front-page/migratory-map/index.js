@@ -3,6 +3,7 @@ import ReactMapboxGl, { RotationControl, ZoomControl } from 'react-mapbox-gl'
 import config from 'config'
 import { isMobile, isTablet, isDesktop } from 'react-device-detect'
 
+import './migratory-map.scss'
 import DepartmentPoints from 'containers/front-page/migratory-map/department-points'
 import DepartmentMigration from 'containers/front-page/migratory-map/department-migration'
 import MigrationDetailsBox from 'containers/front-page/migratory-map/migration-details'
@@ -18,7 +19,6 @@ const MigratoryMap = () => {
     logoPosition: 'bottom-right',
   })
 
-  const mapHeight = isMobile ? 458 : isTablet ? 706 : 638
   const mapCenter = isMobile
     ? [-91.798844, 30.758971]
     : isTablet
@@ -27,11 +27,10 @@ const MigratoryMap = () => {
   const zoom = isMobile ? 5.8 : 6.6
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div className='migratory-map'>
       <MigrationDetailsBox />
       <Map
         style='mapbox://styles/llead/cl2pmpqb4005p14nybpstbchj'
-        containerStyle={{ height: `${mapHeight}px` }}
         center={mapCenter}
         zoom={[zoom]}
       >
