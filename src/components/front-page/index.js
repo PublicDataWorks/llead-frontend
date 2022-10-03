@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
 import mapValues from 'lodash/mapValues'
+import { isMobile } from 'react-device-detect'
 
 import './front-page.scss'
 import DepartmentsCarousel from 'components/common/carousel/departments-carousel'
@@ -70,7 +71,9 @@ const FrontPage = (props) => {
       <div className='search-container'>
         <Input
           iconSrc={SearchSVG}
-          placeholder='Search by name, department, or keyword'
+          placeholder={
+            isMobile ? 'Search LLEAD' : 'Search by name, department, or keyword'
+          }
           className='search-input'
           onClick={openSearchModal}
           readOnly
