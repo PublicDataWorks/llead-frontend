@@ -1,0 +1,33 @@
+@import 'styles/variables';
+
+.migratory-map {
+  position: relative;
+
+  .mapboxgl-map {
+    height: 458px;
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) and (orientation: portrait) {
+  .migratory-map {
+    .mapboxgl-map {
+      height: 706px;
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) and (orientation: landscape) {
+  .migratory-map {
+    .mapboxgl-map {
+      height: 638px;
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .migratory-map {
+    .mapboxgl-map {
+      height: 638px;
+    }
+  }
+}
