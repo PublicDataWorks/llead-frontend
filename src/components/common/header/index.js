@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import noop from 'lodash/noop'
 
 import './header.scss'
@@ -15,7 +15,6 @@ import Menu from 'components/common/menu'
 const Header = (props) => {
   const { isLoggedIn, isSearchModalOpen, toggleSearchModal } = props
 
-  const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -53,7 +52,7 @@ const Header = (props) => {
         <div className='search-container'>
           <Input
             iconSrc={SearchSVG}
-            placeholder='Search name, department, or keywords'
+            placeholder='Search by name, department, or keyword'
             className='search-input'
             onClick={openSearchModal}
             readOnly

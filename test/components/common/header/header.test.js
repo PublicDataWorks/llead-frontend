@@ -67,13 +67,21 @@ describe('Header component', () => {
           </Route>
         </MemoryRouter>
       )
-      const { baseElement, getByText, queryByText } = container
+      const {
+        baseElement,
+        getByText,
+        queryByText,
+        queryByPlaceholderText,
+      } = container
 
       expect(baseElement.textContent.includes('LLEAD')).toBe(true)
 
       expect(getByText('About').className).toEqual('about')
       expect(getByText('Contact').className).toEqual('contact')
       expect(queryByText('Search Feature')).toBeTruthy()
+      expect(
+        queryByPlaceholderText('Search by name, department, or keyword')
+      ).toBeTruthy()
       expect(baseElement.getElementsByClassName('search-icon').length).toEqual(
         1
       )
@@ -171,9 +179,11 @@ describe('Header component', () => {
         </MemoryRouter>
       )
 
-      const { baseElement } = container
+      const { getByPlaceholderText } = container
 
-      const searchInput = baseElement.getElementsByClassName('input-field')[0]
+      const searchInput = getByPlaceholderText(
+        'Search by name, department, or keyword'
+      )
       fireEvent.click(searchInput)
 
       expect(toggleSearchModalStub).toHaveBeenCalledWith(true)
