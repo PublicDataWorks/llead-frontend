@@ -7,8 +7,8 @@ defaults:
   - &gcloud-env
     PROJECT_NAME: 'IPNO'
     GOOGLE_PROJECT_ID: 'excellent-zoo-300106'
-    GOOGLE_COMPUTE_ZONE: 'us-east4-a'
-    GOOGLE_CLUSTER_NAME: 'ipno-staging'
+    GOOGLE_COMPUTE_ZONE: 'us-central1-a'
+    GOOGLE_CLUSTER_NAME: 'ipno'
   - &set-push-env
     USER_NAME: 'East Agile'
     USER_EMAIL: 'open-source@eastagile.com'
@@ -22,9 +22,11 @@ defaults:
     command: |
       if [ $CIRCLE_BRANCH == "main" ]
       then
-        echo 'export NAMESPACE_ENV=default' >> $BASH_ENV
+        echo 'export NAMESPACE_ENV=ipno-production' >> $BASH_ENV
+        echo 'export DOCKER_PRETAG=frontend-production' >> $BASH_ENV
       else
         echo 'export NAMESPACE_ENV=ipno-staging' >> $BASH_ENV
+        echo 'export DOCKER_PRETAG=frontend-staging' >> $BASH_ENV
       fi
 
 version: 2.1
@@ -111,19 +113,25 @@ jobs:
     environment: *gcloud-env
     steps:
       - run: *set-gcloud-service-key
+      - run: *set-deploy-env
       - checkout
-      - run: echo "frontend-$CIRCLE_BUILD_NUM" > buildnum
+      - run: echo "$DOCKER_PRETAG-$CIRCLE_BUILD_NUM" > buildtag
       - persist_to_workspace:
           root: .
           paths:
-            - buildnum
+            - buildtag
       - attach_workspace:
           at: /tmp/workspace
       - run: cp -R /tmp/workspace/dist ./dist
       - run:
           name: Build image
           command: |
-            docker build -t gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$(cat buildnum) .
+            docker build -t ipno-frontend .
+      - run:
+          name: Tag image
+          command: |
+            docker tag ipno-frontend us.gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$(cat buildtag)
+            docker tag ipno-frontend us.gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$DOCKER_PRETAG-latest
       - gcp-gke/install
       - gcp-gke/update-kubeconfig-with-credentials:
           cluster: $GOOGLE_CLUSTER_NAME
@@ -132,7 +140,8 @@ jobs:
           name: Push image
           command: |
             gcloud auth configure-docker
-            docker push gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$(cat buildnum)
+            docker push us.gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$(cat buildtag)
+            docker push us.gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$DOCKER_PRETAG-latest
 
   deploy:
     description: Deploy application to Google Kubernetes Engine
@@ -151,7 +160,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            export FRONTEND_IMAGE_TAG=$(cat /tmp/workspace/buildnum)
+            export FRONTEND_IMAGE_TAG=$(cat /tmp/workspace/buildtag)
             cat kubernetes/frontend.yml | envsubst | kubectl apply -n $NAMESPACE_ENV -f -
 
 workflows:

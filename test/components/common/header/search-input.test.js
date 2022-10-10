@@ -2,9 +2,10 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import sinon from 'sinon'
+import * as rdd from 'react-device-detect'
 
 import SearchInput from 'components/common/header/search-input'
-import { FRONT_PAGE_PATH } from 'constants/paths'
+import { FRONT_PAGE_PATH, DEPARTMENTS_PATH } from 'constants/paths'
 
 describe('SearchInput component', () => {
   describe('dispatch changeSearchQuery', () => {
@@ -200,18 +201,8 @@ describe('SearchInput component', () => {
       }
 
       const container = render(
-        <MemoryRouter initialEntries={[FRONT_PAGE_PATH]}>
-          <Route path={FRONT_PAGE_PATH} exact>
-            <div>
-              <SearchInput
-                sectionType='officers'
-                searchDepartment={departmentData}
-                changeSearchQuery={changeSearchQueryStub}
-              />
-              <div>Front Page</div>
-            </div>
-          </Route>
-          <Route path='dept/:id'>
+        <MemoryRouter initialEntries={[DEPARTMENTS_PATH]}>
+          <Route path={DEPARTMENTS_PATH} exact>
             <div>
               <SearchInput
                 sectionType='officers'
@@ -229,8 +220,55 @@ describe('SearchInput component', () => {
       )
       fireEvent.change(searchInput, { target: { value: 'any' } })
       expect(changeSearchQueryStub).toHaveBeenCalledWith('any')
-      expect(baseElement.textContent.includes('Front Page')).toBe(true)
-      expect(baseElement.textContent.includes('Department Page')).toBe(false)
+      expect(baseElement.textContent.includes('Department Page')).toBe(true)
+    })
+  })
+
+  describe('Placeholder search input test suites', () => {
+    it('shows short placeholder on mobile', async () => {
+      sinon.stub(rdd, 'isMobile').get(() => true)
+
+      const changeSearchQueryStub = sinon.stub()
+
+      const container = render(
+        <MemoryRouter initialEntries={[FRONT_PAGE_PATH]}>
+          <Route path={FRONT_PAGE_PATH}>
+            <div>
+              <SearchInput changeSearchQuery={changeSearchQueryStub} />
+              <div>Front Page</div>
+            </div>
+          </Route>
+        </MemoryRouter>
+      )
+      const { queryByPlaceholderText } = container
+
+      const mobilePlaceHolderText = 'Search LLEAD'
+      const desktopPlaceHolderText = 'Search by name, department, or keyword'
+      expect(queryByPlaceholderText(mobilePlaceHolderText)).toBeTruthy()
+      expect(queryByPlaceholderText(desktopPlaceHolderText)).toBeFalsy()
+    })
+
+    it('shows long placeholder on desktop', async () => {
+      sinon.stub(rdd, 'isMobile').get(() => false)
+
+      const changeSearchQueryStub = sinon.stub()
+
+      const container = render(
+        <MemoryRouter initialEntries={[FRONT_PAGE_PATH]}>
+          <Route path={FRONT_PAGE_PATH}>
+            <div>
+              <SearchInput changeSearchQuery={changeSearchQueryStub} />
+              <div>Front Page</div>
+            </div>
+          </Route>
+        </MemoryRouter>
+      )
+      const { queryByPlaceholderText } = container
+
+      const mobilePlaceHolderText = 'Search LLEAD'
+      const desktopPlaceHolderText = 'Search by name, department, or keyword'
+      expect(queryByPlaceholderText(mobilePlaceHolderText)).toBeFalsy()
+      expect(queryByPlaceholderText(desktopPlaceHolderText)).toBeTruthy()
     })
   })
 })

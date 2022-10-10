@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import noop from 'lodash/noop'
@@ -8,6 +8,7 @@ import get from 'lodash/get'
 import './search-input.scss'
 import Input from 'components/common/inputs/input'
 import SearchSVG from 'assets/icons/search.svg'
+import { isMobile } from 'react-device-detect'
 
 const SearchInput = (props) => {
   const {
@@ -20,6 +21,15 @@ const SearchInput = (props) => {
     searchModalOnClose,
   } = props
   const [showSuggestions, setShowSuggestions] = useState(false)
+
+  const placeholderContent = useMemo(() => {
+    if (isMobile) {
+      return 'Search LLEAD'
+    }
+    return isEmpty(searchDepartment)
+      ? 'Search by name, department, or keyword'
+      : `Search ${sectionType} in ${get(searchDepartment, 'name')}`
+  }, [(sectionType, searchDepartment)])
 
   const performSearch = (newSearchQuery) => {
     changeSearchQuery(newSearchQuery)
@@ -58,11 +68,7 @@ const SearchInput = (props) => {
         <div className='search-input-with-suggestions'>
           <Input
             iconSrc={SearchSVG}
-            placeholder={
-              isEmpty(searchDepartment)
-                ? 'Search by name, department, or keyword'
-                : `Search ${sectionType} in ${get(searchDepartment, 'name')}`
-            }
+            placeholder={placeholderContent}
             onChange={onSearchInputChange}
             value={searchQuery}
             autoFocus

@@ -4,6 +4,7 @@ import { fireEvent, render, act } from '@testing-library/react'
 import { Route, MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import MockStore from 'redux-mock-store'
+import * as rdd from 'react-device-detect'
 
 import FrontPage from 'components/front-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
@@ -530,5 +531,51 @@ describe('FrontPage component', () => {
     })
 
     expect(toggleSearchModalstub).toHaveBeenCalledWith(true)
+  })
+
+  describe('Placeholder search input test suites on frontpage', () => {
+    it('shows short placeholder on mobile', async () => {
+      sinon.stub(rdd, 'isMobile').get(() => true)
+
+      const toggleSearchModalstub = sinon.stub()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['/']}>
+            <Route path='/'>
+              <FrontPage toggleSearchModal={toggleSearchModalstub} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+      const { queryByPlaceholderText } = container
+
+      const mobilePlaceHolderText = 'Search LLEAD'
+      const desktopPlaceHolderText = 'Search by name, department, or keyword'
+      expect(queryByPlaceholderText(mobilePlaceHolderText)).toBeTruthy()
+      expect(queryByPlaceholderText(desktopPlaceHolderText)).toBeFalsy()
+    })
+
+    it('shows long placeholder on desktop', async () => {
+      sinon.stub(rdd, 'isMobile').get(() => false)
+
+      const toggleSearchModalstub = sinon.stub()
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['/']}>
+            <Route path='/'>
+              <FrontPage toggleSearchModal={toggleSearchModalstub} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+      const { queryByPlaceholderText } = container
+
+      const mobilePlaceHolderText = 'Search LLEAD'
+      const desktopPlaceHolderText = 'Search by name, department, or keyword'
+      expect(queryByPlaceholderText(mobilePlaceHolderText)).toBeFalsy()
+      expect(queryByPlaceholderText(desktopPlaceHolderText)).toBeTruthy()
+    })
   })
 })
