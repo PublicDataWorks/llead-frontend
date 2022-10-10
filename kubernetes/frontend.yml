@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ipno-frontend
-          image: gcr.io/${GOOGLE_PROJECT_ID}/ipno-frontend:${FRONTEND_IMAGE_TAG}
+          image: us.gcr.io/${GOOGLE_PROJECT_ID}/ipno-frontend:${FRONTEND_IMAGE_TAG}
           imagePullPolicy: Always
           resources:
             requests:
@@ -27,19 +27,14 @@ spec:
               memory: 256Mi
           ports:
             - containerPort: 80
-          env:
-            - name: GA_MEASUREMENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: ga
-                  key: measurement-id
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: ipno-frontend
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 80
   selector:
