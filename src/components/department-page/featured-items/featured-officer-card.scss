@@ -47,17 +47,16 @@
 
   .officer-card-footer {
     box-sizing: border-box;
-    padding: $v-frame-margin 24px $v-frame-margin $h-card-margin;
-    background-color: $wild-sand-color;
+    padding: $v-sub-tiny-margin 24px $v-sub-tiny-margin $h-card-margin;
+    background-color: $gallery-ed-color;
     overflow: auto;
     position: absolute;
     bottom: 0px;
     width: 100%;
-    color: $boulder-color;
     border-radius: 0 0 8px 8px;
 
     .allegation-row {
-      margin-bottom: 8px;
+      margin: $v-tinier-margin 0px;
 
       .allegation-count {
         color: $bright-red-color;
@@ -65,13 +64,13 @@
       }
     }
 
-    .use-of-force-count {
-      color: $three-poppy-color;
-      font-weight: bold;
-    }
+    .use-of-force-row {
+      margin: $v-tinier-margin 0px;
 
-    .label {
-      color: $black-color;
+      .use-of-force-count {
+        color: $three-poppy-color;
+        font-weight: bold;
+      }
     }
   }
 
