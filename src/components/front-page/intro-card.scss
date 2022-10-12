@@ -42,9 +42,15 @@
     .content {
       @include small-text;
       height: 320px;
-      margin: $v-mid-margin;
+      margin: 15px;
       overflow-y: auto;
+      box-sizing: border-box;
       cursor: pointer;
+
+      p {
+        margin-block-start: 5px;
+        margin-block-end: 5px;
+      }
     }
 
     .overview {
@@ -164,7 +170,7 @@
       border-radius: 8px 8px 0 0;
 
       .content {
-        height: 320px;
+        height: 330px;
       }
     }
 

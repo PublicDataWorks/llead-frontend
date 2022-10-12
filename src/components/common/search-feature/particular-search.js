@@ -67,12 +67,13 @@ const ParticularSearch = (props) => {
 
       <InfiniteScroll hasMore={!!offset} loadMore={loadFunc} useWindow={false}>
         {map(results, (item) => (
-          <Component
-            {...item}
-            key={item.id}
-            saveRecentItem={saveRecentItem}
-            onItemClick={onItemClick}
-          />
+          <div key={item.id} className='component-wrapper'>
+            <Component
+              {...item}
+              saveRecentItem={saveRecentItem}
+              onItemClick={onItemClick}
+            />
+          </div>
         ))}
       </InfiniteScroll>
     </div>

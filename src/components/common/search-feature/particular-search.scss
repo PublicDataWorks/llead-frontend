@@ -32,6 +32,22 @@
 
 @media only screen and (min-width: $laptop-breakpoint) {
   .particular-search {
-    padding: 20px 41px 0px 24px;
+    padding: 20px 0px 0px;
+
+    .search-title {
+      padding: 0px 41px 0px 24px;
+    }
+
+    .component-wrapper {
+      padding: 0px 41px 0px 24px;
+
+      &:hover {
+        background-color: $wild-sand-color;
+
+        div[class$='item-name'] {
+          color: $blue-ribbon-color;
+        }
+      }
+    }
   }
 }
