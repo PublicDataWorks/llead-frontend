@@ -16,16 +16,6 @@
       @include callout-text;
       flex-grow: 1;
     }
-
-    .carousel-sorted-info {
-      @include small-text;
-      line-height: 31px;
-      text-align: right;
-
-      .sorted-by {
-        font-weight: 500;
-      }
-    }
   }
 
   .swiper-container {
