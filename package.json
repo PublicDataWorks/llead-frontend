@@ -44,7 +44,7 @@
     "swiper": "^5.2.0"
   },
   "scripts": {
-    "build": "APP_ENV=production webpack --mode=production",
+    "build-production": "APP_ENV=production webpack --mode=production",
     "build-staging": "APP_ENV=staging webpack --mode=production",
     "start": "APP_ENV=dev webpack serve --mode=development",
     "start-test-server": "APP_ENV=test webpack serve --mode=development",
