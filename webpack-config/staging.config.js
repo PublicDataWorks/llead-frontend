@@ -11,7 +11,7 @@ let config = Object.assign({}, baseConfig, {
     new webpack.DefinePlugin({
       'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV, 'staging'),
       'process.env.GA_MEASUREMENT_ID': JSON.stringify(
-        process.env.GA_STAGING_MEASUREMENT_ID
+        process.env.GA_MEASUREMENT_ID
       ),
       'process.env.MAPBOX_KEY': JSON.stringify(process.env.MAPBOX_KEY),
     }),

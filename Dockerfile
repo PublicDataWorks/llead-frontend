@@ -1,5 +1,6 @@
 ARG BUILD_ENV
 ARG MAPBOX_KEY
+ARG GA_MEASUREMENT_ID
 
 FROM node:14.15.3-alpine AS deps
 RUN apk update && apk add yarn python g++ make && rm -rf /var/cache/apk/*
@@ -12,8 +13,10 @@ RUN yarn install
 FROM node:14-alpine AS builder
 ARG BUILD_ENV
 ARG MAPBOX_KEY
+ARG GA_MEASUREMENT_ID
 WORKDIR /app
 ENV MAPBOX_KEY ${MAPBOX_KEY}
+ENV GA_MEASUREMENT_ID ${GA_MEASUREMENT_ID}
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN yarn build-${BUILD_ENV}
