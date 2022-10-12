@@ -25,10 +25,12 @@ defaults:
         echo 'export NAMESPACE_ENV=ipno-production' >> $BASH_ENV
         echo 'export DOCKER_PRETAG=frontend-production' >> $BASH_ENV
         echo 'export BUILD_ENV=production' >> $BASH_ENV
+        echo 'export GA_MEASUREMENT_ID=$GA_MEASUREMENT_ID' >> $BASH_ENV
       else
         echo 'export NAMESPACE_ENV=ipno-staging' >> $BASH_ENV
         echo 'export DOCKER_PRETAG=frontend-staging' >> $BASH_ENV
         echo 'export BUILD_ENV=staging' >> $BASH_ENV
+        echo 'export GA_MEASUREMENT_ID=$GA_STAGING_MEASUREMENT_ID' >> $BASH_ENV
       fi
 
 version: 2.1
@@ -102,7 +104,11 @@ jobs:
       - run:
           name: Build image
           command: |
-            docker build --build-arg BUILD_ENV=$BUILD_ENV --build-arg MAPBOX_KEY=${MAPBOX_KEY} -t ipno-frontend .
+            docker build \
+            --build-arg BUILD_ENV=$BUILD_ENV \
+            --build-arg MAPBOX_KEY=${MAPBOX_KEY} \
+            --build-arg GA_MEASUREMENT_ID=${GA_MEASUREMENT_ID} \
+            -t ipno-frontend .
       - run:
           name: Tag image
           command: |
