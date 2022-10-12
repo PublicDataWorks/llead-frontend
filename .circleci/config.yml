@@ -24,9 +24,11 @@ defaults:
       then
         echo 'export NAMESPACE_ENV=ipno-production' >> $BASH_ENV
         echo 'export DOCKER_PRETAG=frontend-production' >> $BASH_ENV
+        echo 'export BUILD_ENV=production' >> $BASH_ENV
       else
         echo 'export NAMESPACE_ENV=ipno-staging' >> $BASH_ENV
         echo 'export DOCKER_PRETAG=frontend-staging' >> $BASH_ENV
+        echo 'export BUILD_ENV=staging' >> $BASH_ENV
       fi
 
 version: 2.1
@@ -71,32 +73,6 @@ jobs:
           name: Coveralls
           command: yarn coveralls
 
-  build:
-    docker:
-      - image: circleci/node:fermium
-    environment:
-      NODE_ENV: development
-    steps:
-      - checkout
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn
-      - run:
-          name: Build assets
-          command: |
-            if [ $CIRCLE_BRANCH == "main" ]
-            then
-              yarn build
-            else
-              yarn build-staging
-            fi
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist
-
   push_to_public:
     description: Push code to public repository
     machine: true
@@ -109,24 +85,24 @@ jobs:
 
   push_image:
     description: Push docker image
-    machine: true
+    docker:
+      - image: cimg/python:3.8.5
     environment: *gcloud-env
     steps:
       - run: *set-gcloud-service-key
       - run: *set-deploy-env
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: echo "$DOCKER_PRETAG-$CIRCLE_BUILD_NUM" > buildtag
       - persist_to_workspace:
           root: .
           paths:
             - buildtag
-      - attach_workspace:
-          at: /tmp/workspace
-      - run: cp -R /tmp/workspace/dist ./dist
       - run:
           name: Build image
           command: |
-            docker build -t ipno-frontend .
+            docker build --build-arg BUILD_ENV=$BUILD_ENV --build-arg MAPBOX_KEY=${MAPBOX_KEY} -t ipno-frontend .
       - run:
           name: Tag image
           command: |
@@ -174,9 +150,6 @@ workflows:
                 - staging
                 - main
                 - develop
-      - build:
-          requires:
-            - test
 
   push_to_public:
     jobs:
@@ -185,12 +158,9 @@ workflows:
             branches:
               only:
                 - develop
-      - build:
-          requires:
-            - test
       - push_to_public:
           requires:
-            - build
+            - test
 
   deploy_frontend:
     jobs:
@@ -200,12 +170,9 @@ workflows:
               only:
                 - main
                 - staging
-      - build:
-          requires:
-            - test
       - push_image:
           requires:
-            - build
+            - test
       - deploy:
           requires:
             - push_image
