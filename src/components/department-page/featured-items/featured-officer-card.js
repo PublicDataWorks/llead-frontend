@@ -22,6 +22,10 @@ const FeaturedOfficerCard = (props) => {
     latestRank,
   } = officer
 
+  const isComplaintsCount = complaintsCount > 0
+  const isUseOfForcesCount = useOfForcesCount > 0
+  const isFooterShow = isComplaintsCount || isUseOfForcesCount
+
   return (
     <CustomLink
       className={cx('featured-officer-card', className)}
@@ -33,30 +37,22 @@ const FeaturedOfficerCard = (props) => {
         <div className='officer-name'>{startCase(name)}</div>
         <OfficerBadges badges={badges} isFeaturedOfficer={true} />
       </div>
-      <div className='officer-card-footer'>
-        <div className='allegation-row'>
-          {complaintsCount > 0 ? (
-            <span className='allegation-count'>{complaintsCount}</span>
-          ) : (
-            <span>--</span>
+      {isFooterShow && (
+        <div className='officer-card-footer'>
+          {isComplaintsCount && (
+            <div className='allegation-row'>
+              <span className='allegation-count'>{complaintsCount}</span>
+              <span>{pluralize(' Allegation', complaintsCount)}</span>
+            </div>
           )}
-
-          <span className={cx({ label: complaintsCount > 0 })}>
-            {pluralize(' Allegation', complaintsCount)}
-          </span>
-        </div>
-        <div>
-          {useOfForcesCount > 0 ? (
-            <span className='use-of-force-count'>{useOfForcesCount}</span>
-          ) : (
-            <span>--</span>
+          {isUseOfForcesCount && (
+            <div className='use-of-force-row'>
+              <span className='use-of-force-count'>{useOfForcesCount}</span>
+              <span>{pluralize(' Use', useOfForcesCount) + ' of force'}</span>
+            </div>
           )}
-
-          <span className={cx({ label: useOfForcesCount > 0 })}>
-            {pluralize(' Use', useOfForcesCount) + ' of force'}
-          </span>
         </div>
-      </div>
+      )}
     </CustomLink>
   )
 }
