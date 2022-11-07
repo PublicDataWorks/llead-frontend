@@ -38,7 +38,7 @@ const DepartmentCard = (props) => {
       }}
     >
       <div className='department-info'>
-        <div className='department-type'>Police Department</div>
+        <div className='department-type'>Agency</div>
         <div className='department-name'>{name}</div>
       </div>
       <div className='department-card-footer'>

@@ -83,7 +83,7 @@ describe('IntroCard component', () => {
     expect(getByText('LLEAD includes', { exact: false }).className).toEqual(
       'date'
     )
-    expect(getByText('45 departments').className).toEqual('item')
+    expect(getByText('45 agencies').className).toEqual('item')
     expect(getByText('65,871 officers').className).toEqual('item')
     expect(getByText('669 documents').className).toEqual('item')
     expect(getByText('37,390 news articles').className).toEqual('item')

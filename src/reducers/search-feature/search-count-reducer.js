@@ -9,7 +9,7 @@ import {
 
 const defaullCount = {
   all: 0,
-  departments: 0,
+  agencies: 0,
   officers: 0,
   documents: 0,
   articles: 0,

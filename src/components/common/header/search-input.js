@@ -27,7 +27,7 @@ const SearchInput = (props) => {
       return 'Search LLEAD'
     }
     return isEmpty(searchDepartment)
-      ? 'Search by name, department, or keyword'
+      ? 'Search by name, agency, or keyword'
       : `Search ${sectionType} in ${get(searchDepartment, 'name')}`
   }, [(sectionType, searchDepartment)])
 

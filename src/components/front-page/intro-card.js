@@ -34,7 +34,7 @@ const IntroCard = (props) => {
   }
 
   const mapAnalyticItems = {
-    departments: departmentsCount,
+    agencies: departmentsCount,
     officers: officersCount,
     documents: documentsCount,
     'news articles': newsArticlesCount,
