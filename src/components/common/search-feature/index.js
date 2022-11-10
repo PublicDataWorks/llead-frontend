@@ -99,7 +99,7 @@ const SearchFeature = (props) => {
 
   const handleCloseSearch = () => {
     searchModalOnClose()
-    flushSearch()
+    setTimeout(flushSearch, 500)
     setSectionType(isDepartmentSearch ? itemType : 'all')
   }
 
@@ -117,7 +117,7 @@ const SearchFeature = (props) => {
         searchDepartment={department}
       />
       {!isEmpty(searchQuery) && (
-        <div className='search-result'>
+        <div>
           <SearchBar
             sectionType={sectionType}
             resultCount={searchCount}

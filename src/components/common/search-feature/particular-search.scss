@@ -6,10 +6,11 @@
   @include small-text;
   height: 500px;
   overflow: auto;
-  padding: 20px 10px 20px;
+  padding: 0px 10px 20px;
   box-sizing: border-box;
 
   .search-title {
+    padding-top: 20px;
     color: $thunder-color;
   }
 
@@ -26,21 +27,15 @@
 
 @media only screen and (min-width: $mobile-breakpoint) {
   .particular-search {
-    padding: 20px 24px 0px;
+    padding: 0px 24px 20px;
   }
 }
 
 @media only screen and (min-width: $laptop-breakpoint) {
   .particular-search {
-    padding: 20px 0px 0px;
-
-    .search-title {
-      padding: 0px 41px 0px 24px;
-    }
+    padding: 0px 41px 20px 24px;
 
     .component-wrapper {
-      padding: 0px 41px 0px 24px;
-
       &:hover {
         background-color: $wild-sand-color;
 

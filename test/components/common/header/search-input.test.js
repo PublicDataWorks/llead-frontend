@@ -271,4 +271,52 @@ describe('SearchInput component', () => {
       expect(queryByPlaceholderText(desktopPlaceHolderText)).toBeTruthy()
     })
   })
+
+  describe('loading spinner test suites', () => {
+    it('shows spinner when loading', async () => {
+      const changeSearchQueryStub = sinon.stub()
+
+      const container = render(
+        <MemoryRouter initialEntries={[FRONT_PAGE_PATH]}>
+          <Route path={FRONT_PAGE_PATH}>
+            <div>
+              <SearchInput
+                changeSearchQuery={changeSearchQueryStub}
+                isLoadingResult={true}
+              />
+              <div>Front Page</div>
+            </div>
+          </Route>
+        </MemoryRouter>
+      )
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('gradient-spinner').length
+      ).toEqual(1)
+    })
+
+    it('does not show spinner when loading done', async () => {
+      const changeSearchQueryStub = sinon.stub()
+
+      const container = render(
+        <MemoryRouter initialEntries={[FRONT_PAGE_PATH]}>
+          <Route path={FRONT_PAGE_PATH}>
+            <div>
+              <SearchInput
+                changeSearchQuery={changeSearchQueryStub}
+                isLoadingResult={false}
+              />
+              <div>Front Page</div>
+            </div>
+          </Route>
+        </MemoryRouter>
+      )
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('gradient-spinner').length
+      ).toEqual(0)
+    })
+  })
 })
