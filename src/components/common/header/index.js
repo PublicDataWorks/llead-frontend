@@ -23,12 +23,10 @@ const Header = (props) => {
 
   const openSearchModal = () => {
     toggleSearchModal(true)
-    document.body.style.overflow = 'hidden'
   }
 
   const closeSearchModal = () => {
     toggleSearchModal(false)
-    document.body.style.overflow = 'unset'
   }
 
   return (
