@@ -27,7 +27,7 @@ const SearchBar = (props) => {
 
   const sectionMapping = {
     all: 0,
-    departments: 1,
+    agencies: 1,
     officers: 2,
     documents: 3,
     articles: 4,
@@ -68,7 +68,7 @@ const SearchBar = (props) => {
   }, [sectionType])
 
   const results = isDepartmentSearch
-    ? omit(resultCount, ['all', 'departments'])
+    ? omit(resultCount, ['all', 'agencies'])
     : resultCount
 
   const cards = map(results, (count, docType) => (

@@ -16,7 +16,7 @@ describe('#searchResultsReducer', () => {
     it('returns empty object if request has no offset param', () => {
       const result = searchResultsReducer(
         {
-          departments: {
+          agencies: {
             results: [{ id: 123, name: 'department 1' }],
             next: null,
             count: 1,
@@ -33,7 +33,7 @@ describe('#searchResultsReducer', () => {
     it('returns old state if request has offset param', () => {
       const result = searchResultsReducer(
         {
-          departments: {
+          agencies: {
             results: [{ id: 123, name: 'department 1' }],
             next: null,
             count: 1,
@@ -50,7 +50,7 @@ describe('#searchResultsReducer', () => {
       )
 
       expect(result).toStrictEqual({
-        departments: {
+        agencies: {
           results: [{ id: 123, name: 'department 1' }],
           next: null,
           count: 1,
@@ -61,7 +61,7 @@ describe('#searchResultsReducer', () => {
 
   it('should handle SEARCH_SUCCESS', () => {
     const searchResults = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -74,12 +74,16 @@ describe('#searchResultsReducer', () => {
       }
     )
 
-    expect(result).toStrictEqual(searchResults)
+    expect(result).toStrictEqual({
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
+      officers: { results: [{ id: 456, name: 'officer 1' }] },
+      documents: { results: [{ id: 789, name: 'document 1' }] },
+    })
   })
 
   it('should handle SEARCH_SUCCESS on existed state', () => {
     const searchResults = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,
@@ -103,7 +107,7 @@ describe('#searchResultsReducer', () => {
       },
     }
     const expected_result = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,
@@ -133,7 +137,7 @@ describe('#searchResultsReducer', () => {
 
   it('should handle CHANGE_SEARCH_QUERY on empty', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -146,7 +150,7 @@ describe('#searchResultsReducer', () => {
   })
   it('should handle CHANGE_SEARCH_QUERY on query existed', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -161,7 +165,7 @@ describe('#searchResultsReducer', () => {
 
   it('handles FLUSH_SEARCH', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -175,7 +179,7 @@ describe('#searchResultsReducer', () => {
 
   it('handles SEARCH_SUCCESS on existed state with duplicate', () => {
     const searchResults = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,
@@ -199,7 +203,7 @@ describe('#searchResultsReducer', () => {
       },
     }
     const expected_result = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,

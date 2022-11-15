@@ -22,7 +22,7 @@ const DepartmentsCarousel = (props) => {
   return (
     <Carousel
       className={cx('departments-carousel', className)}
-      title='Departments'
+      title='Agencies'
       cards={cards}
     />
   )

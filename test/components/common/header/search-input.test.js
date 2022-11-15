@@ -47,7 +47,7 @@ describe('SearchInput component', () => {
       const { getByPlaceholderText, getByText } = container
 
       const searchInput = getByPlaceholderText(
-        'Search by name, department, or keyword'
+        'Search by name, agency, or keyword'
       )
       fireEvent.change(searchInput, { target: { value: 'any' } })
 
@@ -139,7 +139,7 @@ describe('SearchInput component', () => {
 
       const { getByPlaceholderText, baseElement } = container
       const searchInput = getByPlaceholderText(
-        'Search by name, department, or keyword'
+        'Search by name, agency, or keyword'
       )
       fireEvent.click(searchInput)
 
@@ -266,7 +266,7 @@ describe('SearchInput component', () => {
       const { queryByPlaceholderText } = container
 
       const mobilePlaceHolderText = 'Search LLEAD'
-      const desktopPlaceHolderText = 'Search by name, department, or keyword'
+      const desktopPlaceHolderText = 'Search by name, agency, or keyword'
       expect(queryByPlaceholderText(mobilePlaceHolderText)).toBeFalsy()
       expect(queryByPlaceholderText(desktopPlaceHolderText)).toBeTruthy()
     })

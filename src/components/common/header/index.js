@@ -52,7 +52,7 @@ const Header = (props) => {
         <div className='search-container'>
           <Input
             iconSrc={SearchSVG}
-            placeholder='Search by name, department, or keyword'
+            placeholder='Search by name, agency, or keyword'
             className='search-input'
             onClick={openSearchModal}
             readOnly

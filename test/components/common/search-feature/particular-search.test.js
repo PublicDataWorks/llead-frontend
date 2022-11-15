@@ -49,7 +49,7 @@ describe('ParticularSearch component', () => {
       <ParticularSearch
         count={1}
         limit={5}
-        docType='departments'
+        docType='agencies'
         offset={10}
         results={results}
         searchQuery={'test'}
@@ -64,7 +64,7 @@ describe('ParticularSearch component', () => {
 
     expect(
       baseElement.getElementsByClassName('search-title')[0].textContent
-    ).toEqual('1 results for\u00A0\u201Ctest\u201D\u00A0in\u00A0departments')
+    ).toEqual('1 results for\u00A0\u201Ctest\u201D\u00A0in\u00A0agencies')
 
     expect(getByText('Infinity Scroll')).toBeTruthy()
     expect(
@@ -85,7 +85,7 @@ describe('ParticularSearch component', () => {
       query: 'test',
       limit: 5,
       offset: 10,
-      docType: 'departments',
+      docType: 'agencies',
     })
   })
 
@@ -292,7 +292,7 @@ describe('ParticularSearch component', () => {
       <ParticularSearch
         count={5}
         limit={5}
-        docType='departments'
+        docType='agencies'
         offset={10}
         results={results}
         searchQuery={''}
@@ -327,7 +327,7 @@ describe('ParticularSearch component', () => {
       <ParticularSearch
         count={0}
         limit={5}
-        docType='departments'
+        docType='agencies'
         offset={10}
         results={results}
         searchQuery='test'
@@ -362,7 +362,7 @@ describe('ParticularSearch component', () => {
       <ParticularSearch
         count={1}
         limit={5}
-        docType='departments'
+        docType='agencies'
         offset={10}
         results={results}
         searchQuery={'test'}

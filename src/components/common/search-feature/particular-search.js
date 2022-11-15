@@ -29,7 +29,7 @@ const ParticularSearch = (props) => {
   } = props
 
   const componentMapping = {
-    departments: DepartmentItem,
+    agencies: DepartmentItem,
     officers: OfficerItem,
     documents: DocumentItem,
     articles: NewsArticleItem,

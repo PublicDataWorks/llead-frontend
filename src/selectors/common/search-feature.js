@@ -144,15 +144,13 @@ export const searchAllResultsSelector = (state) => {
 
   const pickAttr = ['results', 'count']
 
-  const {
-    departments,
-    officers,
-    documents,
-    articles,
-  } = mapValues(searchResults, (value) => pick(value, pickAttr))
+  const { agencies, officers, documents, articles } = mapValues(
+    searchResults,
+    (value) => pick(value, pickAttr)
+  )
 
   return {
-    departments,
+    agencies,
     officers,
     documents,
     articles,

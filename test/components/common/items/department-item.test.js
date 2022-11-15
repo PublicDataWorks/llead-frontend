@@ -35,7 +35,7 @@ describe('Department item component', () => {
     expect(
       baseElement.getElementsByClassName('department-item-parish')[0]
         .textContent
-    ).toEqual('Police Department | New Orleans Parish')
+    ).toEqual('Agency | New Orleans Parish')
 
     expect(getByText('New Orleans PD').className).toEqual(
       'department-item-name'
@@ -56,9 +56,7 @@ describe('Department item component', () => {
 
     const { getByText } = container
 
-    expect(getByText('Police Department').className).toEqual(
-      'department-item-parish'
-    )
+    expect(getByText('Agency').className).toEqual('department-item-parish')
   })
 
   it('triggers onItemClick', () => {
