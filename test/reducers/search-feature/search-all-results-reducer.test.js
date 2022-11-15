@@ -13,7 +13,7 @@ describe('#searchAllResultsReducer', () => {
 
   it('handles SEARCH_ALL_SUCCESS', () => {
     const searchResults = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -26,12 +26,16 @@ describe('#searchAllResultsReducer', () => {
       }
     )
 
-    expect(result).toStrictEqual(searchResults)
+    expect(result).toStrictEqual({
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
+      officers: { results: [{ id: 456, name: 'officer 1' }] },
+      documents: { results: [{ id: 789, name: 'document 1' }] },
+    })
   })
 
   it('handles SEARCH_ALL_SUCCESS on existed state', () => {
     const searchResults = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,
@@ -55,7 +59,7 @@ describe('#searchAllResultsReducer', () => {
       },
     }
     const expected_result = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,
@@ -85,7 +89,7 @@ describe('#searchAllResultsReducer', () => {
 
   it('handles CHANGE_SEARCH_QUERY on empty', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -98,7 +102,7 @@ describe('#searchAllResultsReducer', () => {
   })
   it('handles CHANGE_SEARCH_QUERY on query existed', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -113,7 +117,7 @@ describe('#searchAllResultsReducer', () => {
 
   it('handles FLUSH_SEARCH', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -127,7 +131,7 @@ describe('#searchAllResultsReducer', () => {
 
   it('handles SEARCH_ALL_SUCCESS on existed state with duplicate', () => {
     const searchResults = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,
@@ -151,7 +155,7 @@ describe('#searchAllResultsReducer', () => {
       },
     }
     const expected_result = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,

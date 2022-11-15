@@ -28,7 +28,7 @@ describe('Department card component', () => {
     )[0]
 
     expect(departmentCard.classList.value).toContain('custom-class-name')
-    expect(departmentCard.textContent.includes('Police Department')).toBe(true)
+    expect(departmentCard.textContent.includes('Agency')).toBe(true)
     expect(departmentCard.textContent.includes(props.city)).toBe(true)
     expect(departmentCard.textContent.includes(props.name)).toBe(true)
     expect(departmentCard.textContent.includes(props.parish)).toBe(true)

@@ -17,71 +17,13 @@ describe('Featured officer card component', () => {
     mockHistoryPush.mockClear()
   })
 
-  it('renders correctly with postitive complaint count', () => {
+  it('renders correctly', () => {
     const officerData = {
       id: 15248,
       name: 'Jayson Germann',
       badges: ['80', '100'],
       isStarred: true,
       complaintsCount: 84,
-      useOfForcesCount: 0,
-      latestRank: 'senior',
-    }
-    const props = {
-      item: officerData,
-      className: 'custom-class-name',
-    }
-
-    const container = render(
-      <MemoryRouter initialEntries={['/']}>
-        <Route path='/'>
-          <FeaturedOfficerCard {...props} />
-        </Route>
-      </MemoryRouter>
-    )
-    const { baseElement, getByText } = container
-    const officerCard = baseElement.getElementsByClassName(
-      'featured-officer-card'
-    )[0]
-
-    expect(officerCard.classList.value).toContain('custom-class-name')
-    expect(
-      officerCard.getElementsByClassName('star-corner')[0].classList.length
-    ).toEqual(1)
-
-    expect(getByText('Senior').className).toEqual('officer-rank')
-
-    expect(getByText('Jayson Germann').className).toEqual('officer-name')
-    expect(
-      officerCard.getElementsByClassName('featured-officer-badges')[0]
-        .textContent
-    ).toEqual('80, 100')
-
-    expect(
-      officerCard.getElementsByClassName('allegation-count')[0].textContent
-    ).toEqual('84')
-    expect(getByText('Allegations').className).toEqual('label')
-
-    expect(officerCard.textContent.includes('-- Uses of force')).toBeTruthy()
-    expect(getByText('Uses of force').className).toEqual('')
-
-    const featuredOfficerCardLink = baseElement.getElementsByClassName(
-      'custom-link'
-    )[0]
-
-    fireEvent.click(featuredOfficerCardLink)
-    expect(mockHistoryPush).toHaveBeenCalledWith(
-      '/officers/15248/jayson-germann'
-    )
-  })
-
-  it('renders correctly with postitive useOfForcesCount', () => {
-    const officerData = {
-      id: 15248,
-      name: 'Jayson Germann',
-      badges: ['80', '100'],
-      isStarred: true,
-      complaintsCount: 0,
       useOfForcesCount: 10,
       latestRank: 'senior',
     }
@@ -115,11 +57,13 @@ describe('Featured officer card component', () => {
         .textContent
     ).toEqual('80, 100')
 
-    expect(officerCard.textContent.includes('-- Allegations')).toBeTruthy()
-    expect(getByText('Allegations').className).toEqual('')
+    expect(
+      officerCard.getElementsByClassName('allegation-row')[0].textContent
+    ).toEqual('84 Allegations')
 
-    expect(officerCard.textContent.includes('10 Uses of force')).toBeTruthy()
-    expect(getByText('Uses of force').className).toEqual('label')
+    expect(
+      officerCard.getElementsByClassName('use-of-force-row')[0].textContent
+    ).toEqual('10 Uses of force')
 
     const featuredOfficerCardLink = baseElement.getElementsByClassName(
       'custom-link'
@@ -129,5 +73,113 @@ describe('Featured officer card component', () => {
     expect(mockHistoryPush).toHaveBeenCalledWith(
       '/officers/15248/jayson-germann'
     )
+  })
+
+  it('renders without useOfForcesCount', () => {
+    const officerData = {
+      id: 15248,
+      name: 'Jayson Germann',
+      badges: ['80', '100'],
+      isStarred: true,
+      complaintsCount: 84,
+      useOfForcesCount: 0,
+      latestRank: 'senior',
+    }
+    const props = {
+      item: officerData,
+      className: 'custom-class-name',
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <FeaturedOfficerCard {...props} />
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+    const officerCard = baseElement.getElementsByClassName(
+      'featured-officer-card'
+    )[0]
+
+    expect(
+      officerCard.getElementsByClassName('allegation-row')[0].textContent
+    ).toEqual('84 Allegations')
+
+    expect(
+      officerCard.getElementsByClassName('use-of-force-row').length
+    ).toEqual(0)
+  })
+
+  it('renders without complaintsCount', () => {
+    const officerData = {
+      id: 15248,
+      name: 'Jayson Germann',
+      badges: ['80', '100'],
+      isStarred: true,
+      complaintsCount: 0,
+      useOfForcesCount: 10,
+      latestRank: 'senior',
+    }
+    const props = {
+      item: officerData,
+      className: 'custom-class-name',
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <FeaturedOfficerCard {...props} />
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+    const officerCard = baseElement.getElementsByClassName(
+      'featured-officer-card'
+    )[0]
+
+    expect(officerCard.getElementsByClassName('allegation-row').length).toEqual(
+      0
+    )
+
+    expect(
+      officerCard.getElementsByClassName('use-of-force-row')[0].textContent
+    ).toEqual('10 Uses of force')
+  })
+
+  it('renders without useOfForcesCount and complaintsCount', () => {
+    const officerData = {
+      id: 15248,
+      name: 'Jayson Germann',
+      badges: ['80', '100'],
+      isStarred: true,
+      complaintsCount: 0,
+      useOfForcesCount: 0,
+      latestRank: 'senior',
+    }
+    const props = {
+      item: officerData,
+      className: 'custom-class-name',
+    }
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <FeaturedOfficerCard {...props} />
+        </Route>
+      </MemoryRouter>
+    )
+    const { baseElement } = container
+    const officerCard = baseElement.getElementsByClassName(
+      'featured-officer-card'
+    )[0]
+
+    expect(officerCard.getElementsByClassName('allegation-row').length).toEqual(
+      0
+    )
+
+    expect(
+      officerCard.getElementsByClassName('use-of-force-row').length
+    ).toEqual(0)
   })
 })

@@ -12,7 +12,7 @@ describe('SearchAll component', () => {
 
     const props = {
       searchAllResults: {
-        departments: {
+        agencies: {
           count: 6,
           results: [
             {
@@ -91,7 +91,7 @@ describe('SearchAll component', () => {
     )
     expect(
       baseElement.getElementsByClassName('search-title')[0].textContent
-    ).toEqual('6 results for\u00A0\u201Ctest\u201D\u00A0in\u00A0departments')
+    ).toEqual('6 results for\u00A0\u201Ctest\u201D\u00A0in\u00A0agencies')
     expect(
       baseElement.getElementsByClassName('search-title')[1].textContent
     ).toEqual('7 results for\u00A0\u201Ctest\u201D\u00A0in\u00A0officers')
@@ -120,7 +120,7 @@ describe('SearchAll component', () => {
     const departmentShowMoreBtn = getByText('+ 1 more')
     fireEvent.click(departmentShowMoreBtn)
 
-    expect(switchSectionSpy).toHaveBeenCalledWith('departments')
+    expect(switchSectionSpy).toHaveBeenCalledWith('agencies')
   })
 
   it('renders results when count less than show more limit', () => {
@@ -130,7 +130,7 @@ describe('SearchAll component', () => {
 
     const props = {
       searchAllResults: {
-        departments: {
+        agencies: {
           count: 1,
           results: [
             {
@@ -215,7 +215,7 @@ describe('SearchAll component', () => {
 
     const props = {
       searchAllResults: {
-        departments: {
+        agencies: {
           count: 1,
           results: [
             {

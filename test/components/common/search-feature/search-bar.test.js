@@ -38,7 +38,7 @@ describe('Search Bar component', () => {
       section: 'all',
       resultCount: {
         all: 9,
-        departments: 1,
+        agencies: 1,
         officers: 2,
         documents: 3,
         articles: 3,
@@ -53,7 +53,7 @@ describe('Search Bar component', () => {
 
     expect(baseElement.getElementsByClassName('swiper-slide').length).toEqual(3)
     expect(queryByText('all')).toBeFalsy()
-    expect(queryByText('departments')).toBeFalsy()
+    expect(queryByText('agencies')).toBeFalsy()
   })
 
   it('switches sections', () => {

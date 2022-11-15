@@ -72,7 +72,7 @@ const FrontPage = (props) => {
         <Input
           iconSrc={SearchSVG}
           placeholder={
-            isMobile ? 'Search LLEAD' : 'Search by name, department, or keyword'
+            isMobile ? 'Search LLEAD' : 'Search by name, agency, or keyword'
           }
           className='search-input'
           onClick={openSearchModal}

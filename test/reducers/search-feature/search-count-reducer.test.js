@@ -13,7 +13,7 @@ describe('#searchCountReducer', () => {
 
   it('handles SEARCH_ALL_SUCCESS', () => {
     const searchResults = {
-      departments: { count: 1, results: [{ id: 123, name: 'department 1' }] },
+      agencies: { count: 1, results: [{ id: 123, name: 'department 1' }] },
       officers: { count: 2, results: [{ id: 456, name: 'officer 1' }] },
       documents: { count: 3, results: [{ id: 789, name: 'document 1' }] },
       articles: { count: 3, results: [{ id: 786, name: 'article 1' }] },
@@ -29,7 +29,7 @@ describe('#searchCountReducer', () => {
 
     expect(result).toStrictEqual({
       all: 9,
-      departments: 1,
+      agencies: 1,
       officers: 2,
       documents: 3,
       articles: 3,
@@ -38,7 +38,7 @@ describe('#searchCountReducer', () => {
 
   it('handles SEARCH_ALL_SUCCESS on existed state', () => {
     const searchResults = {
-      departments: {
+      agencies: {
         results: [{ id: 123, name: 'department 1' }],
         next: null,
         count: 1,
@@ -69,7 +69,7 @@ describe('#searchCountReducer', () => {
 
     expect(result).toStrictEqual({
       all: 5,
-      departments: 1,
+      agencies: 1,
       officers: 1,
       documents: 3,
     })
@@ -77,7 +77,7 @@ describe('#searchCountReducer', () => {
 
   it('handles CHANGE_SEARCH_QUERY', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -89,7 +89,7 @@ describe('#searchCountReducer', () => {
 
     expect(result).toStrictEqual({
       all: 0,
-      departments: 0,
+      agencies: 0,
       officers: 0,
       documents: 0,
       articles: 0,
@@ -98,7 +98,7 @@ describe('#searchCountReducer', () => {
 
   it('handles FLUSH_SEARCH', () => {
     const currentState = {
-      departments: { results: [{ id: 123, name: 'department 1' }] },
+      agencies: { results: [{ id: 123, name: 'department 1' }] },
       officers: { results: [{ id: 456, name: 'officer 1' }] },
       documents: { results: [{ id: 789, name: 'document 1' }] },
     }
@@ -109,7 +109,7 @@ describe('#searchCountReducer', () => {
 
     expect(result).toStrictEqual({
       all: 0,
-      departments: 0,
+      agencies: 0,
       officers: 0,
       documents: 0,
       articles: 0,

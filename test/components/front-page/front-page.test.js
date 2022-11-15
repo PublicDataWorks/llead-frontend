@@ -106,7 +106,7 @@ describe('FrontPage component', () => {
     const { getByPlaceholderText } = container
 
     expect(
-      getByPlaceholderText('Search by name, department, or keyword').className
+      getByPlaceholderText('Search by name, agency, or keyword').className
     ).toEqual('input-field')
   })
 
@@ -220,7 +220,7 @@ describe('FrontPage component', () => {
     )[0]
 
     expect(recentItemSection.textContent).toContain('Recent activity')
-    expect(departmentSection.textContent).toContain('Departments')
+    expect(departmentSection.textContent).toContain('Agencies')
     expect(newsActicleSection.textContent).toContain('News')
     expect(documentSection.textContent).toContain('Documents')
     expect(officerSection.textContent).toContain('Officers')
@@ -352,7 +352,7 @@ describe('FrontPage component', () => {
     )[0]
 
     expect(recentItemSection.textContent).toContain('Recent activity')
-    expect(departmentSection.textContent).toContain('Departments')
+    expect(departmentSection.textContent).toContain('Agencies')
     expect(newsActicleSection.textContent).toContain('News')
     expect(documentSection.textContent).toContain('Documents')
     expect(officerSection.textContent).toContain('Officers')
@@ -573,7 +573,7 @@ describe('FrontPage component', () => {
       const { queryByPlaceholderText } = container
 
       const mobilePlaceHolderText = 'Search LLEAD'
-      const desktopPlaceHolderText = 'Search by name, department, or keyword'
+      const desktopPlaceHolderText = 'Search by name, agency, or keyword'
       expect(queryByPlaceholderText(mobilePlaceHolderText)).toBeFalsy()
       expect(queryByPlaceholderText(desktopPlaceHolderText)).toBeTruthy()
     })

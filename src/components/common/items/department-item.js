@@ -13,7 +13,7 @@ const DepartmentItem = (props) => {
     <CustomLink to={departmentPath(id)} onClick={onItemClick}>
       <div className='department-item'>
         <div className='department-item-parish'>
-          Police Department {parish ? '|' : ''} <span>{parish}</span>
+          Agency {parish ? '|' : ''} <span>{parish}</span>
         </div>
         <div className='department-item-name'>{name}</div>
       </div>

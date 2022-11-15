@@ -38,7 +38,7 @@ describe('#getSearchQueries', () => {
 describe('#searchAllResultsSelector', () => {
   it('returns search results', () => {
     const rawResults = {
-      departments: {
+      agencies: {
         results: [
           {
             id: 22,
@@ -124,7 +124,7 @@ describe('#searchAllResultsSelector', () => {
     const results = searchAllResultsSelector(state)
 
     const expectedResults = {
-      departments: {
+      agencies: {
         results: [
           {
             id: 22,

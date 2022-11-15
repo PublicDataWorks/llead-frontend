@@ -80,7 +80,7 @@ describe('Header component', () => {
       expect(getByText('Contact').className).toEqual('contact')
       expect(queryByText('Search Feature')).toBeTruthy()
       expect(
-        queryByPlaceholderText('Search by name, department, or keyword')
+        queryByPlaceholderText('Search by name, agency, or keyword')
       ).toBeTruthy()
       expect(baseElement.getElementsByClassName('search-icon').length).toEqual(
         1
@@ -182,7 +182,7 @@ describe('Header component', () => {
       const { getByPlaceholderText } = container
 
       const searchInput = getByPlaceholderText(
-        'Search by name, department, or keyword'
+        'Search by name, agency, or keyword'
       )
       fireEvent.click(searchInput)
 
