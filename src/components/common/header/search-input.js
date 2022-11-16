@@ -22,7 +22,7 @@ const SearchInput = (props) => {
     fetchSearchQueries,
     searchModalOnClose,
   } = props
-  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(true)
 
   const placeholderContent = useMemo(() => {
     if (isMobile) {
