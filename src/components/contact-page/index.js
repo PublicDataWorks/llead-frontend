@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import './contact-page.scss'
 import CautionSign from 'assets/icons/caution-sign.svg'
+import SuccessMessage from './success-message'
 
 const ContactPage = (props) => {
   const { saveFeedback, sendMessageResponse } = props
@@ -55,7 +56,7 @@ const ContactPage = (props) => {
         <div className='contact-submit'>
           <input className='submit-button' type='submit' value='Send' />
           {!isEmpty(sendMessageResponse) && (
-            <div>{sendMessageResponse.detail}</div>
+            <SuccessMessage messageDetail={sendMessageResponse.detail} />
           )}
         </div>
       </form>
