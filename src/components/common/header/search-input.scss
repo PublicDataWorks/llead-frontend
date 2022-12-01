@@ -20,6 +20,7 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
 
         .input-field {
           &:focus {
+            border: 1px solid $alto-color;
             line-height: 46px;
           }
         }
@@ -98,16 +99,6 @@ $close-icon-width: calc(#{$h-side-frame} + #{$h-margin} + 28px);
 
       .clear-btn {
         display: block;
-      }
-    }
-
-    &:focus-within {
-      .close-btn-container {
-        .close-btn {
-          border-top-color: $blue-ribbon-50-color;
-          border-bottom-color: $blue-ribbon-50-color;
-          border-right: 3px solid $blue-ribbon-50-color;
-        }
       }
     }
   }
