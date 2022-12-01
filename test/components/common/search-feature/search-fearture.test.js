@@ -304,6 +304,9 @@ describe('SearchFeature component', () => {
   })
 
   it('calls close search modal event on input close search trigger', () => {
+    jest.useFakeTimers()
+    jest.spyOn(global, 'setTimeout')
+
     const searchQueryValue = 'search query'
     const searchCountValue = {
       all: 1000,
@@ -329,7 +332,7 @@ describe('SearchFeature component', () => {
 
     mockCloseSearchCall()
     expect(mockSearchModalOnClose).toHaveBeenCalled()
-    expect(mockFlushSearch).toHaveBeenCalled()
+    expect(setTimeout).toHaveBeenCalledWith(mockFlushSearch, 500)
   })
 
   it('triggers switch section if item of search all section was clicked', async () => {

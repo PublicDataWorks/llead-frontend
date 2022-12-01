@@ -80,12 +80,16 @@ describe('SearchAll component', () => {
       saveRecentItem: saveRecentItemSpy,
       onItemClick: onItemClickSpy,
       switchSection: switchSectionSpy,
+      isLoadingResult: false,
     }
 
     const container = render(<SearchAll {...props} />)
 
     const { baseElement, getByText, getAllByText } = container
 
+    expect(
+      baseElement.getElementsByClassName('shimmer-container').length
+    ).toEqual(0)
     expect(baseElement.getElementsByClassName('search-result').length).toEqual(
       4
     )
@@ -255,6 +259,46 @@ describe('SearchAll component', () => {
     )
     expect(
       baseElement.getElementsByClassName('department-item').length
+    ).toEqual(1)
+  })
+
+  it('renders correctly', () => {
+    const saveRecentItemSpy = sinon.spy()
+    const onItemClickSpy = sinon.spy()
+    const switchSectionSpy = sinon.spy()
+
+    const props = {
+      searchAllResults: {
+        departments: {
+          count: 0,
+          results: [],
+        },
+        officers: {
+          count: 0,
+          results: [],
+        },
+        documents: {
+          count: 0,
+          results: [],
+        },
+        articles: {
+          count: 0,
+          results: [],
+        },
+      },
+      searchQuery: 'test',
+      saveRecentItem: saveRecentItemSpy,
+      onItemClick: onItemClickSpy,
+      switchSection: switchSectionSpy,
+      isLoadingResult: true,
+    }
+
+    const container = render(<SearchAll {...props} />)
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('shimmer-container').length
     ).toEqual(1)
   })
 })

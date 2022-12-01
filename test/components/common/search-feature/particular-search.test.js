@@ -57,6 +57,7 @@ describe('ParticularSearch component', () => {
         saveRecentItem={saveRecentItemSpy}
         onItemClick={onItemClickSpy}
         department={{}}
+        isLoadingResult={false}
       />
     )
 
@@ -378,5 +379,81 @@ describe('ParticularSearch component', () => {
       mockLoadMore()
     })
     expect(performSearchSpy).not.toHaveBeenCalled()
+  })
+
+  it('renders shimmer when loading', () => {
+    const saveRecentItemSpy = sinon.spy()
+    const onItemClickSpy = sinon.spy()
+    const performSearchSpy = sinon.spy()
+
+    const results = [
+      {
+        id: 'petersonmouth-department',
+        name: 'Petersonmouth Department',
+        city: 'Baton Rouge',
+        parish: 'East Baton Rouge',
+        locationMapUrl: null,
+      },
+    ]
+
+    const container = render(
+      <ParticularSearch
+        count={1}
+        limit={5}
+        docType='agencies'
+        offset={10}
+        results={results}
+        searchQuery={'test'}
+        performSearch={performSearchSpy}
+        saveRecentItem={saveRecentItemSpy}
+        onItemClick={onItemClickSpy}
+        department={{}}
+        isLoadingResult={true}
+      />
+    )
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('shimmer-container').length
+    ).toEqual(1)
+  })
+
+  it('does not render shimmer when load done', () => {
+    const saveRecentItemSpy = sinon.spy()
+    const onItemClickSpy = sinon.spy()
+    const performSearchSpy = sinon.spy()
+
+    const results = [
+      {
+        id: 'petersonmouth-department',
+        name: 'Petersonmouth Department',
+        city: 'Baton Rouge',
+        parish: 'East Baton Rouge',
+        locationMapUrl: null,
+      },
+    ]
+
+    const container = render(
+      <ParticularSearch
+        count={1}
+        limit={5}
+        docType='agencies'
+        offset={10}
+        results={results}
+        searchQuery={'test'}
+        performSearch={performSearchSpy}
+        saveRecentItem={saveRecentItemSpy}
+        onItemClick={onItemClickSpy}
+        department={{}}
+        isLoadingResult={false}
+      />
+    )
+
+    const { baseElement } = container
+
+    expect(
+      baseElement.getElementsByClassName('shimmer-container').length
+    ).toEqual(0)
   })
 })

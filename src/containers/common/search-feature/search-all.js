@@ -1,10 +1,14 @@
 import { connect } from 'react-redux'
 
 import SearchAllComponent from 'components/common/search-feature/search-all'
-import { searchAllResultsSelector } from 'selectors/common/search-feature'
+import {
+  getIsLoadingResult,
+  searchAllResultsSelector,
+} from 'selectors/common/search-feature'
 
 const mapStateToProps = (state) => ({
   searchAllResults: searchAllResultsSelector(state),
+  isLoadingResult: getIsLoadingResult(state),
 })
 
 const mapDispatchToProps = {}

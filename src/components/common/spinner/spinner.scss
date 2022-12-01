@@ -1,0 +1,31 @@
+@import 'styles/colors';
+
+.gradient-spinner {
+  height: 20px;
+  width: 20px;
+  background: linear-gradient(
+    180deg,
+    $french-gray-color 0%,
+    $black-12-color 25%
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: spin 1s linear infinite;
+}
+
+.gradient-spinner::after {
+  content: '';
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  border-radius: 50%;
+  background: $white-color;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -9,12 +9,14 @@ import './search-input.scss'
 import Input from 'components/common/inputs/input'
 import SearchSVG from 'assets/icons/search.svg'
 import { isMobile } from 'react-device-detect'
+import Spinner from 'components/common/spinner'
 
 const SearchInput = (props) => {
   const {
     sectionType,
     changeSearchQuery,
     searchQuery,
+    isLoadingResult,
     searchDepartment,
     searchQuerySuggestions,
     fetchSearchQueries,
@@ -67,7 +69,7 @@ const SearchInput = (props) => {
       >
         <div className='search-input-with-suggestions'>
           <Input
-            iconSrc={SearchSVG}
+            iconSrc={isLoadingResult ? <Spinner /> : SearchSVG}
             placeholder={placeholderContent}
             onChange={onSearchInputChange}
             value={searchQuery}
@@ -124,6 +126,7 @@ SearchInput.propTypes = {
   changeSearchQuery: PropTypes.func,
   fetchSearchQueries: PropTypes.func,
   searchModalOnClose: PropTypes.func,
+  isLoadingResult: PropTypes.bool,
 }
 
 SearchInput.defaultProps = {

@@ -8,6 +8,8 @@ import {
   getSearchCount,
   getIsSearchModalOpen,
   searchAllResultsSelector,
+  getIsSearching,
+  getIsLoadingResult,
 } from 'selectors/common/search-feature'
 import * as commonConstants from 'constants/common'
 
@@ -686,5 +688,29 @@ describe('#getIsSearchModalOpen', () => {
     }
     const isSearchModalOpen = getIsSearchModalOpen(state)
     expect(isSearchModalOpen).toEqual(true)
+  })
+})
+
+describe('#getIsSearching', () => {
+  it('returns isSearching', () => {
+    const state = {
+      searchFeature: {
+        isSearching: true,
+      },
+    }
+    const isSearching = getIsSearching(state)
+    expect(isSearching).toEqual(true)
+  })
+})
+
+describe('#getIsLoadingResult', () => {
+  it('returns isResultLoading', () => {
+    const state = {
+      searchFeature: {
+        isResultLoading: true,
+      },
+    }
+    const isResultLoading = getIsLoadingResult(state)
+    expect(isResultLoading).toEqual(true)
   })
 })

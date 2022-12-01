@@ -12,6 +12,7 @@ import DepartmentItem from 'components/common/items/department-item'
 import DocumentItem from 'components/common/items/document-item'
 import NewsArticleItem from 'components/common/items/news-article-item'
 import OfficerItem from 'components/common/items/officer-item'
+import Shimmer from 'components/common/shimmer'
 
 const ParticularSearch = (props) => {
   const {
@@ -26,6 +27,7 @@ const ParticularSearch = (props) => {
     onItemClick,
     department,
     isSearching,
+    isLoadingResult,
   } = props
 
   const componentMapping = {
@@ -54,6 +56,7 @@ const ParticularSearch = (props) => {
   const Component = componentMapping[docType]
   return (
     <div className='particular-search'>
+      {isLoadingResult && <Shimmer />}
       {!isEmpty(searchQuery) && count > 0 && (
         <div className='search-title'>
           <span className='search-count'>{count}</span> results for&nbsp;
@@ -92,6 +95,7 @@ ParticularSearch.propTypes = {
   saveRecentItem: PropTypes.func,
   onItemClick: PropTypes.func,
   department: PropTypes.object,
+  isLoadingResult: PropTypes.bool,
 }
 
 ParticularSearch.defaultProps = {
