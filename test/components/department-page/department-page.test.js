@@ -1074,7 +1074,9 @@ describe('Department component', () => {
       const { baseElement } = container
       expect(
         baseElement.getElementsByClassName('department-period')[0].textContent
-      ).toEqual('Data for this agency is limited to the years\u00A02018')
+      ).toEqual(
+        'Incident data for this agency is limited to the years\u00A02018'
+      )
     })
 
     it('should render with "and" if dataPeriod array contains two value', () => {
@@ -1097,7 +1099,7 @@ describe('Department component', () => {
       expect(
         baseElement.getElementsByClassName('department-period')[0].textContent
       ).toEqual(
-        'Data for this agency is limited to the years\u00A02018 and 2020'
+        'Incident data for this agency is limited to the years\u00A02018 and 2020'
       )
     })
 
@@ -1121,7 +1123,7 @@ describe('Department component', () => {
       expect(
         baseElement.getElementsByClassName('department-period')[0].textContent
       ).toEqual(
-        'Data for this agency is limited to the years\u00A02013, 2015, 2017 and 2020'
+        'Incident data for this agency is limited to the years\u00A02013, 2015, 2017 and 2020'
       )
     })
 
