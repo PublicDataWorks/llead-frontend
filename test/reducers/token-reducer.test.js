@@ -5,6 +5,7 @@ import {
   UPDATE_TOKEN,
   LOG_OUT_SUCCESS,
   REMOVE_TOKEN,
+  LOG_OUT_FAILURE,
 } from 'action-types/authentication'
 
 describe('#tokenReducer', () => {
@@ -57,6 +58,20 @@ describe('#tokenReducer', () => {
       },
       {
         type: LOG_OUT_SUCCESS,
+      }
+    )
+
+    expect(result).toStrictEqual({})
+  })
+
+  it('should handle LOG_OUT_FAILURE', () => {
+    const result = tokenReducer(
+      {
+        access: 'accessToken',
+        refresh: 'refreshToken',
+      },
+      {
+        type: LOG_OUT_FAILURE,
       }
     )
 
