@@ -116,7 +116,7 @@ const Officer = (props) => {
       <div className='officer-page'>
         {!isEmpty(timelinePeriod) && (
           <div className='officer-period'>
-            Data for this officer is limited to the&nbsp;
+            Incident data for this officer is limited to the&nbsp;
             {isInteger(toNumber(timelinePeriod)) ? 'year' : 'years'}&nbsp;
             {timelinePeriod}
           </div>

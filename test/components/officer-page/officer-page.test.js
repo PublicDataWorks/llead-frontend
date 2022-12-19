@@ -175,7 +175,7 @@ describe('Officer component', () => {
     expect(
       baseElement.getElementsByClassName('officer-period')[0].textContent
     ).toEqual(
-      'Data for this officer is limited to the\u00A0years\u00A02012 and 2018-2020'
+      'Incident data for this officer is limited to the\u00A0years\u00A02012 and 2018-2020'
     )
 
     expect(
@@ -233,7 +233,9 @@ describe('Officer component', () => {
 
     expect(
       baseElement.getElementsByClassName('officer-period')[0].textContent
-    ).toEqual('Data for this officer is limited to the\u00A0year\u00A02012')
+    ).toEqual(
+      'Incident data for this officer is limited to the\u00A0year\u00A02012'
+    )
   })
 
   it('renders multi departments correctly', () => {
@@ -272,7 +274,7 @@ describe('Officer component', () => {
     expect(
       baseElement.getElementsByClassName('officer-period')[0].textContent
     ).toEqual(
-      'Data for this officer is limited to the\u00A0years\u00A02012 and 2018-2020'
+      'Incident data for this officer is limited to the\u00A0years\u00A02012 and 2018-2020'
     )
 
     expect(

@@ -205,7 +205,7 @@ const Department = (props) => {
       <div className='department-page'>
         {!isEmpty(joinedDataPeriod) && (
           <div className='department-period'>
-            Data for this agency is limited to the years&nbsp;
+            Incident data for this agency is limited to the years&nbsp;
             {joinedDataPeriod}
           </div>
         )}
