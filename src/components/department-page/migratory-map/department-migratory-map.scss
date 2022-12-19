@@ -1,0 +1,102 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.department-migratory-map {
+  position: relative;
+  border: 1px solid $alto-color;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  .mapboxgl-map {
+    height: 250px;
+  }
+
+  .department-location {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    .upper-location-info {
+      min-height: 70px;
+      padding: $h-side-tag;
+      box-sizing: border-box;
+
+      .department-city {
+        @include strong-text;
+      }
+    }
+
+    .lower-location-info {
+      min-height: 80px;
+      padding: $h-side-tag $h-side-tag $h-side-tag 0;
+      background-color: $wild-sand-color;
+      flex-basis: 100%;
+      box-sizing: border-box;
+
+      .department-address {
+        background: url('assets/icons/check-point.svg') no-repeat 14px;
+        padding-left: 36px;
+        width: 250px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .department-phone {
+        background: url('assets/icons/phone-book.svg') no-repeat 12px;
+        padding-left: 36px;
+        margin-top: 10px;
+
+        &:only-child {
+          margin-top: 0px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .department-migratory-map {
+    .department-location {
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: start;
+      align-content: flex-start;
+      gap: 0 $h-side-frame;
+
+      .upper-location-info {
+        padding: 14px 26px;
+      }
+
+      .lower-location-info {
+        width: 100%;
+
+        .department-address {
+          padding-left: $h-card-timeline;
+          width: auto;
+          background-position-x: 26px;
+        }
+
+        .department-phone {
+          padding-left: $h-card-timeline;
+          background-position-x: 24px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .department-migratory-map {
+    .mapboxgl-map {
+      width: 372px;
+    }
+
+    .department-location {
+      .lower-location-info {
+        width: 372px;
+      }
+    }
+  }
+}

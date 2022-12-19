@@ -72,7 +72,7 @@ const departmentDetailsFormatter = (department) => {
     'recentDocumentsCount',
     'datasetsCount',
     'recentDatasetsCount',
-    'locationMapUrl',
+    'location',
     'name',
     'parish',
     'officersCount',
