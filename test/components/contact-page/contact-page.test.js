@@ -1,10 +1,15 @@
 import React from 'react'
+import Modal from 'react-modal'
 import { render, fireEvent, act } from '@testing-library/react'
 import sinon from 'sinon'
 
 import ContactPage from 'components/contact-page'
 
 describe('About page', () => {
+  beforeEach(() => {
+    Modal.setAppElement(document.createElement('div'))
+  })
+
   it('renders correctly', () => {
     const sendMessageResponse = {}
     const saveFeedbackStub = sinon.stub()
@@ -16,7 +21,7 @@ describe('About page', () => {
       />
     )
 
-    const { getByPlaceholderText, queryByText } = container
+    const { baseElement, getByPlaceholderText, queryByText } = container
 
     expect(queryByText('Get in touch').className).toEqual('contact-title')
 
@@ -26,8 +31,12 @@ describe('About page', () => {
     expect(getByPlaceholderText('Write us a message').className).toEqual(
       'contact-message'
     )
-
-    expect(queryByText('Your message has been submitted.')).toBeFalsy()
+    expect(baseElement.getElementsByClassName('submit-button').length).toEqual(
+      1
+    )
+    expect(baseElement.getElementsByClassName('message-modal').length).toEqual(
+      0
+    )
   })
 
   it('renders after submitting feedbacks', async () => {
@@ -44,7 +53,7 @@ describe('About page', () => {
       />
     )
 
-    const { baseElement, findByText, getByPlaceholderText } = container
+    const { baseElement, queryByText, getByPlaceholderText } = container
 
     const emailInput = getByPlaceholderText('Your email')
     fireEvent.change(emailInput, {
@@ -66,7 +75,7 @@ describe('About page', () => {
       message: 'Test message',
     })
 
-    expect(findByText('Your message has been submitted')).toBeTruthy()
+    expect(queryByText('Success!').className).toEqual('success-title')
   })
 
   it('displays warning message if email and message are blank', async () => {
