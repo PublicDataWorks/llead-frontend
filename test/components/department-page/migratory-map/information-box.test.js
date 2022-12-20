@@ -30,7 +30,7 @@ describe('Migratory information box component', () => {
   })
 
   it('renders correctly', () => {
-    const migratoryInformation = {
+    const information = {
       years: '1999 - 2009',
       left: {
         count: 16,
@@ -61,7 +61,7 @@ describe('Migratory information box component', () => {
     }
 
     const props = {
-      migratoryInformation: migratoryInformation,
+      information: information,
     }
 
     const container = render(<MigratoryInformationBox {...props} />)
@@ -86,7 +86,7 @@ describe('Migratory information box component', () => {
   })
 
   it('clicks on join box', async () => {
-    const migratoryInformation = {
+    const information = {
       years: '1999 - 2009',
       left: {
         count: 16,
@@ -117,7 +117,7 @@ describe('Migratory information box component', () => {
     }
 
     const props = {
-      migratoryInformation: migratoryInformation,
+      information: information,
     }
 
     const container = render(<MigratoryInformationBox {...props} />)
@@ -148,7 +148,7 @@ describe('Migratory information box component', () => {
   })
 
   it('clicks on left box', async () => {
-    const migratoryInformation = {
+    const information = {
       years: '1999 - 2009',
       left: {
         count: 16,
@@ -179,7 +179,7 @@ describe('Migratory information box component', () => {
     }
 
     const props = {
-      migratoryInformation: migratoryInformation,
+      information: information,
     }
 
     const container = render(<MigratoryInformationBox {...props} />)

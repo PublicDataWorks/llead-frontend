@@ -5,8 +5,8 @@ import './information-box.scss'
 import MigratoryInformationTable from './information-table'
 
 const MigratoryInformationBox = (props) => {
-  const { migratoryInformation } = props
-  const { years, left, join } = migratoryInformation
+  const { information } = props
+  const { years, left, join } = information
 
   const [isInfoTableOpen, setIsInfoTableOpen] = useState(false)
   const [isLeft, setIsLeft] = useState()
@@ -52,11 +52,11 @@ const MigratoryInformationBox = (props) => {
 }
 
 MigratoryInformationBox.propTypes = {
-  migratoryInformation: PropTypes.object,
+  information: PropTypes.object,
 }
 
 MigratoryInformationBox.defaultProps = {
-  migratoryInformation: {},
+  information: {},
 }
 
 export default MigratoryInformationBox

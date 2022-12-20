@@ -15,14 +15,14 @@ import cx from 'classnames'
 
 import './department-page.scss'
 import WRGLFile from './wrgl-file'
-import { RECENT_ITEM_TYPES } from 'constants/common'
-import { formatDataPeriods, formatNumber } from 'utils/formatter'
 import DepartmentSection from './featured-items/department-section'
 import FeaturedOfficerCard from './featured-items/featured-officer-card'
 import FeaturedDocumentCard from './featured-items/featured-document-card'
 import FeaturedNewsArticleCard from './featured-items/featured-news-article-card'
+import DepartmentMigratoryMap from './migratory-map'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 import SearchFeature from 'containers/common/search-feature'
-import DepartmentMigratoryMap from 'containers/department-page/migratory-map'
+import { formatDataPeriods, formatNumber } from 'utils/formatter'
 
 const Department = (props) => {
   const {
@@ -41,6 +41,7 @@ const Department = (props) => {
     fetchFeaturedDocuments,
     fetchFeaturedNewsArticles,
     fetchDatasets,
+    fetchDepartmentMigratoryData,
   } = props
   const { id: departmentId } = useParams()
 
@@ -134,6 +135,7 @@ const Department = (props) => {
 
   useEffect(() => {
     fetchDepartment(departmentId)
+    fetchDepartmentMigratoryData(departmentId)
     fetchFeaturedOfficers(departmentId)
     fetchFeaturedDocuments(departmentId)
     fetchFeaturedNewsArticles(departmentId)
@@ -202,12 +204,7 @@ const Department = (props) => {
           <div className='department-title'>Agency</div>
           <div className='department-name'>{name}</div>
           <div className='department-basic-info'>
-            {!isEmpty(department.location) && (
-              <DepartmentMigratoryMap
-                id={departmentId}
-                department={department}
-              />
-            )}
+            {!isEmpty(department.location) && <DepartmentMigratoryMap />}
             <div className='department-summary'>
               {officersCount > 0 && (
                 <div
@@ -386,6 +383,7 @@ Department.propTypes = {
   fetchFeaturedOfficers: PropTypes.func,
   fetchFeaturedDocuments: PropTypes.func,
   fetchFeaturedNewsArticles: PropTypes.func,
+  fetchDepartmentMigratoryData: PropTypes.func,
   fetchDatasets: PropTypes.func,
   fetchDepartment: PropTypes.func,
   fetchSearchOfficers: PropTypes.func,
@@ -409,6 +407,7 @@ Department.defaultProps = {
   fetchDatasets: noop,
   fetchDepartment: noop,
   fetchSearchOfficers: noop,
+  fetchDepartmentMigratoryData: noop,
   isRequesting: false,
   recentData: {},
   saveRecentItem: noop,

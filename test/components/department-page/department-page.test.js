@@ -9,7 +9,7 @@ import qs from 'qs'
 import Department from 'components/department-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 import SearchFeature from 'containers/common/search-feature'
-import DepartmentMigratoryMap from 'containers/department-page/migratory-map'
+import DepartmentMigratoryMap from 'components/department-page/migratory-map'
 
 const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -25,7 +25,7 @@ jest.mock('containers/common/search-feature', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('containers/department-page/migratory-map', () => ({
+jest.mock('components/department-page/migratory-map', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
@@ -195,29 +195,7 @@ describe('Department component', () => {
       baseElement.getElementsByClassName('department-name')[0].textContent
     ).toEqual('Department data')
 
-    expect(DepartmentMigratoryMap.mock.calls[0][0]).toMatchObject({
-      id: 'baton-rouge-pd',
-      department: {
-        id: 1,
-        name: 'Department data',
-        city: 'News Orleans',
-        address: '1 Third St #1, New Orleans, LA 70130',
-        phone: '(504) 891-7585',
-        documentsCount: 3,
-        recentDocumentsCount: 2,
-        datasetsCount: 5,
-        recentDatasetsCount: 1,
-        location: [1, 1],
-        parish: 'Orleans Parish',
-        officersCount: 1000,
-        newsArticlesCount: 123,
-        recentNewsArticlesCount: 12,
-        incidentForceCount: 1,
-        dataPeriod: '1998-2019',
-        sustainedComplaintPercentage: 25,
-        complaintsCount: 40,
-      },
-    })
+    expect(DepartmentMigratoryMap).toHaveBeenCalled()
 
     const departmentSummary = baseElement.getElementsByClassName(
       'department-summary'
