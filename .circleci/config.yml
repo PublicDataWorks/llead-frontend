@@ -1,6 +1,7 @@
 ---
 orbs:
-  gcp-gke: circleci/gcp-gke@1.1.0
+  gcp-cli: circleci/gcp-cli@3.0.1
+  gcp-gke: circleci/gcp-gke@2.0.0
   browser-tools: circleci/browser-tools@1.1.3
 
 defaults:
@@ -114,10 +115,8 @@ jobs:
           command: |
             docker tag ipno-frontend us.gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$(cat buildtag)
             docker tag ipno-frontend us.gcr.io/$GOOGLE_PROJECT_ID/ipno-frontend:$DOCKER_PRETAG-latest
-      - gcp-gke/install
-      - gcp-gke/update-kubeconfig-with-credentials:
-          cluster: $GOOGLE_CLUSTER_NAME
-          perform-login: true
+      - gcp-cli/setup:
+          components: 'gke-gcloud-auth-plugin'
       - run:
           name: Push image
           command: |
@@ -127,7 +126,8 @@ jobs:
 
   deploy:
     description: Deploy application to Google Kubernetes Engine
-    machine: true
+    machine:
+      image: ubuntu-2004:202010-01
     environment: *gcloud-env
     steps:
       - run: *set-gcloud-service-key
@@ -135,10 +135,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: /tmp/workspace
-      - gcp-gke/install
+      - gcp-cli/setup:
+          components: 'gke-gcloud-auth-plugin kubectl'
       - gcp-gke/update-kubeconfig-with-credentials:
           cluster: $GOOGLE_CLUSTER_NAME
-          perform-login: true
+          use_gke_cloud_auth_plugin: true
       - run:
           name: Deploy
           command: |
