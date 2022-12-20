@@ -8,13 +8,13 @@
   min-width: 330px;
   background-color: $white-color;
   z-index: 5;
-  border-left: 1px solid $alto-color;
   border-bottom: 1px solid $alto-color;
   padding-bottom: $v-frame-margin;
   transition: all 0.5s ease;
 
   &.showing {
     right: 0;
+    border-left: 1px solid $alto-color;
   }
 
   .summary {
