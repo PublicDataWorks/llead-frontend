@@ -1,6 +1,7 @@
 import React from 'react'
-import ReactMapboxGl from 'react-mapbox-gl'
+import ReactMapboxGl, { Image as MapImage } from 'react-mapbox-gl'
 import config from 'config'
+import RedMarker from 'assets/icons/red-marker.svg'
 
 import './department-migratory-map.scss'
 import DepartmentMigrationDataContainer from 'containers/department-page/migratory-map/migration-data'
@@ -18,6 +19,9 @@ const DepartmentMigratoryMap = () => {
   const mapCenter = [-90.33, 30.75]
   const zoom = 5
 
+  const markerImage = new Image(30, 30)
+  markerImage.src = RedMarker
+
   return (
     <div className='department-migratory-map'>
       <MigratoryInformationBoxContainer />
@@ -26,6 +30,8 @@ const DepartmentMigratoryMap = () => {
         center={mapCenter}
         zoom={[zoom]}
       >
+        <MapImage id='red-marker' data={markerImage} />
+
         <DepartmentMigrationDataContainer />
       </Map>
       <MapFooterContainer />

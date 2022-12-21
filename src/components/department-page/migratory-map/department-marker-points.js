@@ -7,35 +7,32 @@ import * as turf from '@turf/turf'
 
 import { BASE_CIRCLE_RADIUS } from 'constants/common'
 
-const DepartmentPoints = (props) => {
-  const mapTopLeft = [-97.00968750000014, 33.04426149544631]
-  const mapBottomRight = [-82.39787109374994, 28.438406418194234]
+const DepartmentMarkerPoints = (props) => {
+  const { department, departmentCoordinates } = props
 
-  const { departmentCoordinates } = props
+  const { location } = department
 
   const [hoveredDepartment, setHoveredDepartment] = useState(null)
 
-  const features = map(departmentCoordinates, (department) => ({
+  const features = map(departmentCoordinates, (dep) => ({
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordinates: department.coordinates,
+      coordinates: dep.coordinates,
     },
     properties: {
-      name: department.name,
+      name: dep.name,
     },
   }))
 
-  const geojson = {
+  let geojson = {
     type: 'FeatureCollection',
     features,
   }
 
-  const bounder = turf.envelope(
-    turf.featureCollection([turf.point(mapTopLeft), turf.point(mapBottomRight)])
-  )
+  const locationFeatures = turf.featureCollection([turf.point(location)])
 
-  const handleMouseEnter = (e) => {
+  const handlePointMouseEnter = (e) => {
     const coordinates = e.features[0].geometry.coordinates.slice()
     const name = e.features[0].properties.name
 
@@ -50,6 +47,13 @@ const DepartmentPoints = (props) => {
       setHoveredDepartment(null)
     }
   }
+
+  const mapTopLeft = [-97.00968750000014, 33.04426149544631]
+  const mapBottomRight = [-82.39787109374994, 28.438406418194234]
+
+  const bounder = turf.envelope(
+    turf.featureCollection([turf.point(mapTopLeft), turf.point(mapBottomRight)])
+  )
 
   return (
     <>
@@ -68,6 +72,21 @@ const DepartmentPoints = (props) => {
         onMouseEnter={handlePointMouseExit}
       />
       <Source
+        id='department-marker'
+        geoJsonSource={{ type: 'geojson', data: locationFeatures }}
+      />
+      <Layer
+        id='department-marker-layer'
+        type='symbol'
+        sourceId='department-marker'
+        layout={{
+          'icon-image': 'red-marker',
+          'icon-size': 0.5,
+          'icon-anchor': 'bottom',
+        }}
+        before='department-backdrop-layer'
+      />
+      <Source
         id='department-location-data'
         geoJsonSource={{ type: 'geojson', data: geojson }}
       />
@@ -79,7 +98,8 @@ const DepartmentPoints = (props) => {
           'circle-radius': BASE_CIRCLE_RADIUS,
           'circle-color': '#231f20',
         }}
-        onMouseEnter={handleMouseEnter}
+        onMouseEnter={handlePointMouseEnter}
+        before='department-marker-layer'
       />
       {!isEmpty(hoveredDepartment) && (
         <Popup coordinates={hoveredDepartment.coordinates}>
@@ -90,12 +110,14 @@ const DepartmentPoints = (props) => {
   )
 }
 
-DepartmentPoints.propTypes = {
+DepartmentMarkerPoints.propTypes = {
   departmentCoordinates: PropTypes.array,
+  department: PropTypes.object,
 }
 
-DepartmentPoints.defaultProps = {
+DepartmentMarkerPoints.defaultProps = {
   departmentCoordinates: [],
+  department: {},
 }
 
-export default DepartmentPoints
+export default DepartmentMarkerPoints

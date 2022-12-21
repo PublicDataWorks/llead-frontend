@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import * as ReactMapboxGl from 'react-mapbox-gl'
 
 import DepartmentMigratoryMap from 'components/department-page/migratory-map'
 import DepartmentMigrationDataContainer from 'containers/department-page/migratory-map/migration-data'
@@ -12,6 +13,7 @@ const MockMapComponent = jest.fn(({ children }) => (
 jest.mock('react-mapbox-gl', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => MockMapComponent),
+  Image: jest.fn(() => <div>Map image</div>),
 }))
 
 jest.mock('containers/department-page/migratory-map/information-box', () => ({
@@ -62,7 +64,7 @@ describe('Migratory map component', () => {
   })
 
   it('renders correctly', () => {
-    render(<DepartmentMigratoryMap />)
+    const { getByText } = render(<DepartmentMigratoryMap />)
 
     expect(MockMapComponent.mock.calls[0][0]).toEqual({
       style: 'mapbox://styles/llead/cl2pmpqb4005p14nybpstbchj',
@@ -70,6 +72,10 @@ describe('Migratory map component', () => {
       zoom: [5],
       children: expect.anything(),
     })
+
+    expect(getByText('Map image')).toBeTruthy()
+    const mapImage = ReactMapboxGl.Image.mock.calls[0][0]
+    expect(mapImage.id).toEqual('red-marker')
 
     expect(MigratoryInformationBoxContainer).toHaveBeenCalled()
     expect(DepartmentMigrationDataContainer).toHaveBeenCalled()
