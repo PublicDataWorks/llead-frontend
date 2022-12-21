@@ -16,6 +16,7 @@ import {
   fetchFeaturedDocuments,
   fetchFeaturedNewsArticles,
   fetchDatasets,
+  fetchDepartmentMigratoryData,
 } from 'actions/department-page'
 import { saveRecentItem } from 'actions/common/recent-items'
 import {
@@ -35,6 +36,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   fetchDepartment,
+  fetchDepartmentMigratoryData,
   fetchFeaturedOfficers,
   fetchFeaturedDocuments,
   fetchFeaturedNewsArticles,

@@ -9,6 +9,7 @@ import qs from 'qs'
 import Department from 'components/department-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 import SearchFeature from 'containers/common/search-feature'
+import DepartmentMigratoryMap from 'components/department-page/migratory-map'
 
 const mockHistoryReplace = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -24,17 +25,29 @@ jest.mock('containers/common/search-feature', () => ({
   default: jest.fn(),
 }))
 
+jest.mock('components/department-page/migratory-map', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
 const MockSearchFeatureComponent = () => {
   return <div>Search Feature</div>
 }
 
+const MockDepartmentMigratoryMapComponent = () => {
+  return <div>Department Migratory Map</div>
+}
+
 beforeAll(() => {
   SearchFeature.mockImplementation(MockSearchFeatureComponent)
+  DepartmentMigratoryMap.mockImplementation(MockDepartmentMigratoryMapComponent)
 })
 
 beforeEach(() => {
   mockHistoryReplace.mockClear()
   SearchFeature.mockClear()
+  DepartmentMigratoryMap.mockClear()
 })
 
 describe('Department component', () => {
@@ -153,7 +166,7 @@ describe('Department component', () => {
       recentDocumentsCount: 2,
       datasetsCount: 5,
       recentDatasetsCount: 1,
-      locationMapUrl: 'Map URL',
+      location: [1, 1],
       parish: 'Orleans Parish',
       officersCount: 1000,
       newsArticlesCount: 123,
@@ -181,23 +194,12 @@ describe('Department component', () => {
     expect(
       baseElement.getElementsByClassName('department-name')[0].textContent
     ).toEqual('Department data')
-    expect(
-      baseElement.getElementsByClassName('department-city')[0].textContent
-    ).toEqual('News Orleans')
-    expect(
-      baseElement.getElementsByClassName('department-parish')[0].textContent
-    ).toEqual('Orleans Parish')
-    expect(
-      baseElement.getElementsByClassName('address')[0].textContent
-    ).toEqual('1 Third St #1, New Orleans, LA 70130')
-    expect(baseElement.getElementsByClassName('phone')[0].textContent).toEqual(
-      '(504) 891-7585'
-    )
+
+    expect(DepartmentMigratoryMap).toHaveBeenCalled()
 
     const departmentSummary = baseElement.getElementsByClassName(
       'department-summary'
     )[0]
-
     expect(
       departmentSummary.getElementsByClassName('summary-item-count')[0]
         .textContent
@@ -206,7 +208,6 @@ describe('Department component', () => {
       departmentSummary.getElementsByClassName('summary-item-title')[0]
         .textContent
     ).toEqual('officers')
-
     expect(
       departmentSummary.getElementsByClassName('summary-item-count')[1]
         .textContent
@@ -232,7 +233,6 @@ describe('Department component', () => {
       departmentSummary.getElementsByClassName('recent-summary-item')[1]
         .textContent
     ).toEqual('+12 in the past 30 days')
-
     expect(
       departmentSummary.getElementsByClassName('summary-item-count')[3]
         .textContent
@@ -245,7 +245,6 @@ describe('Department component', () => {
       departmentSummary.getElementsByClassName('recent-summary-item')[2]
         .textContent
     ).toEqual('25% sustained allegations')
-
     expect(
       departmentSummary.getElementsByClassName('summary-item-count')[4]
         .textContent
@@ -258,7 +257,6 @@ describe('Department component', () => {
       departmentSummary.getElementsByClassName('recent-summary-item')[3]
         .textContent
     ).toEqual('+2 in the past 30 days')
-
     expect(
       departmentSummary.getElementsByClassName('summary-item-count')[5]
         .textContent
@@ -267,101 +265,6 @@ describe('Department component', () => {
       departmentSummary.getElementsByClassName('summary-item-title')[5]
         .textContent
     ).toEqual('force incident')
-  })
-
-  it('hides department location if there is no information', () => {
-    const departmentData = {
-      id: 1,
-      name: null,
-      city: null,
-      address: null,
-      phone: null,
-      locationMapUrl: null,
-      parish: null,
-    }
-
-    const container = render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-          <Route path='dept/:id'>
-            <Department department={departmentData} />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
-
-    const { baseElement } = container
-    expect(
-      baseElement.getElementsByClassName('department-location').length
-    ).toEqual(0)
-  })
-
-  it('hides address if there is information', () => {
-    const departmentData = {
-      id: 1,
-      name: 'Department data',
-      city: null,
-      address: null,
-      phone: '(504) 891-7585',
-      locationMapUrl: null,
-      parish: null,
-    }
-
-    const container = render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-          <Route path='dept/:id'>
-            <Department department={departmentData} />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
-
-    const { baseElement } = container
-    expect(baseElement.getElementsByClassName('department-map').length).toEqual(
-      0
-    )
-    expect(
-      baseElement.getElementsByClassName('upper-location-info').length
-    ).toEqual(0)
-    expect(baseElement.getElementsByClassName('address').length).toEqual(0)
-    expect(baseElement.getElementsByClassName('phone')[0].textContent).toEqual(
-      '(504) 891-7585'
-    )
-  })
-
-  it('hides phone if there is information', () => {
-    const departmentData = {
-      id: 1,
-      name: 'Department data',
-      city: 'News Orleans',
-      address: '1 Third St #1, New Orleans, LA 70130',
-      phone: null,
-      locationMapUrl: null,
-      parish: 'Orleans Parish',
-    }
-
-    const container = render(
-      <Provider store={MockStore()()}>
-        <MemoryRouter initialEntries={['dept/baton-rouge-pd']}>
-          <Route path='dept/:id'>
-            <Department department={departmentData} />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
-
-    const { baseElement } = container
-    expect(baseElement.getElementsByClassName('department-map').length).toEqual(
-      0
-    )
-    expect(
-      baseElement.getElementsByClassName('upper-location-info').length
-    ).toEqual(1)
-    expect(
-      baseElement.getElementsByClassName('address')[0].textContent
-    ).toEqual('1 Third St #1, New Orleans, LA 70130')
-    expect(baseElement.getElementsByClassName('phone').length).toEqual(0)
   })
 
   it('should not render if isRequesting', () => {
@@ -409,13 +312,13 @@ describe('Department component', () => {
     ).toBe(0)
   })
 
-  it('should render background image', () => {
+  it('does not render migratory map if no location', () => {
     const departmentData = {
       id: 1,
       city: 'department city',
       complaintsCount: 2,
       documentsCount: 1,
-      locationMapUrl: 'locationMapUrl',
+      location: null,
       name: 'department name',
       parish: 'department parish',
       officersCount: 3,
@@ -435,13 +338,9 @@ describe('Department component', () => {
       </Provider>
     )
 
-    const { baseElement } = container
-    const departmentMapElement = baseElement.getElementsByClassName(
-      'department-map'
-    )[0]
-    expect(departmentMapElement.style['background-image']).toEqual(
-      'url(locationMapUrl)'
-    )
+    const { queryByText } = container
+
+    expect(queryByText('Department Migratory Map')).toBeFalsy()
   })
 
   describe('summary section', () => {

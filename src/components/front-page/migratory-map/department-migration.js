@@ -2,45 +2,20 @@ import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import noop from 'lodash/noop'
-import isEmpty from 'lodash/isEmpty'
 
 import './department-migration.scss'
-import {
-  MAP_BASE_INTERVAL,
-  MAP_HIGHLIGHTED_LINE_COLOR,
-  MAP_LINE_COLOR,
-} from 'constants/common'
+import { MAP_BASE_INTERVAL } from 'constants/common'
 import AnimatedArc from './animated-arc'
-import FixedArc from './fixed-arc'
 import DepartmentPulses from 'containers/front-page/migratory-map/department-pulses'
-import { createCurvedLine } from 'utils/curved-line'
+import { createMapCurvedLine } from 'utils/curved-line'
+import FixedArc from 'components/common/map/fixed-arc'
 
 const DepartmentMigration = (props) => {
   const { graphs, setMapCurrentIndex } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const mappedData = useMemo(
-    () =>
-      map(graphs, (obj) => {
-        const curvedLine = createCurvedLine(obj.startLocation, obj.endLocation)
-
-        return {
-          type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: curvedLine.geometry.coordinates,
-          },
-          properties: {
-            count: obj.count,
-            color: isEmpty(obj.leftReason)
-              ? MAP_LINE_COLOR
-              : MAP_HIGHLIGHTED_LINE_COLOR,
-          },
-        }
-      }),
-    [graphs]
-  )
+  const mappedData = useMemo(() => map(graphs, createMapCurvedLine), [graphs])
 
   useEffect(() => {
     const interval =

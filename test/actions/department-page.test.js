@@ -8,6 +8,7 @@ import {
   fetchFeaturedNewsArticles,
   fetchFeaturedOfficers,
   fetchSearchItems,
+  fetchDepartmentMigratoryData,
 } from 'actions/department-page'
 import * as actionTypes from 'action-types/department-page'
 import * as ServiceApi from 'utils/api'
@@ -160,5 +161,25 @@ describe('#clearDepartmentSearchResults', () => {
     expect(clearDepartmentSearchResults()).toEqual({
       type: actionTypes.CLEAR_DEPARTMENT_SEARCH_RESULTS,
     })
+  })
+})
+
+describe('#fetchDepartmentMigratoryData', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchDepartmentMigratoryData(1)
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.DEPARTMENT_MIGRATORY_DATA_FETCH_START,
+        actionTypes.DEPARTMENT_MIGRATORY_DATA_FETCH_SUCCESS,
+        actionTypes.DEPARTMENT_MIGRATORY_DATA_FETCH_FAILURE,
+      ],
+      `${DEPARTMENTS_API_URL}1/migratory-by-department/`
+    )
+    expect(getFunc).toHaveBeenCalled()
   })
 })

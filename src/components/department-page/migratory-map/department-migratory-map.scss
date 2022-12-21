@@ -1,0 +1,22 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/variables';
+
+.department-migratory-map {
+  position: relative;
+  border: 1px solid $alto-color;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  .mapboxgl-map {
+    height: 250px;
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .department-migratory-map {
+    .mapboxgl-map {
+      width: 372px;
+    }
+  }
+}
