@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import * as ReactMapboxGl from 'react-mapbox-gl'
 
 import DepartmentMigrationData from 'components/department-page/migratory-map/migration-data'
 import FixedArc from 'components/common/map/fixed-arc'
