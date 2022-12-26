@@ -4,18 +4,16 @@ import * as ReactMapboxGl from 'react-mapbox-gl'
 
 import DepartmentMigrationData from 'components/department-page/migratory-map/migration-data'
 import FixedArc from 'components/common/map/fixed-arc'
-import DepartmentPoints from 'components/department-page/migratory-map/department-points'
+import DepartmentPoints from 'containers/department-page/migratory-map/department-marker-points'
 
-jest.mock('react-mapbox-gl', () => ({
-  __esModule: true,
-  Marker: jest.fn().mockImplementation(() => <div>Marker</div>),
-}))
-
-jest.mock('components/department-page/migratory-map/department-points', () => ({
-  __esModule: true,
-  namedExport: jest.fn(),
-  default: jest.fn(),
-}))
+jest.mock(
+  'containers/department-page/migratory-map/department-marker-points',
+  () => ({
+    __esModule: true,
+    namedExport: jest.fn(),
+    default: jest.fn(),
+  })
+)
 
 const MockDepartmentPointsComponent = () => {
   return <div>Department Points</div>
@@ -43,29 +41,6 @@ describe('Migratory map component', () => {
   })
 
   it('renders correctly', () => {
-    const departmentData = {
-      city: 'department city',
-      address: '123 Road Street',
-      parish: 'department parish',
-      phone: '123456',
-      location: [1, 1],
-    }
-
-    const nodes = {
-      newOrleansPd: {
-        name: 'New Orleans Police Department',
-        location: [-90.0701, 29.9499],
-      },
-      southernBrUniversityPd: {
-        name: 'Southern - Br University PD',
-        location: [-91.191113, 30.5255956],
-      },
-      newOrleansHarborPd: {
-        name: 'New Orleans Harbor PD',
-        location: [-90.07642, 29.92065],
-      },
-    }
-
     const graphs = [
       {
         startNode: 'new-orleans-pd',
@@ -117,20 +92,8 @@ describe('Migratory map component', () => {
       },
     ]
 
-    render(
-      <DepartmentMigrationData
-        department={departmentData}
-        graphs={graphs}
-        nodes={nodes}
-      />
-    )
+    render(<DepartmentMigrationData graphs={graphs} />)
 
-    expect(ReactMapboxGl.Marker.mock.calls[0][0]).toMatchObject({
-      coordinates: [1, 1],
-      anchor: 'bottom',
-      offset: -4,
-      children: expect.any(Object),
-    })
     expect(DepartmentPoints).toHaveBeenCalled()
     expect(FixedArc).toHaveBeenCalled()
   })

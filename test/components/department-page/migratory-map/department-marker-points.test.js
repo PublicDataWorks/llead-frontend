@@ -2,12 +2,12 @@ import React from 'react'
 import { render, act } from '@testing-library/react'
 import sinon from 'sinon'
 import * as ReactMapboxGl from 'react-mapbox-gl'
+import * as turf from '@turf/turf'
 
-import DepartmentPoints from 'components/front-page/migratory-map/department-points'
+import DepartmentPoints from 'components/department-page/migratory-map/department-marker-points'
 
 describe('department point component', () => {
   let registerCalls = {}
-
   const mockMouseEnter = jest.fn()
   const mockSource = jest.fn(() => <div>Source</div>)
   const mockPopup = jest.fn(() => <div>Popup</div>)
@@ -28,6 +28,7 @@ describe('department point component', () => {
   })
   const mockLayer = jest.fn(({ id, onMouseEnter }) => {
     registerCalls[id] = onMouseEnter
+
     return <div>Layer</div>
   })
 
@@ -36,6 +37,7 @@ describe('department point component', () => {
     mockLayer.mockClear()
     mockPopup.mockClear()
     mockMouseEnter.mockClear()
+    registerCalls = {}
 
     sinon.stub(ReactMapboxGl, 'Source').value(mockSource)
     sinon.stub(ReactMapboxGl, 'Layer').value(mockLayer)
@@ -54,7 +56,16 @@ describe('department point component', () => {
       },
     ]
 
-    render(<DepartmentPoints departmentCoordinates={departmentCoordinates} />)
+    const department = {
+      location: [-90.09622, 30.48031],
+    }
+
+    render(
+      <DepartmentPoints
+        department={department}
+        departmentCoordinates={departmentCoordinates}
+      />
+    )
 
     expect(mockSource.mock.calls[0][0]).toMatchObject({
       id: 'department-backdrop',
@@ -73,6 +84,17 @@ describe('department point component', () => {
     })
 
     expect(mockSource.mock.calls[1][0]).toEqual({
+      id: 'department-marker',
+      geoJsonSource: {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [turf.point(department.location)],
+        },
+      },
+    })
+
+    expect(mockSource.mock.calls[2][0]).toEqual({
       id: 'department-location-data',
       geoJsonSource: {
         type: 'geojson',
@@ -113,15 +135,28 @@ describe('department point component', () => {
     })
 
     expect(mockLayer.mock.calls[1][0]).toEqual({
+      id: 'department-marker-layer',
+      type: 'symbol',
+      sourceId: 'department-marker',
+      layout: {
+        'icon-image': 'red-marker',
+        'icon-size': 0.5,
+        'icon-anchor': 'bottom',
+      },
+      before: 'department-backdrop-layer',
+    })
+
+    expect(mockLayer.mock.calls[2][0]).toEqual({
       id: 'department-point-inner-circle-layer',
       type: 'circle',
       sourceId: 'department-location-data',
       paint: { 'circle-radius': 3, 'circle-color': '#231f20' },
       onMouseEnter: expect.any(Function),
+      before: 'department-marker-layer',
     })
   })
 
-  it('shows department name when hovering', () => {
+  it('toggles department name when mouse enter and leave', () => {
     const departmentCoordinates = [
       {
         name: '22nd District Attorney',
@@ -133,8 +168,15 @@ describe('department point component', () => {
       },
     ]
 
+    const department = {
+      location: [-90.09622, 30.48031],
+    }
+
     const { queryByText } = render(
-      <DepartmentPoints departmentCoordinates={departmentCoordinates} />
+      <DepartmentPoints
+        department={department}
+        departmentCoordinates={departmentCoordinates}
+      />
     )
 
     expect(mockPopup).not.toHaveBeenCalled()
@@ -142,8 +184,10 @@ describe('department point component', () => {
     act(() => {
       mockMouseEnter('department-point-inner-circle-layer')
     })
+
+    let currentMockPopupCall = mockPopup.mock.calls
     expect(queryByText('Popup')).toBeTruthy()
-    expect(mockPopup.mock.calls[0][0]).toEqual({
+    expect(currentMockPopupCall[currentMockPopupCall.length - 1][0]).toEqual({
       coordinates: popupCoordinates,
       children: popupName,
     })
