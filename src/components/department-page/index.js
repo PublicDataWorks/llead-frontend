@@ -11,18 +11,18 @@ import isString from 'lodash/isString'
 import compact from 'lodash/compact'
 import filter from 'lodash/filter'
 import concat from 'lodash/concat'
-import some from 'lodash/some'
 import cx from 'classnames'
 
 import './department-page.scss'
 import WRGLFile from './wrgl-file'
-import { RECENT_ITEM_TYPES } from 'constants/common'
-import { formatDataPeriods, formatNumber } from 'utils/formatter'
 import DepartmentSection from './featured-items/department-section'
 import FeaturedOfficerCard from './featured-items/featured-officer-card'
 import FeaturedDocumentCard from './featured-items/featured-document-card'
 import FeaturedNewsArticleCard from './featured-items/featured-news-article-card'
+import DepartmentMigratoryMap from './migratory-map'
+import { RECENT_ITEM_TYPES } from 'constants/common'
 import SearchFeature from 'containers/common/search-feature'
+import { formatDataPeriods, formatNumber } from 'utils/formatter'
 
 const Department = (props) => {
   const {
@@ -41,6 +41,7 @@ const Department = (props) => {
     fetchFeaturedDocuments,
     fetchFeaturedNewsArticles,
     fetchDatasets,
+    fetchDepartmentMigratoryData,
   } = props
   const { id: departmentId } = useParams()
 
@@ -72,22 +73,17 @@ const Department = (props) => {
   ]
 
   const {
-    city,
-    address,
-    phone,
     complaintsCount,
     sustainedComplaintPercentage,
     documentsCount,
     recentDocumentsCount,
     datasetsCount,
     recentDatasetsCount,
-    locationMapUrl,
     name,
     officersCount,
     newsArticlesCount,
     recentNewsArticlesCount,
     incidentForceCount,
-    parish,
     dataPeriod,
   } = department
 
@@ -99,10 +95,6 @@ const Department = (props) => {
     newsArticlesCount,
     datasetsCount,
   ].filter((count) => count > 0).length
-
-  const mapElementStyles = isEmpty(locationMapUrl)
-    ? {}
-    : { backgroundImage: `url(${locationMapUrl})` }
 
   const joinedDataPeriod = useMemo(() => formatDataPeriods(dataPeriod), [
     dataPeriod,
@@ -141,10 +133,9 @@ const Department = (props) => {
     document.body.style.overflow = 'unset'
   }
 
-  const isLocationShow = some([locationMapUrl, city, parish, address, phone])
-
   useEffect(() => {
     fetchDepartment(departmentId)
+    fetchDepartmentMigratoryData(departmentId)
     fetchFeaturedOfficers(departmentId)
     fetchFeaturedDocuments(departmentId)
     fetchFeaturedNewsArticles(departmentId)
@@ -205,7 +196,7 @@ const Department = (props) => {
       <div className='department-page'>
         {!isEmpty(joinedDataPeriod) && (
           <div className='department-period'>
-            Data for this agency is limited to the years&nbsp;
+            Incident data for this agency is limited to the years&nbsp;
             {joinedDataPeriod}
           </div>
         )}
@@ -213,33 +204,7 @@ const Department = (props) => {
           <div className='department-title'>Agency</div>
           <div className='department-name'>{name}</div>
           <div className='department-basic-info'>
-            {isLocationShow && (
-              <div className='department-location'>
-                {!isEmpty(mapElementStyles) && (
-                  <div className='department-map' style={mapElementStyles} />
-                )}
-                {(!isEmpty(city) || !isEmpty(parish)) && (
-                  <div className='upper-location-info'>
-                    {!isEmpty(city) && (
-                      <div className='department-city'>{city}</div>
-                    )}
-                    {!isEmpty(parish) && (
-                      <div className='department-parish'>{parish}</div>
-                    )}
-                  </div>
-                )}
-
-                {(!isEmpty(address) || !isEmpty(phone)) && (
-                  <div className='lower-location-info'>
-                    {!isEmpty(address) && (
-                      <div className='address'>{address}</div>
-                    )}
-                    {!isEmpty(phone) && <div className='phone'>{phone}</div>}
-                  </div>
-                )}
-              </div>
-            )}
-
+            {!isEmpty(department.location) && <DepartmentMigratoryMap />}
             <div className='department-summary'>
               {officersCount > 0 && (
                 <div
@@ -418,6 +383,7 @@ Department.propTypes = {
   fetchFeaturedOfficers: PropTypes.func,
   fetchFeaturedDocuments: PropTypes.func,
   fetchFeaturedNewsArticles: PropTypes.func,
+  fetchDepartmentMigratoryData: PropTypes.func,
   fetchDatasets: PropTypes.func,
   fetchDepartment: PropTypes.func,
   fetchSearchOfficers: PropTypes.func,
@@ -441,6 +407,7 @@ Department.defaultProps = {
   fetchDatasets: noop,
   fetchDepartment: noop,
   fetchSearchOfficers: noop,
+  fetchDepartmentMigratoryData: noop,
   isRequesting: false,
   recentData: {},
   saveRecentItem: noop,

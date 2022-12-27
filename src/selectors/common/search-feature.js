@@ -163,3 +163,5 @@ export const getIsSearchModalOpen = (state) =>
   get(state, 'searchFeature.isSearchModalOpen')
 
 export const getIsSearching = (state) => get(state, 'searchFeature.isSearching')
+export const getIsLoadingResult = (state) =>
+  get(state, 'searchFeature.isResultLoading')

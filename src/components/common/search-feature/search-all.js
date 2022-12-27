@@ -11,6 +11,7 @@ import DocumentItem from 'components/common/items/document-item'
 import NewsArticleItem from 'components/common/items/news-article-item'
 import OfficerItem from 'components/common/items/officer-item'
 import { SHOW_MORE_LIMIT } from 'constants/common'
+import Shimmer from 'components/common/shimmer'
 
 const SearchAll = (props) => {
   const {
@@ -19,6 +20,7 @@ const SearchAll = (props) => {
     saveRecentItem,
     onItemClick,
     switchSection,
+    isLoadingResult,
   } = props
 
   const componentMapping = {
@@ -51,6 +53,7 @@ const SearchAll = (props) => {
 
   return (
     <div className='search-all'>
+      {isLoadingResult && <Shimmer />}
       {map(
         allResults,
         ({ results, count }, docType) =>
@@ -85,6 +88,7 @@ SearchAll.propTypes = {
   saveRecentItem: PropTypes.func,
   onItemClick: PropTypes.func,
   switchSection: PropTypes.func,
+  isLoadingResult: PropTypes.bool,
 }
 
 SearchAll.defaultProps = {

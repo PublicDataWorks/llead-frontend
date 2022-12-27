@@ -3,11 +3,11 @@ import { render, act, fireEvent } from '@testing-library/react'
 import sinon from 'sinon'
 
 import DepartmentPulses from 'containers/front-page/migratory-map/department-pulses'
-import FixedArc from 'components/front-page/migratory-map/fixed-arc'
+import FixedArc from 'components/common/map/fixed-arc'
 import AnimatedArc from 'components/front-page/migratory-map/animated-arc'
 import DepartmentMigration from 'components/front-page/migratory-map/department-migration'
 import { createCurvedLine } from 'utils/curved-line'
-import { MAP_HIGHLIGHTED_LINE_COLOR, MAP_LINE_COLOR } from 'constants/common'
+import { MAP_LINE_COLOR, MAP_HIGHLIGHTED_LINE_COLOR } from 'constants/common'
 
 jest.mock('containers/front-page/migratory-map/department-pulses', () => ({
   __esModule: true,
@@ -19,7 +19,7 @@ const MockDepartmentPulsesComponent = () => {
   return <div>Department Pulses</div>
 }
 
-jest.mock('components/front-page/migratory-map/fixed-arc', () => ({
+jest.mock('components/common/map/fixed-arc', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),

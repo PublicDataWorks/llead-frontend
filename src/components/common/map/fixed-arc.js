@@ -4,9 +4,9 @@ import { Layer, Source } from 'react-mapbox-gl'
 import { MAP_LINE_COLOR } from 'constants/common'
 
 const FixedArc = (props) => {
-  const { lines, currentIndex } = props
+  const { lines, currentIndex, showAll } = props
 
-  const lineFeatures = lines.slice(0, currentIndex + 1)
+  const lineFeatures = showAll ? lines : lines.slice(0, currentIndex + 1)
 
   const stableLineData = {
     type: 'FeatureCollection',
@@ -25,7 +25,7 @@ const FixedArc = (props) => {
         sourceId={`stable-lines`}
         layout={{ 'line-cap': 'round', 'line-join': 'round' }}
         paint={{
-          'line-color': MAP_LINE_COLOR,
+          'line-color': showAll ? ['get', 'color'] : MAP_LINE_COLOR,
           'line-width': ['get', 'count'],
           'line-opacity': 0.2,
         }}
@@ -37,6 +37,7 @@ const FixedArc = (props) => {
 FixedArc.propTypes = {
   lines: PropTypes.array,
   currentIndex: PropTypes.number,
+  showAll: PropTypes.bool,
 }
 
 FixedArc.defaultProps = {

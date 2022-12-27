@@ -1,0 +1,37 @@
+@import 'styles/colors';
+@import 'styles/variables';
+
+.shimmer-container {
+  .shimmer-item {
+    padding: $h-side-frame 0px $h-margin 0px;
+    border-bottom: 1px solid $alto-color;
+
+    .shimmer {
+      background: $concrete-color;
+      background-image: linear-gradient(
+        to right,
+        $wild-sand-f6-color 8%,
+        $gallery-f0-color 18%,
+        $wild-sand-f6-color 33%
+      );
+      background-size: 1000px 100%;
+      background-repeat: no-repeat;
+      animation: shimmer-anim 2s infinite linear;
+    }
+
+    .line {
+      height: 20px;
+      margin: $v-tinier-margin 0px;
+      border-radius: 8px;
+    }
+  }
+}
+
+@keyframes shimmer-anim {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}

@@ -1,12 +1,6 @@
 @import 'styles/variables';
 
 .mapboxgl-map {
-  .mapboxgl-control-container {
-    .mapboxgl-ctrl-bottom-right {
-      bottom: 60px;
-    }
-  }
-
   .replay-button {
     position: absolute;
     left: 9px;
@@ -19,18 +13,13 @@
 
     &:hover {
       cursor: pointer;
+      background-image: url('assets/icons/replay-hover.svg');
     }
   }
 }
 
 @media only screen and (min-width: $laptop-breakpoint) {
   .mapboxgl-map {
-    .mapboxgl-control-container {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: 0;
-      }
-    }
-
     .replay-button {
       bottom: 20px;
     }

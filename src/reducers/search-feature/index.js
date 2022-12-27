@@ -7,6 +7,7 @@ import searchQueryReducer from './search-query-reducer'
 import searchQueriesReducer from './search-queries-reducer'
 import searchModalReducer from './search-modal-reducer'
 import isSearchingReducer from './is-searching-reducer'
+import isResultLoadingReducer from './is-result-loading-reducer'
 
 export default combineReducers({
   searchAllResults: searchAllResultsReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   searchCount: searchCountReducer,
   isSearchModalOpen: searchModalReducer,
   isSearching: isSearchingReducer,
+  isResultLoading: isResultLoadingReducer,
 })

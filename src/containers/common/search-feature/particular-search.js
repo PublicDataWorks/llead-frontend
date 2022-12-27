@@ -4,11 +4,13 @@ import ParticularSearchComponent from 'components/common/search-feature/particul
 import {
   searchResultsSelector,
   getIsSearching,
+  getIsLoadingResult,
 } from 'selectors/common/search-feature'
 
 const mapStateToProps = (state) => ({
   ...searchResultsSelector(state),
   isSearching: getIsSearching(state),
+  isLoadingResult: getIsLoadingResult(state),
 })
 
 const mapDispatchToProps = {}

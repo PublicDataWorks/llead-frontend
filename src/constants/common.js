@@ -149,3 +149,5 @@ export const PULSING_STEP = 1.1
 
 export const MAP_LINE_COLOR = '#005ef4'
 export const MAP_HIGHLIGHTED_LINE_COLOR = '#860505'
+
+export const SHIMMER_ITEM_COUNT = 6

@@ -66,7 +66,7 @@ const FrontPage = (props) => {
 
   return (
     <div className='front-page'>
-      <MigratoryPatternMap />
+      <MigratoryPatternMap centerPoint />
       <IntroSection />
       <div className='search-container'>
         <Input

@@ -32,56 +32,15 @@
 
     .department-name {
       @include h1;
-      margin-top: $v-small-margin;
+      margin: $v-small-margin 0px $v-mid-margin;
       color: $thunder-color;
     }
 
     .department-basic-info {
-      .department-location {
-        display: flex;
-        flex-flow: row wrap;
-        align-items: center;
-        margin: $v-frame-margin 0;
-
-        .department-map {
-          width: $map-small-height;
-          height: $map-small-height;
-          background-size: contain;
-          background-repeat: no-repeat;
-          box-sizing: border-box;
-        }
-
-        .upper-location-info {
-          box-sizing: border-box;
-          padding-left: 24px;
-          .department-city {
-            @include strong-text;
-          }
-        }
-
-        .lower-location-info {
-          background-color: $wild-sand-color;
-          padding: $v-frame-margin $h-side-frame $v-frame-margin 0;
-          flex-basis: 100%;
-          box-sizing: border-box;
-
-          .address {
-            background: url('assets/icons/check-point.svg') no-repeat 14px;
-            padding-left: 36px;
-          }
-
-          .phone {
-            background: url('assets/icons/phone-book.svg') no-repeat 12px;
-            padding-left: 36px;
-            margin-top: 9px;
-          }
-        }
-      }
-
       .department-summary {
         display: flex;
         background-color: $alto-color;
-        margin: 25px 0 16px 0;
+        margin: 25px 0 $v-frame-margin 0;
         flex-flow: row wrap;
         gap: 1px;
 
@@ -147,47 +106,6 @@
   }
 }
 
-@media only screen and (min-width: $mobile-breakpoint) {
-  .department-page {
-    .department-content {
-      .department-basic-info {
-        .department-location {
-          height: 148px;
-          flex-flow: column wrap;
-          justify-content: center;
-          align-items: start;
-          align-content: flex-start;
-          gap: 0 $h-side-frame;
-
-          .department-map {
-            width: $map-height;
-            height: $map-height;
-            flex-basis: 100%;
-          }
-
-          .upper-location-info {
-            flex-basis: 64px;
-          }
-
-          .lower-location-info {
-            flex-basis: 84px;
-
-            .address {
-              padding-left: $h-card-timeline;
-              background-position-x: 26px;
-            }
-
-            .phone {
-              padding-left: $h-card-timeline;
-              background-position-x: 24px;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 @media only screen and (min-width: $laptop-breakpoint) {
   .department-page {
     padding: 24px 0;
@@ -200,62 +118,16 @@
       padding: $v-margin 24px 19px 24px;
 
       .department-basic-info {
+        display: flex;
+        gap: $v-mid-margin;
+
         .department-summary {
           flex-direction: row;
+          width: 100%;
+          margin: 0;
 
-          .summary-item-1 {
-            flex-basis: 100%;
-          }
-
-          .summary-item-2,
-          .summary-item-4 {
-            flex-basis: calc(100% / 2 - 0.5px);
-          }
-
-          .summary-item-3,
-          .summary-item-5,
-          .summary-item-6 {
-            flex-basis: calc(100% / 3 - 0.67px);
-          }
-
-          .summary-item-stretch.summary-item-5 {
-            flex-basis: calc(100% / 2 - 0.5px);
-          }
-
-          .summary-item-shrink.summary-item-5 {
-            flex-basis: calc(100% / 3 - 0.67px);
-          }
-
-          .count-2 {
-            flex-basis: calc(100% / 2 - 1px);
-          }
-
-          .count-1 {
-            flex-basis: 100%;
-          }
-
-          .summary-officers {
-            order: 1;
-          }
-
-          .summary-datasets {
-            order: 6;
-          }
-
-          .summary-news-articles {
-            order: 5;
-          }
-
-          .summary-allegations {
-            order: 2;
-          }
-
-          .summary-documents {
-            order: 4;
-          }
-
-          .summary-incidents {
-            order: 3;
+          .summary-item {
+            height: auto;
           }
         }
       }

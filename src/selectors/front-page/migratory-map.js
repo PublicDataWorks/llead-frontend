@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
@@ -7,6 +6,7 @@ import pick from 'lodash/pick'
 import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
 import { formatDate } from 'utils/formatter'
+import { createDeepEqualSelector } from 'utils/tools'
 
 const getDepartmentNodes = (state) =>
   get(state, 'frontPage.migratoryData.nodes', {})
@@ -16,7 +16,7 @@ const getDepartmentGraphs = (state) =>
 
 const getMapCurrentIndex = (state) => get(state, 'frontPage.mapCurrentIndex', 0)
 
-export const departmentCoordinatesSelector = createSelector(
+export const departmentCoordinatesSelector = createDeepEqualSelector(
   getDepartmentNodes,
   (departmentNodes) => {
     const departments = map(departmentNodes, (node) => {
@@ -29,7 +29,7 @@ export const departmentCoordinatesSelector = createSelector(
   }
 )
 
-export const migratoryGraphsSelector = createSelector(
+export const migratoryGraphsSelector = createDeepEqualSelector(
   getDepartmentGraphs,
   (departmentGraphs) => {
     let lines = {}
@@ -47,7 +47,7 @@ export const migratoryGraphsSelector = createSelector(
   }
 )
 
-export const pulsingPointsSelector = createSelector(
+export const pulsingPointsSelector = createDeepEqualSelector(
   getDepartmentGraphs,
   (departmentGraphs) => {
     let pulses = []
@@ -77,7 +77,7 @@ export const pulsingPointsSelector = createSelector(
   }
 )
 
-export const migrationDetailsSelector = createSelector(
+export const migrationDetailsSelector = createDeepEqualSelector(
   getDepartmentNodes,
   getDepartmentGraphs,
   getMapCurrentIndex,

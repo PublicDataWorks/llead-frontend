@@ -6,10 +6,11 @@
   @include small-text;
   height: 500px;
   overflow: auto;
+  padding: 0px 10px;
   box-sizing: border-box;
 
   .search-result {
-    padding: 20px 10px 0px;
+    padding-top: 20px;
 
     .search-title {
       color: $thunder-color;
@@ -39,24 +40,16 @@
 
 @media only screen and (min-width: $mobile-breakpoint) {
   .search-all {
-    .search-result {
-      padding: 20px 24px 0px;
-    }
+    padding: 0px 24px;
   }
 }
 
 @media only screen and (min-width: $laptop-breakpoint) {
   .search-all {
+    padding: 0px 41px 0px 24px;
+
     .search-result {
-      padding: 20px 0px 0px;
-
-      .search-title {
-        padding: 0px 41px 0px 24px;
-      }
-
       .component-wrapper {
-        padding: 0px 41px 0px 24px;
-
         &:hover {
           background-color: $wild-sand-color;
 
@@ -65,10 +58,6 @@
           }
         }
       }
-    }
-
-    .search-more {
-      padding: 10px 41px 10px 24px;
     }
   }
 }

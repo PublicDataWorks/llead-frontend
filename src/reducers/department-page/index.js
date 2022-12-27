@@ -8,6 +8,7 @@ import featuredNewsArticlesReducer from './featured-news-articles-reducer'
 import datasetsReducer from './datasets-reducer'
 import searchItemsReducer from './search-items-reducer'
 import searchItemsPaginationReducer from './search-items-pagination-reducer'
+import departmentMigratoryDataReducer from './department-migratory-data-reducer'
 
 export default combineReducers({
   department: departmentReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   datasets: datasetsReducer,
   searchItems: searchItemsReducer,
   searchItemsPagination: searchItemsPaginationReducer,
+  departmentMigratoryData: departmentMigratoryDataReducer,
 })

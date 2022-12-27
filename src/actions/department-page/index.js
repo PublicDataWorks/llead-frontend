@@ -81,3 +81,13 @@ export const fetchSearchItems = cancelOldRequest((id, params) =>
 export const clearDepartmentSearchResults = createAction(
   actionTypes.CLEAR_DEPARTMENT_SEARCH_RESULTS
 )
+
+export const fetchDepartmentMigratoryData = (id) =>
+  get(
+    [
+      actionTypes.DEPARTMENT_MIGRATORY_DATA_FETCH_START,
+      actionTypes.DEPARTMENT_MIGRATORY_DATA_FETCH_SUCCESS,
+      actionTypes.DEPARTMENT_MIGRATORY_DATA_FETCH_FAILURE,
+    ],
+    `${DEPARTMENTS_API_URL}${id}/migratory-by-department/`
+  )()

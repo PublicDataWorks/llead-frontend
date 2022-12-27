@@ -1,0 +1,137 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.migratory-information-table {
+  position: absolute;
+  right: -335px;
+  min-width: 330px;
+  background-color: $white-color;
+  z-index: 5;
+  border-bottom: 1px solid $alto-color;
+  padding-bottom: $v-frame-margin;
+  transition: all 0.5s ease;
+
+  &.showing {
+    right: 0;
+    border-left: 1px solid $alto-color;
+  }
+
+  .summary {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px $h-side-frame;
+    background-color: $hawkes-blue-color;
+    position: relative;
+
+    &.is-left {
+      background-color: $vanilla-ice-color;
+    }
+
+    .count-sum {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+      padding-top: $v-tinier-margin;
+      color: $blue-ribbon-color;
+
+      &.is-left {
+        color: $bright-red-color;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 23px;
+      right: 23px;
+      width: 17px;
+      height: 17px;
+      background: #ccdffd url('assets/icons/remove.svg') center no-repeat;
+      cursor: pointer;
+
+      &.is-left {
+        background-color: $vanilla-ice-color;
+      }
+    }
+  }
+
+  .title {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 16px;
+    padding: $v-small-margin 10px;
+    background-color: $athens-gray-color;
+
+    .total-title {
+      display: none;
+    }
+  }
+
+  .migratory-department {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    height: 20px;
+    padding: $v-frame-margin 10px;
+
+    .name {
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 282px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 5px;
+    }
+
+    .count {
+      font-weight: 600;
+      display: inline-block;
+      vertical-align: middle;
+
+      &:before {
+        content: '(';
+      }
+
+      &:after {
+        content: ')';
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .migratory-information-table {
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 16px;
+      padding-right: 16px;
+
+      .total-title {
+        display: block;
+      }
+    }
+
+    .migratory-department {
+      display: flex;
+      justify-content: space-between;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      .count {
+        font-weight: 400;
+
+        &:before {
+          content: '';
+        }
+
+        &:after {
+          content: '';
+        }
+      }
+    }
+  }
+}
