@@ -30,39 +30,6 @@ describe('Login Page', () => {
     cy.waitUntil(() => cy.location('pathname').should('eq', '/'))
   })
 
-  it('should redirect to previous page when loging in successfully', () => {
-    cy.interceptExact(
-      {
-        method: 'POST',
-        url: 'http://localhost:8000/api/token/',
-      },
-      {
-        access: 'accessToken',
-        refresh: 'refreshToken',
-      }
-    )
-    cy.interceptExact(
-      {
-        method: 'GET',
-        url: 'http://localhost:8000/api/app-config/',
-      },
-      appConfigData
-    )
-
-    cy.clearLocalStorage()
-    cy.visit('/dept/harmonbury-department/')
-
-    cy.location('pathname').should('eq', '/login/')
-
-    cy.get('input[name="email"]').type('username@mail.com')
-    cy.get('input[name="password"]').type('password')
-    cy.get('.btn').click()
-
-    cy.waitUntil(() =>
-      cy.location('pathname').should('eq', '/dept/harmonbury-department/')
-    )
-  })
-
   it('should show error when loging in unsuccessfully', () => {
     cy.interceptExact(
       {
