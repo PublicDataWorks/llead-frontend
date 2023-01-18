@@ -20,6 +20,7 @@ const Accordion = (props) => {
           <div className={cx('icon', { expanded: isActive })}>&nbsp;</div>
         </div>
         <AnimateHeight
+          data-testid='answer'
           duration={QUICK_ANIMATION_DURATION}
           height={isActive ? 'auto' : 0}
         >

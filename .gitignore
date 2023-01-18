@@ -23,3 +23,4 @@ cypress/screenshots
 .idea
 
 .env
+*.pgsql

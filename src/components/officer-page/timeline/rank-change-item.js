@@ -8,7 +8,7 @@ const RankChangeItem = (props) => {
   const { rank, className } = props
 
   return (
-    <div className={cx('timeline-change-item', className)}>
+    <div className={cx('timeline-change-item', 'rank-change-item', className)}>
       Changed rank to
       <span className='change-item-value'> {rank}</span>
     </div>

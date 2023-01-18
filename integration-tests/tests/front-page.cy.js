@@ -1,387 +1,266 @@
-import { appConfigData } from '../data/common-data'
-import {
-  analyticSummaryData,
-  departmentsData,
-  officersData,
-  documentsData,
-  newsArticlesData,
-  frontPageOrdersData,
-} from '../data/front-page-data'
-import { recentItemsData } from '../data/recent-items-data'
-
-const CAROUSEL_LEFT_MARGIN = 16
-const CAROUSEL_CARD_MARGIN = 8
-const DERPARTMENT_CARD_WIDTH = 312
-const OFFICER_CARD_WIDTH = 248
-const DOCUMENT_CARD_WIDTH = 248
-const NEWS_ARTICLE_CARD_WIDTH = 248
-
-const calculateScreenWidth = (itemSize, number) => {
-  return (
-    itemSize * number +
-    CAROUSEL_CARD_MARGIN * (number - 1) +
-    CAROUSEL_LEFT_MARGIN +
-    4
-  )
-}
+const { _ } = Cypress
 
 describe('FrontPage', () => {
-  it('redirect to login when not logged in', () => {
-    cy.clearLocalStorage()
+  it('renders order correctly', () => {
     cy.visit('/')
 
-    cy.waitUntil(() => cy.location('pathname').should('eq', '/login/'))
+    cy.get('.front-order-101')
+      .should('have.css', 'order', '101')
+      .contains('Agencies')
+    cy.get('.front-order-102')
+      .should('have.css', 'order', '102')
+      .contains('Officers')
+    cy.get('.front-order-103')
+      .should('have.css', 'order', '103')
+      .contains('News')
+    cy.get('.front-order-104')
+      .should('have.css', 'order', '104')
+      .contains('Documents')
   })
 
-  describe('render successfully', () => {
-    beforeEach(() => {
-      cy.login()
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/app-config/',
-        },
-        appConfigData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/analytics/summary/',
-        },
-        analyticSummaryData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/departments/',
-        },
-        departmentsData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/officers/',
-        },
-        officersData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/documents/',
-        },
-        documentsData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/news-articles/',
-        },
-        newsArticlesData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/front-page-orders/',
-        },
-        frontPageOrdersData
-      )
-    })
-
-    it('render summary', () => {
+  describe('FrontPage Cards', () => {
+    it('renders summary', () => {
       cy.visit('/')
 
-      cy.location('pathname').should('eq', '/')
-      cy.contains(
-        'We are building a database of Louisiana police officers, departments, and documents.'
+      cy.request('http://localhost:9000/api/front-page-cards/').then(
+        (response) => {
+          const cards = response.body
+          cy.get('.intro-card')
+            .find('.bar')
+            .should('length', cards.length + 1)
+        }
       )
-      cy.contains('6 documents')
-      cy.contains('+3 in the past 30 days')
-      cy.contains('5 officers')
-      cy.contains('+2 in the past 30 days')
-      cy.contains('4 departments')
-      cy.contains('+1 in the past 30 days')
+
+      cy.request('http://localhost:9000/api/analytics/summary/').then(
+        (response) => {
+          const summmary = response.body
+          cy.get('.navigation-button').find('.next-button').click()
+          cy.get('.navigation-button').find('.next-button').click()
+
+          cy.wrap(import('utils/formatter'))
+            .invoke(
+              'stringifyTotalItems',
+              summmary.departments_count,
+              'agencies'
+            )
+            .then((value) => cy.contains(value).should('be.visible'))
+          cy.wrap(import('utils/formatter'))
+            .invoke('stringifyTotalItems', summmary.officers_count, 'officers')
+            .then((value) => cy.contains(value).should('be.visible'))
+          cy.wrap(import('utils/formatter'))
+            .invoke(
+              'stringifyTotalItems',
+              summmary.documents_count,
+              'documents'
+            )
+            .then((value) => cy.contains(value).should('be.visible'))
+          cy.wrap(import('utils/formatter'))
+            .invoke(
+              'stringifyTotalItems',
+              summmary.news_articles_count,
+              'news articles'
+            )
+            .then((value) => cy.contains(value).should('be.visible'))
+        }
+      )
     })
+  })
 
-    describe('departments carousel', () => {
-      it('render correctly', () => {
-        const DEPARTMENT_VISIBLE_COUNTS = 3
-        const screenWidth = calculateScreenWidth(
-          DERPARTMENT_CARD_WIDTH,
-          DEPARTMENT_VISIBLE_COUNTS
-        )
-        cy.viewport(screenWidth, 1200)
-        cy.visit('/')
+  describe('departments carousel', () => {
+    it('renders correctly', () => {
+      cy.visit('/')
 
-        cy.get('.departments-carousel')
-          .find('.carousel-title')
-          .should('text', 'Departments')
+      cy.get('.departments-carousel')
+        .find('.carousel-title')
+        .should('text', 'Agencies')
 
-        cy.get('.departments-carousel')
-          .find('.sorted-by')
-          .should('text', 'size')
-        cy.get('.departments-carousel')
-          .find('.swiper-slide')
-          .should('length', 5)
+      cy.get('.departments-carousel').find('.swiper-slide').should('length', 20)
+
+      cy.request('http://localhost:9000/api/departments/').then((response) => {
+        const departments = response.body
 
         cy.get('.departments-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', DEPARTMENT_VISIBLE_COUNTS)
+          .should('length', 4)
 
-        cy.get('@visibleSlides').eq(0).contains('Baton Rouge PD')
-        cy.get('@visibleSlides').eq(1).contains('New Orleans PD')
-        cy.get('@visibleSlides').eq(2).contains('Baton Rouge Sheriff')
-
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.department-name')
-          .contains('Baton Rouge PD')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.department-city')
-          .contains('Baton Rouge')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.department-parish')
-          .contains('East Baton Rouge')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.department-map')
-          .should(
-            'have.css',
-            'background-image',
-            'url("https://i.imgur.com/nHTFohI.png")'
+        cy.get('@visibleSlides').each(($el, index) => {
+          expect($el.find('.department-name')).to.contain(
+            `${departments[index].name}`
+          )
+          expect($el.find('.department-city')).to.contain(
+            `${departments[index].city}`
+          )
+          expect($el.find('.department-parish')).to.contain(
+            `${departments[index].parish}`
           )
 
-        cy.get('.departments-carousel').find('.carousel-next').click()
-        cy.get('.departments-carousel').find('.carousel-next').click()
-        cy.get('.departments-carousel').find('.carousel-next').click()
-
-        cy.get('.departments-carousel').find('.swiper-button-disabled', {
-          timeout: 1000,
+          cy.get('@visibleSlides')
+            .eq(index)
+            .find('.department-map')
+            .should(
+              'have.css',
+              'background-image',
+              `url("${departments[index].location_map_url}")`
+            )
         })
-
-        cy.get('.departments-carousel')
-          .find('.swiper-slide:visible')
-          .as('visibleSlides')
-          .should('length', DEPARTMENT_VISIBLE_COUNTS)
-
-        cy.get('@visibleSlides').eq(0).contains('Baton Rouge Sheriff')
-        cy.get('@visibleSlides').eq(1).contains('New Orleans Harbor PD')
-        cy.get('@visibleSlides').eq(2).contains('Orleans Levee PD')
       })
 
-      it('redirects to department page when clicks on department card', () => {
-        cy.visit('/')
+      cy.get('.departments-carousel')
+        .find('.carousel-prev.swiper-button-disabled')
+        .should('exist')
 
-        cy.get('.departments-carousel').find('.swiper-slide').eq(0).click()
-
-        cy.location('pathname').should('eq', `/dept/${departmentsData[0].id}/`)
+      _.times(20, () => {
+        cy.get('.departments-carousel').find('.carousel-next').click()
       })
+
+      cy.get('.departments-carousel')
+        .find('.carousel-next.swiper-button-disabled')
+        .should('exist')
     })
 
-    describe('officers carousel', () => {
-      it('render correctly', () => {
-        const OFFICER_VISIBLE_COUNTS = 4
-        const screenWidth = calculateScreenWidth(
-          OFFICER_CARD_WIDTH,
-          OFFICER_VISIBLE_COUNTS
-        )
-        cy.viewport(screenWidth, 1200)
-        cy.visit('/')
+    it('redirects to department page when click on department card', () => {
+      cy.visit('/')
 
-        cy.get('.officers-carousel')
-          .find('.carousel-title')
-          .should('text', 'Officers')
-        cy.get('.officers-carousel')
-          .find('.sorted-by')
-          .should('text', 'most allegations')
-        cy.get('.officers-carousel').find('.swiper-slide').should('length', 5)
-        cy.get('.officers-carousel')
-          .find('.swiper-slide:visible')
-          .as('visibleSlides')
-          .should('length', OFFICER_VISIBLE_COUNTS)
+      cy.request('http://localhost:9000/api/departments/').then((response) => {
+        const departments = response.body
 
-        cy.get('@visibleSlides').eq(0).contains('Mark Carlson')
-        cy.get('@visibleSlides').eq(1).contains('Eric Patel')
-        cy.get('@visibleSlides').eq(2).contains('Lee Allen')
-        cy.get('@visibleSlides').eq(3).contains('Tina Holder')
-
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.officer-name')
-          .contains('Mark Carlson')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.officer-badges')
-          .contains('12435, 612')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.officer-department-name')
-          .contains('Baton Rouge PD')
-
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.officer-department-name')
-          .should('exist')
-        cy.get('@visibleSlides')
-          .eq(1)
-          .contains('Eric Patel')
-          .find('.officer-department-name')
-          .should('not.exist')
-        cy.get('@visibleSlides')
-          .eq(2)
-          .find('.officer-department-name')
-          .should('exist')
-
-        cy.get('.officers-carousel').find('.carousel-next').click()
-        cy.get('.officers-carousel').find('.carousel-next').click()
-        cy.get('.officers-carousel').find('.carousel-next').click()
-
-        cy.get('.officers-carousel').find(
-          '.carousel-next.swiper-button-disabled',
-          {
-            timeout: 1000,
-          }
-        )
-
-        cy.get('.officers-carousel')
-          .find('.swiper-slide:visible')
-          .as('visibleSlides')
-          .should('length', OFFICER_VISIBLE_COUNTS)
-
-        cy.get('@visibleSlides').eq(0).contains('Eric Patel')
-        cy.get('@visibleSlides').eq(1).contains('Lee Allen')
-        cy.get('@visibleSlides').eq(2).contains('Tina Holder')
-        cy.get('@visibleSlides').eq(3).contains('Kelly Hunt')
-      })
-
-      it('redirects to officer page when click on departments section', () => {
-        cy.visit('/')
-
-        cy.get('.officers-carousel')
-          .find('.swiper-slide')
-          .eq(0)
-          .find('.officer-department-name')
-          .click()
-
-        cy.location('pathname').should(
-          'eq',
-          `/officers/${officersData[0].id}/mark-carlson`
-        )
-      })
-
-      it('redirects to officer page when clicks on officer card', () => {
-        cy.visit('/')
-        cy.waitUntil(() => cy.get('.officers-carousel').should('exist'))
-        cy.get('.officers-carousel').find('.swiper-slide').eq(0).click()
-
-        cy.location('pathname').should(
-          'eq',
-          `/officers/${officersData[0].id}/mark-carlson`
-        )
+        cy.get('.departments-carousel').find('.swiper-slide').eq(1).click()
+        cy.location('pathname').should('eq', `/agency/${departments[1].id}/`)
       })
     })
+  })
 
-    describe('documents carousel', () => {
-      it('render correctly', () => {
-        const DOCUMENT_VISIBLE_COUNTS = 3
-        const screenWidth = calculateScreenWidth(
-          DOCUMENT_CARD_WIDTH,
-          DOCUMENT_VISIBLE_COUNTS
-        )
-        cy.viewport(screenWidth, 1200)
-        cy.visit('/')
+  describe('officers carousel', () => {
+    it('render correctly', () => {
+      cy.visit('/')
 
-        cy.get('.documents-carousel')
-          .find('.carousel-title')
-          .should('text', 'Documents')
-        cy.get('.documents-carousel')
-          .find('.sorted-by')
-          .should('text', 'most recently added')
-        cy.get('.documents-carousel').find('.swiper-slide').should('length', 6)
+      cy.get('.officers-carousel')
+        .find('.carousel-title')
+        .should('text', 'Officers')
+
+      cy.get('.officers-carousel').find('.swiper-slide').should('length', 20)
+
+      cy.request('http://localhost:9000/api/officers/').then((response) => {
+        const officers = response.body
+
+        cy.get('.officers-carousel')
+          .find('.swiper-slide:visible')
+          .as('visibleSlides')
+          .should('length', 4)
+
+        cy.get('@visibleSlides').each(($el, index) => {
+          expect($el.find('.officer-name')).to.contain(
+            `${officers[index].name}`
+          )
+          expect($el.find('.officer-department')).to.contain(
+            `${officers[index].departments[0].name}`
+          )
+        })
+      })
+
+      cy.get('.officers-carousel')
+        .find('.carousel-prev.swiper-button-disabled')
+        .should('exist')
+
+      _.times(20, () => {
+        cy.get('.officers-carousel').find('.carousel-next').click()
+      })
+
+      cy.get('.officers-carousel')
+        .find('.carousel-next.swiper-button-disabled')
+        .should('exist')
+    })
+
+    it('redirects to department page when click on officer card', () => {
+      cy.visit('/')
+
+      cy.request('http://localhost:9000/api/officers/').then((response) => {
+        const officers = response.body
+
+        cy.get('.officers-carousel').find('.swiper-slide').eq(1).click()
+
+        cy.wrap(import('utils/paths'))
+          .invoke('officerPath', officers[1].id, officers[1].name)
+          .then((value) => cy.location('pathname').should('eq', value))
+      })
+    })
+  })
+
+  describe('documents carousel', () => {
+    it('render correctly', () => {
+      cy.visit('/')
+
+      cy.get('.documents-carousel')
+        .find('.carousel-title')
+        .should('text', 'Documents')
+
+      cy.get('.documents-carousel').find('.swiper-slide').should('length', 20)
+
+      cy.request('http://localhost:9000/api/documents/').then((response) => {
+        const documents = response.body
+
         cy.get('.documents-carousel')
           .find('.swiper-slide:visible')
           .as('visibleSlides')
-          .should('length', DOCUMENT_VISIBLE_COUNTS)
+          .should('length', 4)
 
-        cy.get('@visibleSlides').eq(0).contains('Her hard step sea.')
-        cy.get('@visibleSlides')
-          .eq(1)
-          .contains('Yourself say language meeting ok.')
-        cy.get('@visibleSlides')
-          .eq(2)
-          .contains('Be decade those someone tough year sing.')
-
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.document-type')
-          .contains('document')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.document-title')
-          .contains('Her hard step sea.')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.document-subtitle')
-          .contains('Jan 6, 2020')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.document-department-name')
-          .contains('Petersonmouth Department')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.document-preview')
-          .should(
-            'have.css',
-            'background-image',
-            'url("http://image.com/century/five-preview.pdf")'
+        cy.get('@visibleSlides').each(($el, index) => {
+          expect($el.find('.document-type')).to.contain('document')
+          expect($el.find('.document-title')).to.contain(
+            `${documents[index].title}`
           )
 
-        cy.get('.documents-carousel').find('.carousel-next').click()
-        cy.get('.documents-carousel').find('.carousel-next').click()
-        cy.get('.documents-carousel').find('.carousel-next').click()
-        cy.get('.documents-carousel').find('.carousel-next').click()
+          cy.wrap(import('utils/formatter'))
+            .invoke('formatDate', documents[index].incident_date)
+            .then((value) =>
+              expect($el.find('.document-subtitle')).to.contain(value)
+            )
 
-        cy.get('.documents-carousel').find(
-          '.carousel-next.swiper-button-disabled',
-          {
-            timeout: 1000,
-          }
-        )
-
-        cy.get('.documents-carousel')
-          .find('.swiper-slide:visible')
-          .as('visibleSlides')
-          .should('length', DOCUMENT_VISIBLE_COUNTS)
-
-        cy.get('@visibleSlides')
-          .eq(0)
-          .contains('Face growth poor wait follow option better.')
-        cy.get('@visibleSlides').eq(1).contains('Performance past from.')
-        cy.get('@visibleSlides')
-          .eq(2)
-          .contains('Mouth trip too finally society smile man.')
+          expect($el.find('.document-department-name')).to.contain(
+            `${documents[index].departments[0].name}`
+          )
+        })
       })
 
-      it('opens document url in new tab when click on document card', () => {
-        cy.visit('/')
-        cy.window().then((win) => {
-          cy.stub(win, 'open').as('open')
-        })
+      cy.get('.documents-carousel')
+        .find('.carousel-prev.swiper-button-disabled')
+        .should('exist')
+
+      _.times(20, () => {
+        cy.get('.documents-carousel').find('.carousel-next').click()
+      })
+
+      cy.get('.documents-carousel')
+        .find('.carousel-next.swiper-button-disabled')
+        .should('exist')
+    })
+
+    it('opens document url in new tab when click on document card', () => {
+      cy.visit('/')
+      cy.window().then((win) => {
+        cy.stub(win, 'open').as('open')
+      })
+
+      cy.request('http://localhost:9000/api/documents/').then((response) => {
+        const documents = response.body
 
         cy.get('.documents-carousel').find('.swiper-slide').eq(0).click()
 
         cy.get('@open').should(
           'to.be.calledWith',
-          documentsData[0].url,
+          documents[0].url,
           '_blank',
           'noopener noreferrer'
         )
       })
+    })
 
-      it('redirects to department page when click on departments section', () => {
-        cy.visit('/')
+    it('redirects to department page when click on departments section', () => {
+      cy.visit('/')
+
+      cy.request('http://localhost:9000/api/documents/').then((response) => {
+        const documents = response.body
 
         cy.get('.documents-carousel')
           .find('.swiper-slide')
@@ -392,131 +271,120 @@ describe('FrontPage', () => {
 
         cy.location('pathname').should(
           'eq',
-          `/dept/${documentsData[0].departments[0].id}/`
+          `/agency/${documents[0].departments[0].id}/`
         )
       })
     })
+  })
 
-    describe('news articles carousel', () => {
-      it('render correctly', () => {
-        const NEWS_ARTICLE_VISIBLE_COUNTS = 3
-        const screenWidth = calculateScreenWidth(
-          NEWS_ARTICLE_CARD_WIDTH,
-          NEWS_ARTICLE_VISIBLE_COUNTS
-        )
-        cy.viewport(screenWidth, 1200)
-        cy.visit('/')
-
-        cy.get('.news-articles-carousel')
-          .find('.carousel-title')
-          .should('text', 'News')
-        cy.get('.news-articles-carousel')
-          .find('.sorted-by')
-          .should('text', 'most recently added')
-        cy.get('.news-articles-carousel')
-          .find('.swiper-slide')
-          .should('length', 6)
-        cy.get('.news-articles-carousel')
-          .find('.swiper-slide:visible')
-          .as('visibleSlides')
-          .should('length', NEWS_ARTICLE_VISIBLE_COUNTS)
-
-        cy.get('@visibleSlides').eq(0).contains('Her hard step sea.')
-        cy.get('@visibleSlides')
-          .eq(1)
-          .contains('Yourself say language meeting ok.')
-        cy.get('@visibleSlides')
-          .eq(2)
-          .contains('Be decade those someone tough year sing.')
-
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.news-article-type')
-          .contains('news article')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.news-article-title')
-          .contains('Her hard step sea.')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.news-article-subtitle')
-          .first()
-          .contains('The lens')
-        cy.get('@visibleSlides')
-          .eq(0)
-          .find('.news-article-subtitle')
-          .last()
-          .contains('Jan 6, 2020')
-
-        cy.get('.news-articles-carousel').find('.carousel-next').click()
-        cy.get('.news-articles-carousel').find('.carousel-next').click()
-        cy.get('.news-articles-carousel').find('.carousel-next').click()
-        cy.get('.news-articles-carousel').find('.carousel-next').click()
-
-        cy.get('.news-articles-carousel').find(
-          '.carousel-next.swiper-button-disabled',
-          {
-            timeout: 1000,
-          }
-        )
-
-        cy.get('.news-articles-carousel')
-          .find('.swiper-slide:visible')
-          .as('visibleSlides')
-          .should('length', NEWS_ARTICLE_VISIBLE_COUNTS)
-
-        cy.get('@visibleSlides')
-          .eq(0)
-          .contains('Face growth poor wait follow option better.')
-        cy.get('@visibleSlides').eq(1).contains('Performance past from.')
-        cy.get('@visibleSlides')
-          .eq(2)
-          .contains('Mouth trip too finally society smile man.')
-      })
-
-      it('opens news article url in new tab when click on news article card', () => {
-        cy.visit('/')
-        cy.window().then((win) => {
-          cy.stub(win, 'open').as('open')
-        })
-
-        cy.get('.news-articles-carousel').find('.swiper-slide').eq(0).click()
-
-        cy.get('@open').should(
-          'to.be.calledWith',
-          documentsData[0].url,
-          '_blank',
-          'noopener noreferrer'
-        )
-      })
-    })
-
-    it('renders order correctly', () => {
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: `http://localhost:8000/api/historical-data/recent-items/`,
-        },
-        recentItemsData
-      )
+  describe('news articles carousel', () => {
+    it('render correctly', () => {
       cy.visit('/')
 
-      cy.get('.summary').should('have.css', 'order', '1')
-      cy.get('.analytic-summary').should('have.css', 'order', '1')
-      cy.get('.recent-items-carousel').should('have.css', 'order', '1')
+      cy.get('.news-articles-carousel')
+        .find('.carousel-title')
+        .should('text', 'News')
 
-      cy.get('.front-order-101')
-        .should('have.css', 'order', '101')
-        .contains('News')
-      cy.get('.front-order-102')
-        .should('have.css', 'order', '102')
-        .contains('Officers')
-      cy.get('.front-order-103')
-        .should('have.css', 'order', '103')
-        .contains('Departments')
-      cy.get('.front-order-104')
-        .should('have.css', 'order', '104')
-        .contains('Documents')
+      cy.get('.news-articles-carousel')
+        .find('.swiper-slide')
+        .should('length', 20)
+
+      cy.request('http://localhost:9000/api/news-articles/').then(
+        (response) => {
+          const articles = response.body
+
+          cy.get('.news-articles-carousel')
+            .find('.swiper-slide:visible')
+            .as('visibleSlides')
+            .should('length', 4)
+
+          cy.get('@visibleSlides').each(($el, index) => {
+            expect($el.find('.news-article-type')).to.contain('news article')
+            expect($el.find('.news-article-title')).to.contain(
+              `${articles[index].title}`
+            )
+            expect($el.find('.news-article-subtitle').first()).to.contain(
+              `${articles[index].source_name}`
+            )
+
+            cy.wrap(import('utils/formatter'))
+              .invoke('formatDate', articles[index].date)
+              .then((value) =>
+                expect($el.find('.news-article-subtitle').last()).to.contain(
+                  value
+                )
+              )
+          })
+        }
+      )
+
+      cy.get('.news-articles-carousel')
+        .find('.carousel-prev.swiper-button-disabled')
+        .should('exist')
+
+      _.times(20, () => {
+        cy.get('.news-articles-carousel').find('.carousel-next').click()
+      })
+
+      cy.get('.news-articles-carousel')
+        .find('.carousel-next.swiper-button-disabled')
+        .should('exist')
+    })
+
+    it('opens news article url in new tab when click on news article card', () => {
+      cy.visit('/')
+      cy.window().then((win) => {
+        cy.stub(win, 'open').as('open')
+      })
+
+      cy.request('http://localhost:9000/api/news-articles/').then(
+        (response) => {
+          const articles = response.body
+
+          cy.get('.news-articles-carousel').find('.swiper-slide').eq(0).click()
+
+          cy.get('@open').should(
+            'to.be.calledWith',
+            articles[0].url,
+            '_blank',
+            'noopener noreferrer'
+          )
+        }
+      )
+    })
+  })
+
+  describe('Header', () => {
+    it('redirects to about page when click on About on header', () => {
+      cy.visit('/')
+
+      cy.get('.navbar').find('.about').click()
+
+      cy.location('pathname').should('eq', '/about/')
+    })
+
+    it('redirects to contact page when click on Contact on header', () => {
+      cy.visit('/')
+
+      cy.get('.navbar').find('.contact').click()
+
+      cy.location('pathname').should('eq', '/contact/')
+    })
+
+    it('logs out successfully', () => {
+      cy.visit('/login')
+
+      cy.get('input[name="email"]').type('test@gmail.com')
+      cy.get('input[name="password"]').type('P@ssw0rd')
+      cy.get('.btn').click()
+
+      cy.get('.panel-toggle').click()
+      cy.get('.user-email').should('text', 'test@gmail.com')
+
+      cy.get('.logout-button').click()
+
+      cy.location('pathname').should('eq', '/')
+      cy.get('.panel-toggle').should('not.exist')
     })
   })
 })

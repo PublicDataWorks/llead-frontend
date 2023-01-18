@@ -10,8 +10,6 @@ describe('Forgot Password Confirm Page', () => {
       }
     )
 
-    cy.clearLocalStorage()
-
     cy.visit('/forgot-password/confirm?token=ba')
 
     cy.get('input[name="confirmPassword"]').type('new-p@ssword')
@@ -23,18 +21,6 @@ describe('Forgot Password Confirm Page', () => {
   })
 
   it('shows error when the passwords does not match', () => {
-    cy.interceptExact(
-      {
-        method: 'POST',
-        url: 'http://localhost:8000/api/password-reset/confirm/',
-      },
-      {
-        message: 'Your password has changed.',
-      }
-    )
-
-    cy.clearLocalStorage()
-
     cy.visit('/forgot-password/confirm?token=ba')
 
     cy.get('input[name="password"]').type('new-p@ssword')
@@ -58,8 +44,6 @@ describe('Forgot Password Confirm Page', () => {
         },
       }
     )
-
-    cy.clearLocalStorage()
 
     cy.visit('/forgot-password/confirm?token=ba')
 

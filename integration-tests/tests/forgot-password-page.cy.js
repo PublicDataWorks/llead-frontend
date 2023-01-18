@@ -1,39 +1,15 @@
 describe('Forgot Password Page', () => {
-  it('should show sended email when request change password successfully', () => {
-    cy.interceptExact(
-      {
-        method: 'POST',
-        url: 'http://localhost:8000/api/password-reset/',
-      },
-      {
-        detail: 'OK',
-      }
-    )
-
-    cy.clearLocalStorage()
-
+  it('shows sended email when request change password successfully', () => {
     cy.visit('/forgot-password')
 
-    cy.get('input[name="email"]').type('username@mail.com')
+    cy.get('input[name="email"]').type('test@gmail.com')
 
     cy.get('.btn').click()
 
     cy.contains('Your password reset link has been sent to your email.')
   })
 
-  it('should show error when request change password fail', () => {
-    cy.interceptExact(
-      {
-        method: 'POST',
-        url: 'http://localhost:8000/api/password-reset/',
-      },
-      {
-        statusCode: 400,
-      }
-    )
-
-    cy.clearLocalStorage()
-
+  it('shows error when request change password fail', () => {
     cy.visit('/forgot-password')
 
     cy.get('input[name="email"]').type('username@mail.com')

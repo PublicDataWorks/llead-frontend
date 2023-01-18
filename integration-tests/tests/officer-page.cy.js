@@ -1,623 +1,955 @@
-import { appConfigData } from '../data/common-data'
-import { departmentDetailsData } from '../data/department-page-data'
-import {
-  officerDetailsData,
-  officerDocumentsData,
-  officerTimelineData,
-} from '../data/officer-page-data'
+const { _ } = Cypress
+
+import { snakeToCamel } from 'utils/tools'
+
+import { timelineSelector } from 'selectors/officer-page/timeline'
+import { TIMELINE_KINDS } from 'constants/common'
+
+const assertItem = function (item, $element, elementIndex) {
+  switch (item.kind) {
+    case TIMELINE_KINDS.JOINED:
+      cy.wrap($element)
+        .find('.timeline-joined-item')
+        .should('text', `Joined ${item.department}`)
+      break
+    case TIMELINE_KINDS.LEFT:
+      cy.wrap($element)
+        .find('.timeline-left-item')
+        .should('text', `Left ${item.department}`)
+      break
+    case TIMELINE_KINDS.COMPLAINT: {
+      const complaintData = _.filter(
+        [
+          {
+            title: 'Allegation',
+            content: item.allegation,
+          },
+          {
+            title: 'Allegation Description',
+            content: item.allegationDesc,
+          },
+          {
+            title: 'Disposition',
+            content: item.disposition,
+          },
+          {
+            title: 'Action',
+            content: item.action,
+          },
+          {
+            title: 'Tracking ID',
+            content: item.trackingId,
+          },
+        ],
+        'content'
+      )
+
+      cy.wrap($element)
+        .find('.complaint-item-title')
+        .should('text', 'Accused of misconduct')
+
+      cy.wrap($element)
+        .find('.complaint-item-subtitle')
+        .should('text', item.disposition)
+
+      _.map(complaintData, (item) => {
+        cy.wrap($element)
+          .contains(item.title)
+          .parent()
+          .find('.complaint-item-info-row-value')
+          .should('text', _.upperFirst(_.trim(item.content, '.')))
+      })
+      break
+    }
+
+    case TIMELINE_KINDS.UOF: {
+      const uofData = _.filter(
+        [
+          {
+            title: 'Force Reason',
+            content: item.useOfForceReason,
+          },
+          {
+            title: 'Disposition',
+            content: item.disposition,
+          },
+          {
+            title: 'Service Type',
+            content: item.serviceType,
+          },
+          {
+            title: 'Citizen Information',
+            content: item.citizenInformation,
+          },
+          {
+            title: 'Tracking ID',
+            content: item.trackingId,
+          },
+        ],
+        'content'
+      )
+
+      cy.wrap($element).find('.uof-item-title').should('text', 'Used force')
+
+      cy.wrap($element)
+        .find('.uof-item-subtitle')
+        .should('text', item.useOfForceDescription)
+
+      _.map(uofData, (item) => {
+        if (item.title !== 'Citizen Information') {
+          cy.wrap($element)
+            .contains(item.title)
+            .parent()
+            .find('.uof-item-info-row-value')
+            .should('text', item.content)
+        } else {
+          cy.wrap($element)
+            .contains(item.title)
+            .parent()
+            .find('.uof-item-info-row-value')
+            .each(($el, index) => {
+              cy.wrap($el).should('text', item.content[index])
+            })
+        }
+      })
+      break
+    }
+
+    case TIMELINE_KINDS.SALARY_CHANGE:
+      cy.get('.timeline-item')
+        .find('.salary-change-item')
+        .each(($el, index) => {
+          if (index === elementIndex) {
+            cy.wrap($el).should('text', `Salary changed to ${item.salary}`)
+          }
+        })
+      break
+
+    case TIMELINE_KINDS.DOCUMENT:
+      cy.wrap($element).find('.document-title').should('text', item.title)
+      cy.wrap($element)
+        .find('.document-subtitle')
+        .should('text', `${item.pagesCount} page`)
+      break
+
+    case TIMELINE_KINDS.RANK_CHANGE:
+      cy.get('.rank-change-item').should('text', `Changed rank to ${item.rank}`)
+      break
+
+    case TIMELINE_KINDS.NEWS_ARTICLE:
+      cy.get('.timeline-news-article-card')
+        .find('.news-article-title')
+        .should('text', item.title)
+      cy.get('.timeline-news-article-card')
+        .find('.news-article-subtitle')
+        .should('text', item.sourceName)
+      break
+
+    case TIMELINE_KINDS.APPEAL: {
+      const appealData = _.filter(
+        [
+          {
+            title: 'Action Appealed',
+            content: item.actionAppealed,
+          },
+          {
+            title: 'Appeal Disposition',
+            content: item.appealDisposition,
+          },
+          {
+            title: 'Motion',
+            content: item.motions,
+          },
+          {
+            title: 'Counsel',
+            content: item.counsel,
+          },
+          {
+            title: 'Charging Supervisor',
+            content: item.chargingSupervisor,
+          },
+          {
+            title: 'Department',
+            content: item.department,
+          },
+          {
+            title: 'Appeal Disposition Date',
+            content: item.date,
+          },
+          {
+            title: 'Docket Number',
+            content: item.docketNo,
+          },
+        ],
+        'content'
+      )
+
+      cy.get('.timeline-appeal-item')
+        .find('.appeal-item-title')
+        .should('text', `Appealed ${item.actionAppealed}`)
+      cy.get('.timeline-appeal-item')
+        .find('.appeal-item-subtitle')
+        .should('text', item.appealDisposition)
+      _.map(appealData, (item) => {
+        cy.wrap($element)
+          .contains(item.title)
+          .parent()
+          .find('.appeal-item-info-row-value')
+          .should('text', item.content)
+      })
+      break
+    }
+
+    case TIMELINE_KINDS.UNIT_CHANGE:
+      cy.get('.timeline-unit-change-item').each(($el, index) => {
+        if (index === elementIndex) {
+          cy.wrap($el)
+            .find('.timeline-unit-change-row')
+            .eq(0)
+            .should(
+              'text',
+              `Joined\u00A0Unit ${item.departmentCode} - ${item.departmentDesc}`
+            )
+          if (item.prevDepartmentCode) {
+            cy.wrap($el)
+              .find('.timeline-unit-change-row')
+              .eq(1)
+              .should(
+                'text',
+                `Leave Unit\u00A0${item.prevDepartmentCode} - ${item.prevDepartmentDesc}`
+              )
+          }
+        }
+      })
+      break
+  }
+}
 
 describe('Officer Page', () => {
-  it('redirect to login when not logged in', () => {
-    cy.clearLocalStorage()
-    cy.visit('/officers/1')
-
-    cy.waitUntil(() => cy.location('pathname').should('eq', '/login/'))
+  beforeEach(() => {
+    cy.request('http://localhost:9000/api/officers/').its('body').as('officers')
   })
 
-  describe('render successfully', () => {
-    beforeEach(() => {
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/departments/harmonbury-department/',
-          noQuery: true,
-        },
-        departmentDetailsData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/app-config/',
-        },
-        appConfigData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/officers/1/',
-          noQuery: true,
-        },
-        officerDetailsData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/officers/1/documents/',
-        },
-        officerDocumentsData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/officers/1/timeline/',
-        },
-        officerTimelineData
-      )
-      cy.interceptExact(
-        {
-          method: 'GET',
-          url: 'http://localhost:8000/api/officers/1/download-xlsx/',
-        },
-        {
-          body: new Blob([]),
-          headers: {
-            contentType:
-              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          },
+  describe('officer basics', () => {
+    it('renders successfully', function () {
+      const id = this.officers[1].id
+      const name = this.officers[1].name
+      cy.visit(`/officers/${id}/`)
+
+      cy.wrap(import('utils/paths'))
+        .invoke('officerPath', id, name)
+        .then((value) => cy.location('pathname').should('eq', value))
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const timeline = response.body
+
+          cy.get('.officer-period').should(
+            'text',
+            `Incident data for this officer is limited to the\u00A0years\u00A0${timeline.timeline_period[0]}`
+          )
         }
       )
-      cy.login()
+
+      cy.request(`http://localhost:9000/api/officers/${id}/`).then(
+        (response) => {
+          const officer = response.body
+
+          cy.get('.officer-basic-info')
+            .find('.officer-rank')
+            .should('text', `${_.startCase(officer.latest_rank)}`)
+          cy.get('.officer-basic-info')
+            .find('.officer-name')
+            .should('text', `${officer.name}`)
+          if (officer.badges) {
+            cy.get('.officer-basic-info')
+              .find('.officer-badges')
+              .should('include.text', `${officer.badges[0]}`)
+          }
+          cy.get('.officer-basic-info')
+            .find('.officer-basic-info-row')
+            .eq(1)
+            .should('text', `${officer.race}`)
+          cy.get('.officer-basic-info')
+            .find('.officer-basic-info-row')
+            .eq(2)
+            .should(
+              'text',
+              `$${parseFloat(officer.salary).toLocaleString()}/year`
+            )
+          cy.get('.officer-basic-info')
+            .find('.officer-departments')
+            .should('text', `${officer.departments[0].name}`)
+          if (officer.complaints_count > 0) {
+            cy.get('.officer-basic-info')
+              .find('.officer-summary-info')
+              .should(
+                'include.text',
+                `${officer.complaints_count} misconduct allegations.`
+              )
+          }
+          if (officer.documents_count > 0) {
+            cy.get('.officer-basic-info')
+              .find('.officer-summary-info')
+              .should('include.text', `${officer.documents_count} documents.`)
+          }
+        }
+      )
     })
 
-    it('renders officer basics info', () => {
-      const now = new Date(2021, 6, 15).getTime()
-      cy.clock(now)
-      cy.visit('/officers/1')
+    it('redirects to department page on click officer department', function () {
+      const id = this.officers[1].id
+      const agencySlug = this.officers[1].departments[0].id
 
-      cy.location('pathname').should('eq', '/officers/1')
-      cy.contains('Police Officer')
-      cy.get('.officer-basic-info')
-        .find('.officer-name')
-        .should('text', 'Corliss Conway')
-      cy.get('.officer-basic-info')
-        .find('.officer-basic-info-row')
-        .eq(0)
-        .should('text', '911, 192')
-      cy.get('.officer-basic-info')
-        .find('.officer-basic-info-row')
-        .eq(1)
-        .should('text', '59-year-old white male')
-      cy.get('.officer-basic-info')
-        .find('.officer-basic-info-row')
-        .eq(2)
-        .should('text', '$54,123.12/year')
-      cy.get('.officer-basic-info')
-        .find('.officer-department')
-        .eq(0)
-        .should('text', 'New Orleans PD')
-      cy.get('.officer-basic-info')
-        .find('.officer-department')
-        .eq(1)
-        .should('text', 'Harmonbury Department')
-      cy.get('.officer-basic-info')
-        .find('.officer-summary-info')
-        .should('text', 'Corliss Conway is named in\u00A03 documents.')
+      cy.visit(`/officers/${id}/`)
+
+      cy.wrap(import('utils/paths'))
+        .invoke('officerPath', id, name)
+        .then((value) => cy.location('pathname').should('eq', value))
+
+      cy.get('.officer-basic-info').find('.officer-department').eq(0).click()
+
+      cy.location('pathname').should('eq', `/agency/${agencySlug}/`)
     })
 
-    it('redirect to department page on click officer department', () => {
-      cy.visit('/officers/1')
+    it('changes title on officer clicked', function () {
+      const id = this.officers[1].id
+      const name = this.officers[1].name
 
-      cy.location('pathname').should('eq', '/officers/1')
-      cy.get('.officer-basic-info')
-        .find('.officer-department')
-        .eq(1)
-        .should('text', 'Harmonbury Department')
-      cy.get('.officer-basic-info').find('.officer-department').eq(1).click()
-      cy.location('pathname').should('eq', '/dept/harmonbury-department/')
-    })
-
-    it('changes title on officer clicked', () => {
       cy.visit('/')
       cy.title().should('eq', 'LLEAD')
 
-      cy.visit('/officers/1')
-
-      cy.title().should('eq', 'Corliss Conway')
+      cy.visit(`/officers/${id}`)
+      cy.title().should('eq', `${name}`)
 
       cy.visit('/')
 
       cy.title().should('eq', 'LLEAD')
     })
+  })
 
-    describe('officer timeline', () => {
-      it('renders officer timeline', () => {
-        cy.visit('/officers/1')
+  describe('officer timeline', () => {
+    beforeEach(() => {
+      cy.request(
+        'http://localhost:9000/api/officers/testing-officer-timelines/'
+      )
+        .its('body')
+        .as('officerIds')
+    })
 
-        cy.get('.officer-period').should(
-          'text',
-          'Data for this officer is limited to the years\u00A02012, 2013, 2014 and 2017-2019'
-        )
-        cy.get('.officer-timeline')
-          .find('.timeline-header-text')
-          .should('text', 'Timeline')
+    it('renders groups successfully', function () {
+      const id = this.officerIds.complaint_officer_id
+      cy.visit(`/officers/${id}/`)
 
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .should('have.length', 4)
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
 
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(0)
-          .as('firstTimelineGroup')
-          .find('.timeline-group-title')
-          .should('text', '2020')
-        cy.get('@firstTimelineGroup').should('have.class', 'left-group')
-        cy.get('@firstTimelineGroup')
-          .find('.timeline-item')
-          .eq(0)
-          .should(
-            'have.text',
-            'Joined\u00A0Unit 193 - Gang investigation division'
+          cy.get('.officer-timeline')
+            .find('.timeline-header-text')
+            .should('text', 'Timeline')
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .as('timelineGroup')
+            .should('have.length', sortedTimeline.length)
+
+          cy.get('@timelineGroup').each(($el, index) => {
+            const { groupName, leftGroup } = sortedTimeline[index]
+
+            expect($el.find('.timeline-group-title')).to.contain(groupName)
+
+            if (leftGroup) {
+              expect($el).to.have.class('left-group')
+            } else {
+              expect($el).not.to.have.class('left-group')
+            }
+          })
+        }
+      )
+    })
+
+    it('renders complaint successfully', function () {
+      const id = this.officerIds.complaint_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+                  if (item.kind === TIMELINE_KINDS.COMPLAINT) {
+                    assertItem(item, $item_el)
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders use of force successfully', function () {
+      const id = this.officerIds.uof_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.get('.timeline-header-actions-btn').click()
+      cy.get('.show-event-details').click()
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+                  if (item.kind === TIMELINE_KINDS.UOF) {
+                    assertItem(item, $item_el)
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders joined and left successfully', function () {
+      const id = this.officerIds.hire_and_left_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+
+                  if (
+                    [TIMELINE_KINDS.LEFT, TIMELINE_KINDS.JOINED].includes(
+                      item.kind
+                    )
+                  ) {
+                    assertItem(item, $item_el)
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders appeal successfully', function () {
+      const id = this.officerIds.appeal_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+                  if (item.kind === TIMELINE_KINDS.APPEAL) {
+                    assertItem(item, $item_el)
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders documents successfully', function () {
+      const id = this.officerIds.document_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+                  if (item.kind === TIMELINE_KINDS.DOCUMENT) {
+                    assertItem(item, $item_el)
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders news artticles successfully', function () {
+      const id = this.officerIds.news_article_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+                  if (item.kind === TIMELINE_KINDS.NEWS_ARTICLE) {
+                    assertItem(item, $item_el)
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders rank changes successfully', function () {
+      const id = this.officerIds.rank_change_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+                  if (item.kind === TIMELINE_KINDS.RANK_CHANGE) {
+                    assertItem(item, $item_el)
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders salary changes successfully', function () {
+      const id = this.officerIds.rank_change_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          let salaryIndex = 0
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+
+                  if (item.kind === TIMELINE_KINDS.SALARY_CHANGE) {
+                    assertItem(item, $item_el, salaryIndex)
+                    salaryIndex = salaryIndex + 1
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('renders unit changes successfully', function () {
+      const id = this.officerIds.unit_change_officer_id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const sortedTimeline = timelineSelector({
+            officerPage: {
+              timeline: {
+                timeline: snakeToCamel(response.body.timeline),
+              },
+            },
+          })
+
+          let unitChangeIndex = 0
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .each(($el, index) => {
+              const { items } = sortedTimeline[index]
+
+              cy.wrap($el)
+                .find('.timeline-item')
+                .each(($item_el, item_index) => {
+                  const item = items[item_index]
+
+                  if (item.kind === TIMELINE_KINDS.UNIT_CHANGE) {
+                    assertItem(item, $item_el, unitChangeIndex)
+                    unitChangeIndex = unitChangeIndex + 1
+                  }
+                })
+            })
+        }
+      )
+    })
+
+    it('expands complaint on click', function () {
+      const id = this.officers[1].id
+      cy.visit(`/officers/${id}/`)
+
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const complaintTimeline = _.filter(
+            response.body.timeline,
+            (timelineItem) => 'COMPLAINT' === timelineItem['kind']
           )
-        cy.get('@firstTimelineGroup')
-          .find('.timeline-item')
-          .eq(1)
-          .find('.complaint-item-title')
-          .should('text', 'Accused of misconduct')
-        cy.get('@firstTimelineGroup')
-          .find('.timeline-item')
-          .eq(1)
-          .find('.complaint-item-subtitle')
-          .should('text', 'Other disposition')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(1)
-          .as('secondTimelineGroup')
-          .find('.timeline-group-title')
-          .should('text', 'Mar 10, 2020')
-        cy.get('@secondTimelineGroup').should('have.class', 'left-group')
-        cy.get('@secondTimelineGroup')
-          .find('.timeline-item')
-          .should('have.length', 1)
-        cy.get('@secondTimelineGroup')
-          .find('.timeline-main-item')
-          .should('text', 'Left Slidell PD')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(2)
-          .as('thirdTimelineGroup')
-          .find('.timeline-group-title')
-          .should('text', 'Mar 10, 2019')
-        cy.get('@thirdTimelineGroup').should('not.have.class', 'left-group')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .should('have.length', 10)
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(0)
-          .should('text', 'Joined Slidell PD')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(1)
-          .should('text', 'Left Mandeville PD')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(2)
-          .should('text', 'Changed rank to Senior police officer')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(3)
-          .find('.timeline-unit-change-row')
-          .eq(0)
-          .should(
-            'have.text',
-            'Joined\u00A0Unit 610 - Detective area - central'
+          const sortedComplaintTimeline = _.orderBy(
+            complaintTimeline,
+            [
+              (o) => {
+                return o.date || ''
+              },
+            ],
+            ['desc']
           )
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(3)
-          .find('.timeline-unit-change-row')
-          .eq(1)
-          .should('have.text', 'Leave Unit 177 - Superior area')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(4)
-          .should('text', 'Salary changed to $65,124.57/year')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(5)
-          .find('.complaint-item-title')
-          .should('text', 'Accused of misconduct')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(5)
-          .find('.complaint-item-subtitle')
-          .should('text', 'Exonerated')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(5)
-          .find('.complaint-item-title')
-          .should('text', 'Accused of misconduct')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(6)
-          .find('.complaint-item-subtitle')
-          .should('text', 'Exonerated')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(7)
-          .find('.uof-item-subtitle')
-          .should('text', 'Takedown (w/injury)')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(8)
-          .find('.document-title')
-          .should('text', 'Document 2019-03-10')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(8)
-          .find('.document-subtitle')
-          .should('text', '24 pages')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(9)
-          .find('.news-article-title')
-          .should('text', 'News Article 2019-03-10')
-        cy.get('@thirdTimelineGroup')
-          .find('.timeline-item')
-          .eq(9)
-          .find('.news-article-subtitle')
-          .should('text', 'The Lens NOLA')
+          const complaint = sortedComplaintTimeline[0]
 
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(3)
-          .as('forthTimelineGroup')
-          .find('.timeline-group-title')
-          .should('text', 'No Date')
-        cy.get('@forthTimelineGroup').should('have.class', 'left-group')
-        cy.get('@forthTimelineGroup')
-          .find('.timeline-item')
-          .eq(0)
-          .find('.timeline-main-item')
-          .should('text', 'Joined Mandeville PD')
-        cy.get('@forthTimelineGroup')
-          .find('.timeline-item')
-          .eq(1)
-          .find('.complaint-item-title')
-          .should('text', 'Accused of misconduct')
-        cy.get('@forthTimelineGroup')
-          .find('.timeline-item')
-          .eq(1)
-          .find('.complaint-item-subtitle')
-          .should('text', 'Exonerated')
-      })
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .eq(2)
+            .find('.timeline-item')
+            .eq(0)
+            .as('complaintItem')
+            .find('.complaint-item-title')
+            .should('text', 'Accused of misconduct')
+          cy.get('@complaintItem')
+            .find('.complaint-item-info-row')
+            .should('have.length', 3)
+          cy.get('@complaintItem')
+            .find('.complaint-item-content')
+            .should('not.visible')
+          cy.get('@complaintItem').find('.complaint-item-expand-icon').click()
+          cy.get('@complaintItem')
+            .find('.complaint-item-content')
+            .should('be.visible')
+          cy.get('@complaintItem')
+            .find('.complaint-item-info-row')
+            .eq(0)
+            .contains(_.capitalize(complaint.allegation))
+          cy.get('@complaintItem')
+            .find('.complaint-item-info-row')
+            .eq(1)
+            .contains(_.capitalize(complaint.disposition))
 
-      it('expands complaint on click', () => {
-        cy.visit('/officers/1')
+          cy.window().then((win) => {
+            cy.stub(win, 'prompt')
+              .returns(win.prompt)
+              .as('copyToClipboardPrompt')
+          })
+          cy.get('@complaintItem').contains('Copy link').click()
+          cy.get('@copyToClipboardPrompt').should('be.called')
+          cy.get('@copyToClipboardPrompt').should((prompt) => {
+            expect(prompt.args[0][1]).to.equal(
+              `http://localhost:9090/officers/${id}/?complaint_id=${complaint.id}`
+            )
+          })
+        }
+      )
+    })
 
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(0)
-          .find('.timeline-item')
-          .eq(1)
-          .as('complaintItem')
-          .find('.complaint-item-title')
-          .should('text', 'Accused of misconduct')
-        cy.get('@complaintItem')
-          .find('.complaint-item-subtitle')
-          .should('text', 'Other disposition')
-        cy.get('@complaintItem')
-          .find('.complaint-item-content')
-          .should('not.visible')
-        cy.get('@complaintItem').find('.complaint-item-expand-icon').click()
-        cy.get('@complaintItem')
-          .find('.complaint-item-content')
-          .should('be.visible')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(0)
-          .contains('Rule Violation')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(0)
-          .contains('Other')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(1)
-          .contains('Paragraph Violation')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(1)
-          .contains('Officer paragraph violation year 2020')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(2)
-          .contains('Disposition')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(2)
-          .contains('Other disposition')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(3)
-          .contains('Action')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(3)
-          .contains('Officer action year 2020')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(4)
-          .contains('Tracking ID')
-        cy.get('@complaintItem')
-          .find('.complaint-item-info-row')
-          .eq(4)
-          .contains('2020')
-
-        cy.window().then((win) => {
-          cy.stub(win, 'prompt').returns(win.prompt).as('copyToClipboardPrompt')
-        })
-        cy.get('@complaintItem').contains('Copy link').click()
-        cy.get('@copyToClipboardPrompt').should('be.called')
-        cy.get('@copyToClipboardPrompt').should((prompt) => {
-          expect(prompt.args[0][1]).to.equal(
-            'http://localhost:8080/officers/1/?complaint_id=103'
+    it('expands use of force on click', function () {
+      const id = this.officers[0].id
+      cy.visit(`/officers/${id}/`)
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const uofTimeline = _.filter(
+            response.body.timeline,
+            (timelineItem) => 'UOF' === timelineItem['kind']
           )
-        })
-      })
+          const sortedUofTimeline = _.orderBy(uofTimeline, ['date'], ['desc'])
+          const useOfForce = sortedUofTimeline[0]
 
-      it('expands use of force on click', () => {
-        cy.visit('/officers/1')
+          cy.get('.timeline-filters').find('.filter-item').eq(2).click()
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .eq(0)
+            .find('.timeline-item')
+            .eq(0)
+            .as('useOfForceItem')
+            .find('.uof-item-title')
+            .should('have.text', 'Used force')
+          cy.get('@useOfForceItem')
+            .find('.uof-item-content')
+            .should('not.visible')
+          cy.get('@useOfForceItem').find('.uof-item-expand-icon').click()
+          cy.get('@useOfForceItem')
+            .find('.uof-item-content')
+            .should('be.visible')
+          cy.get('@useOfForceItem')
+            .find('.uof-item-info-row')
+            .eq(0)
+            .contains(_.capitalize(useOfForce.use_of_force_reason))
+          cy.get('@useOfForceItem')
+            .find('.uof-item-info-row')
+            .eq(1)
+            .contains(_.capitalize(useOfForce.disposition))
+          cy.get('@useOfForceItem')
+            .find('.uof-item-info-row')
+            .eq(2)
+            .contains(_.capitalize(useOfForce.service_type))
+          cy.get('@useOfForceItem')
+            .find('.uof-item-info-row')
+            .eq(3)
+            .contains(_.capitalize(useOfForce.citizen_information[0]))
 
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(2)
-          .find('.timeline-item')
-          .eq(7)
-          .as('useOfForceItem')
-          .find('.uof-item-title')
-          .should('have.text', 'Used force')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-subtitle')
-          .should('text', 'Takedown (w/injury)')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-content')
-          .should('not.visible')
-        cy.get('@useOfForceItem').find('.uof-item-expand-icon').click()
-        cy.get('@useOfForceItem').find('.uof-item-content').should('be.visible')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-info-row')
-          .eq(0)
-          .contains('L2-Takedown (w/injury)')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-info-row')
-          .eq(1)
-          .contains('Resisting lawful arrest')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-info-row')
-          .eq(2)
-          .contains('UOF Justified')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-info-row')
-          .eq(3)
-          .contains('Call for service')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-info-row')
-          .eq(4)
-          .contains('Complainant')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-info-row')
-          .eq(5)
-          .contains('26-year-old white female')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-info-row')
-          .eq(6)
-          .contains('Complainant')
+          cy.window().then((win) => {
+            cy.stub(win, 'prompt')
+              .returns(win.prompt)
+              .as('copyToClipboardPrompt')
+          })
+          cy.get('@useOfForceItem').contains('Copy link').click()
+          cy.get('@copyToClipboardPrompt').should('be.called')
+          cy.get('@copyToClipboardPrompt').should((prompt) => {
+            expect(prompt.args[0][1]).to.equal(
+              `http://localhost:9090/officers/${id}/?uof_id=${useOfForce.id}`
+            )
+          })
+        }
+      )
+    })
 
-        cy.window().then((win) => {
-          cy.stub(win, 'prompt').returns(win.prompt).as('copyToClipboardPrompt')
-        })
-        cy.get('@useOfForceItem').contains('Copy link').click()
-        cy.get('@copyToClipboardPrompt').should('be.called')
-        cy.get('@copyToClipboardPrompt').should((prompt) => {
-          expect(prompt.args[0][1]).to.equal(
-            'http://localhost:8080/officers/1/?uof_id=1'
+    it('hightlights and scrolls to the complaint belong to the url', function () {
+      const id = this.officers[0].id
+      const complaintId = 267942
+      cy.visit(`/officers/${id}/?complaint_id=${complaintId}`)
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const timeline = _.find(
+            response.body.timeline,
+            (timelineItem) => complaintId === timelineItem.id
           )
-        })
-      })
 
-      it('hightlights and scrolls to the complaint belong to the url', () => {
-        cy.visit('/officers/1/?complaint_id=101')
+          cy.get('.timeline-complaint-highlight')
+            .find('.complaint-item-content')
+            .should('be.visible')
+          cy.get('.timeline-complaint-highlight')
+            .find('.complaint-item-info-row-value')
+            .eq(0)
+            .should('have.text', _.capitalize(timeline.allegation))
+          cy.get('.timeline-complaint-highlight')
+            .find('.complaint-item-info-row-value')
+            .eq(1)
+            .should('have.text', _.capitalize(timeline.disposition))
+          cy.get('.timeline-complaint-highlight')
+            .find('.complaint-item-info-row-value')
+            .eq(2)
+            .should('have.text', _.capitalize(timeline.tracking_id))
+        }
+      )
+    })
 
-        cy.get('.timeline-complaint-highlight')
-          .find('.complaint-item-content')
-          .should('be.visible')
+    it('renders filter groups', function () {
+      const id = this.officers[0].id
+      cy.visit(`/officers/${id}`)
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        (response) => {
+          const nAllegationTimeline = _.filter(
+            response.body.timeline,
+            (timeline) => timeline.kind === 'COMPLAINT'
+          ).length
+          const nUOFTimeline = _.filter(
+            response.body.timeline,
+            (timeline) => timeline.kind === 'UOF'
+          ).length
+          cy.get('.timeline-filters')
+            .find('.filter-item')
+            .should('have.length', 3)
 
-        cy.get('.timeline-complaint-highlight')
-          .find('.complaint-item-info-row-value')
-          .eq(0)
-          .should('have.text', 'Misconduct')
-        cy.get('.timeline-complaint-highlight')
-          .find('.complaint-item-info-row-value')
-          .eq(1)
-          .should('have.text', 'Officer paragraph violation 2019-03-10')
-        cy.get('.timeline-complaint-highlight')
-          .find('.complaint-item-info-row-value')
-          .eq(2)
-          .should('have.text', 'dummy allegation')
-        cy.get('.timeline-complaint-highlight')
-          .find('.complaint-item-info-row-value')
-          .eq(3)
-          .should('have.text', 'Exonerated')
-        cy.get('.timeline-complaint-highlight')
-          .find('.complaint-item-info-row-value')
-          .eq(4)
-          .should('have.text', 'Officer action 2019-03-10')
-        cy.get('.timeline-complaint-highlight')
-          .find('.complaint-item-info-row-value')
-          .eq(5)
-          .should('have.text', '10-03')
-      })
+          cy.get('.timeline-filters')
+            .find('.filter-item')
+            .eq(0)
+            .should('have.text', 'All')
 
-      it('renders filter groups', () => {
-        cy.visit('/officers/1')
+          cy.get('.timeline-filters')
+            .find('.filter-item')
+            .eq(1)
+            .should('have.text', `Allegations (${nAllegationTimeline})`)
 
-        cy.get('.timeline-filters')
-          .find('.filter-item')
-          .should('have.length', 6)
+          cy.get('.timeline-filters')
+            .find('.filter-item')
+            .eq(2)
+            .should('have.text', `Use of Force (${nUOFTimeline})`)
+        }
+      )
+    })
 
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .should('have.length', 4)
+    it('shows event details', function () {
+      const id = this.officers[0].id
+      cy.visit(`/officers/${id}`)
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        () => {
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .eq(0)
+            .find('.timeline-item')
+            .eq(0)
+            .as('firstComplaintItem')
+          cy.get('@firstComplaintItem')
+            .find('.complaint-item-content')
+            .should('not.visible')
+          cy.get('.officer-timeline')
+            .find('.timeline-group')
+            .eq(0)
+            .find('.timeline-item')
+            .eq(1)
+            .as('secondComplaintItem')
+          cy.get('@secondComplaintItem')
+            .find('.complaint-item-content')
+            .should('not.visible')
 
-        cy.get('.timeline-filters')
-          .find('.filter-item')
-          .eq(0)
-          .should('have.text', 'All')
+          cy.get('.officer-timeline')
+            .find('.timeline-header-actions-btn')
+            .click()
+          cy.get('.officer-timeline')
+            .find('.timeline-header-actions')
+            .should('be.visible')
+          cy.get('.officer-timeline')
+            .find('.show-event-details')
+            .should('have.text', 'Show event details')
+            .click()
+          cy.get('.officer-timeline')
+            .find('.timeline-header-actions')
+            .should('not.exist')
 
-        cy.get('.timeline-filters')
-          .find('.filter-item')
-          .eq(1)
-          .should('have.text', 'Allegations (4)')
+          cy.get('@firstComplaintItem')
+            .find('.complaint-item-content')
+            .should('be.visible')
+          cy.get('@secondComplaintItem')
+            .find('.complaint-item-content')
+            .should('be.visible')
 
-        cy.get('.timeline-filters')
-          .find('.filter-item')
-          .eq(2)
-          .should('have.text', 'Documents (1)')
+          cy.get('.officer-timeline')
+            .find('.timeline-header-actions-btn')
+            .click()
+          cy.get('.officer-timeline')
+            .find('.show-event-details')
+            .should('have.text', 'Hide event details')
+            .click()
 
-        cy.get('.timeline-filters')
-          .find('.filter-item')
-          .eq(3)
-          .should('have.text', 'News Articles (1)')
+          cy.get('@firstComplaintItem')
+            .find('.complaint-item-content')
+            .should('not.visible')
+          cy.get('@secondComplaintItem')
+            .find('.complaint-item-content')
+            .should('not.visible')
+        }
+      )
+    })
 
-        cy.get('.timeline-filters')
-          .find('.filter-item')
-          .eq(4)
-          .should('have.text', 'Rank/Unit (3)')
-
-        cy.get('.timeline-filters')
-          .find('.filter-item')
-          .eq(5)
-          .should('have.text', 'Use of force (1)')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-header-actions')
-          .should('not.exist')
-
-        cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
-
-        cy.get('.officer-timeline')
-          .find('.timeline-header-actions')
-          .should('exist')
-
-        cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
-
-        cy.get('.timeline-filters').find('.filter-item').eq(1).click()
-
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .should('have.length', 3)
-
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(0)
-          .find('.complaint-item-title')
-          .should('have.text', 'Accused of misconduct')
-      })
-
-      it('shows event details', () => {
-        cy.visit('/officers/1')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(0)
-          .find('.timeline-item')
-          .eq(1)
-          .as('complaintItem')
-          .find('.complaint-item-title')
-          .should('text', 'Accused of misconduct')
-        cy.get('@complaintItem')
-          .find('.complaint-item-content')
-          .should('not.visible')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(2)
-          .find('.timeline-item')
-          .eq(5)
-          .as('secondComplaintItem')
-        cy.get('@secondComplaintItem')
-          .find('.complaint-item-content')
-          .should('not.visible')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-group')
-          .eq(2)
-          .find('.timeline-item')
-          .eq(7)
-          .as('useOfForceItem')
-          .find('.uof-item-content')
-          .should('not.visible')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-header-actions')
-          .should('not.exist')
-        cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
-        cy.get('.officer-timeline')
-          .find('.timeline-header-actions')
-          .should('be.visible')
-        cy.get('.officer-timeline')
-          .find('.show-event-details')
-          .should('have.text', 'Show event details')
-          .click()
-        cy.get('.officer-timeline')
-          .find('.timeline-header-actions')
-          .should('not.exist')
-
-        cy.get('@complaintItem').find('.complaint-item-content').should('exist')
-        cy.get('@secondComplaintItem')
-          .find('.complaint-item-content')
-          .should('be.visible')
-        cy.get('@useOfForceItem').find('.uof-item-content').should('be.visible')
-
-        cy.get('.officer-timeline').find('.timeline-header-actions-btn').click()
-        cy.get('.officer-timeline')
-          .find('.show-event-details')
-          .should('have.text', 'Hide event details')
-          .click()
-
-        cy.get('@complaintItem')
-          .find('.complaint-item-content')
-          .should('not.visible')
-        cy.get('@secondComplaintItem')
-          .find('.complaint-item-content')
-          .should('not.visible')
-        cy.get('@useOfForceItem')
-          .find('.uof-item-content')
-          .should('not.visible')
-      })
-
-      it('download officer detail', () => {
-        cy.visit('/officers/1')
-
-        cy.get('.officer-timeline')
-          .find('.timeline-header-download')
-          .should('not.exist')
-        cy.get('.officer-timeline').find('.timeline-download-btn').click()
-        cy.get('.officer-timeline')
-          .find('.timeline-header-download')
-          .should('be.visible')
-        cy.get('.officer-timeline')
-          .find('.show-download-file')
-          .should('have.text', 'Download officer timeline (.xlsx)')
-          .click()
-        cy.get('.officer-timeline')
-          .find('.timeline-header-download')
-          .should('not.exist')
-      })
+    it('download officer detail', function () {
+      const id = this.officers[0].id
+      cy.visit(`/officers/${id}`)
+      cy.request(`http://localhost:9000/api/officers/${id}/timeline/`).then(
+        () => {
+          cy.get('.officer-timeline')
+            .find('.timeline-header-download')
+            .should('not.exist')
+          cy.get('.officer-timeline').find('.timeline-download-btn').click()
+          cy.get('.officer-timeline')
+            .find('.timeline-header-download')
+            .should('be.visible')
+          cy.get('.officer-timeline')
+            .find('.show-download-file')
+            .should('have.text', 'Download officer timeline (.xlsx)')
+            .click()
+          cy.get('.officer-timeline')
+            .find('.timeline-header-download')
+            .should('not.exist')
+        }
+      )
     })
   })
 })

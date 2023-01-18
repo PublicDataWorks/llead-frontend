@@ -27,7 +27,7 @@ const DepartmentSection = (props) => {
   }
 
   return (
-    <div className='department-section-container'>
+    <div className='department-section-container' data-testid={title}>
       <div className='carousel-header'>
         <div className='carousel-title'>{title}</div>
         <div className='search-icon' onClick={onSearchModalClick} />

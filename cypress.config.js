@@ -13,7 +13,10 @@ module.exports = defineConfig({
       return require('./cypress/plugins/index.js')(on, config)
     },
     baseUrl: 'http://localhost:9090',
-    specPattern: 'integration-tests/tests/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'integration-tests/support/index.js',
+    specPattern: [
+      'integration-tests/interactive-tests/**/*.cy.{js,jsx,ts,tsx}',
+      'integration-tests/tests/**/*.cy.{js,jsx,ts,tsx}',
+    ],
+    supportFile: 'cypress/support/index.js',
   },
 })
