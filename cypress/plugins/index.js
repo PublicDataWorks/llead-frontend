@@ -13,6 +13,7 @@
 // the project's config changing)
 const webpackPreprocessor = require('@cypress/webpack-preprocessor')
 const path = require('path')
+const { rmdir } = require('fs')
 
 /**
  * @type {Cypress.PluginConfig}
@@ -38,4 +39,17 @@ module.exports = (on, config) => {
   delete options.webpackOptions.module.rules[0].use[0].options.presets
 
   on('file:preprocessor', webpackPreprocessor(options))
+
+  on('after:run', () => {
+    const downloadsFolder = config.downloadsFolder
+    return new Promise((resolve, reject) => {
+      rmdir(downloadsFolder, { maxRetries: 10, recursive: true }, (err) => {
+        if (err) {
+          console.error(err)
+          return reject(err)
+        }
+        resolve(null)
+      })
+    })
+  })
 }
