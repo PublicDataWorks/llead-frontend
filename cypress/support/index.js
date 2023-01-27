@@ -1,5 +1,4 @@
 import 'cypress-wait-until'
-import escapeRegExp from 'lodash/escapeRegExp'
 
 Cypress.Commands.add('setReduxLocalStorage', (data) => {
   const reduxLocalStorage = JSON.parse(window.localStorage.getItem('redux'))
@@ -19,17 +18,17 @@ Cypress.Commands.add('login', () => {
 })
 
 Cypress.Commands.add('resetDatabase', () => {
-  cy.exec(
-    'docker exec -i ipno-backend_db-test_1 psql -U ipno ipno < data.pgsql'
-  ).then((res) => {
-    cy.log(res)
-  })
+  cy.exec('docker exec -i db-test psql -U ipno ipno < data.pgsql').then(
+    (res) => {
+      cy.log(res)
+    }
+  )
 })
 
 Cypress.Commands.add('rebuildIndex', () => {
-  cy.exec(
-    'docker exec -i web-test ipno/manage.py search_index --rebuild -f'
-  ).then((res) => {
+  cy.exec('docker exec -i web-test ipno/manage.py search_index --rebuild -f', {
+    timeout: 300000,
+  }).then((res) => {
     cy.log(res)
   })
 })
@@ -40,20 +39,6 @@ Cypress.Commands.add('clearCache', () => {
   ).then((res) => {
     cy.log(res)
   })
-})
-
-Cypress.Commands.add('interceptExact', (request, response) => {
-  const url = new RegExp(
-    `^${escapeRegExp(request.url)}${request.noQuery ? '' : '(\\?.*)?'}$`
-  )
-  delete request.noQuery
-  cy.intercept(
-    {
-      ...request,
-      url,
-    },
-    response
-  )
 })
 
 beforeEach(() => {
