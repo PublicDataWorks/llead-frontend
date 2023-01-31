@@ -12,6 +12,4 @@ let config = _.mergeWith(
   (a, b) => (_.isArray(b) ? b : undefined)
 )
 
-console.log(config)
-
 module.exports = config

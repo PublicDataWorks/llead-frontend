@@ -372,7 +372,7 @@ describe('Search Modal', () => {
       ).then((response) => {
         const searchResults = response.body
         const documents = searchResults[section].results
-        console.log(documents)
+
         cy.get('.search-modal').find('input').type(searchQuery)
         cy.get('.search-bar-container')
           .contains('Documents')

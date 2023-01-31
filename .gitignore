@@ -17,6 +17,7 @@
 cypress/integration/examples
 cypress/videos
 cypress/screenshots
+cypress/results
 
 .history
 
@@ -26,3 +27,4 @@ cypress/screenshots
 *.pgsql
 
 reports/
+results/

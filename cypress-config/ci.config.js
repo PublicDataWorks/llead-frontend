@@ -1,5 +1,6 @@
 const { defineConfig } = require('cypress')
 const _ = require('lodash')
+const path = require('path')
 
 let baseConfig = require('./base.config')
 
@@ -13,13 +14,16 @@ const specPattern =
 let config = _.mergeWith(
   baseConfig,
   defineConfig({
+    videoCompression: 12,
+    reporter: 'cypress-multi-reporters',
+    reporterOptions: {
+      configFile: path.join(__dirname, 'reporter-config.js'),
+    },
     e2e: {
       specPattern,
     },
   }),
   (a, b) => (_.isArray(b) ? b : undefined)
 )
-
-console.log(config)
 
 module.exports = config

@@ -139,9 +139,9 @@ jobs:
             docker exec -i db-test psql -U ipno ipno < data.pgsql
       - run:
           name: Integration Tests
-          command: yarn itest
-          environment:
-            ITEST_ENV: ci
+          command: yarn itest:ci
+      - store_test_results:
+          path: cypress/results/
       - store_artifacts:
           path: cypress/videos
       - store_artifacts:
@@ -217,10 +217,11 @@ jobs:
             docker exec -i db-test psql -U ipno ipno < data.pgsql
       - run:
           name: Integration Tests
-          command: yarn itest
+          command: yarn itest:ci
           environment:
-            ITEST_ENV: ci
             ITEST_TYPE: interactive
+      - store_test_results:
+          path: cypress/results/
       - store_artifacts:
           path: cypress/videos
       - store_artifacts:
