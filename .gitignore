@@ -24,3 +24,5 @@ cypress/screenshots
 
 .env
 *.pgsql
+
+reports/

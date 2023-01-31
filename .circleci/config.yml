@@ -61,11 +61,15 @@ jobs:
       - run:
           name: Tests
           command: yarn test:ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
+      - store_test_results:
+          path: ./reports/
       - run:
           name: Coveralls
           command: yarn coveralls
 
-  integration-test:
+  integration-test-non-interactive:
     working_directory: ~/ipno_frontend
     machine:
       image: ubuntu-2004:current
@@ -87,9 +91,6 @@ jobs:
           command: |
             echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
             echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: use nvm
-          command: |
             nvm install && nvm use && nvm alias default $(cat .nvmrc)
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
@@ -139,6 +140,91 @@ jobs:
       - run:
           name: Integration Tests
           command: yarn itest
+          environment:
+            ITEST_ENV: ci
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
+  integration-test-interactive:
+    working_directory: ~/ipno_frontend
+    machine:
+      image: ubuntu-2004:current
+      docker_layer_caching: true
+      resource_class: large
+
+    environment: *gcloud-env
+
+    steps:
+      - run: *set-gcloud-service-key
+      - run: *set-deploy-env
+      - checkout
+      - run:
+          name: Install nvm
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+      - run:
+          name: Setup nvm
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+            nvm install && nvm use && nvm alias default $(cat .nvmrc)
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - run:
+          name: 'Enforce nvm use default'
+          command: |
+            echo "nvm use default" >> $BASH_ENV
+      - run:
+          name: 'Install yarn'
+          command: |
+            npm install -g yarn
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: |
+            yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Setup network
+          command: |
+            docker network create ipno
+      - run:
+          name: Start db
+          command: |
+            docker run -d --rm --network=ipno --name db-test --env-file ./test-backend.env postgres
+      - run:
+          name: Start elasticsearch
+          command: |
+            docker run -d --rm --network=ipno --name elasticsearch-itest -e discovery.type=single-node elasticsearch:7.10.1
+      - gcp-cli/setup:
+          components: 'gke-gcloud-auth-plugin gsutil'
+      - run:
+          name: Prepare for runing
+          command: |
+            bin/setup_be.sh
+      - run:
+          name: Import DB to Backend
+          command: |
+            docker exec -i db-test psql -U ipno ipno < data.pgsql
+      - run:
+          name: Integration Tests
+          command: yarn itest
+          environment:
+            ITEST_ENV: ci
+            ITEST_TYPE: interactive
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
 
   push_to_public:
     description: Push code to public repository
@@ -221,7 +307,10 @@ workflows:
                 - staging
                 - main
                 - develop
-      - integration-test:
+      - integration-test-non-interactive:
+          requires:
+            - test
+      - integration-test-interactive:
           requires:
             - test
 
@@ -232,12 +321,16 @@ workflows:
             branches:
               only:
                 - develop
-      - integration-test:
+      - integration-test-non-interactive:
+          requires:
+            - test
+      - integration-test-interactive:
           requires:
             - test
       - push_to_public:
           requires:
-            - integration-test
+            - integration-test-non-interactive
+            - integration-test-interactive
 
   deploy_frontend:
     jobs:
@@ -247,12 +340,16 @@ workflows:
               only:
                 - main
                 - staging
-      - integration-test:
+      - integration-test-non-interactive:
+          requires:
+            - test
+      - integration-test-interactive:
           requires:
             - test
       - push_image:
           requires:
-            - integration-test
+            - integration-test-non-interactive
+            - integration-test-interactive
       - deploy:
           requires:
             - push_image
