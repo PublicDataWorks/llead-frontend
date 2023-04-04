@@ -104,7 +104,7 @@ const Officer = (props) => {
       return (
         <div className='officer-summary-info'>
           {startCase(name)} is named in&nbsp;
-          <b>{stringifyTotalItems(documentsCount, 'document')}</b>.
+          <b>{stringifyTotalItems(documentsCount, 'documents')}</b>.
         </div>
       )
     }

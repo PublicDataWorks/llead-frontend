@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 
 let baseConfig = require('./base.config')
+const Dotenv = require('dotenv-webpack')
 
 let config = Object.assign({}, baseConfig, {
   devServer: {
@@ -9,9 +10,11 @@ let config = Object.assign({}, baseConfig, {
   },
   plugins: [
     ...baseConfig.plugins,
-    new webpack.EnvironmentPlugin({
-      APP_ENV: 'test',
-      GA_MEASUREMENT_ID: '',
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
+    new Dotenv({
+      systemvars: true,
     }),
   ],
 })

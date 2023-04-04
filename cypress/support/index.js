@@ -1,5 +1,4 @@
 import 'cypress-wait-until'
-import escapeRegExp from 'lodash/escapeRegExp'
 
 Cypress.Commands.add('setReduxLocalStorage', (data) => {
   const reduxLocalStorage = JSON.parse(window.localStorage.getItem('redux'))
@@ -18,18 +17,28 @@ Cypress.Commands.add('login', () => {
   })
 })
 
-Cypress.Commands.add('interceptExact', (request, response) => {
-  const url = new RegExp(
-    `^${escapeRegExp(request.url)}${request.noQuery ? '' : '(\\?.*)?'}$`
+Cypress.Commands.add('resetDatabase', () => {
+  cy.exec('docker exec -i db-test psql -U ipno ipno < data.pgsql').then(
+    (res) => {
+      cy.log(res)
+    }
   )
-  delete request.noQuery
-  cy.intercept(
-    {
-      ...request,
-      url,
-    },
-    response
-  )
+})
+
+Cypress.Commands.add('rebuildIndex', () => {
+  cy.exec('docker exec -i web-test ipno/manage.py search_index --rebuild -f', {
+    timeout: 300000,
+  }).then((res) => {
+    cy.log(res)
+  })
+})
+
+Cypress.Commands.add('clearCache', () => {
+  cy.exec(
+    'docker exec -i web-test ipno/manage.py shell --command="from django.core.cache import cache;cache.clear()"'
+  ).then((res) => {
+    cy.log(res)
+  })
 })
 
 beforeEach(() => {
