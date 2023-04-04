@@ -161,10 +161,6 @@ const assertItem = function (item, $element, elementIndex) {
             content: item.motions,
           },
           {
-            title: 'Counsel',
-            content: item.counsel,
-          },
-          {
             title: 'Charging Supervisor',
             content: item.chargingSupervisor,
           },
@@ -175,10 +171,6 @@ const assertItem = function (item, $element, elementIndex) {
           {
             title: 'Appeal Disposition Date',
             content: item.date,
-          },
-          {
-            title: 'Docket Number',
-            content: item.docketNo,
           },
         ],
         'content'

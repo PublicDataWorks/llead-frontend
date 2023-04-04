@@ -753,7 +753,6 @@ describe('Timeline component', () => {
                 'citizen arrested',
                 'citizen injured',
                 'officer injured',
-                'traffic stop',
               ],
             },
           ],
@@ -789,12 +788,7 @@ describe('Timeline component', () => {
         citizenInvolvement: 'Complainant',
         citizenInformation: '26-year-old white female',
         uoftrackingId: 'Complainant',
-        details: [
-          'citizen arrested',
-          'citizen injured',
-          'officer injured',
-          'traffic stop',
-        ],
+        details: ['citizen arrested', 'citizen injured', 'officer injured'],
       })
     })
 
@@ -821,7 +815,6 @@ describe('Timeline component', () => {
                 'citizen arrested',
                 'citizen injured',
                 'officer injured',
-                'traffic stop',
               ],
             },
           ],
@@ -861,12 +854,7 @@ describe('Timeline component', () => {
         citizenInvolvement: 'Complainant',
         citizenInformation: '26-year-old white female',
         uoftrackingId: 'Complainant',
-        details: [
-          'citizen arrested',
-          'citizen injured',
-          'officer injured',
-          'traffic stop',
-        ],
+        details: ['citizen arrested', 'citizen injured', 'officer injured'],
       })
 
       UseOfForceItem.mockClear()
@@ -891,12 +879,7 @@ describe('Timeline component', () => {
         citizenInvolvement: 'Complainant',
         citizenInformation: '26-year-old white female',
         uoftrackingId: 'Complainant',
-        details: [
-          'citizen arrested',
-          'citizen injured',
-          'officer injured',
-          'traffic stop',
-        ],
+        details: ['citizen arrested', 'citizen injured', 'officer injured'],
       })
     })
   })
@@ -913,12 +896,9 @@ describe('Timeline component', () => {
               kind: 'APPEAL',
               year: 2019,
               date: '2019-06-13',
-              docketNo: '1234',
-              counsel: 'Dirks',
               chargingSupervisor: 'Paul Fontenot',
               appealDisposition: 'appeal upheld',
               actionAppealed: 'suspension',
-              appealed: 'Yes',
               motions: 'amicable settlement',
             },
           ],
@@ -948,12 +928,9 @@ describe('Timeline component', () => {
         kind: 'APPEAL',
         year: 2019,
         date: '2019-06-13',
-        docketNo: '1234',
-        counsel: 'Dirks',
         chargingSupervisor: 'Paul Fontenot',
         appealDisposition: 'appeal upheld',
         actionAppealed: 'suspension',
-        appealed: 'Yes',
         motions: 'amicable settlement',
       })
     })
@@ -971,12 +948,9 @@ describe('Timeline component', () => {
               kind: 'APPEAL',
               year: 2019,
               date: '2019-06-13',
-              docketNo: '1234',
-              counsel: 'Dirks',
               chargingSupervisor: 'Paul Fontenot',
               appealDisposition: 'appeal upheld',
               actionAppealed: 'suspension',
-              appealed: 'Yes',
               motions: 'amicable settlement',
             },
           ],
@@ -1010,12 +984,9 @@ describe('Timeline component', () => {
         kind: 'APPEAL',
         year: 2019,
         date: '2019-06-13',
-        docketNo: '1234',
-        counsel: 'Dirks',
         chargingSupervisor: 'Paul Fontenot',
         appealDisposition: 'appeal upheld',
         actionAppealed: 'suspension',
-        appealed: 'Yes',
         motions: 'amicable settlement',
       })
 
@@ -1035,12 +1006,9 @@ describe('Timeline component', () => {
         kind: 'APPEAL',
         year: 2019,
         date: '2019-06-13',
-        docketNo: '1234',
-        counsel: 'Dirks',
         chargingSupervisor: 'Paul Fontenot',
         appealDisposition: 'appeal upheld',
         actionAppealed: 'suspension',
-        appealed: 'Yes',
         motions: 'amicable settlement',
       })
     })
