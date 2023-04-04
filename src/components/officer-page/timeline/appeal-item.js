@@ -24,8 +24,6 @@ const AppealItem = (props) => {
     highlight,
     showEventDetails,
     date,
-    docketNo,
-    counsel,
     chargingSupervisor,
     appealDisposition,
     actionAppealed,
@@ -87,10 +85,6 @@ const AppealItem = (props) => {
       content: motions,
     },
     {
-      title: 'Counsel',
-      content: counsel,
-    },
-    {
       title: 'Charging Supervisor',
       content: chargingSupervisor,
     },
@@ -101,10 +95,6 @@ const AppealItem = (props) => {
     {
       title: 'Appeal Disposition Date',
       content: date,
-    },
-    {
-      title: 'Docket Number',
-      content: docketNo,
     },
   ]
 
@@ -180,8 +170,6 @@ AppealItem.propTypes = {
   highlight: PropTypes.bool,
   showEventDetails: PropTypes.bool,
   date: PropTypes.string,
-  docketNo: PropTypes.string,
-  counsel: PropTypes.string,
   chargingSupervisor: PropTypes.string,
   appealDisposition: PropTypes.string,
   actionAppealed: PropTypes.string,

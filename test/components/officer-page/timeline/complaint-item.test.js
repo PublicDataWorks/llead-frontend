@@ -27,12 +27,11 @@ describe('ComplaintItem component', () => {
       showEventDetails: false,
       allegation: 'Allegation title',
       allegationDesc: 'Description',
-      details: ['citizen arrested', 'traffic stop'],
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
 
-    const { baseElement, getByTestId, getByText } = container
+    const { baseElement, getByTestId } = container
 
     const complaintItemTitle = baseElement.getElementsByClassName(
       'complaint-item-title'
@@ -92,14 +91,6 @@ describe('ComplaintItem component', () => {
       'complaint-item-copy-link'
     )[0]
     expect(complaintCopyLink.textContent).toEqual('Copy link')
-
-    expect(getByText('citizen arrested').className).toEqual(
-      'complaint-item-detail-element'
-    )
-
-    expect(getByText('traffic stop').className).toEqual(
-      'complaint-item-detail-element'
-    )
   })
 
   it('renders complaint component when missing some data', () => {
@@ -108,12 +99,11 @@ describe('ComplaintItem component', () => {
       action: 'Action',
       trackingId: '123-456',
       showEventDetails: false,
-      details: ['citizen arrested'],
     }
 
     const container = render(<ComplaintItem {...complaintData} />)
 
-    const { baseElement, getByText, queryByText } = container
+    const { baseElement } = container
 
     const complaintItemHeader = baseElement.getElementsByClassName(
       'complaint-item-header'
@@ -133,12 +123,6 @@ describe('ComplaintItem component', () => {
       'complaint-item-info-row-value'
     )[1]
     expect(complainttrackingId.textContent).toEqual('123-456')
-
-    expect(getByText('citizen arrested').className).toEqual(
-      'complaint-item-detail-element'
-    )
-
-    expect(queryByText('traffic stop')).toBeFalsy()
   })
 
   it('highlights complaint if it is the hightlighted item', () => {

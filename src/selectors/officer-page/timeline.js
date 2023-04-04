@@ -39,17 +39,9 @@ const complaintTimelineItemFormatter = (item) => {
 
   const capitalizeAttributes = ['disposition', 'action']
 
-  const detailAttributes = ['citizenArrested', 'trafficStop']
-
-  const details = map(
-    filter(detailAttributes, (attribute) => get(item, attribute) === 'yes'),
-    lowerCase
-  )
-
   return {
     ...pick(item, attributes),
     ...mapValues(pick(item, capitalizeAttributes), capitalize),
-    details,
   }
 }
 
@@ -87,8 +79,6 @@ const appealTimelineItemFormatter = (item) => {
     'id',
     'kind',
     'year',
-    'docketNo',
-    'counsel',
     'chargingSupervisor',
     'actionAppealed',
     'motions',

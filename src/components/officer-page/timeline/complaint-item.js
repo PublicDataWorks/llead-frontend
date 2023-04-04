@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import AnimateHeight from 'react-animate-height'
-import isEmpty from 'lodash/isEmpty'
 import upperFirst from 'lodash/upperFirst'
 import trim from 'lodash/trim'
 
@@ -31,7 +30,6 @@ const ComplaintItem = (props) => {
     showEventDetails,
     officerId,
     id,
-    details,
   } = props
 
   const [expanded, setExpanded] = useState(false)
@@ -144,18 +142,6 @@ const ComplaintItem = (props) => {
                 </div>
               )
           )}
-          {!isEmpty(details) && (
-            <div className='complaint-item-info-row'>
-              <div className='complaint-item-info-row-title'>Details</div>
-              <div className='complaint-item-info-row-value'>
-                {details.map((element, index) => (
-                  <div className='complaint-item-detail-element' key={index}>
-                    {element}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           <CopyToClipboard
             text={complaintItemUrl(officerId, id)}
@@ -185,7 +171,6 @@ ComplaintItem.propTypes = {
   highlight: PropTypes.bool,
   showEventDetails: PropTypes.bool,
   officerId: PropTypes.string,
-  details: PropTypes.array,
 }
 
 ComplaintItem.defaultProps = {

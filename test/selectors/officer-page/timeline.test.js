@@ -70,8 +70,6 @@ describe('#timelineSelector', () => {
         allegation: 'rule 01',
         allegationDesc:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        citizenArrested: 'yes',
-        trafficStop: 'yes',
       },
       {
         kind: 'SALARY_CHANGE',
@@ -104,8 +102,6 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion of unknowed time',
         action: 'officer action of unknowed time',
         trackingId: '123-456',
-        citizenArrested: null,
-        trafficStop: null,
       },
       {
         id: '127',
@@ -115,8 +111,6 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion year 2018',
         action: 'officer action year 2018',
         trackingId: '2018',
-        citizenArrested: 'yes',
-        trafficStop: null,
       },
       {
         id: '128',
@@ -126,8 +120,6 @@ describe('#timelineSelector', () => {
         disposition: 'officer dispostion 2019-03-10 no1',
         action: 'officer action 2019-03-10 no1',
         trackingId: '10-03-1',
-        citizenArrested: null,
-        trafficStop: 'yes',
       },
       {
         kind: 'JOINED',
@@ -202,12 +194,9 @@ describe('#timelineSelector', () => {
         kind: 'APPEAL',
         year: 2019,
         date: '2019-06-13',
-        docketNo: '1234',
-        counsel: 'Dirks',
         chargingSupervisor: 'Paul Fontenot',
         appealDisposition: 'appeal upheld',
         actionAppealed: 'suspension',
-        appealed: 'Yes',
         motions: 'amicable settlement',
       },
     ]
@@ -256,7 +245,6 @@ describe('#timelineSelector', () => {
             allegation: 'rule 01',
             allegationDesc:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            details: [],
           },
           {
             kind: 'UOF',
@@ -274,8 +262,6 @@ describe('#timelineSelector', () => {
             kind: 'APPEAL',
             year: 2019,
             date: 'Jun 13, 2019',
-            docketNo: '1234',
-            counsel: 'Dirks',
             chargingSupervisor: 'Paul Fontenot',
             appealDisposition: 'Appeal upheld',
             actionAppealed: 'suspension',
@@ -346,7 +332,6 @@ describe('#timelineSelector', () => {
             allegation: 'rule 01',
             allegationDesc:
               'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            details: ['citizen arrested', 'traffic stop'],
           },
           {
             id: '128',
@@ -354,7 +339,6 @@ describe('#timelineSelector', () => {
             trackingId: '10-03-1',
             disposition: 'Officer dispostion 2019-03-10 no1',
             action: 'Officer action 2019-03-10 no1',
-            details: ['traffic stop'],
           },
           {
             id: 39,
@@ -411,7 +395,6 @@ describe('#timelineSelector', () => {
             trackingId: '2018',
             disposition: 'Officer dispostion year 2018',
             action: 'Officer action year 2018',
-            details: ['citizen arrested'],
           },
         ],
         leftGroup: false,
@@ -434,7 +417,6 @@ describe('#timelineSelector', () => {
             trackingId: '20-10',
             disposition: 'Officer dispostion 2018-10-20',
             action: 'Officer action 2018-10-20',
-            details: [],
           },
         ],
         leftGroup: false,
@@ -450,7 +432,6 @@ describe('#timelineSelector', () => {
             trackingId: '123-456',
             disposition: 'Officer dispostion of unknowed time',
             action: 'Officer action of unknowed time',
-            details: [],
           },
         ],
         leftGroup: true,
@@ -993,7 +974,6 @@ describe('#hasEventDetailsSelector', () => {
         citizenInjured: 'yes',
         citizenHospitalized: 'no',
         officerInjured: 'yes',
-        trafficStop: 'yes',
       },
       {
         kind: 'JOINED',
