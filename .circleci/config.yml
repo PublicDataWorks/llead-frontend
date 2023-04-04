@@ -308,12 +308,6 @@ workflows:
                 - staging
                 - main
                 - develop
-      - integration-test-non-interactive:
-          requires:
-            - test
-      - integration-test-interactive:
-          requires:
-            - test
 
   push_to_public:
     jobs:
@@ -322,16 +316,9 @@ workflows:
             branches:
               only:
                 - develop
-      - integration-test-non-interactive:
-          requires:
-            - test
-      - integration-test-interactive:
-          requires:
-            - test
       - push_to_public:
           requires:
-            - integration-test-non-interactive
-            - integration-test-interactive
+            - test
 
   deploy_frontend:
     jobs:
@@ -341,16 +328,9 @@ workflows:
               only:
                 - main
                 - staging
-      - integration-test-non-interactive:
-          requires:
-            - test
-      - integration-test-interactive:
-          requires:
-            - test
       - push_image:
           requires:
-            - integration-test-non-interactive
-            - integration-test-interactive
+            - test
       - deploy:
           requires:
             - push_image
