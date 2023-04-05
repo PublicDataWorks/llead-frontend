@@ -25,12 +25,9 @@ describe('Appeal Item component', () => {
       kind: 'APPEAL',
       year: 2019,
       date: '2019-06-13',
-      docketNo: '1234',
-      counsel: 'Dirks',
       chargingSupervisor: 'Paul Fontenot',
       appealDisposition: 'appeal upheld',
       actionAppealed: 'suspension',
-      appealed: 'Yes',
       motions: 'amicable settlement',
       department: 'New Orleans Police Department',
       showEventDetails: false,
@@ -82,30 +79,20 @@ describe('Appeal Item component', () => {
     )[2]
     expect(motions.textContent).toEqual('amicable settlement')
 
-    const counsel = appealItemContent.getElementsByClassName(
-      'appeal-item-info-row-value'
-    )[3]
-    expect(counsel.textContent).toEqual('Dirks')
-
     const chargingSupervisor = appealItemContent.getElementsByClassName(
       'appeal-item-info-row-value'
-    )[4]
+    )[3]
     expect(chargingSupervisor.textContent).toEqual('Paul Fontenot')
 
     const department = appealItemContent.getElementsByClassName(
       'appeal-item-info-row-value'
-    )[5]
+    )[4]
     expect(department.textContent).toEqual('New Orleans Police Department')
 
     const date = appealItemContent.getElementsByClassName(
       'appeal-item-info-row-value'
-    )[6]
+    )[5]
     expect(date.textContent).toEqual('2019-06-13')
-
-    const docketNo = appealItemContent.getElementsByClassName(
-      'appeal-item-info-row-value'
-    )[7]
-    expect(docketNo.textContent).toEqual('1234')
 
     const appealCopyLink = appealItemContent.getElementsByClassName(
       'appeal-item-copy-link'
@@ -119,7 +106,6 @@ describe('Appeal Item component', () => {
       kind: 'APPEAL',
       year: 2019,
       date: '2019-06-13',
-      docketNo: '1234',
       appealDisposition: 'appeal upheld',
       actionAppealed: 'suspension',
       motions: 'amicable settlement',
@@ -164,12 +150,9 @@ describe('Appeal Item component', () => {
       kind: 'APPEAL',
       year: 2019,
       date: '2019-06-13',
-      docketNo: '1234',
-      counsel: 'Dirks',
       chargingSupervisor: 'Paul Fontenot',
       appealDisposition: 'appeal upheld',
       actionAppealed: 'suspension',
-      appealed: 'Yes',
       motions: 'amicable settlement',
       highlight: true,
       showEventDetails: false,
@@ -208,12 +191,9 @@ describe('Appeal Item component', () => {
       kind: 'APPEAL',
       year: 2019,
       date: '2019-06-13',
-      docketNo: '1234',
-      counsel: 'Dirks',
       chargingSupervisor: 'Paul Fontenot',
       appealDisposition: 'appeal upheld',
       actionAppealed: 'suspension',
-      appealed: 'Yes',
       motions: 'amicable settlement',
       highlight: true,
       showEventDetails: true,
@@ -251,12 +231,9 @@ describe('Appeal Item component', () => {
       kind: 'APPEAL',
       year: 2019,
       date: '2019-06-13',
-      docketNo: '1234',
-      counsel: 'Dirks',
       chargingSupervisor: 'Paul Fontenot',
       appealDisposition: 'appeal upheld',
       actionAppealed: 'suspension',
-      appealed: 'Yes',
       motions: 'amicable settlement',
       highlight: false,
       showEventDetails: true,

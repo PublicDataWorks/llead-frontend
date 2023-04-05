@@ -8,7 +8,9 @@ const SalaryChangeItem = (props) => {
   const { salary, className } = props
 
   return (
-    <div className={cx('timeline-change-item', className)}>
+    <div
+      className={cx('timeline-change-item', 'salary-change-item', className)}
+    >
       Salary changed to
       <span className='change-item-value'> {salary}</span>
     </div>

@@ -125,12 +125,10 @@ const Department = (props) => {
 
   const openSearchModal = () => {
     setIsSearchModalOpen(true)
-    document.body.style.overflow = 'hidden'
   }
 
   const closeSearchModal = () => {
     setIsSearchModalOpen(false)
-    document.body.style.overflow = 'unset'
   }
 
   useEffect(() => {

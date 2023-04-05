@@ -61,7 +61,6 @@ const FrontPage = (props) => {
 
   const openSearchModal = () => {
     toggleSearchModal(true)
-    document.body.style.overflow = 'hidden'
   }
 
   return (

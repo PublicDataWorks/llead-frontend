@@ -32,12 +32,7 @@ describe('UseOfForceItem component', () => {
         '42-year-old asian male',
       ],
       trackingId: 'Complainant',
-      details: [
-        'citizen arrested',
-        'citizen injured',
-        'officer injured',
-        'traffic stop',
-      ],
+      details: ['citizen arrested', 'citizen injured', 'officer injured'],
       showEventDetails: false,
     }
 
@@ -184,12 +179,7 @@ describe('UseOfForceItem component', () => {
       serviceType: 'Call for service',
       citizenInformation: ['26-year-old white female'],
       trackingId: 'Complainant',
-      details: [
-        'citizen arrested',
-        'citizen injured',
-        'officer injured',
-        'traffic stop',
-      ],
+      details: ['citizen arrested', 'citizen injured', 'officer injured'],
       highlight: true,
       showEventDetails: false,
     }

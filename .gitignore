@@ -17,9 +17,14 @@
 cypress/integration/examples
 cypress/videos
 cypress/screenshots
+cypress/results
 
 .history
 
 .idea
 
 .env
+*.pgsql
+
+reports/
+results/
