@@ -147,7 +147,7 @@ describe('Officer component', () => {
     const officerData = {
       salary: '$57,123,72/year',
       badges: ['123', '456'],
-      complaintsCount: 0,
+      complaintsCount: 10,
       departments: [
         {
           id: 'baton-rouge-pd',
@@ -156,8 +156,15 @@ describe('Officer component', () => {
       ],
       description: 'age-year-old race gender',
       documentsCount: 1,
-      name: 'officer name',
+      name: 'Huy Dao',
       latestRank: 'Lieutenant',
+      articlesCount: 5,
+      sustainedComplaintsCount: 6,
+      complaintsYearCount: 5,
+      incidentForceCount: 4,
+      terminationCount: 7,
+      articlesDocumentsYears: [2019, 2020, 2021],
+      awardCount: 3,
     }
     const timelinePeriod = '2012 and 2018-2020'
     const container = render(
@@ -183,7 +190,7 @@ describe('Officer component', () => {
     ).toEqual('Lieutenant')
     expect(
       baseElement.getElementsByClassName('officer-name')[0].textContent
-    ).toEqual('Officer Name')
+    ).toEqual('Huy Dao')
 
     const officerBasicInfoRows = baseElement.getElementsByClassName(
       'officer-basic-info-row'
@@ -200,7 +207,9 @@ describe('Officer component', () => {
 
     expect(
       baseElement.getElementsByClassName('officer-summary-info')[0].textContent
-    ).toEqual('Officer Name is named in\u00A01 document.')
+    ).toEqual(
+      'Huy Dao was named in\u00A010 allegations, 6 sustained\u00A0over 5 years.\u00A0Huy Dao has\u00A04 use of force\u00A0incidents, 3 commendations, and\u00A07 terminations.'
+    )
   })
 
   it('renders correctly with the timeline of single year', () => {
@@ -217,6 +226,7 @@ describe('Officer component', () => {
       description: 'age-year-old race gender',
       documentsCount: 1,
       name: 'officer name',
+      articlesDocumentsYears: [2019, 2020, 2021],
     }
     const timelinePeriod = '2012'
     const container = render(
@@ -242,7 +252,7 @@ describe('Officer component', () => {
     const officerData = {
       salary: '$57,123,72/year',
       badges: ['123', '456'],
-      complaintsCount: 0,
+      complaintsCount: 10,
       departments: [
         {
           id: 'baton-rouge-pd',
@@ -255,8 +265,14 @@ describe('Officer component', () => {
       ],
       description: 'age-year-old race gender',
       documentsCount: 1,
-      name: 'officer name',
+      name: 'Huy Dao',
       latestRank: 'Lieutenant',
+      articlesCount: 5,
+      sustainedComplaintsCount: 6,
+      complaintsYearCount: 5,
+      incidentForceCount: 4,
+      terminationCount: 7,
+      articlesDocumentsYears: [2019, 2020, 2021],
     }
     const timelinePeriod = '2012 and 2018-2020'
     const container = render(
@@ -282,7 +298,7 @@ describe('Officer component', () => {
     ).toEqual('Lieutenant')
     expect(
       baseElement.getElementsByClassName('officer-name')[0].textContent
-    ).toEqual('Officer Name')
+    ).toEqual('Huy Dao')
 
     const officerBasicInfoRows = baseElement.getElementsByClassName(
       'officer-basic-info-row'
@@ -303,15 +319,23 @@ describe('Officer component', () => {
 
     expect(
       baseElement.getElementsByClassName('officer-summary-info')[0].textContent
-    ).toEqual('Officer Name is named in\u00A01 document.')
+    ).toEqual(
+      'Huy Dao was named in\u00A010 allegations, 6 sustained\u00A0over 5 years.\u00A0Huy Dao has\u00A04 use of force\u00A0incidents, and\u00A07 terminations.\u00A0Huy Dao has worked in 2 law enforcement agencies in Louisiana.'
+    )
   })
 
   describe('Data summary', () => {
-    it('renders complaints summary', () => {
+    it('renders correctly', () => {
       const officerData = {
-        name: 'officer name',
-        complaintsCount: 2,
+        name: 'Huy Dao',
+        complaintsCount: 10,
         documentsCount: 0,
+        articlesCount: 5,
+        sustainedComplaintsCount: 6,
+        complaintsYearCount: 5,
+        incidentForceCount: 4,
+        terminationCount: 7,
+        articlesDocumentsYears: [2019, 2020, 2021],
       }
 
       const container = render(
@@ -330,15 +354,21 @@ describe('Officer component', () => {
         baseElement.getElementsByClassName('officer-summary-info')[0]
           .textContent
       ).toEqual(
-        'Our data shows that Officer Name has\u00A02 misconduct allegations.'
+        'Huy Dao was named in\u00A010 allegations, 6 sustained\u00A0over 5 years.\u00A0Huy Dao has\u00A04 use of force\u00A0incidents, and\u00A07 terminations.'
       )
     })
 
-    it('renders documents summary if no complaints', () => {
+    it('renders if no sustained complaints', () => {
       const officerData = {
-        name: 'officer name',
-        complaintsCount: 0,
-        documentsCount: 1,
+        name: 'Huy Dao',
+        complaintsCount: 10,
+        documentsCount: 0,
+        articlesCount: 5,
+        sustainedComplaintsCount: 0,
+        complaintsYearCount: 5,
+        incidentForceCount: 4,
+        terminationCount: 7,
+        articlesDocumentsYears: [2019, 2020, 2021],
       }
 
       const container = render(
@@ -356,13 +386,202 @@ describe('Officer component', () => {
       expect(
         baseElement.getElementsByClassName('officer-summary-info')[0]
           .textContent
-      ).toEqual('Officer Name is named in\u00A01 document.')
+      ).toEqual(
+        'Huy Dao was named in\u00A010 allegations\u00A0over 5 years.\u00A0Huy Dao has\u00A04 use of force\u00A0incidents, and\u00A07 terminations.'
+      )
     })
 
-    it('does not render officer summary if no complaints and documents', () => {
+    it('renders if no use of force', () => {
+      const officerData = {
+        name: 'Huy Dao',
+        complaintsCount: 4,
+        documentsCount: 0,
+        articlesCount: 5,
+        sustainedComplaintsCount: 0,
+        complaintsYearCount: 9,
+        incidentForceCount: 0,
+        terminationCount: 7,
+        articlesDocumentsYears: [2019, 2020, 2021],
+        awardCount: 3,
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer officer={officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-summary-info')[0]
+          .textContent
+      ).toEqual(
+        'Huy Dao was named in\u00A04 allegations\u00A0over 9 years.\u00A0Huy Dao has\u00A03 commendations, and\u00A07 terminations.'
+      )
+    })
+
+    it('renders if no terminations', () => {
+      const officerData = {
+        name: 'Huy Dao',
+        complaintsCount: 10,
+        documentsCount: 0,
+        articlesCount: 5,
+        sustainedComplaintsCount: 6,
+        complaintsYearCount: 5,
+        incidentForceCount: 4,
+        terminationCount: 0,
+        articlesDocumentsYears: [2019, 2020, 2021],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer officer={officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-summary-info')[0]
+          .textContent
+      ).toEqual(
+        'Huy Dao was named in\u00A010 allegations, 6 sustained\u00A0over 5 years.\u00A0Huy Dao has\u00A04 use of force\u00A0incidents.'
+      )
+    })
+
+    it('renders documents and news articles', () => {
+      const officerData = {
+        name: 'Huy Dao',
+        complaintsCount: 0,
+        incidentForceCount: 0,
+        articlesCount: 3,
+        documentsCount: 4,
+        articlesDocumentsYears: [2019, 2020, 2021],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer officer={officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-summary-info')[0]
+          .textContent
+      ).toEqual(
+        'Huy Dao was named in\u00A03 news articles and 4 documents between 2019 and 2021.'
+      )
+    })
+
+    it('renders documents and news articles in 1 year', () => {
+      const officerData = {
+        name: 'Huy Dao',
+        complaintsCount: 0,
+        incidentForceCount: 0,
+        articlesCount: 3,
+        documentsCount: 4,
+        articlesDocumentsYears: [2019],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer officer={officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-summary-info')[0]
+          .textContent
+      ).toEqual(
+        'Huy Dao was named in\u00A03 news articles and 4 documents in 2019.'
+      )
+    })
+
+    it('renders documents', () => {
+      const officerData = {
+        name: 'Huy Dao',
+        complaintsCount: 0,
+        incidentForceCount: 0,
+        articlesCount: 0,
+        documentsCount: 4,
+        articlesDocumentsYears: [2019, 2020, 2021],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer officer={officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-summary-info')[0]
+          .textContent
+      ).toEqual('Huy Dao was named in\u00A04 documents between 2019 and 2021.')
+    })
+
+    it('renders news articles', () => {
+      const officerData = {
+        name: 'Huy Dao',
+        complaintsCount: 0,
+        incidentForceCount: 0,
+        articlesCount: 3,
+        documentsCount: 0,
+        articlesDocumentsYears: [2019, 2020, 2021],
+      }
+
+      const container = render(
+        <Provider store={MockStore()()}>
+          <MemoryRouter initialEntries={['officers/1']}>
+            <Route path='officers/:id'>
+              <Officer officer={officerData} />
+            </Route>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      const { baseElement } = container
+
+      expect(
+        baseElement.getElementsByClassName('officer-summary-info')[0]
+          .textContent
+      ).toEqual(
+        'Huy Dao was named in\u00A03 news articles between 2019 and 2021.'
+      )
+    })
+
+    it('does not render officer summary if no complaints and incidents', () => {
       const officerData = {
         complaintsCount: 0,
         documentsCount: 0,
+        incidentForceCount: 0,
+        articlesCount: 0,
       }
 
       const container = render(
