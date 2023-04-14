@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import cx from 'classnames'
 
 import './navbar.scss'
-import { ABOUT_PATH, CONTACT_PATH } from 'constants/paths'
+import { ABOUT_PATH, CONTACT_PATH, FINDINGS_PAGE } from 'constants/paths'
 
 const Navbar = () => {
   const location = useLocation()
@@ -12,7 +12,7 @@ const Navbar = () => {
     <div className='navbar'>
       <Link
         to={ABOUT_PATH}
-        className={cx('about', {
+        className={cx('page', {
           'is-active': location.pathname === ABOUT_PATH,
         })}
       >
@@ -20,12 +20,15 @@ const Navbar = () => {
       </Link>
       <Link
         to={CONTACT_PATH}
-        className={cx('contact', {
+        className={cx('page', {
           'is-active': location.pathname === CONTACT_PATH,
         })}
       >
         Contact
       </Link>
+      <a className='page' href={FINDINGS_PAGE}>
+        Findings
+      </a>
     </div>
   )
 }
