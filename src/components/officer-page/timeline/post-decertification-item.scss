@@ -2,11 +2,11 @@
 @import 'styles/variables';
 @import 'styles/mixins';
 
-.timeline-complaint-item {
+.timeline-post-decertification-item {
   background-color: $wild-sand-color;
   border-radius: 8px;
 
-  .complaint-item-header {
+  .post-decertification-item-header {
     @include small-text;
     background-color: $white-color;
     transition: all 1s ease;
@@ -14,20 +14,11 @@
     padding: $v-small-margin $h-card-margin 0 $h-card-margin;
     cursor: pointer;
 
-    .complaint-item-title {
+    .post-decertification-item-title {
       font-weight: 300;
-      color: $boulder-color;
-
-      span {
-        color: $thunder-color;
-      }
     }
 
-    .complaint-item-subtitle {
-      font-weight: 500;
-    }
-
-    .complaint-item-expand-icon {
+    .post-decertification-item-expand-icon {
       transition: all 0.25s linear;
       box-sizing: border-box;
       height: 48px;
@@ -43,37 +34,23 @@
     }
   }
 
-  .complaint-item-content {
-    .complaint-item-info-row {
+  .post-decertification-item-content {
+    .post-decertification-item-info-row {
       @include small-text;
       padding: $v-small-margin $h-card-margin $v-small-margin $h-card-margin;
 
-      & + .complaint-item-info-row {
+      & + .post-decertification-item-info-row {
         border-top: 1px solid $alto-color;
       }
 
-      .complaint-item-info-row-title {
+      .post-decertification-item-info-row-title {
         color: $boulder-color;
       }
 
-      .complaint-item-officer-row-value {
-        .complaint-item-officer-name {
-          display: inline-block;
-
-          &::after {
-            content: ',\00a0';
-          }
-
-          &:last-child::after {
-            content: '';
-          }
-        }
-      }
-
-      .complaint-item-info-row-value {
+      .post-decertification-item-info-row-value {
         color: $thunder-color;
 
-        .complaint-item-detail-element {
+        .post-decertification-item-detail-element {
           margin-top: 9px;
           display: inline-block;
           background: $white-color;
@@ -87,7 +64,7 @@
       }
     }
 
-    .complaint-item-copy-link {
+    .post-decertification-item-copy-link {
       border-radius: 0 0 8px 8px;
       box-sizing: border-box;
       height: 48px;
@@ -107,25 +84,25 @@
   }
 
   &.has-connected-line {
-    .complaint-item-header {
+    .post-decertification-item-header {
       padding-left: $h-card-margin + $icon-width;
     }
 
-    .complaint-item-content {
-      .complaint-item-info-row {
+    .post-decertification-item-content {
+      .post-decertification-item-info-row {
         padding-left: $h-card-margin + $icon-width;
       }
     }
   }
 
-  &.timeline-complaint-highlight {
-    .complaint-item-header {
+  &.timeline-post-decertification-highlight {
+    .post-decertification-item-header {
       background-color: $half-and-half-color;
       transition: all 1s ease;
     }
 
-    .complaint-item-content {
-      .complaint-item-copy-link {
+    .post-decertification-item-content {
+      .post-decertification-item-copy-link {
         background-color: $half-and-half-color;
         transition: all 1s ease;
       }
@@ -134,16 +111,16 @@
 }
 
 @media only screen and (min-width: $mobile-breakpoint) {
-  .timeline-complaint-item {
+  .timeline-post-decertification-item {
     &.has-connected-line {
       &.left-item {
-        .complaint-item-header {
+        .post-decertification-item-header {
           padding-left: $h-card-margin;
           padding-right: $h-card-margin + $icon-width;
         }
 
-        .complaint-item-content {
-          .complaint-item-info-row {
+        .post-decertification-item-content {
+          .post-decertification-item-info-row {
             padding-left: $h-card-margin;
             padding-right: $h-card-margin + $icon-width;
           }

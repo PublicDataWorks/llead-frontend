@@ -137,6 +137,7 @@ const UseOfForceItem = (props) => {
                 <div className='uof-item-info-row' key={element.title}>
                   <div className='uof-item-info-row-title'>{element.title}</div>
                   {element.title === 'Citizen Information' &&
+                    !isEmpty(citizenInformation) &&
                     element.content.map((citizenInformation, index) => (
                       <div key={index} className='uof-item-info-row-value'>
                         {citizenInformation}

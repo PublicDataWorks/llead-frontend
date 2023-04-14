@@ -1,0 +1,44 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.timeline-joined-item {
+  .timeline-joined-item-title {
+    padding: 12px 50px;
+    text-align: center;
+    background-color: $pancho-color;
+    border-radius: 8px;
+
+    &.is-info {
+      text-align: left;
+      border-bottom: 1px dashed $boulder-color;
+      border-radius: 8px 8px 0px 0px;
+    }
+  }
+
+  .timeline-joined-item-info {
+    @include small-text;
+    line-height: 30px;
+    display: none;
+    padding: 8px 50px;
+    color: $boulder-color;
+    background-color: $white-color;
+    border-radius: 0px 0px 8px 8px;
+
+    &.is-info {
+      display: block;
+    }
+
+    .left-department {
+      span {
+        color: $thunder-color;
+      }
+    }
+
+    .left-reason {
+      span {
+        color: $dark-burgundy-color;
+      }
+    }
+  }
+}
