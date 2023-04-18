@@ -16,6 +16,7 @@ import MigratoryPatternMap from './migratory-map'
 import IntroSection from 'containers/front-page/intro-section'
 import SearchSVG from 'assets/icons/search.svg'
 import { FRONT_PAGE_SECTIONS } from 'constants/common'
+import Findings from 'containers/front-page/findings'
 
 const FrontPage = (props) => {
   const {
@@ -87,6 +88,7 @@ const FrontPage = (props) => {
           className='front-page-carousel'
         />
       )}
+      <Findings />
       {!isEmpty(departments) && (
         <div className={frontPageOrderClasses[FRONT_PAGE_SECTIONS.DEPARTMENT]}>
           <div className='section-anchor' ref={departmentRef} />

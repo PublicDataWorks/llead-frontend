@@ -8,6 +8,7 @@ import MockStore from 'redux-mock-store'
 import LogIn from 'components/login-page/login'
 import FrontPage from 'components/front-page'
 import introSection from 'containers/front-page/intro-section'
+import findings from 'containers/front-page/findings'
 
 jest.mock('containers/front-page/intro-section', () => ({
   __esModule: true,
@@ -19,12 +20,24 @@ const MockIntroSectionComponent = () => {
   return <div>Intro Section</div>
 }
 
+jest.mock('containers/front-page/findings', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockFindingsComponent = () => {
+  return <div>Findings Section</div>
+}
+
 beforeAll(() => {
   introSection.mockImplementation(MockIntroSectionComponent)
+  findings.mockImplementation(MockFindingsComponent)
 })
 
 beforeEach(() => {
   introSection.mockClear()
+  findings.mockClear()
 })
 
 describe('Login component', () => {

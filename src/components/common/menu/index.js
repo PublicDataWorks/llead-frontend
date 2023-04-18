@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 
 import './menu.scss'
-import { ABOUT_PATH, CONTACT_PATH } from 'constants/paths'
+import { ABOUT_PATH, CONTACT_PATH, FINDINGS_PAGE } from 'constants/paths'
 
 const Menu = (props) => {
   const { closeMenu } = props
@@ -28,12 +28,15 @@ const Menu = (props) => {
     <div className='menu' ref={menuRef}>
       <div className='wrapper' onClick={closeMenu}>
         <div className='close-btn' />
-        <Link to={ABOUT_PATH} className='about'>
+        <Link to={ABOUT_PATH} className='page'>
           About
         </Link>
-        <Link to={CONTACT_PATH} className='contact'>
+        <Link to={CONTACT_PATH} className='page'>
           Contact
         </Link>
+        <a className='page' href={FINDINGS_PAGE}>
+          Findings
+        </a>
       </div>
     </div>
   )

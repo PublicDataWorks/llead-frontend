@@ -21,8 +21,7 @@
       background: $white-color url('assets/icons/remove.svg') center no-repeat;
     }
 
-    .about,
-    .contact {
+    .page {
       @include body-text;
       padding: 15px 20px;
       color: $thunder-color;
