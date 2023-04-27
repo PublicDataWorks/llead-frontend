@@ -6,8 +6,7 @@
   display: none;
   padding: 0px 25px;
 
-  .about,
-  .contact {
+  .page {
     @include body-text;
     font-size: 20px;
     display: inline-block;
@@ -16,8 +15,7 @@
     text-decoration: none;
   }
 
-  .about.is-active,
-  .contact.is-active {
+  .page.is-active {
     font-weight: 500;
     border-bottom: 3px solid $thunder-color;
   }

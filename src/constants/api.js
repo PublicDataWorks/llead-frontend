@@ -20,3 +20,4 @@ export const FRONT_PAGE_ORDERS_API_URL = `${API_URL}front-page-orders/`
 export const FRONT_PAGE_CARDS_API_URL = `${API_URL}front-page-cards/`
 export const Q_AND_A_API_URL = `${API_URL}q-and-a/`
 export const FEEDBACKS_API_URL = `${API_URL}feedbacks/`
+export const FINDINGS_API_URL = `${API_URL}findings/`

@@ -1,4 +1,10 @@
-import { complaintItemUrl, uofItemUrl } from 'utils/urls'
+import {
+  appealItemUrl,
+  bradyItemUrl,
+  complaintItemUrl,
+  postCertificationItemUrl,
+  uofItemUrl,
+} from 'utils/urls'
 import config from 'config'
 
 const { host } = config
@@ -16,5 +22,29 @@ describe('#uofItemUrl', () => {
     const url = uofItemUrl(1, 12)
 
     expect(url).toEqual(`${host}/officers/1/?uof_id=12`)
+  })
+})
+
+describe('#appealItemUrl', () => {
+  it('returns appeal item url', () => {
+    const url = appealItemUrl(1, 12)
+
+    expect(url).toEqual(`${host}/officers/1/?appeal_id=12`)
+  })
+})
+
+describe('#bradyItemUrl', () => {
+  it('returns brady item url', () => {
+    const url = bradyItemUrl(1, 12)
+
+    expect(url).toEqual(`${host}/officers/1/?brady_id=12`)
+  })
+})
+
+describe('#postCertificationItemUrl', () => {
+  it('returns post certification item url', () => {
+    const url = postCertificationItemUrl(1, 12)
+
+    expect(url).toEqual(`${host}/officers/1/?event_id=12`)
   })
 })

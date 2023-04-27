@@ -38,7 +38,14 @@ const officerDetailsFormatter = (officer) => {
     'badges',
     'latestRank',
     'documentsCount',
+    'articlesCount',
     'complaintsCount',
+    'sustainedComplaintsCount',
+    'complaintsYearCount',
+    'incidentForceCount',
+    'terminationCount',
+    'articlesDocumentsYears',
+    'awardCount',
   ]
 
   const salary = get(officer, 'salary')

@@ -19,8 +19,9 @@ describe('Menu component', () => {
     const { baseElement, getByText } = container
 
     expect(baseElement.getElementsByClassName('close-btn')).toBeTruthy()
-    expect(getByText('About').className).toEqual('about')
-    expect(getByText('Contact').className).toEqual('contact')
+    expect(getByText('About').className).toEqual('page')
+    expect(getByText('Contact').className).toEqual('page')
+    expect(getByText('Findings').className).toEqual('page')
   })
 
   it('triggers closeMenu when click X button', () => {
@@ -101,6 +102,34 @@ describe('Menu component', () => {
     fireEvent.click(aboutBtn)
 
     expect(baseElement.getElementsByClassName('contact-page').length).toEqual(1)
+    expect(closeMenuStub).toHaveBeenCalled()
+  })
+
+  it('redirects to findings page', () => {
+    global.window = Object.create(window)
+    const url = 'https://findings.llead.co'
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: url,
+      },
+      writable: true,
+    })
+
+    const closeMenuStub = sinon.stub()
+
+    const container = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path='/'>
+          <Menu closeMenu={closeMenuStub} />
+        </Route>
+      </MemoryRouter>
+    )
+    const { getByText } = container
+
+    const findingsBtn = getByText('Findings')
+    fireEvent.click(findingsBtn)
+
+    expect(window.location.href).toEqual('https://findings.llead.co')
     expect(closeMenuStub).toHaveBeenCalled()
   })
 })

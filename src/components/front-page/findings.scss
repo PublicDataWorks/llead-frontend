@@ -1,0 +1,187 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.findings {
+  height: 700px;
+  padding: 60px 30px;
+  color: $white-color;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+
+  .findings-intro {
+    padding-bottom: 78px;
+
+    .findings-title {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 31px;
+    }
+
+    .findings-description {
+      @include small-text;
+      padding: 30px 0px;
+    }
+
+    .findings-readmore {
+      color: $thunder-color;
+      background-color: $white-color;
+      border: 1px solid $alto-color;
+      border-radius: 2px;
+    }
+  }
+
+  .findings-card {
+    position: relative;
+    height: 352px;
+
+    .findings-card-layer1 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 352px;
+      width: 300px;
+      background-color: $white-color;
+      border-radius: 12px;
+      z-index: 3;
+
+      .findings-card-layer1-body {
+        position: relative;
+
+        .findings-card-layer1-image {
+          height: 300px;
+          width: 300px;
+          border-radius: 12px 12px 0px 0px;
+        }
+
+        .findings-card-layer1-department {
+          @include small-text;
+          position: absolute;
+          top: 16px;
+          left: 20px;
+          padding: 4px 6px;
+          background-color: rgba(61, 61, 61, 0.4);
+          backdrop-filter: blur(20px);
+          border-radius: 4px;
+        }
+
+        .findings-card-layer1-title {
+          position: absolute;
+          bottom: 16px;
+          left: 20px;
+          right: 20px;
+          padding: 2px 4px;
+          color: $white-color;
+          background-color: rgba(0, 0, 0, 0.9);
+        }
+      }
+
+      .findings-card-layer1-footer {
+        color: $boulder-color;
+        padding: 10px 24px 19px 24px;
+      }
+    }
+
+    .findings-card-layer2 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -16px;
+      height: 352px;
+      width: 280px;
+      background-color: $white-color;
+      border-radius: 12px;
+      z-index: 2;
+
+      .findings-card-layer2-image {
+        height: 300px;
+        width: 280px;
+        border-radius: 12px 12px 0px 0px;
+        background: url('assets/icons/second-background-card.svg') center
+          no-repeat;
+        background-size: cover;
+      }
+    }
+
+    .findings-card-layer3 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -28px;
+      height: 352px;
+      width: 260px;
+      background-color: $white-color;
+      border-radius: 12px;
+      z-index: 1;
+
+      .findings-card-layer3-image {
+        height: 300px;
+        width: 260px;
+        border-radius: 12px 12px 0px 0px;
+        background: url('assets/icons/third-backgroud-card.svg') center
+          no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $mobile-breakpoint) {
+  .findings {
+    .findings-intro {
+      .findings-title {
+        font-weight: 600;
+        font-size: 48px;
+      }
+    }
+
+    .findings-card {
+      .findings-card-layer2 {
+        left: calc(50% + 16px);
+        width: 300px;
+        .findings-card-layer2-image {
+          width: 300px;
+        }
+      }
+
+      .findings-card-layer3 {
+        left: calc(50% + 28px);
+        width: 300px;
+
+        .findings-card-layer3-image {
+          width: 300px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $laptop-breakpoint) {
+  .findings {
+    height: 550px;
+    flex-direction: row;
+    padding: 60px 40px;
+    align-items: center;
+    gap: 80px;
+
+    .findings-intro {
+      width: calc(100% - 400px);
+      padding-bottom: 0px;
+
+      .findings-title {
+        font-size: 64px;
+      }
+    }
+
+    .findings-card {
+      .findings-card-layer1,
+      .findings-card-layer2,
+      .findings-card-layer3 {
+        transform: translateX(0);
+      }
+    }
+  }
+}

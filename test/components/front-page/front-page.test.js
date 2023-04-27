@@ -9,6 +9,7 @@ import * as rdd from 'react-device-detect'
 import FrontPage from 'components/front-page'
 import { RECENT_ITEM_TYPES } from 'constants/common'
 import IntroSection from 'containers/front-page/intro-section'
+import Findings from 'containers/front-page/findings'
 
 jest.mock('containers/front-page/intro-section', () => ({
   __esModule: true,
@@ -20,12 +21,24 @@ const MockIntroSectionComponent = () => {
   return <div>Intro Section</div>
 }
 
+jest.mock('containers/front-page/findings', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+const MockFindingsComponent = () => {
+  return <div>Findings Section</div>
+}
+
 beforeAll(() => {
   IntroSection.mockImplementation(MockIntroSectionComponent)
+  Findings.mockImplementation(MockFindingsComponent)
 })
 
 beforeEach(() => {
   IntroSection.mockClear()
+  Findings.mockClear()
 })
 
 describe('FrontPage component', () => {
@@ -58,6 +71,7 @@ describe('FrontPage component', () => {
     expect(fetchNewsArticlesSpy).toHaveBeenCalled()
     expect(fetchFrontPageOrdersSpy).toHaveBeenCalled()
     expect(IntroSection).toHaveBeenCalled()
+    expect(Findings).toHaveBeenCalled()
   })
 
   it('clear search query on enter homepage', () => {

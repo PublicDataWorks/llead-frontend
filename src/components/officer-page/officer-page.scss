@@ -46,7 +46,7 @@
     .officer-summary-info {
       @include body-text;
       margin: $v-small-margin $h-card-margin 0 $h-card-margin;
-      padding: $v-margin $h-card-margin;
+      padding: $v-frame-margin;
       background-color: $willow-brook-color;
       text-align: center;
       border-radius: 2px;

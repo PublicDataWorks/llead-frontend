@@ -5,10 +5,10 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import AnimateHeight from 'react-animate-height'
 import upperFirst from 'lodash/upperFirst'
 import trim from 'lodash/trim'
-import isEmpty from 'lodash/isEmpty'
 
-import './complaint-item.scss'
-import { complaintItemUrl } from 'utils/urls'
+import './brady-item.scss'
+import { bradyItemUrl } from 'utils/urls'
+import { formatDate } from 'utils/formatter'
 import {
   ANIMATION_DURATION,
   TRACK_ITEM_TYPES,
@@ -19,15 +19,17 @@ import {
   analyzeExpandEventCard,
 } from 'utils/google-analytics'
 
-const ComplaintItem = (props) => {
+const BradyItem = (props) => {
   const {
     className,
-    allegation,
     allegationDesc,
     disposition,
     action,
-    trackingId,
-    associatedOfficers,
+    chargingDepartment,
+    department,
+    sourceDepartment,
+    date,
+    trackingIdOg,
     highlight,
     showEventDetails,
     officerId,
@@ -63,7 +65,7 @@ const ComplaintItem = (props) => {
 
   const handleOnCopied = () => {
     analyzeCopyCardLink({
-      type: TRACK_ITEM_TYPES.COMPLAINT,
+      type: TRACK_ITEM_TYPES.BRADY,
       id,
     })
     const timeoutId = setTimeout(
@@ -73,37 +75,45 @@ const ComplaintItem = (props) => {
     setCopyTimeoutId(timeoutId)
   }
 
-  const complaintData = [
-    {
-      title: 'Allegation',
-      content: allegation,
-    },
+  const bradyData = [
     {
       title: 'Allegation Description',
       content: allegationDesc,
-    },
-    {
-      title: 'Disposition',
-      content: disposition,
     },
     {
       title: 'Action',
       content: action,
     },
     {
-      title: 'Tracking ID',
-      content: trackingId,
+      title: 'Disposition',
+      content: disposition,
     },
     {
-      title: 'Others named on tracking ID',
-      content: associatedOfficers,
+      title: 'Charging Agency',
+      content: chargingDepartment,
+    },
+    {
+      title: 'Agency of Employment',
+      content: department,
+    },
+    {
+      title: 'Brady List Source Agency',
+      content: sourceDepartment,
+    },
+    {
+      title: 'Brady List Received Date',
+      content: formatDate(date),
+    },
+    {
+      title: 'Tracking ID',
+      content: trackingIdOg,
     },
   ]
 
   const handleComplaintExpand = () => {
     if (!expanded) {
       analyzeExpandEventCard({
-        type: TRACK_ITEM_TYPES.COMPLAINT,
+        type: TRACK_ITEM_TYPES.BRADY,
         id,
       })
     }
@@ -112,17 +122,16 @@ const ComplaintItem = (props) => {
 
   return (
     <div
-      className={cx('timeline-complaint-item', className, {
-        'timeline-complaint-highlight': highlighting,
+      className={cx('timeline-brady-item', className, {
+        'timeline-brady-highlight': highlighting,
       })}
     >
-      <div className='complaint-item-header' onClick={handleComplaintExpand}>
-        <div className='complaint-item-title'>
-          Accused of <span>misconduct</span>
+      <div className='brady-item-header' onClick={handleComplaintExpand}>
+        <div className='brady-item-title'>
+          <b>Named on Brady List by</b> {sourceDepartment}
         </div>
-        <div className='complaint-item-subtitle'>{disposition}</div>
         <div
-          className={cx('complaint-item-expand-icon', {
+          className={cx('brady-item-expand-icon', {
             'expanded-icon': expanded,
           })}
           ref={expandItemRef}
@@ -132,43 +141,27 @@ const ComplaintItem = (props) => {
       <AnimateHeight
         duration={QUICK_ANIMATION_DURATION}
         height={expanded || highlight ? 'auto' : 0}
-        data-testid='test--complaint-animation'
+        data-testid='test--brady-animation'
       >
-        <div className='complaint-item-content'>
-          {complaintData.map(
+        <div className='brady-item-content'>
+          {bradyData.map(
             (element) =>
               element.content && (
-                <div className='complaint-item-info-row' key={element.title}>
-                  <div className='complaint-item-info-row-title'>
+                <div className='brady-item-info-row' key={element.title}>
+                  <div className='brady-item-info-row-title'>
                     {element.title}
                   </div>
-                  <div className='complaint-item-officer-row-value'>
-                    {element.title === 'Others named on tracking ID' &&
-                      !isEmpty(associatedOfficers) &&
-                      element.content.map((officer, index) => (
-                        <div
-                          key={index}
-                          className='complaint-item-officer-name'
-                        >
-                          <a href={complaintItemUrl(officer.id, id)}>
-                            {officer.name}
-                          </a>
-                        </div>
-                      ))}
-                    {element.title !== 'Others named on tracking ID' && (
-                      <div className='complaint-item-info-row-value'>
-                        {upperFirst(trim(element.content, '.'))}
-                      </div>
-                    )}
+                  <div className='brady-item-info-row-value'>
+                    {upperFirst(trim(element.content, '.'))}
                   </div>
                 </div>
               )
           )}
 
           <CopyToClipboard
-            text={complaintItemUrl(officerId, id)}
+            text={bradyItemUrl(officerId, id)}
             onCopy={handleOnCopied}
-            className={cx('complaint-item-copy-link', {
+            className={cx('brady-item-copy-link', {
               'copy-link-active': copyTimeoutId,
             })}
           >
@@ -182,22 +175,24 @@ const ComplaintItem = (props) => {
   )
 }
 
-ComplaintItem.propTypes = {
+BradyItem.propTypes = {
   className: PropTypes.string,
   id: PropTypes.number,
-  allegation: PropTypes.string,
   allegationDesc: PropTypes.string,
   disposition: PropTypes.string,
   action: PropTypes.string,
-  trackingId: PropTypes.string,
+  chargingDepartment: PropTypes.string,
+  department: PropTypes.string,
+  sourceDepartment: PropTypes.string,
+  date: PropTypes.string,
+  trackingIdOg: PropTypes.string,
   highlight: PropTypes.bool,
   showEventDetails: PropTypes.bool,
   officerId: PropTypes.string,
-  associatedOfficers: PropTypes.array,
 }
 
-ComplaintItem.defaultProps = {
+BradyItem.defaultProps = {
   showEventDetails: false,
 }
 
-export default ComplaintItem
+export default BradyItem

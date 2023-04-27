@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions'
 
 import * as actionTypes from 'action-types/front-page'
-import { get, authPost } from 'utils/api'
+import { get, authPost, inferGet } from 'utils/api'
 
 import {
   ANALYTIC_SUMMARY_API_URL,
@@ -11,6 +11,7 @@ import {
   NEWS_ARTICLES_API_URL,
   FRONT_PAGE_ORDERS_API_URL,
   FRONT_PAGE_CARDS_API_URL,
+  FINDINGS_API_URL,
 } from 'constants/api'
 
 export const fetchAnalyticSummary = () =>
@@ -54,7 +55,7 @@ export const fetchDocuments = () =>
   )()
 
 export const fetchNewsArticles = () =>
-  get(
+  inferGet(
     [
       actionTypes.NEWS_ARTICLES_FETCH_START,
       actionTypes.NEWS_ARTICLES_FETCH_SUCCESS,
@@ -105,4 +106,14 @@ export const hideNewsArticle = (id) =>
       actionTypes.NEWS_ARTICLE_HIDE_FAILURE,
     ],
     `${NEWS_ARTICLES_API_URL}${id}/hide/`
+  )()
+
+export const fetchFindings = () =>
+  get(
+    [
+      actionTypes.FINDINGS_FETCH_START,
+      actionTypes.FINDINGS_FETCH_SUCCESS,
+      actionTypes.FINDINGS_FETCH_FAILURE,
+    ],
+    FINDINGS_API_URL
   )()

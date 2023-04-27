@@ -14,6 +14,7 @@ const getDepartments = (state) => get(state, 'frontPage.departments', [])
 const getOfficers = (state) => get(state.frontPage, 'officers', [])
 const getDocuments = (state) => get(state.frontPage, 'documents', [])
 const getNewsArticles = (state) => get(state.frontPage, 'newsArticles', [])
+const getFindings = (state) => get(state.frontPage, 'findings', {})
 const getFrontPageOrders = (state) =>
   get(state.frontPage, 'frontPageOrders', [])
 
@@ -46,4 +47,9 @@ export const frontPageOrdersSelector = createSelector(
       }),
       {}
     )
+)
+
+export const findingsSelector = createSelector(
+  getFindings,
+  (findings) => findings
 )

@@ -19,6 +19,7 @@ import * as reactDeviceDetect from 'react-device-detect'
 import { MemoryRouter, Route } from 'react-router'
 import { ANIMATION_DURATION, EVENT_TYPES } from 'constants/common'
 import * as googleAnalytics from 'utils/google-analytics'
+import JoinedEventItem from 'components/officer-page/timeline/joined-item'
 
 const MockComplaintItemComponent = () => {
   return <div>Complaint Item</div>
@@ -101,6 +102,15 @@ jest.mock('components/officer-page/timeline/rank-change-item', () => ({
   default: jest.fn(),
 }))
 
+const MockJoinedItemComponent = () => {
+  return <div>Joined Item</div>
+}
+jest.mock('components/officer-page/timeline/joined-item', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
 beforeAll(() => {
   ComplaintItem.mockImplementation(MockComplaintItemComponent)
   MainItem.mockImplementation(MockMainItemComponent)
@@ -111,6 +121,7 @@ beforeAll(() => {
   UseOfForceItem.mockImplementation(MockUOFItemComponent)
   AppealItem.mockImplementation(MockAppealItemComponent)
   NewsArticleCard.mockImplementation(MockNewsArticleCardComponent)
+  JoinedEventItem.mockImplementation(MockJoinedItemComponent)
 })
 
 beforeEach(() => {
@@ -123,6 +134,7 @@ beforeEach(() => {
   UseOfForceItem.mockClear()
   AppealItem.mockClear()
   NewsArticleCard.mockClear()
+  JoinedEventItem.mockClear()
   sinon.stub(googleAnalytics, 'analyzeAction')
 })
 
@@ -1128,7 +1140,7 @@ describe('Timeline component', () => {
       </MemoryRouter>
     )
 
-    expect(MainItem.mock.calls[0][0]).toStrictEqual({
+    expect(JoinedEventItem.mock.calls[0][0]).toStrictEqual({
       kind: 'JOINED',
       className: 'has-connected-line left-item',
       saveRecentItem: mockSaveRecentItem,

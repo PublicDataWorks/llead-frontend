@@ -27,6 +27,12 @@ describe('ComplaintItem component', () => {
       showEventDetails: false,
       allegation: 'Allegation title',
       allegationDesc: 'Description',
+      associatedOfficers: [
+        {
+          id: 1,
+          name: 'Patrick Viera',
+        },
+      ],
     }
 
     const container = render(<ComplaintItem {...complaintData} />)

@@ -9,6 +9,7 @@ import frontPageOrdersReducer from './front-page-orders-reducer'
 import frontPageCardsReducer from './front-page-cards-reducer'
 import migratoryDataReducer from './migratory-data-reducer'
 import mapCurrentIndexReducer from './map-current-index-reducer'
+import findingsReducer from './findings-reducer'
 
 export default combineReducers({
   analyticSummary: analyticSummaryReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
   frontPageCards: frontPageCardsReducer,
   migratoryData: migratoryDataReducer,
   mapCurrentIndex: mapCurrentIndexReducer,
+  findings: findingsReducer,
 })

@@ -11,6 +11,7 @@ import {
   fetchMigratoryData,
   setMapCurrentIndex,
   hideNewsArticle,
+  fetchFindings,
 } from 'actions/front-page'
 import * as actionTypes from 'action-types/front-page'
 import * as ServiceApi from 'utils/api'
@@ -22,6 +23,7 @@ import {
   NEWS_ARTICLES_API_URL,
   FRONT_PAGE_ORDERS_API_URL,
   FRONT_PAGE_CARDS_API_URL,
+  FINDINGS_API_URL,
 } from 'constants/api'
 
 describe('#fetchAnalyticSummary', () => {
@@ -106,7 +108,7 @@ describe('#fetchDocuments', () => {
 
 describe('#fetchNewsArticles', () => {
   it('calls get Api', () => {
-    const getStub = sinon.stub(ServiceApi, 'get')
+    const getStub = sinon.stub(ServiceApi, 'inferGet')
     const getFunc = sinon.stub()
     getStub.returns(getFunc)
 
@@ -209,5 +211,25 @@ describe('#hideNewsArticle', () => {
       `${NEWS_ARTICLES_API_URL}${1}/hide/`
     )
     expect(postFunc).toHaveBeenCalled()
+  })
+})
+
+describe('#fetchFindings', () => {
+  it('calls get Api', () => {
+    const getStub = sinon.stub(ServiceApi, 'get')
+    const getFunc = sinon.stub()
+    getStub.returns(getFunc)
+
+    fetchFindings()
+
+    expect(getStub).toHaveBeenCalledWith(
+      [
+        actionTypes.FINDINGS_FETCH_START,
+        actionTypes.FINDINGS_FETCH_SUCCESS,
+        actionTypes.FINDINGS_FETCH_FAILURE,
+      ],
+      FINDINGS_API_URL
+    )
+    expect(getFunc).toHaveBeenCalled()
   })
 })

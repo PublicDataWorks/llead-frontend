@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react'
 import { Redirect, useParams, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import pluralize from 'pluralize'
 import noop from 'lodash/noop'
 import isEmpty from 'lodash/isEmpty'
 import toNumber from 'lodash/toNumber'
 import isNaN from 'lodash/isNaN'
 import startCase from 'lodash/startCase'
 import isInteger from 'lodash/isInteger'
+import head from 'lodash/head'
+import last from 'lodash/last'
+import size from 'lodash/size'
 
 import './officer-page.scss'
 import OfficerBadges from 'components/common/items/officer-badges'
@@ -45,7 +49,14 @@ const Officer = (props) => {
     description,
     salary,
     documentsCount,
+    articlesCount,
     complaintsCount,
+    sustainedComplaintsCount,
+    complaintsYearCount,
+    incidentForceCount,
+    terminationCount,
+    articlesDocumentsYears,
+    awardCount,
   } = officer
 
   useEffect(() => {
@@ -93,18 +104,69 @@ const Officer = (props) => {
     if (complaintsCount > 0) {
       return (
         <div className='officer-summary-info'>
-          Our data shows that {startCase(name)} has&nbsp;
-          <b>
-            {stringifyTotalItems(complaintsCount, 'misconduct allegations')}
-          </b>
-          .
+          {complaintsCount > 0 && (
+            <span>
+              {startCase(name)} was named in&nbsp;
+              <b>{stringifyTotalItems(complaintsCount, 'allegations')}</b>
+              {sustainedComplaintsCount > 0 && (
+                <b>, {sustainedComplaintsCount} sustained</b>
+              )}
+              &nbsp;over {stringifyTotalItems(complaintsYearCount, 'years')}.
+            </span>
+          )}
+
+          {(incidentForceCount > 0 || awardCount > 0) && (
+            <span>
+              &nbsp;
+              {startCase(name)} has&nbsp;
+              {incidentForceCount > 0 && (
+                <span>
+                  <b>{incidentForceCount} use of force</b>&nbsp;
+                  {pluralize('incidents', incidentForceCount)}
+                </span>
+              )}
+              {awardCount > 0 && (
+                <span>
+                  {incidentForceCount ? ', ' : ''}
+                  <b>{stringifyTotalItems(awardCount, 'commendations')}</b>
+                </span>
+              )}
+              {terminationCount > 0 && (
+                <span>
+                  , and&nbsp;
+                  <b>{stringifyTotalItems(terminationCount, 'terminations')}</b>
+                </span>
+              )}
+              .
+            </span>
+          )}
+          {size(departments) > 1 && (
+            <span>
+              &nbsp;
+              {startCase(name)} has worked in {size(departments)} law
+              enforcement agencies in Louisiana.
+            </span>
+          )}
         </div>
       )
-    } else if (documentsCount > 0) {
+    } else if (documentsCount > 0 || articlesCount > 0) {
       return (
         <div className='officer-summary-info'>
-          {startCase(name)} is named in&nbsp;
-          <b>{stringifyTotalItems(documentsCount, 'documents')}</b>.
+          {startCase(name)} was named in&nbsp;
+          {articlesCount > 0 && (
+            <b>{stringifyTotalItems(articlesCount, 'news articles')}</b>
+          )}
+          {documentsCount > 0 && articlesCount > 0 && <span> and </span>}
+          {documentsCount > 0 && (
+            <b>{stringifyTotalItems(documentsCount, 'documents')}</b>
+          )}
+          {articlesDocumentsYears.length > 1 &&
+            ` between ${head(articlesDocumentsYears)} and ${last(
+              articlesDocumentsYears
+            )}`}
+          {articlesDocumentsYears.length === 1 &&
+            ` in ${articlesDocumentsYears[0]}`}
+          .
         </div>
       )
     }
