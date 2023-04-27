@@ -156,7 +156,6 @@ FrontPage.propTypes = {
 }
 
 FrontPage.defaultProps = {
-  isAdmin: false,
   cms: {},
   departments: [],
   officers: [],

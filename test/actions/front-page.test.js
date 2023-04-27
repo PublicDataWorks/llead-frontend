@@ -108,7 +108,7 @@ describe('#fetchDocuments', () => {
 
 describe('#fetchNewsArticles', () => {
   it('calls get Api', () => {
-    const getStub = sinon.stub(ServiceApi, 'get')
+    const getStub = sinon.stub(ServiceApi, 'inferGet')
     const getFunc = sinon.stub()
     getStub.returns(getFunc)
 
