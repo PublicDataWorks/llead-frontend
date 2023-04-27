@@ -42,6 +42,13 @@ describe('#officerSelector', () => {
         complaintsCount: 2,
         extraField: 'should not be included',
         latestRank: 'senior',
+        articlesCount: 5,
+        sustainedComplaintsCount: 6,
+        complaintsYearCount: 5,
+        incidentForceCount: 4,
+        terminationCount: 7,
+        articlesDocumentsYears: [2019, 2020, 2021],
+        awardCount: 3,
       }
       const state = {
         officerPage: {
@@ -67,6 +74,13 @@ describe('#officerSelector', () => {
           },
         ],
         latestRank: 'senior',
+        articlesCount: 5,
+        sustainedComplaintsCount: 6,
+        complaintsYearCount: 5,
+        incidentForceCount: 4,
+        terminationCount: 7,
+        articlesDocumentsYears: [2019, 2020, 2021],
+        awardCount: 3,
       })
     })
 
@@ -96,6 +110,13 @@ describe('#officerSelector', () => {
         complaintsCount: 2,
         extraField: 'should not be included',
         latestRank: 'senior',
+        articlesCount: 5,
+        sustainedComplaintsCount: 6,
+        complaintsYearCount: 5,
+        incidentForceCount: 4,
+        terminationCount: 7,
+        articlesDocumentsYears: [2019, 2020, 2021],
+        awardCount: 3,
       }
       const state = {
         officerPage: {
@@ -125,6 +146,13 @@ describe('#officerSelector', () => {
           },
         ],
         latestRank: 'senior',
+        articlesCount: 5,
+        sustainedComplaintsCount: 6,
+        complaintsYearCount: 5,
+        incidentForceCount: 4,
+        terminationCount: 7,
+        articlesDocumentsYears: [2019, 2020, 2021],
+        awardCount: 3,
       })
     })
 
