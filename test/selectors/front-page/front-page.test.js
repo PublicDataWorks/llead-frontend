@@ -4,6 +4,7 @@ import {
   officersSelector,
   newsArticlesSelector,
   frontPageOrdersSelector,
+  findingsSelector,
 } from 'selectors/front-page'
 
 describe('#departmentsSelector', () => {
@@ -285,5 +286,43 @@ describe('#frontPageOrdersSelector', () => {
     const ordersData = frontPageOrdersSelector(state)
 
     expect(ordersData).toStrictEqual(expectedOrdersData)
+  })
+})
+
+describe('#findingsSelector', () => {
+  it('returns findings data', () => {
+    const rawFindings = {
+      backgroundImageUrl: 'http://llead.co/findings/background/Frame_6.png',
+      title: 'LLEAD FINDINGS',
+      description:
+        'LLEAD consolidates personnel, police misconduct, use of force, and other related datasets from over 500 law enforcement agencies in the state of Louisiana. Visit the findings page to explore our internal investigations, along with news articles and academic research citing LLEAD’s data.',
+      cardImageUrl: 'http://llead.co/findings/card/police_department.jpeg',
+      cardTitle:
+        'Many law enforcement agencies failing to report information on departing officers, group finds',
+      cardAuthor: 'Richard A.Webster',
+      cardDepartment: 'New Orleans Police Department',
+    }
+
+    const expectedFindings = {
+      backgroundImageUrl: 'http://llead.co/findings/background/Frame_6.png',
+      title: 'LLEAD FINDINGS',
+      description:
+        'LLEAD consolidates personnel, police misconduct, use of force, and other related datasets from over 500 law enforcement agencies in the state of Louisiana. Visit the findings page to explore our internal investigations, along with news articles and academic research citing LLEAD’s data.',
+      cardImageUrl: 'http://llead.co/findings/card/police_department.jpeg',
+      cardTitle:
+        'Many law enforcement agencies failing to report information on departing officers, group finds',
+      cardAuthor: 'Richard A.Webster',
+      cardDepartment: 'New Orleans Police Department',
+    }
+
+    const state = {
+      frontPage: {
+        findings: rawFindings,
+      },
+    }
+
+    const findings = findingsSelector(state)
+
+    expect(findings).toStrictEqual(expectedFindings)
   })
 })
