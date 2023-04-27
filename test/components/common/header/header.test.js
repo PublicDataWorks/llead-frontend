@@ -76,8 +76,9 @@ describe('Header component', () => {
 
       expect(baseElement.textContent.includes('LLEAD')).toBe(true)
 
-      expect(getByText('About').className).toEqual('about')
-      expect(getByText('Contact').className).toEqual('contact')
+      expect(getByText('About').className).toEqual('page')
+      expect(getByText('Contact').className).toEqual('page')
+      expect(getByText('Findings').className).toEqual('page')
       expect(queryByText('Search Feature')).toBeTruthy()
       expect(
         queryByPlaceholderText('Search by name, agency, or keyword')
