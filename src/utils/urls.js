@@ -11,3 +11,9 @@ export const uofItemUrl = (officerId, useOfForceId) =>
 
 export const appealItemUrl = (officerId, appealId) =>
   `${host}${OFFICERS_PATH}${officerId}/?appeal_id=${appealId}`
+
+export const bradyItemUrl = (officerId, appealId) =>
+  `${host}${OFFICERS_PATH}${officerId}/?brady_id=${appealId}`
+
+export const postCertificationItemUrl = (officerId, complaintId) =>
+  `${host}${OFFICERS_PATH}${officerId}/?event_id=${complaintId}`

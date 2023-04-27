@@ -1,0 +1,11 @@
+@import 'styles/variables';
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.timeline-pc12-qualification-item {
+  @include strong-text;
+  padding: $v-small-margin 0;
+  background-color: $white-color;
+  text-align: center;
+  border-radius: 8px;
+}

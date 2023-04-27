@@ -1,0 +1,17 @@
+@import 'styles/variables';
+@import 'styles/colors';
+
+.timeline-left-item {
+  padding: $v-small-margin 0;
+  text-align: center;
+  color: $white-color;
+  border-radius: 8px;
+
+  &.timeline-terminated-item {
+    background-color: $dark-burgundy-color;
+  }
+
+  &.timeline-resigned-item {
+    background-color: $rustic-red-color;
+  }
+}

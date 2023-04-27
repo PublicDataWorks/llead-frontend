@@ -16,6 +16,7 @@ import DocumentCard from './document-card'
 import SalaryChangeItem from './salary-change-item'
 import RankChangeItem from './rank-change-item'
 import UnitChangeItem from './unit-change-item'
+import BradyItem from './brady-item'
 import TimelineFilters from './filters'
 import {
   ANIMATION_DURATION,
@@ -25,10 +26,17 @@ import {
 import { analyzeAction } from 'utils/google-analytics'
 import NewsArticleCard from './news-article-card'
 import AppealItem from './appeal-item'
+import PostDecertificationItem from './post-decertification-item'
+import FirearmCertItem from './firearm-cert-item'
+import PC12QualificationItem from './pc12-qualification-item'
+import LeftEventItem from './left-item'
+import JoinedEventItem from './joined-item'
 
 const TIMELINE_COMPONENTS_MAPPING = {
-  [TIMELINE_KINDS.JOINED]: { component: MainItem },
+  [TIMELINE_KINDS.JOINED]: { component: JoinedEventItem },
   [TIMELINE_KINDS.LEFT]: { component: MainItem },
+  [TIMELINE_KINDS.TERMINATED]: { component: LeftEventItem },
+  [TIMELINE_KINDS.RESIGNED]: { component: LeftEventItem },
   [TIMELINE_KINDS.COMPLAINT]: {
     component: ComplaintItem,
   },
@@ -54,6 +62,18 @@ const TIMELINE_COMPONENTS_MAPPING = {
   [TIMELINE_KINDS.NEWS_ARTICLE]: {
     component: NewsArticleCard,
     customLine: 'white-dot',
+  },
+  [TIMELINE_KINDS.BRADY_LIST]: {
+    component: BradyItem,
+  },
+  [TIMELINE_KINDS.POST_DECERTIFICATION]: {
+    component: PostDecertificationItem,
+  },
+  [TIMELINE_KINDS.FIREARM_CERTIFICATION]: {
+    component: FirearmCertItem,
+  },
+  [TIMELINE_KINDS.PC_12_QUALIFICATION]: {
+    component: PC12QualificationItem,
   },
 }
 

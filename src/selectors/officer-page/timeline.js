@@ -16,6 +16,7 @@ import sum from 'lodash/sum'
 import upperFirst from 'lodash/upperFirst'
 import values from 'lodash/values'
 import forEach from 'lodash/forEach'
+import join from 'lodash/join'
 
 import { formatTimelineDate } from 'utils/formatter'
 import { documentFormatter, newsArticleFormatter } from 'selectors/common'
@@ -28,6 +29,23 @@ import {
 
 const baseTimelineItemFormatter = (item) => pick(item, ['kind', 'department'])
 
+const joinedTimelineItemFormatter = (item) => {
+  const attributes = [
+    'kind',
+    'department',
+    'leftDepartment',
+    'leftDate',
+    'leftReason',
+  ]
+
+  const capitalizeAttributes = ['leftReason']
+
+  return {
+    ...pick(item, attributes),
+    ...mapValues(pick(item, capitalizeAttributes), capitalize),
+  }
+}
+
 const complaintTimelineItemFormatter = (item) => {
   const attributes = [
     'kind',
@@ -35,6 +53,7 @@ const complaintTimelineItemFormatter = (item) => {
     'id',
     'allegation',
     'allegationDesc',
+    'associatedOfficers',
   ]
 
   const capitalizeAttributes = ['disposition', 'action']
@@ -150,9 +169,42 @@ const unitChangeTimelineItemFormatter = (unitChange) => {
   }
 }
 
+const postDecertificationTimelineItemFormatter = (item) => {
+  const attributes = ['id', 'kind', 'department']
+
+  const allegations = join(item.allegations, ', ')
+
+  return {
+    ...pick(item, attributes),
+    allegations,
+  }
+}
+
+const bradyTimelineItemFormatter = (item) => {
+  const attributes = [
+    'kind',
+    'allegationDesc',
+    'chargingDepartment',
+    'department',
+    'sourceDepartment',
+    'date',
+    'trackingIdOg',
+    'id',
+  ]
+
+  const capitalizeAttributes = ['disposition', 'action']
+
+  return {
+    ...pick(item, attributes),
+    ...mapValues(pick(item, capitalizeAttributes), capitalize),
+  }
+}
+
 const TIMELINE_ITEMS_MAPPINGS = {
-  [TIMELINE_KINDS.JOINED]: baseTimelineItemFormatter,
+  [TIMELINE_KINDS.JOINED]: joinedTimelineItemFormatter,
   [TIMELINE_KINDS.LEFT]: baseTimelineItemFormatter,
+  [TIMELINE_KINDS.TERMINATED]: baseTimelineItemFormatter,
+  [TIMELINE_KINDS.RESIGNED]: baseTimelineItemFormatter,
   [TIMELINE_KINDS.COMPLAINT]: complaintTimelineItemFormatter,
   [TIMELINE_KINDS.UOF]: useOfForceTimelineItemFormatter,
   [TIMELINE_KINDS.DOCUMENT]: documentTimelineItemFormatter,
@@ -161,6 +213,10 @@ const TIMELINE_ITEMS_MAPPINGS = {
   [TIMELINE_KINDS.UNIT_CHANGE]: unitChangeTimelineItemFormatter,
   [TIMELINE_KINDS.NEWS_ARTICLE]: newsArticleTimelineItemFormatter,
   [TIMELINE_KINDS.APPEAL]: appealTimelineItemFormatter,
+  [TIMELINE_KINDS.POST_DECERTIFICATION]: postDecertificationTimelineItemFormatter,
+  [TIMELINE_KINDS.BRADY_LIST]: bradyTimelineItemFormatter,
+  [TIMELINE_KINDS.FIREARM_CERTIFICATION]: baseTimelineItemFormatter,
+  [TIMELINE_KINDS.PC_12_QUALIFICATION]: baseTimelineItemFormatter,
 }
 
 const timelineItemsFormatter = (items) => {
