@@ -1,0 +1,230 @@
+name: Preview Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+env:
+  GOOGLE_PROJECT_ID: excellent-zoo-300106
+  GOOGLE_COMPUTE_ZONE: us-central1-a
+  GOOGLE_CLUSTER_NAME: ipno
+
+jobs:
+  build-preview:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.set-tag.outputs.tag }}
+      preview-name: ${{ steps.set-tag.outputs.preview_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set preview tag
+        id: set-tag
+        run: |
+          # Create a clean name from PR number
+          PR_NUM="${{ github.event.pull_request.number }}"
+          PREVIEW_NAME="preview-pr-${PR_NUM}"
+          echo "tag=frontend-preview-pr-${PR_NUM}-${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "preview_name=${PREVIEW_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for GCR
+        run: gcloud auth configure-docker
+
+      - name: Build and push preview image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            BUILD_ENV=staging
+            MAPBOX_KEY=${{ secrets.MAPBOX_KEY }}
+            GA_MEASUREMENT_ID=${{ secrets.GA_STAGING_MEASUREMENT_ID }}
+          tags: |
+            us.gcr.io/${{ env.GOOGLE_PROJECT_ID }}/ipno-frontend:${{ steps.set-tag.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-preview:
+    if: github.event.action != 'closed'
+    needs: build-preview
+    runs-on: ubuntu-latest
+    environment:
+      name: preview-pr-${{ github.event.pull_request.number }}
+      url: https://staging.llead.co
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          install_components: 'gke-gcloud-auth-plugin,kubectl'
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials ${{ env.GOOGLE_CLUSTER_NAME }} \
+            --zone ${{ env.GOOGLE_COMPUTE_ZONE }} \
+            --project ${{ env.GOOGLE_PROJECT_ID }}
+
+      - name: Deploy preview
+        env:
+          FRONTEND_IMAGE_TAG: ${{ needs.build-preview.outputs.image-tag }}
+          PREVIEW_NAME: ${{ needs.build-preview.outputs.preview-name }}
+          GOOGLE_PROJECT_ID: ${{ env.GOOGLE_PROJECT_ID }}
+        run: |
+          # Create preview deployment manifest
+          cat <<EOF | kubectl apply -n ipno-staging -f -
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: ${PREVIEW_NAME}
+            labels:
+              app: ${PREVIEW_NAME}
+              preview: "true"
+              pr: "${{ github.event.pull_request.number }}"
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: ${PREVIEW_NAME}
+            template:
+              metadata:
+                labels:
+                  app: ${PREVIEW_NAME}
+              spec:
+                containers:
+                  - name: frontend
+                    image: us.gcr.io/${GOOGLE_PROJECT_ID}/ipno-frontend:${FRONTEND_IMAGE_TAG}
+                    ports:
+                      - containerPort: 80
+                    resources:
+                      requests:
+                        cpu: 100m
+                        memory: 128Mi
+                      limits:
+                        cpu: 200m
+                        memory: 256Mi
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: ${PREVIEW_NAME}
+            labels:
+              app: ${PREVIEW_NAME}
+              preview: "true"
+              pr: "${{ github.event.pull_request.number }}"
+          spec:
+            type: ClusterIP
+            ports:
+              - port: 80
+                targetPort: 80
+            selector:
+              app: ${PREVIEW_NAME}
+          EOF
+
+      - name: Wait for deployment
+        env:
+          PREVIEW_NAME: ${{ needs.build-preview.outputs.preview-name }}
+        run: |
+          kubectl rollout status deployment/${PREVIEW_NAME} -n ipno-staging --timeout=120s
+
+      - name: Add PR comment with preview info
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewName = '${{ needs.build-preview.outputs.preview-name }}';
+            const prNumber = context.payload.pull_request.number;
+
+            // Check for existing preview comment
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber
+            });
+
+            const existingComment = comments.data.find(c =>
+              c.user.login === 'github-actions[bot]' &&
+              c.body.includes('Preview Deployment')
+            );
+
+            const body = `## 🚀 Preview Deployment
+
+            Your preview has been deployed!
+
+            **Preview Name:** \`${previewName}\`
+            **Image:** \`us.gcr.io/${{ env.GOOGLE_PROJECT_ID }}/ipno-frontend:${{ needs.build-preview.outputs.image-tag }}\`
+
+            > **Note:** This preview uses the staging backend API at \`https://staging.llead.co\`
+            >
+            > To view the preview, you can port-forward locally:
+            > \`\`\`bash
+            > kubectl port-forward svc/${previewName} 8080:80 -n ipno-staging
+            > \`\`\`
+            > Then visit http://localhost:8080
+
+            ---
+            *Preview will be automatically cleaned up when this PR is closed.*`;
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body
+              });
+            }
+
+  cleanup-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          install_components: 'gke-gcloud-auth-plugin,kubectl'
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials ${{ env.GOOGLE_CLUSTER_NAME }} \
+            --zone ${{ env.GOOGLE_COMPUTE_ZONE }} \
+            --project ${{ env.GOOGLE_PROJECT_ID }}
+
+      - name: Delete preview deployment
+        run: |
+          PREVIEW_NAME="preview-pr-${{ github.event.pull_request.number }}"
+          kubectl delete deployment ${PREVIEW_NAME} -n ipno-staging --ignore-not-found
+          kubectl delete service ${PREVIEW_NAME} -n ipno-staging --ignore-not-found
+          echo "Cleaned up preview deployment: ${PREVIEW_NAME}"
