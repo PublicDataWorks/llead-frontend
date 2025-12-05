@@ -1,0 +1,130 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+env:
+  GOOGLE_PROJECT_ID: excellent-zoo-300106
+  GOOGLE_COMPUTE_ZONE: us-central1-a
+  GOOGLE_CLUSTER_NAME: ipno
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14.15.3'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: ESLint
+        run: yarn lint
+
+      - name: Run tests
+        run: yarn test:ci
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.set-tag.outputs.tag }}
+      namespace: ${{ steps.set-env.outputs.NAMESPACE }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set deployment environment
+        id: set-env
+        run: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            echo "NAMESPACE=ipno-production" >> $GITHUB_OUTPUT
+            echo "DOCKER_PRETAG=frontend-production" >> $GITHUB_OUTPUT
+            echo "BUILD_ENV=production" >> $GITHUB_OUTPUT
+            echo "GA_ID=${{ secrets.GA_MEASUREMENT_ID }}" >> $GITHUB_OUTPUT
+          else
+            echo "NAMESPACE=ipno-staging" >> $GITHUB_OUTPUT
+            echo "DOCKER_PRETAG=frontend-staging" >> $GITHUB_OUTPUT
+            echo "BUILD_ENV=staging" >> $GITHUB_OUTPUT
+            echo "GA_ID=${{ secrets.GA_STAGING_MEASUREMENT_ID }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set image tag
+        id: set-tag
+        run: |
+          echo "tag=${{ steps.set-env.outputs.DOCKER_PRETAG }}-${{ github.run_number }}" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for GCR
+        run: gcloud auth configure-docker
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            BUILD_ENV=${{ steps.set-env.outputs.BUILD_ENV }}
+            MAPBOX_KEY=${{ secrets.MAPBOX_KEY }}
+            GA_MEASUREMENT_ID=${{ steps.set-env.outputs.GA_ID }}
+          tags: |
+            us.gcr.io/${{ env.GOOGLE_PROJECT_ID }}/ipno-frontend:${{ steps.set-tag.outputs.tag }}
+            us.gcr.io/${{ env.GOOGLE_PROJECT_ID }}/ipno-frontend:${{ steps.set-env.outputs.DOCKER_PRETAG }}-latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          install_components: 'gke-gcloud-auth-plugin,kubectl'
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials ${{ env.GOOGLE_CLUSTER_NAME }} \
+            --zone ${{ env.GOOGLE_COMPUTE_ZONE }} \
+            --project ${{ env.GOOGLE_PROJECT_ID }}
+
+      - name: Deploy to GKE
+        env:
+          FRONTEND_IMAGE_TAG: ${{ needs.build-and-push.outputs.image-tag }}
+          GOOGLE_PROJECT_ID: ${{ env.GOOGLE_PROJECT_ID }}
+        run: |
+          cat kubernetes/frontend.yml | envsubst | kubectl apply -n ${{ needs.build-and-push.outputs.namespace }} -f -
+
+      - name: Verify deployment
+        run: |
+          kubectl rollout status deployment/ipno-frontend -n ${{ needs.build-and-push.outputs.namespace }} --timeout=300s
