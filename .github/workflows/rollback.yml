@@ -1,0 +1,82 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to rollback'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+      revision:
+        description: 'Revision number to rollback to (leave empty for previous revision)'
+        required: false
+        type: string
+
+env:
+  GOOGLE_PROJECT_ID: excellent-zoo-300106
+  GOOGLE_COMPUTE_ZONE: us-central1-a
+  GOOGLE_CLUSTER_NAME: ipno
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.environment == 'production' && 'https://llead.co' || 'https://staging.llead.co' }}
+
+    steps:
+      - name: Set namespace
+        id: set-ns
+        run: |
+          if [ "${{ inputs.environment }}" == "production" ]; then
+            echo "NAMESPACE=ipno-production" >> $GITHUB_OUTPUT
+          else
+            echo "NAMESPACE=ipno-staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          install_components: 'gke-gcloud-auth-plugin,kubectl'
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials ${{ env.GOOGLE_CLUSTER_NAME }} \
+            --zone ${{ env.GOOGLE_COMPUTE_ZONE }} \
+            --project ${{ env.GOOGLE_PROJECT_ID }}
+
+      - name: Show current deployment status
+        run: |
+          echo "=== Current Frontend Deployment ==="
+          kubectl get deployment ipno-frontend -n ${{ steps.set-ns.outputs.NAMESPACE }} -o wide
+          echo ""
+          echo "=== Rollout History ==="
+          kubectl rollout history deployment/ipno-frontend -n ${{ steps.set-ns.outputs.NAMESPACE }}
+
+      - name: Rollback frontend deployment
+        run: |
+          if [ -n "${{ inputs.revision }}" ]; then
+            kubectl rollout undo deployment/ipno-frontend -n ${{ steps.set-ns.outputs.NAMESPACE }} --to-revision=${{ inputs.revision }}
+          else
+            kubectl rollout undo deployment/ipno-frontend -n ${{ steps.set-ns.outputs.NAMESPACE }}
+          fi
+
+      - name: Wait for rollback to complete
+        run: |
+          kubectl rollout status deployment/ipno-frontend -n ${{ steps.set-ns.outputs.NAMESPACE }} --timeout=300s
+
+      - name: Show new deployment status
+        run: |
+          echo "=== New Frontend Deployment ==="
+          kubectl get deployment ipno-frontend -n ${{ steps.set-ns.outputs.NAMESPACE }} -o wide
+          echo ""
+          echo "=== Running Pods ==="
+          kubectl get pods -n ${{ steps.set-ns.outputs.NAMESPACE }} -l app=ipno-frontend
