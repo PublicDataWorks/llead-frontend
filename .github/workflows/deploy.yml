@@ -97,6 +97,9 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+      url: ${{ github.ref_name == 'main' && 'https://llead.co' || 'https://staging.llead.co' }}
 
     steps:
       - name: Checkout
